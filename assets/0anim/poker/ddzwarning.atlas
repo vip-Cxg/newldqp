@@ -1,0 +1,20 @@
+
+ddzwarning.png
+size: 156,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+guang
+  rotate: false
+  xy: 2, 2
+  size: 76, 76
+  orig: 76, 76
+  offset: 0, 0
+  index: -1
+jingbaoqi
+  rotate: false
+  xy: 80, 6
+  size: 74, 72
+  orig: 80, 81
+  offset: 6, 0
+  index: -1

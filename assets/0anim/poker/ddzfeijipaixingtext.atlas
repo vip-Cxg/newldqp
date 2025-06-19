@@ -1,0 +1,20 @@
+
+ddzfeijipaixingtext.png
+size: 601,235
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ddzfeijitext
+  rotate: true
+  xy: 495, 51
+  size: 182, 104
+  orig: 182, 104
+  offset: 0, 0
+  index: -1
+ddzweiziguangtiao
+  rotate: false
+  xy: 2, 2
+  size: 491, 231
+  orig: 491, 231
+  offset: 0, 0
+  index: -1

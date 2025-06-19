@@ -1,0 +1,138 @@
+{
+"skeleton": { "hash": "7UKF5+o7amrMEe0POpwXP1WSiNI", "spine": "2.1.27", "width": 173, "height": 91, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root" }
+],
+"slots": [
+	{ "name": "kkl", "bone": "bone", "attachment": "5" }
+],
+"skins": {
+	"default": {
+		"kkl": {
+			"1": { "width": 196, "height": 66 },
+			"2": { "width": 140, "height": 73 },
+			"3": { "width": 121, "height": 66 },
+			"4": { "x": -67.22, "width": 323, "height": 85 },
+			"5": { "width": 173, "height": 91 },
+			"6": { "width": 196, "height": 66 }
+		}
+	}
+},
+"animations": {
+	"feiji": {
+		"slots": {
+			"kkl": {
+				"attachment": [
+					{ "time": 0, "name": "4" },
+					{ "time": 0.2666, "name": "5" },
+					{ "time": 1.6666, "name": "5" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": -402.55, "y": 46.17 },
+					{ "time": 0.2666, "x": -237.98, "y": 46.17 }
+				]
+			}
+		}
+	},
+	"feiji2": {
+		"slots": {
+			"kkl": {
+				"attachment": [
+					{ "time": 0, "name": "4" },
+					{ "time": 0.2666, "name": "5" },
+					{ "time": 1.6666, "name": "5" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": 62.33, "y": 46.17 },
+					{ "time": 0.2666, "x": -237.98, "y": 46.17 }
+				]
+			}
+		}
+	},
+	"liandui": {
+		"slots": {
+			"kkl": {
+				"attachment": [
+					{ "time": 0, "name": "6" },
+					{ "time": 0.2, "name": "3" },
+					{ "time": 1.6666, "name": "3" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": -423.69, "y": 46.17 },
+					{ "time": 0.2, "x": -237.98, "y": 46.17 }
+				]
+			}
+		}
+	},
+	"liandui2": {
+		"slots": {
+			"kkl": {
+				"attachment": [
+					{ "time": 0, "name": "6" },
+					{ "time": 0.2, "name": "3" },
+					{ "time": 1.6666, "name": "3" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": -17.17, "y": 46.17 },
+					{ "time": 0.2, "x": -237.98, "y": 46.17 }
+				]
+			}
+		}
+	},
+	"shunzi": {
+		"slots": {
+			"kkl": {
+				"attachment": [
+					{ "time": 0, "name": "1" },
+					{ "time": 0.2, "name": "2" },
+					{ "time": 1.6666, "name": "2" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": -392.15, "y": 46.17 },
+					{ "time": 0.2, "x": -237.98, "y": 46.17 }
+				]
+			}
+		}
+	},
+	"shunzi2": {
+		"slots": {
+			"kkl": {
+				"attachment": [
+					{ "time": 0, "name": "1" },
+					{ "time": 0.2, "name": "2" },
+					{ "time": 1.6666, "name": "2" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": -51.16, "y": 46.17 },
+					{ "time": 0.2, "x": -237.98, "y": 46.17 }
+				]
+			}
+		}
+	}
+}
+}

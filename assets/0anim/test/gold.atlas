@@ -1,0 +1,13 @@
+
+gold.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+金色背景
+  rotate: false
+  xy: 2, 2
+  size: 337, 336
+  orig: 337, 336
+  offset: 0, 0
+  index: -1

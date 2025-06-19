@@ -1,0 +1,13 @@
+
+pock.png
+size: 128,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pokerback_bg0
+  rotate: false
+  xy: 2, 2
+  size: 104, 140
+  orig: 104, 140
+  offset: 0, 0
+  index: -1

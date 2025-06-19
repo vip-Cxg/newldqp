@@ -1,0 +1,36 @@
+{
+"skeleton": { "hash": "uvla9fj/1Z66cHlu+OEVuJx5DRY", "spine": "3.6.53", "width": 404.4, "height": 403.2 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "金色背景", "parent": "root" }
+],
+"slots": [
+	{ "name": "金色背景", "bone": "金色背景", "attachment": "金色背景" }
+],
+"skins": {
+	"default": {
+		"金色背景": {
+			"金色背景": { "scaleX": 1.2, "scaleY": 1.2, "width": 337, "height": 336 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"金色背景": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"金色背景": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5, "angle": -60 }
+				]
+			}
+		}
+	}
+}
+}

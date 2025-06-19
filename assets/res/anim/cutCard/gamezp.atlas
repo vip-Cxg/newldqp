@@ -1,0 +1,13 @@
+
+gamezp.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gameZP2
+  rotate: false
+  xy: 2, 2
+  size: 180, 62
+  orig: 180, 62
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,34 @@
+
+dh_mj_bqdh_c.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dh_mj_bqdh_c
+  rotate: false
+  xy: 1, 145
+  size: 92, 78
+  orig: 92, 78
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_c_02
+  rotate: false
+  xy: 95, 145
+  size: 54, 77
+  orig: 54, 77
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_c_03
+  rotate: false
+  xy: 95, 224
+  size: 65, 22
+  orig: 65, 22
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_c_01
+  rotate: false
+  xy: 1, 1
+  size: 177, 142
+  orig: 177, 142
+  offset: 0, 0
+  index: -1

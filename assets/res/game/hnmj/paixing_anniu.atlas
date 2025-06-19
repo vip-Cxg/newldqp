@@ -1,0 +1,69 @@
+
+paixing_anniu.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+anniu_glow
+  rotate: false
+  xy: 153, 2
+  size: 114, 112
+  orig: 114, 112
+  offset: 0, 0
+  index: -1
+anniu_guangyun
+  rotate: false
+  xy: 2, 97
+  size: 149, 147
+  orig: 149, 147
+  offset: 0, 0
+  index: -1
+chi_anniu
+  rotate: false
+  xy: 153, 116
+  size: 131, 128
+  orig: 131, 128
+  offset: 0, 0
+  index: -1
+gang_anniu
+  rotate: false
+  xy: 286, 116
+  size: 131, 128
+  orig: 131, 128
+  offset: 0, 0
+  index: -1
+guo_anniu
+  rotate: false
+  xy: 419, 116
+  size: 131, 128
+  orig: 131, 128
+  offset: 0, 0
+  index: -1
+hu_anniu
+  rotate: false
+  xy: 552, 116
+  size: 131, 128
+  orig: 131, 128
+  offset: 0, 0
+  index: -1
+peng_anniu
+  rotate: false
+  xy: 685, 116
+  size: 131, 128
+  orig: 131, 128
+  offset: 0, 0
+  index: -1
+ting_anniu
+  rotate: false
+  xy: 818, 116
+  size: 131, 128
+  orig: 131, 128
+  offset: 0, 0
+  index: -1
+tishi_anniu
+  rotate: false
+  xy: 2, 20
+  size: 76, 75
+  orig: 76, 75
+  offset: 0, 0
+  index: -1

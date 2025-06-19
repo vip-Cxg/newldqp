@@ -1,0 +1,97 @@
+
+feiji.png
+size: 1188,364
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 378, 110
+  size: 152, 252
+  orig: 152, 252
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 532, 110
+  size: 152, 252
+  orig: 152, 252
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 686, 110
+  size: 152, 252
+  orig: 152, 252
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 840, 110
+  size: 152, 252
+  orig: 152, 252
+  offset: 0, 0
+  index: -1
+feiji
+  rotate: false
+  xy: 2, 2
+  size: 374, 360
+  orig: 374, 360
+  offset: 0, 0
+  index: -1
+fj0001
+  rotate: false
+  xy: 378, 19
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0002
+  rotate: false
+  xy: 540, 19
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0003
+  rotate: false
+  xy: 702, 19
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0004
+  rotate: false
+  xy: 864, 19
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0005
+  rotate: false
+  xy: 994, 273
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0006
+  rotate: true
+  xy: 994, 111
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0007
+  rotate: false
+  xy: 1026, 20
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1
+fj0008
+  rotate: true
+  xy: 1085, 111
+  size: 160, 89
+  orig: 160, 89
+  offset: 0, 0
+  index: -1

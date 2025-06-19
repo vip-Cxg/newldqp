@@ -1,0 +1,27 @@
+
+get.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+star1 拷贝
+  rotate: false
+  xy: 2, 2
+  size: 80, 79
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+战斗界面-boss
+  rotate: false
+  xy: 2, 421
+  size: 608, 601
+  orig: 608, 601
+  offset: 0, 0
+  index: -1
+金色背景
+  rotate: false
+  xy: 2, 83
+  size: 337, 336
+  orig: 337, 336
+  offset: 0, 0
+  index: -1

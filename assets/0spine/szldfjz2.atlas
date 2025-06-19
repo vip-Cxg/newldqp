@@ -1,0 +1,48 @@
+
+szldfjz2.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+3
+  rotate: false
+  xy: 283, 156
+  size: 117, 63
+  orig: 121, 66
+  offset: 2, 1
+  index: -1
+6
+  rotate: false
+  xy: 143, 156
+  size: 138, 63
+  orig: 196, 66
+  offset: 29, 2
+  index: -1
+5
+  rotate: false
+  xy: 325, 1
+  size: 170, 85
+  orig: 173, 91
+  offset: 0, 3
+  index: -1
+2
+  rotate: false
+  xy: 1, 156
+  size: 140, 70
+  orig: 140, 73
+  offset: 0, 1
+  index: -1
+4
+  rotate: false
+  xy: 1, 1
+  size: 322, 85
+  orig: 323, 85
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 1, 88
+  size: 161, 66
+  orig: 196, 66
+  offset: 12, 0
+  index: -1

@@ -1,0 +1,17 @@
+info face="方正艺黑简体" size=32 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=4,4,4,4 spacing=4,4 outline=0
+common lineHeight=32 base=24 scaleW=216 scaleH=216 pages=1 packed=0 alphaChnl=0 redChnl=3 greenChnl=3 blueChnl=3
+page id=0 file="chipengwei.png"
+chars count=13
+char id=20558 x=115   y=0     width=34    height=34    xoffset=-3    yoffset=-2    xadvance=28    page=0  chnl=15
+char id=21333 x=0     y=0     width=33    height=35    xoffset=-3    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=21507 x=76    y=38    width=33    height=34    xoffset=-3    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=22350 x=153   y=0     width=34    height=34    xoffset=-3    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=23545 x=0     y=39    width=34    height=34    xoffset=-3    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=25552 x=113   y=38    width=33    height=34    xoffset=-3    yoffset=-2    xadvance=28    page=0  chnl=15
+char id=27498 x=77    y=76    width=32    height=32    xoffset=-2    yoffset=-1    xadvance=28    page=0  chnl=15
+char id=28316 x=38    y=38    width=34    height=34    xoffset=-3    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=30896 x=37    y=0     width=35    height=34    xoffset=-4    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=32993 x=150   y=38    width=33    height=34    xoffset=-3    yoffset=-2    xadvance=28    page=0  chnl=15
+char id=36305 x=0     y=77    width=33    height=34    xoffset=-3    yoffset=-3    xadvance=28    page=0  chnl=15
+char id=39034 x=76    y=0     width=35    height=34    xoffset=-4    yoffset=-2    xadvance=28    page=0  chnl=15
+char id=39128 x=37    y=77    width=36    height=32    xoffset=-4    yoffset=-1    xadvance=28    page=0  chnl=15

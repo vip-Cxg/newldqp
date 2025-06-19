@@ -1,0 +1,46 @@
+{
+  "title": "xyqp_client",
+  "packageName": "org.cocos2d.demo",
+  "startScene": "af07d4ce-3e0b-4cf4-9995-2fda7fccc0fa",
+  "excludeScenes": [
+    "4d21d542-214d-4187-87a0-42bf4ca0280e"
+  ],
+  "includeSDKBox": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "webOrientation": "auto",
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "mergeStartScene": false,
+  "optimizeHotUpdate": false,
+  "md5Cache": false,
+  "encryptJs": true,
+  "xxteaKey": "f89766c4-7d86-4f",
+  "zipCompressJs": true,
+  "fb-instant-games": {},
+  "android": {
+    "packageName": "com.ldqp.game"
+  },
+  "ios": {
+    "packageName": "com.xyqp.game"
+  },
+  "mac": {
+    "packageName": "org.cocos2d.demo"
+  },
+  "win32": {},
+  "android-instant": {
+    "REMOTE_SERVER_ROOT": "http://192.168.8.101:7456/preview-android-instant/",
+    "host": "",
+    "packageName": "org.cocos2d.demo",
+    "pathPattern": "",
+    "recordPath": "",
+    "scheme": "https",
+    "skipRecord": false
+  },
+  "appBundle": false,
+  "includeAnySDK": false
+}

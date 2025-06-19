@@ -1,0 +1,13 @@
+info face="·½Õý´ÖÔ²¼òÌå" size=72 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=4,4,4,4 spacing=4,4 outline=0
+common lineHeight=72 base=58 scaleW=512 scaleH=512 pages=1 packed=0 alphaChnl=0 redChnl=3 greenChnl=3 blueChnl=3
+page id=0 file="chipengpaohuli_0.png"
+chars count=9
+char id=20558 x=141   y=0     width=67    height=67    xoffset=-3    yoffset=2     xadvance=63    page=0  chnl=15
+char id=21507 x=284   y=0     width=64    height=66    xoffset=0     yoffset=2     xadvance=63    page=0  chnl=15
+char id=25552 x=69    y=0     width=68    height=67    xoffset=-2    yoffset=2     xadvance=63    page=0  chnl=15
+char id=28316 x=71    y=71    width=66    height=65    xoffset=-2    yoffset=4     xadvance=63    page=0  chnl=15
+char id=30896 x=0     y=72    width=67    height=65    xoffset=-2    yoffset=3     xadvance=63    page=0  chnl=15
+char id=32993 x=0     y=0     width=65    height=68    xoffset=-2    yoffset=2     xadvance=63    page=0  chnl=15
+char id=36305 x=426   y=0     width=68    height=65    xoffset=-2    yoffset=3     xadvance=63    page=0  chnl=15
+char id=36807 x=212   y=0     width=68    height=66    xoffset=-3    yoffset=2     xadvance=63    page=0  chnl=15
+char id=39128 x=352   y=0     width=70    height=65    xoffset=-3    yoffset=5     xadvance=63    page=0  chnl=15

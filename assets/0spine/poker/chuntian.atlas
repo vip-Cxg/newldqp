@@ -1,0 +1,159 @@
+
+chuntian.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: true
+  xy: 2, 169
+  size: 882, 369
+  orig: 882, 369
+  offset: 0, 0
+  index: -1
+10
+  rotate: true
+  xy: 310, 4
+  size: 85, 72
+  orig: 85, 72
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 161, 15
+  size: 147, 152
+  orig: 147, 152
+  offset: 0, 0
+  index: -1
+12
+  rotate: true
+  xy: 715, 273
+  size: 115, 94
+  orig: 115, 94
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 373, 539
+  size: 249, 250
+  orig: 249, 250
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 384, 42
+  size: 69, 69
+  orig: 69, 69
+  offset: 0, 0
+  index: -1
+15
+  rotate: true
+  xy: 585, 111
+  size: 44, 109
+  orig: 44, 109
+  offset: 0, 0
+  index: -1
+16
+  rotate: false
+  xy: 733, 409
+  size: 52, 116
+  orig: 52, 116
+  offset: 0, 0
+  index: -1
+17
+  rotate: false
+  xy: 624, 527
+  size: 158, 138
+  orig: 158, 138
+  offset: 0, 0
+  index: -1
+18
+  rotate: false
+  xy: 696, 97
+  size: 67, 56
+  orig: 67, 56
+  offset: 0, 0
+  index: -1
+19
+  rotate: false
+  xy: 707, 155
+  size: 118, 116
+  orig: 118, 116
+  offset: 0, 0
+  index: -1
+20
+  rotate: true
+  xy: 455, 45
+  size: 66, 72
+  orig: 66, 72
+  offset: 0, 0
+  index: -1
+21
+  rotate: false
+  xy: 590, 390
+  size: 141, 135
+  orig: 141, 135
+  offset: 0, 0
+  index: -1
+22
+  rotate: true
+  xy: 373, 113
+  size: 206, 210
+  orig: 206, 210
+  offset: 0, 0
+  index: -1
+23
+  rotate: false
+  xy: 629, 667
+  size: 184, 189
+  orig: 184, 189
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 629, 858
+  size: 184, 193
+  orig: 184, 193
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 585, 157
+  size: 120, 114
+  orig: 120, 114
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 2, 2
+  size: 157, 165
+  orig: 157, 165
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 373, 321
+  size: 215, 216
+  orig: 215, 216
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 590, 273
+  size: 123, 115
+  orig: 123, 115
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 373, 791
+  size: 254, 260
+  orig: 254, 260
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 310, 91
+  size: 61, 76
+  orig: 61, 76
+  offset: 0, 0
+  index: -1

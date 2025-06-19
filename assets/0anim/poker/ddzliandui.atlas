@@ -1,0 +1,139 @@
+
+ddzliandui.png
+size: 1954,638
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ddzliandui
+  rotate: true
+  xy: 1522, 221
+  size: 157, 85
+  orig: 157, 85
+  offset: 0, 0
+  index: -1
+ddzlianduiguangquan
+  rotate: false
+  xy: 1619, 380
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+ddzweiziguangtiao
+  rotate: true
+  xy: 2, 145
+  size: 491, 231
+  orig: 491, 231
+  offset: 0, 0
+  index: -1
+ddzzitishuatiao_0
+  rotate: false
+  xy: 235, 152
+  size: 690, 64
+  orig: 690, 64
+  offset: 0, 0
+  index: -1
+ddzzitishuatiao_1
+  rotate: false
+  xy: 927, 152
+  size: 690, 64
+  orig: 690, 64
+  offset: 0, 0
+  index: -1
+ddzzitishuatiao_2
+  rotate: false
+  xy: 1262, 86
+  size: 690, 64
+  orig: 690, 64
+  offset: 0, 0
+  index: -1
+ddzzitishuatiao_3
+  rotate: false
+  xy: 1262, 20
+  size: 690, 64
+  orig: 690, 64
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi1
+  rotate: false
+  xy: 2, 2
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi10
+  rotate: true
+  xy: 1093, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi11
+  rotate: true
+  xy: 1236, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi12
+  rotate: true
+  xy: 1379, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi2
+  rotate: true
+  xy: 235, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi3
+  rotate: true
+  xy: 378, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi4
+  rotate: true
+  xy: 521, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi5
+  rotate: true
+  xy: 664, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi6
+  rotate: true
+  xy: 807, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi7
+  rotate: false
+  xy: 422, 9
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi8
+  rotate: false
+  xy: 842, 9
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1
+ddzzitishuatiaolizi9
+  rotate: true
+  xy: 950, 218
+  size: 418, 141
+  orig: 418, 141
+  offset: 0, 0
+  index: -1

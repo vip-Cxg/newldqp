@@ -1,0 +1,48 @@
+
+dh_mj_bqdh_q.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dh_mj_bqdh_q_01
+  rotate: false
+  xy: 1, 1
+  size: 272, 125
+  orig: 272, 125
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_q_04
+  rotate: false
+  xy: 416, 1
+  size: 65, 44
+  orig: 65, 44
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_q_03
+  rotate: false
+  xy: 352, 65
+  size: 65, 49
+  orig: 65, 49
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_q_02
+  rotate: false
+  xy: 352, 1
+  size: 62, 62
+  orig: 62, 62
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_q_05
+  rotate: false
+  xy: 419, 47
+  size: 45, 48
+  orig: 45, 48
+  offset: 0, 0
+  index: -1
+dh_mj_bqdh_q_06
+  rotate: false
+  xy: 275, 1
+  size: 75, 114
+  orig: 75, 114
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,9 @@
+{
+  "servers":[
+    "http://161.117.57.34:8000/"
+  ],
+  "update": [
+    "https://xh.ajvisas.com/xhupdate/",
+    "https://xyqp.online/xhupdate/"
+  ]
+}

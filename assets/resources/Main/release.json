@@ -1,0 +1,8 @@
+{
+  "servers": [
+    "http://119.23.111.100:8000/"
+  ],
+  "update": [
+    "http://pku.qzhagy.com/update/"
+  ]
+}

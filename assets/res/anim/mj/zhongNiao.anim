@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "zhongNiao",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.5833333333333334,
+  "sample": 12,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "3b5e6f85-1527-489f-99b5-afda8ade2558"
+            }
+          },
+          {
+            "frame": 0.08333333333333333,
+            "value": {
+              "__uuid__": "061ceb2c-a1ef-4c6f-bdf4-972c988cc52f"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "1f10d9a1-17b6-4938-8cee-e1d2c8272740"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "cd92c619-de73-4468-9e0f-7b9c6f312180"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "d43c2245-0329-4af7-a548-868aa4b944ff"
+            }
+          },
+          {
+            "frame": 0.4166666666666667,
+            "value": {
+              "__uuid__": "3b5e6f85-1527-489f-99b5-afda8ade2558"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "5ebb5378-90e6-4baf-a30e-164e83ee5c58"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,76 @@
+
+dh_zd.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dh_zd_0004
+  rotate: false
+  xy: 1, 223
+  size: 208, 215
+  orig: 220, 220
+  offset: 12, 0
+  index: -1
+dh_zd_0009
+  rotate: false
+  xy: 561, 1
+  size: 142, 123
+  orig: 220, 220
+  offset: 37, 25
+  index: -1
+dh_zd_0003
+  rotate: false
+  xy: 1, 1
+  size: 218, 220
+  orig: 220, 220
+  offset: 2, 0
+  index: -1
+dh_zd_0008
+  rotate: false
+  xy: 849, 1
+  size: 142, 123
+  orig: 220, 220
+  offset: 37, 25
+  index: -1
+dh_zd_0002
+  rotate: false
+  xy: 211, 223
+  size: 192, 210
+  orig: 220, 220
+  offset: 18, 0
+  index: -1
+dh_zd_0007
+  rotate: false
+  xy: 409, 1
+  size: 150, 164
+  orig: 220, 220
+  offset: 34, 25
+  index: -1
+dh_zd_0001
+  rotate: false
+  xy: 561, 126
+  size: 97, 72
+  orig: 220, 220
+  offset: 71, 47
+  index: -1
+dh_zd_0006
+  rotate: false
+  xy: 405, 215
+  size: 169, 183
+  orig: 220, 220
+  offset: 27, 25
+  index: -1
+dh_zd_0005
+  rotate: false
+  xy: 221, 1
+  size: 186, 212
+  orig: 220, 220
+  offset: 22, 0
+  index: -1
+dh_zd_0010
+  rotate: false
+  xy: 705, 1
+  size: 142, 123
+  orig: 220, 220
+  offset: 37, 25
+  index: -1
