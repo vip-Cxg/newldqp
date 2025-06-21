@@ -246,7 +246,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "加桌子",
     "_N$string": "加桌子",
     "_fontSize": 34,
@@ -273,7 +274,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "949V4FVWROYq8ZAR6UP9Ng",
     "sync": false
@@ -311,8 +312,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 54,
-      "height": 54
+      "width": 60,
+      "height": 61
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -324,7 +325,7 @@
       "ctor": "Float64Array",
       "array": [
         500.7,
-        269.55000000000007,
+        261.995,
         0,
         0,
         0,
@@ -332,7 +333,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -492,7 +493,7 @@
     "_left": 0,
     "_right": 0,
     "_top": 0,
-    "_bottom": 542.5500000000001,
+    "_bottom": 531.495,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -511,7 +512,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "30xjSf0GBNtY0gx+caLxAy",
     "sync": false
@@ -760,7 +761,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "8bXmxWbpBAkJPxFW0lMXkt",
     "sync": false
@@ -818,7 +819,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "91A7FeKFRFnqyygUTUKeXQ",
     "sync": false
@@ -887,7 +888,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "96EvzNaY1EVbej1JMoQRzb",
     "sync": false
@@ -947,7 +948,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1040,7 +1041,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "删除桌子",
     "_N$string": "删除桌子",
     "_fontSize": 22,
@@ -1067,7 +1069,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "b40FCLOZpEQ6jVqz5BlnUA",
     "sync": false
@@ -1194,7 +1196,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "efTA81XC1MAYeHOpvDqgMm",
     "sync": false
@@ -1254,7 +1256,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1347,7 +1349,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "添加桌子",
     "_N$string": "添加桌子",
     "_fontSize": 22,
@@ -1374,7 +1377,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "53P27f8QNMd4EfgMAM/5Wb",
     "sync": false
@@ -1501,7 +1504,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "edt6qjvA9FX5R8TM9y17FM",
     "sync": false
@@ -1583,7 +1586,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "当前房型:",
     "_N$string": "当前房型:",
     "_fontSize": 30,
@@ -1610,7 +1614,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "ca6+gFxnZOS7+xdq9woauQ",
     "sync": false
@@ -1653,7 +1657,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
     "fileId": "9fxYAeSiJDiYQrvLhViGfG",
     "sync": false
@@ -1752,9 +1756,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "280689f6-01f6-4159-bdc0-a719e93b1154"
+      "__id__": 0
     },
-    "fileId": "f8gDyVhC1MjJIVn9IIRfbb",
+    "fileId": "",
     "sync": false
   }
 ]

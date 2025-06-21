@@ -31,12 +31,12 @@ export class SelectLink {
 
     /**加载本地配置 */
     loadLocalConfig() {
-        // if (cc.sys.isBrowser) {
-        //     //链接本地
-        //     // this.changeLocalUrl('http://192.168.10.21:8000/');
-        //     this.changeLocalUrl('http://119.29.132.101/');
-        //     return;
-        // }
+        if (cc.sys.isBrowser) {
+            //链接本地
+            this.changeLocalUrl('http://192.168.0.108:8000/');
+            // this.changeLocalUrl('http://119.29.132.101/');
+            return;
+        }
 
 
         // console.log("开始选择最佳线路")
