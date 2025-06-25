@@ -30,14 +30,27 @@
 #import "RootViewController.h"
 #import "SDKWrapper.h"
 #import "platform/ios/CCEAGLView-ios.h"
-
-
+#import "DeviceUID.h"
+#import <INTULocationManager/INTULocationManager.h>
+#import "AFNetworking/AFHTTPSessionManager.h"
+#import "TQLocationConverter.h"
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+#import <AdSupport/ASIdentifierManager.h>
+#include "cocos/scripting/js-bindings/jswrapper/SeApi.h"
+#include "base/CCScheduler.h"
+#import "BuglyAgent.h"
 
 using namespace cocos2d;
 
 @implementation AppController
 
 Application* app = nullptr;
+static std::string inviter;
+static std::string uploadURL;
+static std::string uploadToken;
+static BOOL isUploadAvatar = true;
+static RootViewController* vc;
+static UIImagePickerController *imagePickerController;
 @synthesize window;
 
 #pragma mark -
@@ -45,6 +58,7 @@ Application* app = nullptr;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[SDKWrapper getInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    [BuglyAgent initSdk:@"b1a4918fa1"];
     // Add the view controller's view to the window and display.
     float scale = [[UIScreen mainScreen] scale];
     CGRect bounds = [[UIScreen mainScreen] bounds];
@@ -76,13 +90,213 @@ Application* app = nullptr;
     }
     
     [window makeKeyAndVisible];
-    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
-    //run the cocos2d-x game scene
-    app->start();
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(statusBarOrientationChanged:)
+        name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    if([WXApi registerApp:@"wxcb45c285efd3f864"
+            universalLink:@"https://aple.htptqs.com/wechat/"]){
+//    if([WXApi registerApp:@"wx9dc167d3fa934a84"]){
+        NSLog(@"WXApi 初始化成功");
+    }else{
+        NSLog(@"WXApi 初始化失败");
+    }
     
+    
+    INTULocationManager *locMgr = [INTULocationManager sharedInstance];
+    [locMgr requestLocationWithDesiredAccuracy:INTULocationAccuracyHouse
+                                       timeout:10.0
+                          delayUntilAuthorized:YES    // This parameter is optional, defaults to NO if omitted
+                                         block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+         if (status != INTULocationStatusSuccess) {
+             return;
+         }
+            
+        CLLocationCoordinate2D location = currentLocation.coordinate;
+        
+        //判断是否在中国
+        if (![TQLocationConverter isLocationOutOfChina:location])
+        {
+            //将WGS-84转为GCJ-02(火星坐标)
+            location = [TQLocationConverter transformFromWGSToGCJ:location];
+        }
+        
+         std::string jsCallStr = cocos2d::StringUtils::format("window.__require('native-extend').Social.getLocationCallback(%f,%f);", location.latitude,location.longitude);
+         NSLog(@"jsCallStr = %s", jsCallStr.c_str());
+         cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+              se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+              NSLog(@"getLocationCallback...");
+         });
+     }];
+    
+    [locMgr subscribeToLocationUpdatesWithDesiredAccuracy:INTULocationAccuracyHouse
+                                                    block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        if (status != INTULocationStatusSuccess) {
+            return;
+        }
+        
+        CLLocationCoordinate2D location = currentLocation.coordinate;
+        
+        //判断是否在中国
+        if (![TQLocationConverter isLocationOutOfChina:location])
+        {
+            //将WGS-84转为GCJ-02(火星坐标)
+            location = [TQLocationConverter transformFromWGSToGCJ:location];
+        }
+        std::string jsCallStr = cocos2d::StringUtils::format("window.__require('native-extend').Social.getLocationCallback(%f,%f);",
+                                                             location.latitude,location.longitude);
+        cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+                 se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+        });
+        
+    }];
+    [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+    imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    vc = _viewController;
+    app->start();
     return YES;
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    /* 此处info 有六个值
+     * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
+     * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
+     * UIImagePickerControllerEditedImage;    // a UIImage 裁剪后图片
+     * UIImagePickerControllerCropRect;       // an NSValue (CGRect)
+     * UIImagePickerControllerMediaURL;       // an NSURL
+     * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
+     * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
+     */
+    // 保存图片至本地，方法见下文
+//    NSString* homeDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+//    [self saveImage:image withName:@"currentImage.png"];
+
+    CGSize size;
+    NSString* scope;
+    if(isUploadAvatar){
+        scope = @"avatar";
+        size = CGSizeMake(100,100);
+    }else{
+        scope = @"qrcode";
+        size = CGSizeMake(400,400);
+    }
+    UIGraphicsBeginImageContext(size);
+ 
+    // 绘制改变大小的图片
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+ 
+    // 从当前context中创建一个改变大小后的图片
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+ 
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+ 
+    // 返回新的改变大小后的图片
+//    scaledImage;
+//    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"currentImage.png"];
+//
+//    UIImage *savedImage = [[UIImage alloc] initWithContentsOfFile:fullPath];
+
+//    isFullScreen = NO;
+//    [self.headerImage setImage:savedImage];
+//
+//    self.headerImage.tag = 100;
+    NSData *imageData = UIImageJPEGRepresentation(scaledImage,1);
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSLog(@"imagePickerController %@ %@", [NSString stringWithCString:uploadURL.c_str() encoding:[NSString defaultCStringEncoding]], [NSString stringWithCString:uploadToken.c_str() encoding:[NSString defaultCStringEncoding]]);
+//    NSLog(@"imagePickerController %@ %@", uploadURL, uploadToken);
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", nil];
+    NSDictionary *headers = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Bearer %@", [NSString stringWithCString:uploadToken.c_str() encoding:[NSString defaultCStringEncoding]]] forKey:@"Authorization"];
+    [manager POST:[NSString stringWithCString:uploadURL.c_str() encoding:[NSString defaultCStringEncoding]] parameters:nil headers:headers constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [formData appendPartWithFileData:imageData name:@"file" fileName:@"avatar.jpg" mimeType:@"image/jpg"];
+    }  progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        NSLog(@"%@",responseObject);
+        NSDictionary *jsonDict = (NSDictionary *) responseObject;
+        NSString *res = [NSString stringWithFormat:@"%@", [jsonDict objectForKey:@"image"]];
+        
+        std::string jsCallStr = cocos2d::StringUtils::format("window.__require('native-extend').Social.getPhotoCallback('%s', '%s');",res.UTF8String, scope.UTF8String);
+        NSLog(@"jsCallStr = %s", jsCallStr.c_str());
+        cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+                 se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+        });
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+        
+        std::string jsCallStr = "window.__require('native-extend').Social.getPhotoCallback('');";
+        NSLog(@"jsCallStr = %s", jsCallStr.c_str());
+        cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+                 se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+        });
+    }];
+
+}
+
+
+//用户点击图像选取器中的“cancel”按钮时被调用，这说明用户想要中止选取图像的操作
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    
+    std::string jsCallStr = "window.__require('native-extend').Social.getPhotoCallback('');";
+    cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+             se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+             NSLog(@"imagePickerControllerDidCancel...");
+    });
+    
+    [vc dismissViewControllerAnimated:YES completion:^{}];
+}
+
++ (NSString *)getUUID{
+    return [DeviceUID uid];
+}
++ (NSString *)getIDFA{
+    return [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+}
++(void) setCopy: (NSString *)text{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = text;
+}
+
++ (void)selectPicture: (NSString *)url token:(NSString *)token {
+    isUploadAvatar = true;
+    uploadURL = cocos2d::StringUtils::format("%s",url.UTF8String);
+    uploadToken = cocos2d::StringUtils::format("%s",token.UTF8String);
+//    NSLog(@"selectPicture %@ %@", uploadURL, uploadToken);
+    [vc presentViewController:imagePickerController animated:YES completion:^{}];
+}
++ (void)selectQRCode: (NSString *)url token:(NSString *)token {
+    isUploadAvatar = false;
+    uploadURL = cocos2d::StringUtils::format("%s",url.UTF8String);
+    uploadToken = cocos2d::StringUtils::format("%s",token.UTF8String);
+//    NSLog(@"selectPicture %@ %@", uploadURL, uploadToken);
+    [vc presentViewController:imagePickerController animated:YES completion:^{}];
+}
+
++(void) makeCall: (NSString *)phone{
+    NSMutableString* str=[[ NSMutableString alloc ]  initWithFormat : @"telprompt://%@" , phone ];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+}
++(void) openUrl: (NSString *)url{
+    NSURL *cleanURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",url]];
+    [[UIApplication sharedApplication] openURL:cleanURL];
+}
++(NSString *)getInviter{
+    return [NSString stringWithCString:inviter.c_str() encoding:[NSString defaultCStringEncoding]];
+}
+
+- (void)statusBarOrientationChanged:(NSNotification *)notification {
+    CGRect bounds = [UIScreen mainScreen].bounds;
+    float scale = [[UIScreen mainScreen] scale];
+    float width = bounds.size.width * scale;
+    float height = bounds.size.height * scale;
+    Application::getInstance()->updateViewSize(width, height);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -133,5 +347,64 @@ Application* app = nullptr;
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
 }
+#pragma mark -
+#pragma mark Wechat
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return  [WXApi handleOpenURL:url delegate:self];
+}
 
++ (void)sendWXAuthReq{
+    if([WXApi isWXAppInstalled]){//判断用户是否已安装微信App
+        SendAuthReq *req = [[SendAuthReq alloc] init];
+        
+        req.state = @"wx_oauth_authorization_state";//用于保持请求和回调的状态，授权请求或原样带回
+        req.scope = @"snsapi_userinfo";//授权作用域：获取用户个人信息
+        [WXApi sendReq:req completion:nil];
+        
+//        [WXApi sendReq:req];//发起微信授权请求
+    }else{
+        std::string jsCallStr = "window.__require('native-extend').Social.wechatCallback('');";
+        cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+                 se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+                 NSLog(@"sendWXAuthReq...");
+        });
+    }
+}
+-(void) onResp:(BaseResp*)resp{
+    if([resp isKindOfClass:[SendAuthResp class]])
+    {
+        SendAuthResp *saresp = (SendAuthResp *)resp;
+        NSString* code = @"";
+        NSLog(@"code:%@ state:%@",saresp.code, saresp.state);
+        if([saresp.state isEqualToString:@"wx_oauth_authorization_state"]){//微信授权成功
+            code = saresp.code; //获得code
+        }
+        std::string jsCallStr = cocos2d::StringUtils::format("window.__require('native-extend').Social.wechatCallback('%s');",code.UTF8String);
+        cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+                 se::ScriptEngine::getInstance()->evalString(jsCallStr.c_str());
+                 NSLog(@"onResp...");
+        });
+        
+    }
+}
+-(void)callJsEngineCallBack:(NSString*) funcNameStr :(NSString*) contentStr
+{
+    NSLog(@"callJsEngineCallBack...");
+    
+    std::string funcName = [funcNameStr UTF8String];
+    std::string param = [contentStr UTF8String];
+    std::string jsCallStr = cocos2d::StringUtils::format("%s(\"%s\");",funcName.c_str(), param.c_str());
+    NSLog(@"jsCallStr = %s", jsCallStr.c_str());
+//    ScriptingCore::getInstance()->evalString(jsCallStr.c_str());
+}
+
++ (int)saveTextureToLocal: (NSString *)imgPath {
+    UIImage *image = [UIImage imageWithContentsOfFile:imgPath]; // 取得图片
+    UIImageWriteToSavedPhotosAlbum(image, NULL, NULL, NULL);
+    cocos2d::Application::getInstance()->getScheduler()->performFunctionInCocosThread([=]() {
+             se::ScriptEngine::getInstance()->evalString("window.__require('native-extend').Social.saveImageCallback(true);");
+             NSLog(@"saveImageCallback...true");
+    });
+    return 1;
+}
 @end
