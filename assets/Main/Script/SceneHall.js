@@ -235,6 +235,17 @@ cc.Class({
                 return;
             }
 
+
+
+            if(GameConfig.IsQuickStart){
+      GameConfig.IsQuickStart = false;
+                this.newMatchEnter();
+
+                return;
+            }
+
+
+
             App.unlockScene();
 
             if (data.matchInfo) {
@@ -282,6 +293,23 @@ cc.Class({
         this.changeClubInfo();
         // App.PushManager.connect();
 
+    },
+    
+    newMatchEnter() {
+        // let questData = { isAgain: true, roomID: [], gameType: 'LDZP', tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
+        let questData = { isAgain: true, roomID: '', gameType: '', tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
+        Connector.request(GameConfig.ServerEventName.JoinClubGame, questData, (data) => {
+            GameConfig.ShowTablePop = true;
+            Connector.connect(data, () => {
+                GameConfig.CurrentGameType = data.data.gameType;
+                DataBase.setGameType(DataBase.GAME_TYPE[data.data.gameType]);
+                // Connector.LogsClient(GameConfig.LogsEvents.SOCKET_LINK, { action: GameConfig.LogsActions.START_ENTER_SCENE, gametype: data.data.gameType })
+                cc.director.loadScene(DataBase.TABLE_TYPE[data.data.gameType]);
+            });
+        }, true, (err) => {
+            Cache.showTipsMsg(err.message || "进入游戏失败");
+
+        })
     },
     /**打开设置 */
     onClickSetting() {

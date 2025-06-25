@@ -31,12 +31,12 @@ export class SelectLink {
 
     /**加载本地配置 */
     loadLocalConfig() {
-        if (cc.sys.isBrowser) {
-            //链接本地
-            this.changeLocalUrl('http://192.168.0.108:8000/');
-            // this.changeLocalUrl('http://119.29.132.101/');
-            return;
-        }
+        // if (cc.sys.isBrowser) {
+        //     //链接本地
+        //     this.changeLocalUrl('http://192.168.0.110:8000/');
+        //     // this.changeLocalUrl('http://119.29.132.101/');
+        //     return;
+        // }
 
 
         // console.log("开始选择最佳线路")
@@ -89,9 +89,9 @@ export class SelectLink {
             return;
         }
         let linkJSON = [
-            "https://kahupy.oss-cn-shenzhen.aliyuncs.com/config/release_first.json",
-            "https://pku.qzhagy.com/config/release_first.json",
-            'https://pku.nxhzgq.com/config/release_first.json'
+            "https://khgtyuq.oss-cn-hongkong.aliyuncs.com/config/release_first.json",
+            "https://pku.qzhagy.com/newconfig/release_first.json",
+            'https://pku.nxhzgq.com/newconfig/release_first.json'
         ];
         this.selectCount++;
         utils.NewXMLRequestOSS(linkJSON[index], (res) => {

@@ -46,21 +46,37 @@ cc.Class({
         //     connector.disconnect();
         //     return;
         // }
-        connector.gameMessage(ROUTE.CS_GAME_READY, { plus:false,shuffle: this.cutCard.isChecked });
-        TableInfo.shuffle = this.cutCard.isChecked;
+
+
+        if (TableInfo.status == GameConfig.GameStatus.WAIT || TableInfo.status == GameConfig.GameStatus.DESTORY) {
+            GameConfig.IsQuickStart = true;
+            connector.gameMessage(ROUTE.CS_PLAYER_LEAVE, {});
+        } else {
+            connector.gameMessage(ROUTE.CS_GAME_READY, { plus: false, shuffle: this.cutCard.isChecked });
+            TableInfo.shuffle = this.cutCard.isChecked;
+        }
+
         if (this.node)
             this.node.destroy();
         // cc.find('Canvas/nodeTable').getComponent('SceneTable16').btnContinue.active = false;
         // cc.find('Canvas/nodeTable').getComponent('SceneTable16').roundReset();
     },
-    birdReady(){
-        connector.gameMessage(ROUTE.CS_GAME_READY, { plus:true,shuffle: this.cutCard.isChecked });
-        TableInfo.shuffle = this.cutCard.isChecked;
+    birdReady() {
+        if (TableInfo.status == GameConfig.GameStatus.WAIT || TableInfo.status == GameConfig.GameStatus.DESTORY) {
+            GameConfig.IsQuickStart = true;
+            connector.gameMessage(ROUTE.CS_PLAYER_LEAVE, {});
+        } else {
+            connector.gameMessage(ROUTE.CS_GAME_READY, { plus: true, shuffle: this.cutCard.isChecked });
+            TableInfo.shuffle = this.cutCard.isChecked;
+        }
+
+
+
         if (this.node)
             this.node.destroy();
     },
     init(data, replay = false) {
-        this.btnExit.active = TableInfo.status== GameConfig.GameStatus.WAIT;
+        this.btnExit.active = TableInfo.status == GameConfig.GameStatus.WAIT || TableInfo.status == GameConfig.GameStatus.DESTORY;
         if (replay) {
             this.cutCard.node.active = false;
         }
@@ -71,8 +87,8 @@ cc.Class({
             this.titleSpr[0].active = false;
             this.titleSpr[1].active = false;
         } else {
-            this.titleSpr[0].active = data.players.findIndex((p, idx) => p.scores.base>0 && idx == TableInfo.idx) >= 0;
-            this.titleSpr[1].active = data.players.findIndex((p, idx) => p.scores.base>0 && idx != TableInfo.idx) >= 0;
+            this.titleSpr[0].active = data.players.findIndex((p, idx) => p.scores.base > 0 && idx == TableInfo.idx) >= 0;
+            this.titleSpr[1].active = data.players.findIndex((p, idx) => p.scores.base > 0 && idx != TableInfo.idx) >= 0;
             this.titleSpr[2].active = false;
         }
         this.initPlayer(data);
@@ -94,14 +110,14 @@ cc.Class({
         if (typeof (data.birds) == 'number') {
             let node = cc.instantiate(this.preBirdCard);
             node.parent = this.containerBird;
-            node.getComponent('ModuleGroundCardsMJ').init(data.bird,0);
+            node.getComponent('ModuleGroundCardsMJ').init(data.bird, 0);
         } else {
             data.birds.forEach(bird => {
                 let node = cc.instantiate(this.preBirdCard);
                 node.parent = this.containerBird;
                 if (!bird.hit)
                     node.color = cc.color(142, 142, 142);
-                node.getComponent('ModuleGroundCardsMJ').init(bird.card,0);
+                node.getComponent('ModuleGroundCardsMJ').init(bird.card, 0);
             })
         }
     },

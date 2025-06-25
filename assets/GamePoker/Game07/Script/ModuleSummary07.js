@@ -61,7 +61,7 @@ cc.Class({
             return;
         }
 
-        this.goBackBtn.active = TableInfo.status == GameConfig.GameStatus.WAIT;
+        this.goBackBtn.active = TableInfo.status == GameConfig.GameStatus.WAIT||TableInfo.status == GameConfig.GameStatus.DESTORY;
         // this.continueBtn.getComponent(cc.Sprite).spriteFrame = TableInfo.status == GameConfig.GameStatus.WAIT ? this.continueSpr : this.nextSpr;
 
         if (TableInfo.options.maxRound > 1 || data.round > 1) {
@@ -82,12 +82,25 @@ cc.Class({
     /**继续游戏 */
     continueGame() {
         Cache.playSfx();
+
+        if(TableInfo.status == GameConfig.GameStatus.WAIT||TableInfo.status == GameConfig.GameStatus.DESTORY){
+            GameConfig.IsQuickStart=true;
+            connector.gameMessage(ROUTE.CS_PLAYER_LEAVE, {});
+        }else{
         App.EventManager.dispatchEventWith(GameConfig.GameEventNames.PDK_CONTINUE_GAME)
+        }
+
         this.remove();
     },
     /**洗牌 */
     selectShuffleCard(e,v) {
+          if(TableInfo.status == GameConfig.GameStatus.WAIT||TableInfo.status == GameConfig.GameStatus.DESTORY){
+            GameConfig.IsQuickStart=true;
+            connector.gameMessage(ROUTE.CS_PLAYER_LEAVE, {});
+        }else{
         App.EventManager.dispatchEventWith(GameConfig.GameEventNames.PDK_SHUFFLE_CARD, v=='1')
+
+        }
         this.remove();
     },
     /**返回大厅 */

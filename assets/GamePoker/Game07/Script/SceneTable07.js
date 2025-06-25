@@ -611,6 +611,7 @@ cc.Class({
     },
 
     initHands(data, bool) {
+        if(utils.isNullOrEmpty(data.hands))return;
         data.hands.sort((a, b) => a % 100 - b % 100);
         this.hands = data.hands;
         this.hands.reverse();

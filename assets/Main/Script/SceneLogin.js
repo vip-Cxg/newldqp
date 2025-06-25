@@ -78,7 +78,7 @@ cc.Class({
         // });
         App.Club.clear(); 
         // App.PushManager.disconnect();
-        this.createTestAccount();
+        // this.createTestAccount();
 
     },
     compareVersion(versionA, versionB) {
