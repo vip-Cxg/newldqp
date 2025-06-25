@@ -12,6 +12,7 @@ assets/Game12/Prefab/Replay12.prefab
 build/autoupdate
 *.apk
 Podfile.lock
+build/
 build/jsb-link/frameworks/runtime-src/proj.ios_mac/Pods/*
 build/jsb-link/frameworks/runtime-src/proj.ios_mac/Podfile.lock
 build/jsb-link/main.js
