@@ -263,7 +263,7 @@ export class GameConfig {
     // static ServerUrl = "https://game.ovz43x.com/";//正式服
     static ServerUrl = '';//正式服
     /**冒的办法用的请求 */
-    static DefaultUrl = "http://pku.qzhagy.com/config/release_first.json";
+    static DefaultUrl = "http://pku.qzhagy.com/newconfig/release_first.json";
 
     static TestServerUrl = "http://161.117.57.34:8000/";
     // static TestServerUrl = "http://47.241.56.123:8000/";

@@ -1,7 +1,6 @@
 {
   "servers": [
-    "http://119.29.132.101/",
-        "http://134.175.226.189/"
+    "http://43.139.144.179/"
   ],
   "update": [
     "http://pku.qzhagy.com/newupdate/"
