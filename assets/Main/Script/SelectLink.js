@@ -33,7 +33,7 @@ export class SelectLink {
     loadLocalConfig() {
         // if (cc.sys.isBrowser) {
         //     //链接本地
-        //     this.changeLocalUrl('http://192.168.0.110:8000/');
+        //     this.changeLocalUrl('http://192.168.0.113:8000/');
         //     // this.changeLocalUrl('http://119.29.132.101/');
         //     return;
         // }
@@ -89,7 +89,7 @@ export class SelectLink {
             return;
         }
         let linkJSON = [
-            "https://khgtyuq.oss-cn-hongkong.aliyuncs.com/config/release_first.json",
+            "https://htkpty-1327324568.cos.ap-guangzhou.myqcloud.com/config/release_first.json",
             "https://pku.qzhagy.com/newconfig/release_first.json",
             'https://pku.nxhzgq.com/newconfig/release_first.json'
         ];

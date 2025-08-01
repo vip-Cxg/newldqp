@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
     buildToolsVersion PROP_BUILD_TOOLS_VERSION
-    namespace "com.ldqp.game"
+    namespace "com.xhyl.game"
 
     defaultConfig {
         minSdkVersion PROP_MIN_SDK_VERSION
