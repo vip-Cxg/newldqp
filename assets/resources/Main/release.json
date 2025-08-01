@@ -1,8 +1,9 @@
 {
   "servers": [
-    "http://119.23.111.100:8000/"
+    "http://119.29.132.101/",
+        "http://134.175.226.189/"
   ],
   "update": [
-    "http://pku.qzhagy.com/update/"
+    "http://pku.qzhagy.com/newupdate/"
   ]
 }
