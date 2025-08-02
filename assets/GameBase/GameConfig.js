@@ -1361,7 +1361,7 @@ export class GameConfig {
     /**默认版本号 */
     static DefaultVersion = "4.0.0";
     /**apkname */
-    static ApkName = "ldqp";
+    static ApkName = "xhyl";
     /**加密器 */
     static Encrtyptor = null;
     static PublicKey = "";
