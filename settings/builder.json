@@ -55,7 +55,7 @@
   "includeAnySDK": false,
   "mainCompressionType": "default",
   "mainIsRemote": false,
-  "nativeMd5Cache": true,
+  "nativeMd5Cache": false,
   "harmonyos-next": {
     "packageName": "org.cocos2d.demo",
     "REMOTE_SERVER_ROOT": "",

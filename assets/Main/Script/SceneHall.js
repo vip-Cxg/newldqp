@@ -60,7 +60,7 @@ cc.Class({
 
     },
     onLoad() {
-        utils.fitScreen();   
+        // utils.fitScreen();   
         this.addEvents();
     },
 
@@ -434,7 +434,7 @@ cc.Class({
             this.lblClubName.string = '类型: ' + (App.Club.CurrentClubData.club.isLeague==1 ? '联盟' : '公会');
             this.lblClubID.string = '' + App.Club.CurrentClubData.club.name;
             this.lblClubRole.string = 'ID: ' + App.Club.CurrentClubID;
-            this.lblClubUserCount.string = '我的身份: ' + GameConfig.ROLE_DESC[App.Club.CurrentClubData.role];
+            this.lblClubUserCount.string = '' + GameConfig.ROLE_DESC[App.Club.CurrentClubData.role];
             this.lblClubOLCount.string = '人数: ' + App.Club.CurrentClubData.peoples;
         }
     },
