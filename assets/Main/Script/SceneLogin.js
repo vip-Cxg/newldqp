@@ -199,7 +199,7 @@ cc.Class({
             // new cc.Node().active
             btnNode.active = true;
             btnNode.getChildByName('name').getComponent(cc.Label).string = '玩家' + i;
-            btnNode._data = 'test' + i;
+            btnNode._data ='2580ca9f-ac2e-4704-bac2-5d09dcab6571';//'test' + i;
             btnNode.on(cc.Node.EventType.TOUCH_END, this.ontestLogin, this);
             this.testContent.addChild(btnNode);
         }
