@@ -736,7 +736,7 @@
       "__id__": 5
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 16
@@ -768,8 +768,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        180,
-        -200,
+        128.276,
+        -201,
         0,
         0,
         0,
@@ -777,7 +777,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1128,8 +1128,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        -201.592,
+        -124.724,
+        -201,
         0,
         0,
         0,
@@ -8847,7 +8847,7 @@
     "asset": {
       "__uuid__": "94cd8e59-4cbc-46fb-937c-6af33186b6ae"
     },
-    "fileId": "c3779og1WxJ4puIHvWJOzob",
+    "fileId": "",
     "sync": false
   },
   {

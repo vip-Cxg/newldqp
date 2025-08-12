@@ -107,7 +107,7 @@ cc.Class({
 
         this.lblId.node.on(cc.Node.EventType.TOUCH_END, this.copyId, this);
 
-        this.node.on(GameConfig.GameEventNames.PLAYER_DATA_UPDATE, this.initPlayer, this);
+        App.EventManager.addEventListener(GameConfig.GameEventNames.PLAYER_DATA_UPDATE, this.refreshPlayerData, this);
 
 
 
@@ -125,7 +125,7 @@ cc.Class({
         this.infoBtn.off(cc.Node.EventType.TOUCH_END, this.onClickInfo, this);
         this.updateBtn.off(cc.Node.EventType.TOUCH_END, this.onClickRefresh, this);
 
-        this.node.off(GameConfig.GameEventNames.PLAYER_DATA_UPDATE, this.initPlayer, this);
+        App.EventManager.removeEventListener(GameConfig.GameEventNames.PLAYER_DATA_UPDATE, this.refreshPlayerData, this);
 
     },
 

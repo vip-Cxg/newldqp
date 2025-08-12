@@ -3,6 +3,7 @@ const Cache = require("../Script/Cache");
 const DataBase = require("../Script/DataBase");
 const utils = require("../Script/utils")
 const { GameConfig } = require("../../GameBase/GameConfig");
+const { App } = require("../../script/ui/hall/data/App");
 
 cc.Class({
     extends: cc.Component,
@@ -119,7 +120,7 @@ cc.Class({
             }
 
         }, 1, 60);
-        Connector.request(GameConfig.ServerEventName.SendCode, { phone: phone }, (data) => {
+        Connector.request(GameConfig.ServerEventName.BindCode, { phone: phone }, (data) => {
             if (data.success) {
                 Cache.alertTip("已发送验证码");
             }
@@ -180,7 +181,7 @@ cc.Class({
                 }
                 Connector.request(GameConfig.ServerEventName.BindPhone, { phone: this.newPhone.string, code: this.codeInput.string }, (data) => {
                     Cache.alertTip("修改成功");
-                    utils.dispatchAllEvent(this.node, GameConfig.GameEventNames.PLAYER_DATA_UPDATE);
+                    App.EventManager.dispatchEventWith( GameConfig.GameEventNames.PLAYER_DATA_UPDATE);
                     this.scheduleOnce(() => {
                         if (this.callBack)
                             this.callBack();

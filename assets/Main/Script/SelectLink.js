@@ -33,7 +33,8 @@ export class SelectLink {
     loadLocalConfig() {
         // if (cc.sys.isBrowser) {
         //     //链接本地
-        //     this.changeLocalUrl('http://43.139.144.179/');
+        //     this.changeLocalUrl('http://192.168.0.110:8000/');
+        //     // this.changeLocalUrl('http://43.139.144.179/');
         //     // this.changeLocalUrl('http://119.29.132.101/');
         //     return;
         // }

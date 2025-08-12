@@ -23,7 +23,7 @@
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
-    "packageName": "com.xhyl.game",
+    "packageName": "com.ldqp.game",
     "REMOTE_SERVER_ROOT": ""
   },
   "ios": {

@@ -292,11 +292,11 @@ export class GameConfig {
         /**登录 */
         UserLogin: "game/login",
         /**验证码登录 */
-        UserCodeLogin: "game/login",
+        UserCodeLogin: "game/loginByPhone",
         /**获取验证码 */
         SendSmsCode: "game/sms",
         /**用户登录验证码 */
-        LoginUserCode: "global/sms/login/user",
+        LoginUserCode: "        user",
         /**代理登录验证码 */
         LoginProxyCode: "global/sms/login/proxy",
         /**用户绑定手机验证码 */
@@ -307,8 +307,10 @@ export class GameConfig {
         OTCUserPwdCode: "global/sms/security/user",
         /**提现验证码 */
         CashSmsCode: "game/clientWithdraw/sendSms",
+        /**发送绑定验证码 */
+        BindCode: "global/sms/bind",
         /**绑定手机号 */
-        BindPhone: "game/bind",
+        BindPhone: "game/bindPhone",
         /**修改密码 */
         ChangePassword: "game/password",
         /**获取战绩 */
