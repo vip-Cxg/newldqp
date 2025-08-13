@@ -48,6 +48,7 @@ cc.Class({
         this.playerInfo = null;
         this.lastClickChat = new Date().getTime();
         this.initChat();
+
         // this.initVote();
         // this.initVoice();
         // this.showPlayerInfo();
