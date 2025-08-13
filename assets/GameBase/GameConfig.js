@@ -295,8 +295,6 @@ export class GameConfig {
         UserCodeLogin: "game/loginByPhone",
         /**获取验证码 */
         SendSmsCode: "game/sms",
-        /**用户登录验证码 */
-        LoginUserCode: "        user",
         /**代理登录验证码 */
         LoginProxyCode: "global/sms/login/proxy",
         /**用户绑定手机验证码 */
@@ -1361,9 +1359,9 @@ export class GameConfig {
 
 
     /**默认版本号 */
-    static DefaultVersion = "4.0.0";
+    static DefaultVersion = "1.0.0";
     /**apkname */
-    static ApkName = "xhyl";
+    static ApkName = "ldqp";
     /**加密器 */
     static Encrtyptor = null;
     static PublicKey = "";

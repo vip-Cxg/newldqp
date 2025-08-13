@@ -316,6 +316,13 @@ cc.Class({
         Cache.playSfx();
         utils.pop(GameConfig.pop.SettingPop);
     },
+    /**绑定手机 */
+    onBindPhone() {
+        Cache.playSfx();
+           utils.pop(GameConfig.pop.ChangeDataPop, (pop) => {
+            pop.getComponent("ModuleChangePop").refreshUIData("phone");
+        })
+    },
     onClickShare() {
         Cache.playSfx();
         utils.pop(GameConfig.pop.SharePop);

@@ -33,9 +33,9 @@ export class SelectLink {
     loadLocalConfig() {
         // if (cc.sys.isBrowser) {
         //     //链接本地
-        //     this.changeLocalUrl('http://192.168.0.110:8000/');
+        //     // this.changeLocalUrl('http://192.168.0.110:8000/');
         //     // this.changeLocalUrl('http://43.139.144.179/');
-        //     // this.changeLocalUrl('http://119.29.132.101/');
+        //     this.changeLocalUrl('http://134.175.59.198/');
         //     return;
         // }
 
@@ -63,6 +63,7 @@ export class SelectLink {
         cc.game.on(cc.game.EVENT_HIDE, () => {
             hideTime = new Date().getTime();
             // Cache.alertTip("游戏暂停");
+          
             cc.game.pause();
         });
         cc.game.on(cc.game.EVENT_SHOW, () => {
@@ -70,8 +71,8 @@ export class SelectLink {
 
             let nowTime = new Date().getTime();
             // Cache.alertTip("游戏继续" + (nowTime - hideTime) / 1000 + '  ' + nowTime + '  ' + hideTime)
-
-            if (nowTime - hideTime > 20000 && hideTime != 0) {
+            
+            if (nowTime - hideTime > 20000 && hideTime != 0&&cc.director.getScene().name.indexOf('Game')!=-1) {
                 // Cache.alertTip("游戏重新载入")
                 cc.game.restart();
 
