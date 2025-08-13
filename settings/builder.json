@@ -27,7 +27,7 @@
     "REMOTE_SERVER_ROOT": ""
   },
   "ios": {
-    "packageName": "com.xhld.game",
+    "packageName": "com.ldqp.game",
     "REMOTE_SERVER_ROOT": "",
     "ios_enable_jit": true
   },
