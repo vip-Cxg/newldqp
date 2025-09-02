@@ -812,9 +812,9 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xyh.game;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xhld.game;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = zhiqiangdev;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = xhldDev;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -852,9 +852,9 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xyh.game;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xhld.game;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = zhiqiangprofile;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = xhld;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
