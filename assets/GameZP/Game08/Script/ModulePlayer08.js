@@ -96,8 +96,8 @@ cc.Class({
 
         this.ground.position = POS_GROUND[idx];
         TableInfo.players[data.idx] = data;
-        this.sprHead.avatarUrl = data.prop.head;
-        this.lblName.string = utils.getStringByLength(data.prop.name, 5);
+        this.sprHead.avatarUrl ='';// data.prop.head;
+        this.lblName.string ='玩家'+(data.idx+1) ;//utils.getStringByLength(data.prop.name, 5);
 
         this.sprOffline.node.active = data.offline;
         this.lblHuxi.string = '0';
@@ -120,6 +120,11 @@ cc.Class({
         }
     },
 
+    showAvatar(){
+this.sprHead.avatarUrl = this.playerData.prop.head;
+        this.lblName.string = utils.getStringByLength(this.playerData.prop.name, 5);
+
+    },
 
     /**改变托管状态显示 */
     activeAutoPlay(bool, idx) {

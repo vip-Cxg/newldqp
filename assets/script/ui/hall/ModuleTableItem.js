@@ -155,16 +155,17 @@ export default class RoomListItem extends CompListRenderer {
 
         });
 
-        if (data.status == GameConfig.GameStatus.WAIT || data.status == GameConfig.GameStatus.SUMMARY) {
-            this.node.on(cc.Node.EventType.TOUCH_END, () => {
-                //无法进入匹配模式的桌子
-                if (!utils.isNullOrEmpty(data.matchID)) {
-                    Cache.alertTip("无法加入有奖专区的牌桌");
-                    return;
-                }
-                self.enterGame(data, roomData);
-            }, this);
-        } else if (App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager') {
+        // if (data.status == GameConfig.GameStatus.WAIT || data.status == GameConfig.GameStatus.SUMMARY) {
+        //     this.node.on(cc.Node.EventType.TOUCH_END, () => {
+        //         //无法进入匹配模式的桌子
+        //         if (!utils.isNullOrEmpty(data.matchID)) {
+        //             Cache.alertTip("无法加入有奖专区的牌桌");
+        //             return;
+        //         }
+        //         self.enterGame(data, roomData);
+        //     }, this);
+        // } else 
+            if (App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager') {
             this.node.on(cc.Node.EventType.TOUCH_END, () => {
                 //无法进入匹配模式的桌子
                 Cache.showConfirm('是否解散房间 ' + data.tableID, () => {

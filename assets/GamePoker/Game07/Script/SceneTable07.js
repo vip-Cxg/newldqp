@@ -348,6 +348,7 @@ cc.Class({
             this.node.getChildByName("roundSummary").removeFromParent();
         }
         this.nodePlayerInfo.forEach((playerInfo, i) => {
+            playerInfo.showAvatar();
             playerInfo.activeReady(false);
             //更新剩余牌数
             playerInfo.changeCardCount(15);
