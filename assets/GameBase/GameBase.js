@@ -62,9 +62,9 @@ cc.Class({
     removeGoEasyEvents() {
     },
     tableBgmInit(hn = false) {
-        let url = cc.url.raw(`resources/Audio/Common/TableMusic.mp3`);
-        if (hn)
-            url = cc.url.raw(`resources/Audio/Common/hnbg.mp3`);
+        let url = cc.url.raw(`resources/Audio/Common/TableMusi.mp3`);
+        // if (hn)
+        //     url = cc.url.raw(`resources/Audio/Common/hnbg.mp3`);
         audioCtrl.getInstance().playBGM(url);
         // audioCtrl.getInstance().playBGM(this.bgmClip);
     },

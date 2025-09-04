@@ -48,7 +48,7 @@ export default class ClubProxyItem extends cc.Component {
         this.realIdx = TableInfo.realIdx[data.idx];
 
         if (!GameUtils.isNullOrEmpty(data.prop)) {
-            this.imgHead.avatarUrl = data.prop.head;// TableInfo.idx != data.idx && TableInfo.status == GameConfig.GameStatus.WAIT ? '' : data.prop.head;
+            this.imgHead.avatarUrl ='';// data.prop.head;// TableInfo.idx != data.idx && TableInfo.status == GameConfig.GameStatus.WAIT ? '' : data.prop.head;
             this.imgReady.active = data.ready != null;
             if (this.realIdx == 1) {
                 this.imgReady.x = -this.imgReady.x;
@@ -56,7 +56,7 @@ export default class ClubProxyItem extends cc.Component {
             }
             this.imgOffline.active = data.offline; // TableInfo.idx != data.idx && TableInfo.status == GameConfig.GameStatus.WAIT ? false : data.offline;
             TableInfo.players[data.idx] = data;
-            this.lblName.string = GameUtils.getStringByLength(data.prop.name, 5);// TableInfo.idx != data.idx && TableInfo.status == GameConfig.GameStatus.WAIT ? '等待加入' : GameUtils.getStringByLength(data.prop.name, 5);
+            this.lblName.string ='玩家'+(data.idx+1);// GameUtils.getStringByLength(data.prop.name, 5);
             this.imgZhuang.active = this.idx == TableInfo.zhuang;// TableInfo.idx != data.idx && TableInfo.status == GameConfig.GameStatus.WAIT ? false : this.idx == TableInfo.zhuang;
             this.lblScores.string = '' + GameUtils.formatGold(data.wallet);//TableInfo.idx != data.idx && TableInfo.status == GameConfig.GameStatus.WAIT ? '0' : '' + data.total;
             this.niaoNode.active = data.ready && data.ready.plus;
@@ -78,7 +78,10 @@ export default class ClubProxyItem extends cc.Component {
         this.node.position = playPos[this.realIdx];
 
     }
-
+    showAvatar(){
+        this.imgHead.avatarUrl = this.playData.prop.head;
+         this.lblName.string = GameUtils.getStringByLength(this.playData.prop.name, 5);
+    }
     showInfo() {
         if (!this.playData) return;
         App.lockScene();

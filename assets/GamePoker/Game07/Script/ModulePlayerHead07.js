@@ -76,8 +76,8 @@ cc.Class({
         this.readyIcon.active = data.ready;
         this.niaoNode.active = data.ready && data.ready.plus;
 
-        this.lblName.string = utils.getStringByLength(data.prop.name, 6);
-        this.sprHead.avatarUrl = data.prop.head
+        this.lblName.string = '玩家'+(data.idx+1);//utils.getStringByLength(data.prop.name, 6);
+        this.sprHead.avatarUrl = '';//data.prop.head
         this.sprBaodan.setPosition(posBaodan[TableInfo.realIdx[data.idx]]);
 
         this.node.on('touchend', () => {
@@ -87,6 +87,10 @@ cc.Class({
         })
     },
 
+    showAvatar(){
+        this.sprHead.avatarUrl = this.playerData.prop.head
+        this.lblName.string = utils.getStringByLength(this.playerData.prop.name, 6);
+    },
 
     showInfo(data) {
         let myDate = new Date();

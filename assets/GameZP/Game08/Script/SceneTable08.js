@@ -966,6 +966,7 @@ cc.Class({
 
         //重置所有玩家信息
         this.players.forEach(player => {
+            player.showAvatar();
             player.roundReset();
         });
 

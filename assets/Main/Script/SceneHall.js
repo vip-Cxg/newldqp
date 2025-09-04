@@ -162,7 +162,7 @@ cc.Class({
     },
 
     initBGM() {
-        let url = cc.url.raw(`resources/Audio/Common/HallMusic.mp3`);
+        let url = cc.url.raw(`resources/Audio/Common/HallMusi.mp3`);
         audioCtrl.getInstance().playBGM(url);
     },
     /**更新玩家数据 */

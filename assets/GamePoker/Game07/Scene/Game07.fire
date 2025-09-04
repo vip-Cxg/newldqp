@@ -645,7 +645,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 34,
@@ -741,7 +742,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 34,
@@ -837,7 +839,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 34,
@@ -933,7 +936,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 34,
@@ -1029,7 +1033,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "15张   三张和飞机可以少带接完   四带三  首局黑桃3出 ",
     "_N$string": "15张   三张和飞机可以少带接完   四带三  首局黑桃3出 ",
     "_fontSize": 25,
@@ -1445,7 +1450,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "要不起",
     "_N$string": "要不起",
     "_fontSize": 40,
@@ -1731,7 +1737,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "出牌",
     "_N$string": "出牌",
     "_fontSize": 34,
@@ -2196,7 +2203,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "提示",
     "_N$string": "提示",
     "_fontSize": 34,
@@ -3007,7 +3015,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "要不起",
     "_N$string": "要不起",
     "_fontSize": 40,
@@ -3363,7 +3372,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "要不起",
     "_N$string": "要不起",
     "_fontSize": 40,
@@ -3472,7 +3482,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -3566,7 +3576,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "打鸟",
     "_N$string": "打鸟",
     "_fontSize": 30,
@@ -3804,7 +3815,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -3898,7 +3909,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "不打鸟",
     "_N$string": "不打鸟",
     "_fontSize": 30,
@@ -4230,7 +4242,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "洗牌",
     "_N$string": "洗牌",
     "_fontSize": 30,
@@ -4562,7 +4575,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "不洗牌",
     "_N$string": "不洗牌",
     "_fontSize": 30,
@@ -4923,7 +4937,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5102,7 +5116,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5283,7 +5297,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5462,7 +5476,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5643,7 +5657,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6173,7 +6187,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6443,7 +6457,7 @@
         1,
         0.76,
         0.76,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -7372,7 +7386,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 12,
@@ -7471,7 +7486,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 16,
@@ -7597,7 +7613,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 16,
@@ -8109,7 +8126,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "取消托管",
     "_N$string": "取消托管",
     "_fontSize": 30,
@@ -9049,7 +9067,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "你好呀唉唉啊...",
     "_N$string": "你好呀唉唉啊...",
     "_fontSize": 16,
@@ -9145,7 +9164,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "同意",
     "_N$string": "同意",
     "_fontSize": 26,
@@ -9439,7 +9459,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "你好呀唉唉啊...",
     "_N$string": "你好呀唉唉啊...",
     "_fontSize": 16,
@@ -9535,7 +9556,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "同意",
     "_N$string": "同意",
     "_fontSize": 26,
@@ -9829,7 +9851,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "你好呀唉唉啊...",
     "_N$string": "你好呀唉唉啊...",
     "_fontSize": 16,
@@ -9925,7 +9948,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "同意",
     "_N$string": "同意",
     "_fontSize": 26,
@@ -10248,7 +10272,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "拒绝",
     "_N$string": "拒绝",
     "_fontSize": 28,
@@ -10543,7 +10568,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "同意",
     "_N$string": "同意",
     "_fontSize": 28,
@@ -10769,7 +10795,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "( 所有玩家同意或者倒计时60秒以后解散 )",
     "_N$string": "( 所有玩家同意或者倒计时60秒以后解散 )",
     "_fontSize": 18,
@@ -10935,7 +10962,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 24,
@@ -11192,7 +11220,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "撒打算大正在洗牌",
     "_N$string": "撒打算大正在洗牌",
     "_fontSize": 22,
@@ -11628,7 +11657,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "加载中，请稍侯",
     "_N$string": "加载中，请稍侯",
     "_fontSize": 40,
@@ -11808,7 +11838,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "重新连接",
     "_N$string": "重新连接",
     "_fontSize": 30,

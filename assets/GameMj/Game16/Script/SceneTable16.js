@@ -461,6 +461,7 @@ cc.Class({
             }
         })
         this.players.forEach(e => {
+            e.showAvatar();
             e.hideReady();
         })
         //重置东南西北
