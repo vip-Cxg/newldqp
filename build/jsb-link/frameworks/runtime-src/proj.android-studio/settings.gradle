@@ -1,4 +1,4 @@
 include ':libcocos2dx',':instantapp'
 project(':libcocos2dx').projectDir = new File('/Applications/Cocos/Creator/2.4.14/CocosCreator.app/Contents/Resources/cocos2d-x/cocos/platform/android/libcocos2dx')
-include ':xyqp_client'
-project(':xyqp_client').projectDir = new File(settingsDir, 'app')
+include ':ld_play'
+project(':ld_play').projectDir = new File(settingsDir, 'app')

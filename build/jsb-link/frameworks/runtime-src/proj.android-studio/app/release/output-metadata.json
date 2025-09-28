@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.ldqp.game",
+  "applicationId": "com.ldplay.game",
   "variantName": "release",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 1,
       "versionName": "1.0",
-      "outputFile": "xyqp_client-release.apk"
+      "outputFile": "ld_play-release.apk"
     }
   ],
   "elementType": "File"
