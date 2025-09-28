@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'ld_play' target in the 'ld_play' project
+// Prefix header for all source files of the 'xyqp_client' target in the 'xyqp_client' project
 //
 
 #ifdef __OBJC__

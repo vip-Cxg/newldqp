@@ -1,5 +1,5 @@
 {
-  "title": "ld_play",
+  "title": "xyqp_client",
   "packageName": "org.cocos2d.demo",
   "startScene": "af07d4ce-3e0b-4cf4-9995-2fda7fccc0fa",
   "excludeScenes": [
@@ -27,7 +27,7 @@
     "REMOTE_SERVER_ROOT": ""
   },
   "ios": {
-    "packageName": "com.xhld.game",
+    "packageName": "com.ldplay.game",
     "REMOTE_SERVER_ROOT": "",
     "ios_enable_jit": true
   },
