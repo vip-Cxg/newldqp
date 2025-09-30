@@ -20,11 +20,12 @@ echo "2. 获取MD5签名值"
 echo "3. 修改包名"
 echo "4. 还原包名"
 echo "5. 构建APK"
-echo "6. 查看使用说明"
-echo "7. 退出"
+echo "6. 检查热更新兼容性"
+echo "7. 查看使用说明"
+echo "8. 退出"
 echo ""
 
-read -p "请选择操作 (1-7): " choice
+read -p "请选择操作 (1-8): " choice
 
 case $choice in
     1)
@@ -129,10 +130,15 @@ case $choice in
         ;;
     6)
         echo ""
+        echo "=== 检查热更新兼容性 ==="
+        ./signTool/check_hotupdate.sh
+        ;;
+    7)
+        echo ""
         echo "=== 使用说明 ==="
         cd signTool && cat README.md
         ;;
-    7)
+    8)
         echo "退出"
         exit 0
         ;;
