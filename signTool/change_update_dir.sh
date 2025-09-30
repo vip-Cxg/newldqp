@@ -26,7 +26,6 @@ BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)"
 
 # 需要修改的文件列表
 FILES_TO_MODIFY=(
-    "assets/project.manifest"
     "version_generator.js"
     "assets/resources/Main/debug.json"
     "assets/resources/Main/release.json"
@@ -98,8 +97,10 @@ grep -n "$NEW_DIR" version_generator.js 2>/dev/null | head -3
 echo ""
 echo "⚠️  重要提醒:"
 echo "1. 服务器端也需要创建对应的 '$NEW_DIR' 目录"
-echo "2. 将热更新文件上传到新目录"
-echo "3. 测试热更新功能是否正常"
+echo "2. 执行 'node version_generator.js' 生成新的 project.manifest"
+echo "3. 手动替换 assets/project.manifest 文件"
+echo "4. 将热更新文件上传到新目录"
+echo "5. 测试热更新功能是否正常"
 echo ""
 echo "✅ 目录名修改完成!"
 echo ""
