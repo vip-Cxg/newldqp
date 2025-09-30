@@ -67,7 +67,7 @@ android {
                 } else {
                     // 相对路径智能解析
                     // 从当前Android项目目录回到真正的项目根目录，然后定位到signTool目录
-                    def projectRootDir = new File(project.rootDir, "../../../../../../")
+                    def projectRootDir = new File(project.rootDir, "../../../../../")
                     keystorePath = new File(projectRootDir, "signTool/${RELEASE_STORE_FILE}").absolutePath
                 }
                 storeFile file(keystorePath)
