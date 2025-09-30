@@ -59,7 +59,18 @@ android {
 
        release {
             if (project.hasProperty("RELEASE_STORE_FILE")) {
-                storeFile file(RELEASE_STORE_FILE)
+                // 方案2：智能路径解析
+                def keystorePath
+                if (RELEASE_STORE_FILE.startsWith('/')) {
+                    // 绝对路径直接使用
+                    keystorePath = RELEASE_STORE_FILE
+                } else {
+                    // 相对路径智能解析
+                    // 从当前Android项目目录回到真正的项目根目录
+                    def projectRootDir = new File(project.rootDir, "../../../../../../")
+                    keystorePath = new File(projectRootDir, RELEASE_STORE_FILE).absolutePath
+                }
+                storeFile file(keystorePath)
                 storePassword RELEASE_STORE_PASSWORD
                 keyAlias RELEASE_KEY_ALIAS
                 keyPassword RELEASE_KEY_PASSWORD

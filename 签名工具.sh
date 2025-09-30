@@ -51,17 +51,21 @@ case $choice in
         echo ""
         echo "=== 修改包名 ==="
         read -p "请输入新包名 (如: com.newcompany.newapp): " new_package
-        read -p "请输入签名文件名 (如: myapp.keystore): " keystore_file
+        read -p "请输入签名文件名 (可选，直接回车跳过): " keystore_file
         read -p "请输入微信AppID (可选，直接回车跳过): " wx_appid
-        if [ -n "$new_package" ] && [ -n "$keystore_file" ]; then
+        if [ -n "$new_package" ]; then
             echo "正在修改包名..."
-            if [ -n "$wx_appid" ]; then
+            if [ -n "$keystore_file" ] && [ -n "$wx_appid" ]; then
                 cd signTool && ./change_package.sh "$new_package" "$keystore_file" "$wx_appid"
-            else
+            elif [ -n "$keystore_file" ]; then
                 cd signTool && ./change_package.sh "$new_package" "$keystore_file"
+            elif [ -n "$wx_appid" ]; then
+                cd signTool && ./change_package.sh "$new_package" "" "$wx_appid"
+            else
+                cd signTool && ./change_package.sh "$new_package"
             fi
         else
-            echo "❌ 请输入有效的包名和签名文件名"
+            echo "❌ 请输入有效的包名"
         fi
         ;;
     4)
