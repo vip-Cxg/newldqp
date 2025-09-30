@@ -23,15 +23,17 @@ echo ""
 
 # 检查参数
 if [ $# -eq 0 ]; then
-    echo "使用方法: $0 <new_package_name> <keystore_file> <wx_appid>"
+    echo "使用方法: $0 <new_package_name> [keystore_file] [wx_appid]"
     echo ""
     echo "示例:"
-    echo "  $0 com.newcompany.newapp myapp.keystore wx1234567890abcdef"
+    echo "  $0 com.newcompany.newapp                    # 只修改包名"
+    echo "  $0 com.newcompany.newapp myapp.keystore     # 修改包名和签名"
+    echo "  $0 com.newcompany.newapp myapp.keystore wx1234567890abcdef  # 修改全部"
     echo ""
     echo "参数说明:"
     echo "  new_package_name: 新的包名，如 com.newcompany.newapp"
-    echo "  keystore_file: 签名文件名，如 myapp.keystore"
-    echo "  wx_appid: 微信AppID，如 wx1234567890abcdef"
+    echo "  keystore_file: 签名文件名（可选），如 myapp.keystore"
+    echo "  wx_appid: 微信AppID（可选），如 wx1234567890abcdef"
     echo ""
     echo "还原方法:"
     echo "  $0 restore"
@@ -68,17 +70,23 @@ if [ "$1" = "restore" ]; then
     
     echo "✅ 还原完成!"
     echo "📁 备份目录: $LATEST_BACKUP"
+    
+    # 自动删除备份目录
+    echo "🗑️  清理备份目录..."
+    rm -rf "$LATEST_BACKUP"
+    echo "✅ 备份已清理"
     exit 0
 fi
 
 # 检查参数数量
-if [ $# -lt 2 ] || [ $# -gt 3 ]; then
-    echo "❌ 错误: 需要2-3个参数!"
-    echo "使用方法: $0 <new_package_name> <keystore_file> [wx_appid]"
+if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+    echo "❌ 错误: 需要1-3个参数!"
+    echo "使用方法: $0 <new_package_name> [keystore_file] [wx_appid]"
     echo ""
     echo "参数说明:"
     echo "  new_package_name: 新的包名，如 com.newcompany.newapp"
-    echo "  keystore_file: 签名文件名，如 myapp.keystore"
+    echo "  keystore_file: 签名文件名（可选），如 myapp.keystore"
+    echo "                如果不提供，将保持原有的签名配置不变"
     echo "  wx_appid: 微信AppID（可选），如 wx1234567890abcdef"
     echo "            如果不提供，将保持原有的微信AppID不变"
     exit 1
@@ -95,8 +103,8 @@ if [[ ! $NEW_PACKAGE =~ ^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$ ]]; then
     exit 1
 fi
 
-# 检查签名文件是否存在
-if [ ! -f "$KEYSTORE_FILE" ]; then
+# 检查签名文件是否存在（如果提供了的话）
+if [ -n "$KEYSTORE_FILE" ] && [ ! -f "$KEYSTORE_FILE" ]; then
     echo "❌ 错误: 签名文件 $KEYSTORE_FILE 不存在!"
     echo "请确保签名文件在signTool目录中"
     exit 1
@@ -111,7 +119,11 @@ fi
 
 echo "修改配置:"
 echo "  新包名: $NEW_PACKAGE"
-echo "  签名文件: $KEYSTORE_FILE"
+if [ -n "$KEYSTORE_FILE" ]; then
+    echo "  签名文件: $KEYSTORE_FILE"
+else
+    echo "  签名文件: 保持不变"
+fi
 if [ -n "$WX_APPID" ]; then
     echo "  微信AppID: $WX_APPID"
 else
@@ -191,18 +203,22 @@ echo "5. 修改AndroidManifest.xml中的Activity引用..."
 sed -i.bak "s/com\.ldplay\.game\.wxapi\.WXEntryActivity/$NEW_PACKAGE.wxapi.WXEntryActivity/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
 sed -i.bak "s/android:taskAffinity=\"com\.ldplay\.game\"/android:taskAffinity=\"$NEW_PACKAGE\"/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
 
-# 6. 更新签名配置
-echo "6. 更新签名配置..."
-KEYSTORE_PATH="../../../../../signTool/$KEYSTORE_FILE"
-KEYSTORE_ALIAS=$(basename "$KEYSTORE_FILE" .keystore)
-KEYSTORE_PASSWORD="${KEYSTORE_ALIAS}123456"
+# 6. 更新签名配置（如果提供了keystore文件）
+if [ -n "$KEYSTORE_FILE" ]; then
+    echo "6. 更新签名配置..."
+    KEYSTORE_PATH="../../../../../signTool/$KEYSTORE_FILE"
+    KEYSTORE_ALIAS=$(basename "$KEYSTORE_FILE" .keystore)
+    KEYSTORE_PASSWORD="${KEYSTORE_ALIAS}123456"
 
-# 更新gradle.properties
-GRADLE_PROPERTIES="$ANDROID_PROJECT/gradle.properties"
-sed -i.bak "s|RELEASE_STORE_FILE=.*|RELEASE_STORE_FILE=$KEYSTORE_PATH|" "$GRADLE_PROPERTIES"
-sed -i.bak "s/RELEASE_STORE_PASSWORD=.*/RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD/" "$GRADLE_PROPERTIES"
-sed -i.bak "s/RELEASE_KEY_ALIAS=.*/RELEASE_KEY_ALIAS=$KEYSTORE_ALIAS/" "$GRADLE_PROPERTIES"
-sed -i.bak "s/RELEASE_KEY_PASSWORD=.*/RELEASE_KEY_PASSWORD=$KEYSTORE_PASSWORD/" "$GRADLE_PROPERTIES"
+    # 更新gradle.properties
+    GRADLE_PROPERTIES="$ANDROID_PROJECT/gradle.properties"
+    sed -i.bak "s|RELEASE_STORE_FILE=.*|RELEASE_STORE_FILE=$KEYSTORE_PATH|" "$GRADLE_PROPERTIES"
+    sed -i.bak "s/RELEASE_STORE_PASSWORD=.*/RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD/" "$GRADLE_PROPERTIES"
+    sed -i.bak "s/RELEASE_KEY_ALIAS=.*/RELEASE_KEY_ALIAS=$KEYSTORE_ALIAS/" "$GRADLE_PROPERTIES"
+    sed -i.bak "s/RELEASE_KEY_PASSWORD=.*/RELEASE_KEY_PASSWORD=$KEYSTORE_PASSWORD/" "$GRADLE_PROPERTIES"
+else
+    echo "6. 保持原有签名配置不变..."
+fi
 
 # 7. 更新微信AppID（如果提供了的话）
 if [ -n "$WX_APPID" ]; then
@@ -220,7 +236,11 @@ echo "✅ 包名修改完成!"
 echo ""
 echo "=== 修改摘要 ==="
 echo "  新包名: $NEW_PACKAGE"
-echo "  签名文件: $KEYSTORE_PATH"
+if [ -n "$KEYSTORE_FILE" ]; then
+    echo "  签名文件: $KEYSTORE_PATH"
+else
+    echo "  签名文件: 保持不变"
+fi
 if [ -n "$WX_APPID" ]; then
     echo "  微信AppID: $WX_APPID"
 else
