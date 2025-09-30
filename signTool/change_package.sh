@@ -206,13 +206,13 @@ sed -i.bak "s/android:taskAffinity=\"com\.ldplay\.game\"/android:taskAffinity=\"
 # 6. 更新签名配置（如果提供了keystore文件）
 if [ -n "$KEYSTORE_FILE" ]; then
     echo "6. 更新签名配置..."
-    KEYSTORE_PATH="../../../../../signTool/$KEYSTORE_FILE"
+    # 使用简洁的文件名，build.gradle会自动解析到signTool目录
     KEYSTORE_ALIAS=$(basename "$KEYSTORE_FILE" .keystore)
     KEYSTORE_PASSWORD="${KEYSTORE_ALIAS}123456"
 
-    # 更新gradle.properties
+    # 更新gradle.properties - 只设置文件名，build.gradle会自动处理路径
     GRADLE_PROPERTIES="$ANDROID_PROJECT/gradle.properties"
-    sed -i.bak "s|RELEASE_STORE_FILE=.*|RELEASE_STORE_FILE=$KEYSTORE_PATH|" "$GRADLE_PROPERTIES"
+    sed -i.bak "s|RELEASE_STORE_FILE=.*|RELEASE_STORE_FILE=$KEYSTORE_FILE|" "$GRADLE_PROPERTIES"
     sed -i.bak "s/RELEASE_STORE_PASSWORD=.*/RELEASE_STORE_PASSWORD=$KEYSTORE_PASSWORD/" "$GRADLE_PROPERTIES"
     sed -i.bak "s/RELEASE_KEY_ALIAS=.*/RELEASE_KEY_ALIAS=$KEYSTORE_ALIAS/" "$GRADLE_PROPERTIES"
     sed -i.bak "s/RELEASE_KEY_PASSWORD=.*/RELEASE_KEY_PASSWORD=$KEYSTORE_PASSWORD/" "$GRADLE_PROPERTIES"
