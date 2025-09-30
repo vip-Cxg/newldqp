@@ -19,11 +19,12 @@ echo "1. 生成签名文件"
 echo "2. 获取MD5签名值"
 echo "3. 修改包名"
 echo "4. 还原包名"
-echo "5. 查看使用说明"
-echo "6. 退出"
+echo "5. 构建APK"
+echo "6. 查看使用说明"
+echo "7. 退出"
 echo ""
 
-read -p "请选择操作 (1-6): " choice
+read -p "请选择操作 (1-7): " choice
 
 case $choice in
     1)
@@ -76,10 +77,62 @@ case $choice in
         ;;
     5)
         echo ""
+        echo "=== 构建APK ==="
+        echo "选择构建类型:"
+        echo "1. 清理并构建Release版本"
+        echo "2. 只构建Release版本"
+        echo "3. 构建Debug版本"
+        echo "4. 返回主菜单"
+        read -p "请选择 (1-4): " build_choice
+        
+        case $build_choice in
+            1)
+                echo "正在清理并构建Release版本..."
+                cd build/jsb-link/frameworks/runtime-src/proj.android-studio && ./gradlew clean assembleRelease
+                if [ $? -eq 0 ]; then
+                    echo "✅ 构建成功!"
+                    echo "📱 APK位置: app/build/outputs/apk/release/"
+                    ls -la app/build/outputs/apk/release/*.apk
+                else
+                    echo "❌ 构建失败!"
+                fi
+                ;;
+            2)
+                echo "正在构建Release版本..."
+                cd build/jsb-link/frameworks/runtime-src/proj.android-studio && ./gradlew assembleRelease
+                if [ $? -eq 0 ]; then
+                    echo "✅ 构建成功!"
+                    echo "📱 APK位置: app/build/outputs/apk/release/"
+                    ls -la app/build/outputs/apk/release/*.apk
+                else
+                    echo "❌ 构建失败!"
+                fi
+                ;;
+            3)
+                echo "正在构建Debug版本..."
+                cd build/jsb-link/frameworks/runtime-src/proj.android-studio && ./gradlew assembleDebug
+                if [ $? -eq 0 ]; then
+                    echo "✅ 构建成功!"
+                    echo "📱 APK位置: app/build/outputs/apk/debug/"
+                    ls -la app/build/outputs/apk/debug/*.apk
+                else
+                    echo "❌ 构建失败!"
+                fi
+                ;;
+            4)
+                echo "返回主菜单"
+                ;;
+            *)
+                echo "❌ 无效选择"
+                ;;
+        esac
+        ;;
+    6)
+        echo ""
         echo "=== 使用说明 ==="
         cd signTool && cat README.md
         ;;
-    6)
+    7)
         echo "退出"
         exit 0
         ;;
