@@ -209,7 +209,7 @@
       "ctor": "Float64Array",
       "array": [
         -5.528,
-        268.537,
+        257.058,
         0,
         0,
         0,
@@ -312,8 +312,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 60,
-      "height": 61
+      "width": 81,
+      "height": 83
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -325,7 +325,7 @@
       "ctor": "Float64Array",
       "array": [
         490.945,
-        261.149,
+        260.6700000000001,
         0,
         0,
         0,
@@ -493,7 +493,7 @@
     "_left": 0,
     "_right": 0,
     "_top": 0,
-    "_bottom": 530.649,
+    "_bottom": 519.1700000000001,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -569,8 +569,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -563.747,
-        234.33,
+        -558.646,
+        201.167,
         0,
         0,
         0,
@@ -3471,7 +3471,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -3514,7 +3514,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 52,
+      "width": 48,
       "height": 35.28
     },
     "_anchorPoint": {
@@ -3568,7 +3568,7 @@
     "_dstBlendFactor": 771,
     "_string": "提取",
     "_N$string": "提取",
-    "_fontSize": 26,
+    "_fontSize": 24,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
@@ -3779,7 +3779,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -3822,7 +3822,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 104,
+      "width": 96,
       "height": 35.28
     },
     "_anchorPoint": {
@@ -3876,7 +3876,7 @@
     "_dstBlendFactor": 771,
     "_string": "全部提取",
     "_N$string": "全部提取",
-    "_fontSize": 26,
+    "_fontSize": 24,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
@@ -4087,7 +4087,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -4130,7 +4130,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 52,
+      "width": 48,
       "height": 35.28
     },
     "_anchorPoint": {
@@ -4184,7 +4184,7 @@
     "_dstBlendFactor": 771,
     "_string": "存储",
     "_N$string": "存储",
-    "_fontSize": 26,
+    "_fontSize": 24,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
@@ -4395,7 +4395,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -4438,7 +4438,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 104,
+      "width": 96,
       "height": 35.28
     },
     "_anchorPoint": {
@@ -4492,7 +4492,7 @@
     "_dstBlendFactor": 771,
     "_string": "全部存储",
     "_N$string": "全部存储",
-    "_fontSize": 26,
+    "_fontSize": 24,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
@@ -5441,9 +5441,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 248,
+      "g": 108,
+      "b": 49,
       "a": 255
     },
     "_contentSize": {
@@ -5973,7 +5973,7 @@
     "node": {
       "__id__": 122
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"

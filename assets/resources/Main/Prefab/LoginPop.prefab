@@ -334,8 +334,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 161,
-      "height": 69
+      "width": 167,
+      "height": 80
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -705,9 +705,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 14,
-      "g": 100,
-      "b": 168,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -881,7 +881,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b37efd54-ae93-4db2-9ec0-4801da019cda"
+      "__uuid__": "b8f0ee3d-95ef-4907-8505-408fdefa4874"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -1037,9 +1037,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_contentSize": {
@@ -1228,9 +1228,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 14,
-      "g": 100,
-      "b": 168,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -1475,7 +1475,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b37efd54-ae93-4db2-9ec0-4801da019cda"
+      "__uuid__": "b8f0ee3d-95ef-4907-8505-408fdefa4874"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -1552,9 +1552,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_contentSize": {
@@ -1692,9 +1692,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_contentSize": {
@@ -1964,7 +1964,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        2.551,
         0,
         0,
         0,
@@ -2316,8 +2316,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 60,
-      "height": 61
+      "width": 81,
+      "height": 83
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

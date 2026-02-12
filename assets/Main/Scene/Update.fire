@@ -354,8 +354,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 400,
-      "height": 210
+      "width": 693,
+      "height": 217
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -367,7 +367,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        150,
+        146.391,
         0,
         0,
         0,
@@ -1081,7 +1081,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1334,
-      "height": 108
+      "height": 77
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1093,7 +1093,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -316,
+        -332,
         0,
         0,
         0,
@@ -1163,7 +1163,7 @@
     "_left": 0,
     "_right": 0,
     "_top": 0,
-    "_bottom": 0,
+    "_bottom": -0.5,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -1201,8 +1201,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 665.3,
-      "height": 29.4
+      "width": 879,
+      "height": 29
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1213,8 +1213,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -1.1,
-        -329.185,
+        0,
+        -341,
         0,
         0,
         0,
@@ -1295,8 +1295,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 659,
-      "height": 25.3
+      "width": 871,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1307,8 +1307,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -0.7,
-        -328.185,
+        0,
+        -340,
         0,
         0,
         0,
@@ -1389,8 +1389,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 44.1
+      "width": 49.03,
+      "height": 32.76
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1402,7 +1402,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -294.354,
+        -309.992,
         0,
         0,
         0,
@@ -1443,8 +1443,8 @@
     "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 28,
-    "_lineHeight": 35,
+    "_fontSize": 24,
+    "_lineHeight": 26,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "990a9d23-5373-49e8-967d-2e4685f95dd9"

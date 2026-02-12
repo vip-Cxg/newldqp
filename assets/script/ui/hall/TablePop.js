@@ -419,8 +419,8 @@ export default class TablePop extends cc.Component {
             })
             this.tableContent.getComponent(CompList).data = this.tableData;
 
-            if(GameConfig.IsQuickStart){
-                GameConfig.IsQuickStart=false;
+            if (GameConfig.IsQuickStart) {
+                GameConfig.IsQuickStart = false;
                 this.newMatchEnter();
             }
 
@@ -431,8 +431,8 @@ export default class TablePop extends cc.Component {
 
     }
 
-    newMatchEnter(){
-        let questData = { isAgain:true,roomID: [], gameType:'LDZP', tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
+    newMatchEnter() {
+        let questData = { isAgain: true, roomID: [], gameType: 'LDZP', tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
         // let questData = { isAgain:true,roomID: this.currentRoomData.roomID, gameType: this.currentRoomData.gameType, tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
         Connector.request(GameConfig.ServerEventName.JoinClubGame, questData, (data) => {
             GameUtils.saveValue(GameConfig.StorageKey.LastRoomData, this.currentRoomData);
@@ -506,7 +506,7 @@ export default class TablePop extends cc.Component {
             if (!GameUtils.isNullOrEmpty(data.club)) {
                 App.Club.IsLeague = data.club?.club?.isLeague == 1;
                 App.Club.ClubNotice = data.club?.club?.notice;
-                App.Club.ClubBank = data.club.bank||0;
+                App.Club.ClubBank = data.club.bank || 0;
                 App.Club.ClubScore = data.club.score;
                 App.Club.ClubReward = data.club.reward;
                 App.Club.ShuffleLevel = data.club.shuffleLevel;
@@ -555,7 +555,7 @@ export default class TablePop extends cc.Component {
         Cache.playSfx();
         GameUtils.pop(GameConfig.pop.BlackListPop)
     }
-    openChangeID(){
+    openChangeID() {
         Cache.playSfx();
         GameUtils.pop(GameConfig.pop.ChangeIDPop)
     }
@@ -679,6 +679,26 @@ export default class TablePop extends cc.Component {
         })
     }
 
+    showGameContent() {
+        if (this.gameContent.active) {
+            let ap = cc.sequence(
+                cc.fadeOut(0.3), cc.callFunc(() => {
+                    this.gameContent.active = false;
+                })
+            )
+            this.gameContent.runAction(ap)
+        } else {
+            this.gameContent.active = true;
+            let bp = cc.sequence(
+                cc.callFunc(() => {
+                    this.gameContent.active = true;
+                }),
+                cc.fadeIn(0.3)
+            )
+            this.gameContent.runAction(  cc.fadeIn(0.3))
+
+        }
+    }
     /**关闭弹窗 */
     onClickClose() {
         Cache.playSfx();

@@ -155,7 +155,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -184,7 +184,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "123123123",
     "_N$string": "123123123",
     "_fontSize": 14,
@@ -349,7 +350,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -378,7 +379,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 14,
@@ -569,7 +571,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "123123",
     "_N$string": "123123",
     "_fontSize": 14,
@@ -678,7 +681,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 14,
@@ -787,7 +791,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "啊啊啊啊啊啊啊啊啊啊阿萨德打算大时代大大的",
     "_N$string": "啊啊啊啊啊啊啊啊啊啊阿萨德打算大时代大大的",
     "_fontSize": 18,
@@ -870,7 +875,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -899,7 +904,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "20220314/XHZD_734137_PJBQG8FT_1_1",
     "_N$string": "20220314/XHZD_734137_PJBQG8FT_1_1",
     "_fontSize": 16,
@@ -1090,7 +1096,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "0",
     "_N$string": "0",
     "_fontSize": 18,
@@ -1177,7 +1184,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1270,7 +1277,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "已处理",
     "_N$string": "已处理",
     "_fontSize": 16,
@@ -1320,7 +1328,7 @@
     "_spriteFrame": {
       "__uuid__": "9e0d341c-a1af-49f2-b5b3-f0841f7de565"
     },
-    "_type": 1,
+    "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
@@ -1498,7 +1506,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1591,7 +1599,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "恶意举报",
     "_N$string": "恶意举报",
     "_fontSize": 16,
@@ -1641,7 +1650,7 @@
     "_spriteFrame": {
       "__uuid__": "ddc6597a-05b3-43d5-a871-d311e76d0b6f"
     },
-    "_type": 1,
+    "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
@@ -1841,7 +1850,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "35bppXLsVLXr81LSCjbwJf",
+    "fileId": "",
     "sync": false
   }
 ]

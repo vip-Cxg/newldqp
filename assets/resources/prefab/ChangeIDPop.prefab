@@ -197,7 +197,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        180.312,
+        168.833,
         0,
         0,
         0,
@@ -234,7 +234,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "更换玩家ID",
     "_N$string": "更换玩家ID",
     "_fontSize": 35,
@@ -261,7 +262,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "4bTc5VshxIhKN/y559Kksb",
     "sync": false
@@ -388,8 +389,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 185,
-      "height": 75
+      "width": 166,
+      "height": 80
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -401,7 +402,7 @@
       "ctor": "Float64Array",
       "array": [
         147,
-        -104.84899999999999,
+        -102.34899999999999,
         0,
         0,
         0,
@@ -409,7 +410,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -502,7 +503,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "取消",
     "_N$string": "取消",
     "_fontSize": 30,
@@ -529,7 +531,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "2cJYVf2uBDtJQP/F8dbkjA",
     "sync": false
@@ -697,7 +699,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "f799lhC8hA1INwBcx+amvD",
     "sync": false
@@ -739,8 +741,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 185,
-      "height": 76
+      "width": 167,
+      "height": 80
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -752,7 +754,7 @@
       "ctor": "Float64Array",
       "array": [
         -143,
-        -104.84899999999999,
+        -102.84899999999999,
         0,
         0,
         0,
@@ -760,7 +762,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -853,7 +855,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "确认",
     "_N$string": "确认",
     "_fontSize": 30,
@@ -880,7 +883,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "f3C4/jFSlNNI04CS0TGv90",
     "sync": false
@@ -1048,7 +1051,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "67gYhYqB5KN741ptYR0YeA",
     "sync": false
@@ -1130,7 +1133,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "请输入当前的ID:",
     "_N$string": "请输入当前的ID:",
     "_fontSize": 26,
@@ -1157,7 +1161,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "9fyfbAo2FH86UzhMQH3o+p",
     "sync": false
@@ -1349,7 +1353,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "91XWzfu2dAZb8dSafDC6Zm",
     "sync": false
@@ -1431,7 +1435,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 22,
@@ -1458,7 +1463,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "f1iXoc8JlBba8rkdRzrCwm",
     "sync": false
@@ -1650,7 +1655,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "d7Boob3wlK9btNgDcQaDLm",
     "sync": false
@@ -1732,7 +1737,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 22,
@@ -1759,7 +1765,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "f7fgYJXsFAYKpBuB1XOpXg",
     "sync": false
@@ -1841,7 +1847,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "请输入更换的ID:",
     "_N$string": "请输入更换的ID:",
     "_fontSize": 26,
@@ -1868,7 +1875,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "c84oJkVEZBWbKJFs6W05Oz",
     "sync": false
@@ -1879,7 +1886,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "74VjX+CrJAqLIUZoMhABcW",
     "sync": false
@@ -1922,7 +1929,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
     "fileId": "3atTt47kxFHaEODDhTVUaW",
     "sync": false
@@ -2024,9 +2031,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1fc9d26-ba32-464a-a2df-f28d85388516"
+      "__id__": 0
     },
-    "fileId": "01xZUI1VdFj4vbDDt+RBfB",
+    "fileId": "",
     "sync": false
   }
 ]

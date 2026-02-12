@@ -355,8 +355,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 60,
-      "height": 61
+      "width": 81,
+      "height": 83
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -367,7 +367,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        451.4200000000001,
+        461.9200000000001,
         267.563,
         0,
         0,
@@ -652,7 +652,7 @@
         "__id__": 17
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": {
       "__id__": 86
@@ -890,9 +890,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -1000,9 +1000,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -1110,9 +1110,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -2127,9 +2127,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -2237,9 +2237,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -2347,9 +2347,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -3256,7 +3256,7 @@
     "node": {
       "__id__": 17
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -3315,7 +3315,7 @@
         "__id__": 88
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 220
@@ -4551,9 +4551,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -5240,9 +5240,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -5350,9 +5350,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -5471,9 +5471,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -5581,9 +5581,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -6493,9 +6493,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -6603,9 +6603,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 118,
+      "g": 42,
+      "b": 19,
       "a": 255
     },
     "_contentSize": {
@@ -8414,7 +8414,7 @@
     "node": {
       "__id__": 88
     },
-    "_enabled": true,
+    "_enabled": false,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -10438,9 +10438,9 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 50,
-      "g": 145,
-      "b": 5,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_width": 2,

@@ -135,7 +135,7 @@
         1,
         0.6,
         0.6,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -253,7 +253,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4ec2f4a1-6ab3-47c7-a4f8-5b9b1641ba61"
+      "__id__": 0
     },
     "fileId": "7egqu7BQJEHqnuyIMPj1cD",
     "sync": false
@@ -296,7 +296,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4ec2f4a1-6ab3-47c7-a4f8-5b9b1641ba61"
+      "__id__": 0
     },
     "fileId": "e1E1JXcmtJtJD1w9WRiFze",
     "sync": false
@@ -403,7 +403,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4ec2f4a1-6ab3-47c7-a4f8-5b9b1641ba61"
+      "__id__": 0
     },
     "fileId": "21CRfC+bNLAYYeUVGt2kqs",
     "sync": false
@@ -428,9 +428,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 64,
-      "g": 130,
-      "b": 192,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_contentSize": {
@@ -485,7 +485,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "双人放炮罚",
     "_N$string": "双人放炮罚",
     "_fontSize": 22,
@@ -512,7 +513,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4ec2f4a1-6ab3-47c7-a4f8-5b9b1641ba61"
+      "__id__": 0
     },
     "fileId": "1fwog4EDxHq5fJXRGMILjp",
     "sync": false
@@ -599,9 +600,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4ec2f4a1-6ab3-47c7-a4f8-5b9b1641ba61"
+      "__id__": 0
     },
-    "fileId": "b5QNil5fJI0bR5N1AtWvZe",
+    "fileId": "",
     "sync": false
   }
 ]

@@ -212,7 +212,7 @@
         1,
         0.6,
         0.6,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -505,9 +505,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 64,
-      "g": 130,
-      "b": 192,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_contentSize": {
@@ -562,7 +562,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "2人场",
     "_N$string": "2人场",
     "_fontSize": 22,
@@ -807,7 +808,7 @@
         1,
         0.6,
         0.6,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1100,9 +1101,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 64,
-      "g": 130,
-      "b": 192,
+      "r": 213,
+      "g": 85,
+      "b": 13,
       "a": 255
     },
     "_contentSize": {
@@ -1157,7 +1158,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "4人场",
     "_N$string": "4人场",
     "_fontSize": 22,
@@ -1344,7 +1346,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "3eNzdS5lxMV7j/5ZmyA8P4",
+    "fileId": "",
     "sync": false
   }
 ]

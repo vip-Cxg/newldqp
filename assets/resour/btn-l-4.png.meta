@@ -8,8 +8,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
-  "width": 161,
-  "height": 69,
+  "width": 167,
+  "height": 80,
   "platformSettings": {},
   "subMetas": {
     "btn-l-4": {
@@ -24,14 +24,14 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 161,
-      "height": 69,
-      "rawWidth": 161,
-      "rawHeight": 69,
-      "borderTop": 0,
-      "borderBottom": 0,
-      "borderLeft": 0,
-      "borderRight": 0,
+      "width": 167,
+      "height": 80,
+      "rawWidth": 167,
+      "rawHeight": 80,
+      "borderTop": 27,
+      "borderBottom": 35,
+      "borderLeft": 46,
+      "borderRight": 53,
       "subMetas": {}
     }
   }
