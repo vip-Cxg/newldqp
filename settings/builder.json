@@ -23,11 +23,11 @@
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
-    "packageName": "com.ldplay.game",
+    "packageName": "com.fuyun.player",
     "REMOTE_SERVER_ROOT": ""
   },
   "ios": {
-    "packageName": "com.xhld.game",
+    "packageName": "com.ldplay.game",
     "REMOTE_SERVER_ROOT": "",
     "ios_enable_jit": true
   },
