@@ -1,5 +1,5 @@
 // let Calc = require('../../Game19/Hulib/calc19');//require("../Hulib/calc19");
-const { Calc } = require('../Hulib/calc16');
+const { Calc, initTable } = require('../Hulib/calc16');
 
 const config = require('../../Game16/Script/MJGameConfig');
 const CN_PERSON = ["", "一", "二", "三"];
@@ -96,6 +96,10 @@ cc.Class({
     onLoad() {
         // let indexBg = utils.getValue(GameConfig.StorageKey.tableBgIndex, 0)
         // this.bgNode.spriteFrame = GameConfig.tableBgSprite[indexBg];
+        // 先加载胡牌表
+            console.log('胡牌表开始加载');
+
+
         //初始化父类 true  播放海南麻将背景
         this.initGameBase(true);
         this.addEvents();
@@ -124,7 +128,16 @@ cc.Class({
         //cc.log(this.lblTime);
         //回复服务器表示客户端初始化完毕 
         //TODO 只有JOINDONE
+        
+        initTable().then(() => {
+            console.log('胡牌表加载完成');
         connector.emit(PACK.CS_JOIN_DONE, {});
+
+        }).catch(err => {
+            console.error('胡牌表加载失败', err);
+        connector.emit(PACK.CS_JOIN_DONE, {});
+
+        });
         // }
         //TODO
         // connector.LogsClient(GameConfig.LogsEvents.SOCKET_LINK, { action: GameConfig.LogsActions.ENTER_SCENE, gamtype: "HZMJ_SOLO" });
@@ -565,7 +578,6 @@ cc.Class({
         // });
         out.forEach(card => alOut[card]++);
         //cc.log(alOut);
-        // console.log("听牌--alOut--", alOut); 
 
         for (let i = 0; i < hands.length; i++) {
             let play = hands.slice();
@@ -576,6 +588,8 @@ cc.Class({
                 // if (alOut[k] < 4) {
                 let newHands = play.slice();
                 newHands.push(k);
+                console.log("检查--alOut--", newHands);
+
                 if (Calc.checkHu(newHands.slice())) {
                     this.hands._hands[i].ting = true;
                 }
@@ -610,6 +624,7 @@ cc.Class({
                 hasFlower = node._card > 40;//花牌不检测胡牌
             }
         });
+        console.log('检查听牌-1--', moveCard, hands)
 
         if (hasFlower)
             return;
@@ -1337,10 +1352,24 @@ cc.Class({
                 // this.showCard(data.currentCard);
             }
 
+            //           let a=  [
+            //     0,
+            //     1,
+            //     3,
+            //     7,
+            //     7,
+            //     7,
+            //     8,
+            //     8,
+            //     22,
+            //     23,
+            //     24,
+            //     28,
+            //     29
+            // ]
+            // this.checkOutCard();
 
-            this.checkOutCard();
-
-            // this.checkHu();
+            this.checkHu();
             if (data.quest) {
                 data.quest.clock = data.clock
                 this.quest(data.quest);

@@ -78,7 +78,7 @@ cc.Class({
         // });
         App.Club.clear(); 
         // App.PushManager.disconnect();
-        // this.createTestAccount();
+        this.createTestAccount();
 
     },
     compareVersion(versionA, versionB) {
@@ -199,7 +199,7 @@ cc.Class({
             // new cc.Node().active
             btnNode.active = true;
             btnNode.getChildByName('name').getComponent(cc.Label).string = '玩家' + i;
-            btnNode._data ='fb78b4e1-311b-4a75-94dd-57a10957eede'//'test' + i;
+            btnNode._data ='test' + i;//'fb78b4e1-311b-4a75-94dd-57a10957eede'//
             btnNode.on(cc.Node.EventType.TOUCH_END, this.ontestLogin, this);
             this.testContent.addChild(btnNode);
         }

@@ -50,6 +50,8 @@ class Calc {
      * @param {*} ground
      */
     static checkHu(hands, lai = 0) {
+                console.log('检查听牌-2',hands,lai)
+
         if (hands.length == 14) {
             let zhong = 0, dan = 0;
             let tempHands = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -60,6 +62,8 @@ class Calc {
                 else if (cnt % 2 != 0)
                     dan++;
             });
+        // console.log('zhong',tempHands,zhong,dan)
+
             if (dan == 0 || dan == zhong)
                 return true;
         }
@@ -82,6 +86,7 @@ class Calc {
         // if (wild >= 4) {
         //     return true;
         // }
+        console.log('检查结果---',Calc.find(allCards, wild, 0, false))
         return Calc.find(allCards, wild, 0, false);
     }
 

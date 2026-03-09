@@ -60,6 +60,7 @@ cc.Class({
 
     },
     changeUI(e) {
+        if(this.chooseNode)
         this.chooseNode.active = e.data == this.gameType;
     },
     onDestroy() {

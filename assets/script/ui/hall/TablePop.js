@@ -139,6 +139,7 @@ export default class TablePop extends cc.Component {
         this.currentRoomData = new Object();
 
         this.connecting = true;
+        // console.log('11111',)
         Connector.request(GameConfig.ServerEventName.ClubInfo, { clubID: App.Club.CurrentClubID }, (data) => {
 
             this.connecting = true;
