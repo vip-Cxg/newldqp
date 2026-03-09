@@ -1,5 +1,5 @@
 // let Calc = require('../../Game19/Hulib/calc19');//require("../Hulib/calc19");
-const { Calc } = require('../Hulib/calc16');
+const { Calc ,initTable} = require('../Hulib/calc16');
 
 const config = require('../../Game16/Script/MJGameConfig');
 const CN_PERSON = ["", "一", "二", "三"];
@@ -124,7 +124,13 @@ cc.Class({
         //cc.log(this.lblTime);
         //回复服务器表示客户端初始化完毕 
         //TODO 只有JOINDONE
+            initTable().then(() => {
+            console.log('胡牌表加载完成');
         connector.emit(PACK.CS_JOIN_DONE, {});
+        }).catch(err => {
+            console.error('胡牌表加载失败', err);
+        connector.emit(PACK.CS_JOIN_DONE, {});
+        });
         // }
         //TODO
         // connector.LogsClient(GameConfig.LogsEvents.SOCKET_LINK, { action: GameConfig.LogsActions.ENTER_SCENE, gamtype: "HZMJ_SOLO" });
@@ -1338,9 +1344,9 @@ cc.Class({
             }
 
 
-            this.checkOutCard();
+            // this.checkOutCard();
 
-            // this.checkHu();
+            this.checkHu();
             if (data.quest) {
                 data.quest.clock = data.clock
                 this.quest(data.quest);
