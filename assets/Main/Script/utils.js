@@ -767,7 +767,7 @@ var XMLRequestOSS = (url, callback) => {
 
                 ],
                 "update": [
-                  "https://pku.qzhagy.com/update/"
+                  "https://pku.qzhagy.com/xcupdate/"
                 ]
             }
             console.log("asdasdasdad")

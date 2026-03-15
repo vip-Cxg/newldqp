@@ -1,8 +1,9 @@
 {
   "servers": [
-    "http://43.139.144.179/"
+    "http://49.235.72.219/"
   ],
   "update": [
-    "http://pku.qzhagy.com/newupdate/"
+    "https://ptktre-1396272921.cos.ap-guangzhou.myqcloud.com/xcupdate/",
+    "http://pku.qzhagy.com/xcupdate"
   ]
 }
