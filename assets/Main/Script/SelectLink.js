@@ -31,13 +31,13 @@ export class SelectLink {
 
     /**加载本地配置 */
     loadLocalConfig() {
-        if (cc.sys.isBrowser) {
-            //链接本地
-            this.changeLocalUrl('http://192.168.31.143:8000/');
-            // this.changeLocalUrl('http://43.139.144.179/');
-            // this.changeLocalUrl('http://159.75.97.241/');
-            return;
-        }
+        // if (cc.sys.isBrowser) {
+        //     //链接本地
+        //     this.changeLocalUrl('http://192.168.31.143:8000/');
+        //     // this.changeLocalUrl('http://43.139.144.179/');
+        //     // this.changeLocalUrl('http://159.75.97.241/');
+        //     return;
+        // }
 
 
         // console.log("开始选择最佳线路")
@@ -90,10 +90,14 @@ export class SelectLink {
             Cache.alertTip("无法连接服务器,请联系管理员")
             return;
         }
+        // let linkJSON = [
+        //     "https://htkpty-1327324568.cos.ap-guangzhou.myqcloud.com/xhconfig/release_first.json",
+        //     "https://pku.qzhagy.com/xhconfig/release_first.json",
+        //     'https://pku.nxhzgq.com/xhconfig/release_first.json'
+        // ];
         let linkJSON = [
-            "https://htkpty-1327324568.cos.ap-guangzhou.myqcloud.com/xhconfig/release_first.json",
-            "https://pku.qzhagy.com/xhconfig/release_first.json",
-            'https://pku.nxhzgq.com/xhconfig/release_first.json'
+            "https://ptktre-1396272921.cos.ap-guangzhou.myqcloud.com/xcconfig/release_first.json",
+            "http://pku.qzhagy.com/xcconfig/release_first.json"
         ];
         this.selectCount++;
         utils.NewXMLRequestOSS(linkJSON[index], (res) => {
