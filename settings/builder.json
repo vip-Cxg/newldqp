@@ -23,7 +23,7 @@
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
-    "packageName": "com.fuyun.player",
+    "packageName": "com.xicai.game",
     "REMOTE_SERVER_ROOT": ""
   },
   "ios": {
