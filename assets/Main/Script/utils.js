@@ -756,14 +756,6 @@ var XMLRequestOSS = (url, callback) => {
                 "servers": [
                   "http://119.23.220.94/",
                   "http://119.23.70.124/",
-                  "http://119.23.208.85/",
-                  "http://112.74.61.86/",
-                  "http://120.77.175.130/",
-                  "http://119.23.57.214/",
-                  "http://119.23.60.138/",
-                  "http://120.77.202.81/",
-                  "http://119.23.220.22/",
-                  "http://120.77.213.170/"
 
                 ],
                 "update": [
@@ -779,6 +771,7 @@ var XMLRequestOSS = (url, callback) => {
 /**xml请求OSS */
 var NewXMLRequestOSS = (url, callback) => {
     testConnect(url, (err, res) => {
+        console.log("NewXMLRequestOSS", url, err, res)
         if (!err)
             callback(res);
         else{
@@ -790,6 +783,7 @@ var NewXMLRequestOSS = (url, callback) => {
 
 var testConnect = (url, callback) => {
     try {
+        console.log("testConnect", url)
         let xhr = cc.loader.getXMLHttpRequest();
         xhr.open("GET", url, true);
         xhr.setRequestHeader("cache-control", "no-cache");
@@ -803,12 +797,16 @@ var testConnect = (url, callback) => {
                 try {
                     console.log("测速: " + url, xhr.responseText)
                     let jsonStr = xhr.responseText;
+                    console.log("jsonStr", jsonStr)
+
                     let jsonData = JSON.parse(jsonStr);
+                    console.log("jsonData", jsonData)   
                     if (jsonData.servers && jsonData.servers.length > 0 && jsonData.update && jsonData.update.length > 0) {
                         callback(null, jsonData);
                         return;
                     }
                 } catch (ex) {
+                    console.log("ex", ex.message)
                     callback('500');
                     return;
                 }

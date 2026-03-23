@@ -19,6 +19,7 @@ export class SelectLink {
     _apiCallback = null;
     _hotCallback = null;
     _startTime = 0;
+    _selectRound = 0;
     constructor(apiCallback = null, hotCallback = null) {
         this._apiUrl = null;
         this._apiSelected = false;
@@ -80,13 +81,27 @@ export class SelectLink {
                 hideTime = 0;
             }
         });
-        this.selectLinkJSON(0);
+
+        // 先尝试使用本地上次保存的线路配置；若探测失败，再拉取新的 release_first.json
+        let serverData = utils.getValue(GameConfig.StorageKey.ServerUrlObj, {});
+        console.log("serverData", serverData)
+        if (!utils.isNullOrEmpty(serverData) && serverData.servers && serverData.servers.length > 0) {
+        console.log("serverData1", serverData)
+
+            this.selectQuickestUrl(serverData, () => {
+                this.selectLinkJSON(0);
+            });
+        } else {
+        console.log("serverData2", serverData)
+
+            this.selectLinkJSON(0);
+        }
 
 
     }
     selectCount = 0;
     selectLinkJSON(index) {
-        if (this.selectCount > 3) {
+        if (this.selectCount > 2) {
             Cache.alertTip("无法连接服务器,请联系管理员")
             return;
         }
@@ -95,20 +110,32 @@ export class SelectLink {
         //     "https://pku.qzhagy.com/xhconfig/release_first.json",
         //     'https://pku.nxhzgq.com/xhconfig/release_first.json'
         // ];
+        // {
+        //     "servers": [
+        //         "http://206.119.85.11:9000/",
+        //     ],
+        //     "update": [
+        //         "https://ptktre-1396272921.cos.ap-guangzhou.myqcloud.com/xcupdate/"
+        //     ]
+        // }
+      
         let linkJSON = [
             "https://ptktre-1396272921.cos.ap-guangzhou.myqcloud.com/xcconfig/release_first.json",
             "http://pku.qzhagy.com/xcconfig/release_first.json"
         ];
         this.selectCount++;
         utils.NewXMLRequestOSS(linkJSON[index], (res) => {
+            console.log("res",linkJSON[index], res) 
             if (res == 'err') {
                 this.selectLinkJSON(this.selectCount);
                 // Cache.alertTip("第" + index + '个访问不通,开始访问第' + this.selectCount + "个");
+                console.log("11111111")
 
             } else {
                 utils.saveValue(GameConfig.StorageKey.LinkJson, linkJSON[index]);
                 // Cache.alertTip("获取json成功" + linkJSON[index]);
                 this.selectQuickestUrl(res);
+                console.log("22222")
 
             }
 
@@ -117,19 +144,41 @@ export class SelectLink {
 
     serverFailed = null;
     /**选择最快链路 */
-    selectQuickestUrl(data) {
+    selectQuickestUrl(data, onTimeoutFail = null) {
         this._apiSelected = false;
         if (this.serverFailed)
             clearTimeout(this.serverFailed);
         this._startTime = GameUtils.getTimeStamp();
+        const round = ++this._selectRound;
         this.serverFailed = setTimeout(() => {
+            // 如果已经开始下一轮选择，忽略旧回调
+            if (round !== this._selectRound) return;
+            // 若已经成功设置了线路，则无需兜底
+            if (this._apiSelected) return;
             //请求失败 调用备用域名  
             Cache.alertTip("网络较卡,正在选择新线路")
-            this.loadDefaultUrl()
-        }, 20 * 1000);
-        data.servers.forEach(url => {
-            utils.XMLRequest(url, data, this.changeLocalUrl.bind(this));
+            if (typeof onTimeoutFail === 'function') {
+                onTimeoutFail();
+            } else {
+                this.loadDefaultUrl();
+            }
+        }, 5 * 1000);
+        // 如果本地配置缺失，直接走失败兜底
+        if (!data || !data.servers || data.servers.length === 0) {
+            if (typeof onTimeoutFail === 'function') {
+                onTimeoutFail();
+            } else {
+                this.loadDefaultUrl();
+            }
+            return;
+        }
 
+        data.servers.forEach(url => {
+            utils.XMLRequest(url, data, (u, serverData) => {
+                // 忽略旧轮次的探测结果，避免晚返回覆盖新选择
+                if (round !== this._selectRound) return;
+                this.changeLocalUrl(u, serverData);
+            });
         })
     }
     /**无法获取新的 下载默认配置域名 */
@@ -157,6 +206,8 @@ export class SelectLink {
         clearTimeout(this.serverFailed);
         Connector.logicUrl = url;//wx00e14f422f1929e90000wxcb45c285efd3f864
         Http.API_URL = url;
+        // Connector.logicUrl ='http://206.119.85.11:9000/'// url;//wx00e14f422f1929e90000wxcb45c285efd3f864
+        // Http.API_URL = 'http://206.119.85.11:9000/'//url;
 
         let durTime = ((GameUtils.getTimeStamp() - this._startTime) / 1000).toFixed(2);
         GameUtils.LogsClient(GameConfig.LogsEvents.SELECT_LINK, { action: GameConfig.LogsActions.SELECT_LINK_TIME, url: url, times: durTime })

@@ -165,6 +165,17 @@ cc.Class({
         let url = cc.url.raw(`resources/Audio/Common/HallMusi.mp3`);
         audioCtrl.getInstance().playBGM(url);
     },
+
+    applyEntryRouteConfig(routeConfig) {
+        if (utils.isNullOrEmpty(routeConfig)) return;
+        utils.saveValue(GameConfig.StorageKey.ServerUrlObj, routeConfig);
+        if (utils.isNullOrEmpty(routeConfig.servers) || !Array.isArray(routeConfig.servers) || routeConfig.servers.length === 0) return;
+
+        let routeUrl = routeConfig.servers.find(url => !utils.isNullOrEmpty(url));
+        if (utils.isNullOrEmpty(routeUrl)) return;
+
+        Connector.logicUrl = routeUrl;
+    },
     /**更新玩家数据 */
     refreshPlayerData() {
         Connector.request(GameConfig.ServerEventName.GetPlayerInfo, {}, (data) => {
@@ -178,6 +189,13 @@ cc.Class({
             if (!utils.isNullOrEmpty(data.xhzdConfig)) {
                 GameConfig.xhzdConfig = data.xhzdConfig;
             }
+
+            if (!utils.isNullOrEmpty(data.entryRouteConfig)) {
+                this.applyEntryRouteConfig(data.entryRouteConfig);
+            }
+            // else{
+            //  utils.saveValue(GameConfig.StorageKey.ServerUrlObj, {});
+            // }
 
             GameConfig.RewardConfig = utils.isNullOrEmpty(data.rewardConfig) ? [] : data.rewardConfig;
             // //TODO 
@@ -478,6 +496,9 @@ cc.Class({
       
             if (!utils.isNullOrEmpty(data.xhzdConfig)) {
                 GameConfig.xhzdConfig = data.xhzdConfig;
+            }
+            if (!utils.isNullOrEmpty(data.entryRouteConfig)) {
+                this.applyEntryRouteConfig(data.entryRouteConfig);
             }
 
   

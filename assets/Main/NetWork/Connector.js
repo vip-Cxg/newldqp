@@ -142,17 +142,7 @@ module.exports = {
                         cache.showTipsMsg('当前网络较差,重新选择链路', () => {
                             cc.director.loadScene('Update');//Update
                         });
-                        // let resData = JSON.parse(xhr.responseText)
-                        // if (failCallback) {
-                        //     failCallback(resData)
-                        // } else {
-                        //     cache.showTipsMsg(resData.message, () => {
-                        //         if (resData.restart) {
-                        //             AudioCtrl.getInstance().stopAll();
-                        //             cc.game.restart();
-                        //         }
-                        //     });
-                        // }
+                        
                     } catch (error) {
 
                     }
@@ -165,15 +155,7 @@ module.exports = {
                 cache.showTipsMsg('当前网络较差,重新选择链路', () => {
                     cc.director.loadScene('Update');//Update
                 });
-                // if (failCallback) {
-                //     failCallback({ message: "网络连接失败", type: GameConfig.ErrorType.Questerror })
-                // } else {
-                //     cache.showTipsMsg('网络连接失败', () => {
-                //         if (cc.director.getScene().name == db.getTableScene()) {
-                //             cc.director.loadScene('Update');
-                //         }
-                //     });
-                // }
+             
             };
             xhr.ontimeout = () => {
                 console.log('request ontimeout' + method);
@@ -181,15 +163,7 @@ module.exports = {
                 cache.showTipsMsg('当前网络较差,重新选择链路', () => {
                     cc.director.loadScene('Update');//Update
                 });
-                // if (failCallback) {
-                //     failCallback({ message: "当前网络较差,请稍后再试", type: GameConfig.ErrorType.Timeout })
-                // } else {
-                //     cache.showTipsMsg('当前网络较差,请稍后再试', () => {
-                //         if (cc.director.getScene().name == db.getTableScene()) {
-                //             cc.director.loadScene('Update');//Update
-                //         }
-                //     });
-                // }
+           
             };
             xhr.send(JSON.stringify(data));
         } catch (ex) {
