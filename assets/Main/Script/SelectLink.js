@@ -105,22 +105,8 @@ export class SelectLink {
             Cache.alertTip("无法连接服务器,请联系管理员")
             return;
         }
-        // let linkJSON = [
-        //     "https://htkpty-1327324568.cos.ap-guangzhou.myqcloud.com/xhconfig/release_first.json",
-        //     "https://pku.qzhagy.com/xhconfig/release_first.json",
-        //     'https://pku.nxhzgq.com/xhconfig/release_first.json'
-        // ];
-        // {
-        //     "servers": [
-        //         "http://206.119.85.11:9000/",
-        //     ],
-        //     "update": [
-        //         "https://ptktre-1396272921.cos.ap-guangzhou.myqcloud.com/xcupdate/"
-        //     ]
-        // }
-      
         let linkJSON = [
-            "https://ptktre-1396272921.cos.ap-guangzhou.myqcloud.com/xcconfig/release_first.json",
+            "https://fghtyu-1394606355.cos.ap-shanghai.myqcloud.com/xcconfig/release_first.json",
             "http://pku.qzhagy.com/xcconfig/release_first.json"
         ];
         this.selectCount++;
@@ -162,7 +148,7 @@ export class SelectLink {
             } else {
                 this.loadDefaultUrl();
             }
-        }, 5 * 1000);
+        }, 10 * 1000);
         // 如果本地配置缺失，直接走失败兜底
         if (!data || !data.servers || data.servers.length === 0) {
             if (typeof onTimeoutFail === 'function') {

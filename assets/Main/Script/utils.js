@@ -789,10 +789,10 @@ var testConnect = (url, callback) => {
         xhr.setRequestHeader("cache-control", "no-cache");
         xhr.setRequestHeader("contentType", "text/html;charset=uft-8"); //指定发送的编码
         xhr.onreadystatechange = () => {
-            if (xhr.status == 404||xhr.status == 403) {
-                callback("404");
-                return;
-            }
+            // if (xhr.status == 404||xhr.status == 403) {
+            //     callback("404");
+            //     return;
+            // }
             if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status <= 207)) {
                 try {
                     console.log("测速: " + url, xhr.responseText)
@@ -811,6 +811,9 @@ var testConnect = (url, callback) => {
                     return;
                 }
                 callback('502');
+            }else{
+                callback("404");
+                return;
             }
         };
         xhr.timeout = 5 * 1000;
