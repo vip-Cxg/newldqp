@@ -49,11 +49,15 @@ export default class ClubListItem extends cc.Component {
     }
 
     renderLeague(data) {
+
         this.node.getComponent(cc.Sprite).spriteFrame=this.leagueBg;
+        console.log('daata',data)
+        if(data.owner){
 
         this.avatar.avatarUrl=data.owner.head;
         
         this.lblCuster.string = '会长: ' + data.owner.name;
+        }
         this.lblInvite.string = '邀请码: ' + data.inviter;
         this.lblUserCount.string = '总人数: ' + data.peoples;
         this.lblClubName.string =  data.club.name;

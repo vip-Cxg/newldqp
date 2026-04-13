@@ -35,7 +35,7 @@ const CN_PERSON = ["", "一", "二", "三"];
 
 let customConfig = {
     plus: true,
-    shun: false,
+    shun: true,//false,
     bomb: true,
     clan: true,
     turn: 10
@@ -284,6 +284,7 @@ cc.Class({
         TableInfo.idx = data.idx;
         // TableInfo.config = data.config;
         TableInfo.config = customConfig;
+        TableInfo.config.shun=data.options.rules.poker == 2;
         TableInfo.options = data.options;
         TableInfo.current = data.current;
         this.layerHandCards.getComponent("ModuleCards_09").touchEvent();
