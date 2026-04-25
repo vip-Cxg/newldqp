@@ -105,13 +105,14 @@ export default class RoomListItem extends CompListRenderer {
         var self = this;
 
         if (data.type == 'create') {
-            this.player1.active=false;
-            this.player2.active=false;
-            this.player3.active=false;
-            this.player4.active=false;
+            this.player1.active = false;
+            this.player2.active = false;
+            this.player3.active = false;
+            this.player4.active = false;
             // this.avatar[1].avatarUrl = '';
             // this.avatar[2].avatarUrl = '';
-            this.gameStatus.node.active = false;
+            if (this.gameStatus)
+                this.gameStatus.node.active = false;
             this.tableName.string = GameConfig.GameName[data.gameType] + '开房';// roomData.name ;//+ (roomData.gameType == GameConfig.GameType.PDK_SOLO ? "/10小局起" : "");
             this.node.on(cc.Node.EventType.TOUCH_END, () => {
                 self.openRoomPop(data);
@@ -139,11 +140,14 @@ export default class RoomListItem extends CompListRenderer {
                 break;
         }
 
-        this.statusNode.active = data.players.length != 0;
+        if (this.statusNode)
+            this.statusNode.active = data.players.length != 0;
         // this.create.active = data.players.length == 0;
 
-        this.player3.active = data.person >= 3;
-        this.player4.active = data.person == 4;
+        if (this.player3)
+            this.player3.active = data.person >= 3;
+        if (this.player4)
+            this.player4.active = data.person == 4;
 
         data.players.forEach((e, i) => {
             if (utils.isNullOrEmpty(e)) return;
@@ -165,7 +169,7 @@ export default class RoomListItem extends CompListRenderer {
         //         self.enterGame(data, roomData);
         //     }, this);
         // } else 
-            if (App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager') {
+        if (App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager') {
             this.node.on(cc.Node.EventType.TOUCH_END, () => {
                 //无法进入匹配模式的桌子
                 Cache.showConfirm('是否解散房间 ' + data.tableID, () => {
@@ -183,10 +187,10 @@ export default class RoomListItem extends CompListRenderer {
 
     enterGame(data, roomData) {
         let nowTime = new Date().getTime();
-        if (nowTime - GameConfig.LastSocketTime < 2000){
+        if (nowTime - GameConfig.LastSocketTime < 2000) {
             Cache.alertTip("点击过于频繁");
             return;
-        } 
+        }
         GameConfig.LastSocketTime = nowTime;
         if (GameConfig.IsConnecting) {
             Cache.alertTip("正在进入房间");
