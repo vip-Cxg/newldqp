@@ -169,7 +169,10 @@ module.exports = {
         } catch (ex) {
             console.log("请求出错: ", JSON.stringify(ex));
             cache.hideMask();
-            cache.showTipsMsg(ex.message);
+            let msg=''+ex.message
+            if(msg.indexOf('active')!=-1)
+                msg='网络错误:102'
+            cache.showTipsMsg(msg);
         }
     },
     /**get 请求 */

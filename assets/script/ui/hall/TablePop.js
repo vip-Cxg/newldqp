@@ -230,8 +230,11 @@ export default class TablePop extends cc.Component {
                 //TODO 显示无房间
             }
         }, true, (err) => {
-            Cache.showTipsMsg(err.message || '获取公会信息失败', () => {
-                // this.node.destroy();
+                let msg=err.message;
+                    msg=''+msg;
+                if(msg.indexOf('active')!=-1)
+                    msg='网络错误:103'
+            Cache.showTipsMsg(msg, () => {
             })
         })
         //TODO
