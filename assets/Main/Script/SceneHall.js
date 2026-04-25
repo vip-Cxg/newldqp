@@ -22,7 +22,7 @@ cc.Class({
     extends: require('HallBase'),
 
     properties: {
-        lblVersion:cc.Label,
+        lblVersion: cc.Label,
         sprHead: require('../../script/ui/common/Avatar'),//cc.Sprite,
         lblName: cc.Label,
 
@@ -178,14 +178,15 @@ cc.Class({
     },
     /**更新玩家数据 */
     refreshPlayerData() {
-        Connector.request(GameConfig.ServerEventName.GetPlayerInfo, {}, (data) => {
+        Connector.request(GameConfig.ServerEventName.GetPlayerInfo, {}, 
+            (data) => {
             Cache.hideMask();
             if (data.ts)
                 GameConfig.ServerTimeDiff = data.ts - new Date().getTime();
             if (data.player.hasBind)
                 utils.saveValue(GameConfig.StorageKey.UserAccount, data.player.phone);
             utils.saveValue(GameConfig.StorageKey.UserLoginTime, parseInt(new Date().getTime() / 1000));
-     
+
             if (!utils.isNullOrEmpty(data.xhzdConfig)) {
                 GameConfig.xhzdConfig = data.xhzdConfig;
             }
@@ -196,7 +197,6 @@ cc.Class({
             // else{
             //  utils.saveValue(GameConfig.StorageKey.ServerUrlObj, {});
             // }
-
             GameConfig.RewardConfig = utils.isNullOrEmpty(data.rewardConfig) ? [] : data.rewardConfig;
             // //TODO 
             // data.ad={
@@ -207,7 +207,7 @@ cc.Class({
             //     LDZPSummaryAd:{}
             // }
             this.adminNode.active = data.isSuperUser;
-            data.player['isSuperUser']=data.isSuperUser;
+            data.player['isSuperUser'] = data.isSuperUser;
             //广告数据
             if (!utils.isNullOrEmpty(data.ad)) {
                 GameConfig.AdData = data.ad;
@@ -255,8 +255,8 @@ cc.Class({
 
 
 
-            if(GameConfig.IsQuickStart){
-      GameConfig.IsQuickStart = false;
+            if (GameConfig.IsQuickStart) {
+                GameConfig.IsQuickStart = false;
                 this.newMatchEnter();
 
                 return;
@@ -272,12 +272,12 @@ cc.Class({
                 });
                 return;
             }
-            
+
             if (GameConfig.ShowTablePop && App.Club.CurrentClubID != -1) {
                 GameConfig.ShowTablePop = false;
                 utils.pop(GameConfig.pop.TablePop)
             }
-    
+
         }, true, (data) => {
             App.unlockScene();
             if (!utils.isNullOrEmpty(data.status) && data.status.code == 700) {
@@ -286,9 +286,12 @@ cc.Class({
                 });
                 return;
             }
-
+            let msg=utils.isNullOrEmpty(data.message) ? "长时间未登录，密码失效，请重新登录" : data.message;
+            msg=''+msg;
+            if(msg.indexOf('active')!=-1)
+                msg='网络错误:101'
             //登录失败  跳转登陆界面
-            Cache.showTipsMsg(utils.isNullOrEmpty(data.message) ? "长时间未登录，密码失效，请重新登录" : data.message, () => {
+            Cache.showTipsMsg(msg, () => {
                 cc.director.loadScene("Login");
             });
         });
@@ -307,12 +310,12 @@ cc.Class({
         //积分
         this.lblClubScore.string = "" + DataBase.player.diamond;
 
- 
+
         this.changeClubInfo();
         // App.PushManager.connect();
 
     },
-    
+
     newMatchEnter() {
         // let questData = { isAgain: true, roomID: [], gameType: 'LDZP', tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
         let questData = { isAgain: true, roomID: '', gameType: '', tableID: "", clubID: App.Club.CurrentClubID, isQuick: true };
@@ -337,7 +340,7 @@ cc.Class({
     /**绑定手机 */
     onBindPhone() {
         Cache.playSfx();
-           utils.pop(GameConfig.pop.ChangeDataPop, (pop) => {
+        utils.pop(GameConfig.pop.ChangeDataPop, (pop) => {
             pop.getComponent("ModuleChangePop").refreshUIData("phone");
         })
     },
@@ -384,7 +387,7 @@ cc.Class({
         utils.pop(GameConfig.pop.CreateClubPop);
 
     },
-   
+
     /**打开战绩 */
     onClickHistory() {
 
@@ -456,7 +459,7 @@ cc.Class({
             console.log('App.Club.CurrentClubData: ', App.Club.CurrentClubData)
             this.noClubInfo.active = false;
             this.clubInfo.active = true;
-            this.lblClubName.string = '类型: ' + (App.Club.CurrentClubData.club.isLeague==1 ? '联盟' : '公会');
+            this.lblClubName.string = '类型: ' + (App.Club.CurrentClubData.club.isLeague == 1 ? '联盟' : '公会');
             this.lblClubID.string = '' + App.Club.CurrentClubData.club.name;
             this.lblClubRole.string = 'ID: ' + App.Club.CurrentClubID;
             this.lblClubUserCount.string = '' + GameConfig.ROLE_DESC[App.Club.CurrentClubData.role];
@@ -481,8 +484,8 @@ cc.Class({
         _social.setCopy("" + DataBase.player.id);
     },
 
-  
-   
+
+
 
     //TODO
     updateClubInfo() {
@@ -493,7 +496,7 @@ cc.Class({
             if (data.player.hasBind)
                 utils.saveValue(GameConfig.StorageKey.UserAccount, data.player.phone);
             utils.saveValue(GameConfig.StorageKey.UserLoginTime, parseInt(new Date().getTime() / 1000));
-      
+
             if (!utils.isNullOrEmpty(data.xhzdConfig)) {
                 GameConfig.xhzdConfig = data.xhzdConfig;
             }
@@ -501,7 +504,7 @@ cc.Class({
                 this.applyEntryRouteConfig(data.entryRouteConfig);
             }
 
-  
+
             GameConfig.RewardConfig = utils.isNullOrEmpty(data.rewardConfig) ? [] : data.rewardConfig;
             //广告数据
             if (!utils.isNullOrEmpty(data.ad)) {

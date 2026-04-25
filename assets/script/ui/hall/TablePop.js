@@ -105,8 +105,10 @@ export default class TablePop extends cc.Component {
         this.addEvents();
 
         this.refreshUI();
-        this.robotBtn.active = DataBase.player.isSuperUser;
-        this.changeIDBtn.active = DataBase.player.isSuperUser;
+        if (this.robotBtn)
+            this.robotBtn.active = DataBase.player.isSuperUser;
+        if (this.changeIDBtn)
+            this.changeIDBtn.active = DataBase.player.isSuperUser;
 
     }
     addEvents() {
@@ -154,6 +156,8 @@ export default class TablePop extends cc.Component {
                 App.Club.ShuffleLevel = data.club.shuffleLevel || 0;
                 App.Club.ClubName = data.club?.club?.name || '----';
                 App.Club.CurrentClubRole = data.club.role || 'user';
+
+
                 this.rewardNode.active = App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'proxy';
                 this.clubName.string = '' + App.Club.ClubName;
                 this.activeBtn.active = data.taskStatus;
@@ -174,10 +178,12 @@ export default class TablePop extends cc.Component {
                 this.clubID.string = 'ID: ' + (data.club?.club?.id || '----');
 
 
-
-                this.totalScore.active = App.Club.CurrentClubRole != 'user';
-                this.noticeBtn.active = App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager';
-                this.blackListBtn.active = App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager';
+                if (this.totalScore)
+                    this.totalScore.active = App.Club.CurrentClubRole != 'user';
+                if (this.noticeBtn)
+                    this.noticeBtn.active = App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager';
+                if (this.blackListBtn)
+                    this.blackListBtn.active = App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager';
 
                 if (App.Club.CurrentClubRole == 'user') {
                     this.proxyBtn.active = false;
@@ -224,15 +230,19 @@ export default class TablePop extends cc.Component {
                 //TODO 显示无房间
             }
         }, true, (err) => {
-            Cache.showTipsMsg(err.message || '获取公会信息失败', () => {
-                // this.node.destroy();
+                let msg=err.message;
+                    msg=''+msg;
+                if(msg.indexOf('active')!=-1)
+                    msg='网络错误:103'
+            Cache.showTipsMsg(msg, () => {
             })
         })
         //TODO
     }
     initNotice() {
         if (GameUtils.isNullOrEmpty(App.Club.ClubNotice)) return;
-        this.noticeNode.active = true;
+        if (this.noticeNode)
+            this.noticeNode.active = true;
         this.lblNotice.string = App.Club.ClubNotice || '----';
         setTimeout(() => {
             if (this.lblNotice) {
@@ -514,10 +524,12 @@ export default class TablePop extends cc.Component {
                 App.Club.ClubLevel = data.club.level;
                 App.Club.ClubName = data.club.club.name;
                 App.Club.CurrentClubRole = data.club.role;
-                this.rewardNode.active = data.club.role == 'owner' || data.club.role == 'proxy';
+                if (this.rewardNode)
+                    this.rewardNode.active = data.club.role == 'owner' || data.club.role == 'proxy';
                 this.clubName.string = (App.Club.IsLeague ? '联盟: ' : '公会: ') + '' + App.Club.ClubName;
 
-                this.activeBtn.active = data.taskStatus;
+                if (this.activeBtn)
+                    this.activeBtn.active = data.taskStatus;
                 this.avatar.avatarUrl = DataBase.player.head;
                 this.userId.string = "ID: " + DataBase.player.id;
                 this.username.string = GameUtils.getStringByLength(DataBase.player.name);
@@ -525,9 +537,12 @@ export default class TablePop extends cc.Component {
                 this.clubID.string = 'ID: ' + data.club?.club?.id;
 
 
-                this.totalScore.active = data.club.role != 'user';
-                this.noticeBtn.active = data.club.role == 'owner' || data.club.role == 'manager';
-                this.blackListBtn.active = data.club.role == 'owner' || data.club.role == 'manager';
+                if (this.totalScore)
+                    this.totalScore.active = data.club.role != 'user';
+                if (this.noticeBtn)
+                    this.noticeBtn.active = data.club.role == 'owner' || data.club.role == 'manager';
+                if (this.blackListBtn)
+                    this.blackListBtn.active = data.club.role == 'owner' || data.club.role == 'manager';
 
                 if (data.club.role == 'user') {
                     this.proxyBtn.active = false;
@@ -646,8 +661,8 @@ export default class TablePop extends cc.Component {
                 this.interval = -1;
                 if (data.success) {
                     console.log('currentRoomData', this.currentRoomData)
-
-                    this.quickStartBtn.active = typeof (this.currentRoomData.roomID) != "object";
+                    if (this.quickStartBtn)
+                        this.quickStartBtn.active = typeof (this.currentRoomData.roomID) != "object";
                     let newArr = [];
                     let index = 0;
                     let tables = []
@@ -696,7 +711,7 @@ export default class TablePop extends cc.Component {
                 }),
                 cc.fadeIn(0.3)
             )
-            this.gameContent.runAction(  cc.fadeIn(0.3))
+            this.gameContent.runAction(cc.fadeIn(0.3))
 
         }
     }

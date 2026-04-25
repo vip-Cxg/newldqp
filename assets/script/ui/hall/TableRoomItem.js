@@ -49,7 +49,8 @@ cc.Class({
         App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ROOM_TYPE_CHANGE, this.roomData);
     },
     changeBtnUI(e) {
-        this.chooseNode.active = e.data.name == this.roomData.name;
+        if (this.chooseNode)
+            this.chooseNode.active = e.data.name == this.roomData.name;
     },
     onDestroy() {
         this.removeEvents();
