@@ -96,7 +96,7 @@ static UIImagePickerController *imagePickerController;
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(statusBarOrientationChanged:)
         name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    if([WXApi registerApp:@"wx7473d76dc34c08a1"
+    if([WXApi registerApp:@"wxa83e13c9938b03c3"
             universalLink:@"https://pku.nxhzgq.com/wechat/"]){
         NSLog(@"WXApi 初始化成功");
     }else{
