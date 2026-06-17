@@ -6,9 +6,8 @@ let Native = require("../Script/native-extend"); // require('native-extend');
 let _social = Native.Social;
 let db = require("../Script/DataBase") //require("DataBase");
 const connector = require("../NetWork/Connector");
-const JSEncrypt = require('./jsencrypt');
+const JSEncrypt = require('./jsencrypt.js');
 
-// const JSEncrypt = require("./jsencrypt");
 const { SelectLink } = require("./SelectLink");
 const { App } = require("../../script/ui/hall/data/App");
 cc.Class({
@@ -287,6 +286,12 @@ cc.Class({
 
         this.btnRestart.active = false;
         this.lblMsg.string = "正在检测版本更新";
+
+        if (GameConfig.SkipHotUpdate) {
+            console.log("跳过热更新,直接获取游戏配置");
+            this.getGameInfo();
+            return;
+        }
 
         // let inviterStr = _social.getInviter();
         // GameConfig.InviteCode = utils.decodeInviter(inviterStr)
@@ -638,7 +643,19 @@ cc.Class({
         GameConfig.ShowTablePop = false;
         if (this.loadInfoTimes == 0)
             this.lblMsg.string = "正在获取游戏配置";
-        GameConfig.Encrtyptor = new JSEncrypt.JSEncrypt();
+        let JSEncryptClass = JSEncrypt && JSEncrypt.JSEncrypt;
+        if (!JSEncryptClass && typeof window != 'undefined') {
+            JSEncryptClass = window.JSEncrypt;
+        }
+        if (!JSEncryptClass && typeof globalThis != 'undefined') {
+            JSEncryptClass = globalThis.JSEncrypt;
+        }
+        if (!JSEncryptClass) {
+            Cache.showTipsMsg("加密模块加载失败,请刷新后重试");
+            return;
+        }
+
+        GameConfig.Encrtyptor = new JSEncryptClass();
         GameConfig.Encrtyptor.getKey();
         connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
             utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);

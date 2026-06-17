@@ -99,6 +99,8 @@ cc.Class({
     onClickChange() {
         Cache.playSfx();
         // utils.pop(GameConfig.pop.ProblemPop);
+        utils.saveValue(GameConfig.StorageKey.UserToken, "");
+        utils.saveValue(GameConfig.StorageKey.UserLoginTime, 0);
         cc.director.loadScene("Login");
     },
     /**退出游戏 */

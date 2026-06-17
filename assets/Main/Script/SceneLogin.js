@@ -214,7 +214,13 @@ cc.Class({
         // let encryptDevices = utils.encryptToken('eb55be116c46cc41');
         // let encryptDevices = utils.encryptToken('7611e4d2-eb39-48a0-abba-ca7c5754600c');
         console.log('1231231', e.currentTarget)
-        let encryptDevices = utils.encryptToken(e.currentTarget._data);
+        let deviceID = v || e.currentTarget._data;
+        if (utils.isNullOrEmpty(deviceID)) {
+            Cache.showTipsMsg('测试账号错误');
+            return;
+        }
+        utils.saveValue(GameConfig.StorageKey.UserToken, "");
+        let encryptDevices = utils.encryptToken(deviceID);
         Connector.request('game/test/login', { publicKey: GameConfig.Encrtyptor.getPublicKey(), deviceID: encryptDevices }, (data) => {
 
             // Connector.request(GameConfig.ServerEventName.UserLogin, { deviceID: encryptDevices, publicKey: GameConfig.Encrtyptor.getPublicKey() }, (data) => {

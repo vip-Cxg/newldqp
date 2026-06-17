@@ -1,6 +1,19 @@
 let { GameConfig } = require('../../GameBase/GameConfig');
 const { default: Http } = require('../../script/common/network/Http');
-const JSEncrypt = require('./jsencrypt'); 
+const JSEncrypt = require('./jsencrypt.js'); 
+
+var getJSEncryptClass = () => {
+    if (JSEncrypt && JSEncrypt.JSEncrypt) {
+        return JSEncrypt.JSEncrypt;
+    }
+    if (typeof window != 'undefined' && window.JSEncrypt) {
+        return window.JSEncrypt;
+    }
+    if (typeof globalThis != 'undefined' && globalThis.JSEncrypt) {
+        return globalThis.JSEncrypt;
+    }
+    return null;
+};
 
 var loadNative = function (url, callback) {
     var dirpath = jsb.fileUtils.getWritablePath() + 'img/';
@@ -910,7 +923,11 @@ var encryptData = (data, token) => {
 
 /**加密token */
 var encryptToken = (token) => {
-    let encryptor = new JSEncrypt.JSEncrypt();
+    let JSEncryptClass = getJSEncryptClass();
+    if (!JSEncryptClass) {
+        throw new Error('JSEncrypt load failed');
+    }
+    let encryptor = new JSEncryptClass();
     let pubkey = getValue(GameConfig.StorageKey.TokenPKey)
     encryptor.setPublicKey(pubkey);
     let tkn = encryptor.encrypt(token);
@@ -918,7 +935,11 @@ var encryptToken = (token) => {
 }
 /**解密token */
 var decryptToken = (token) => {
-    let encryptor = new JSEncrypt.JSEncrypt();
+    let JSEncryptClass = getJSEncryptClass();
+    if (!JSEncryptClass) {
+        throw new Error('JSEncrypt load failed');
+    }
+    let encryptor = new JSEncryptClass();
     let pubkey = getValue(GameConfig.StorageKey.TokenPKey)
     encryptor.setPublicKey(pubkey);
     let tkn = encryptor.decrypt(token);

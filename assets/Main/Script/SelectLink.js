@@ -32,13 +32,12 @@ export class SelectLink {
 
     /**加载本地配置 */
     loadLocalConfig() {
-        // if (cc.sys.isBrowser) {
-        //     //链接本地
-        //     this.changeLocalUrl('http://192.168.31.96:8000/');
-        //     // this.changeLocalUrl('http://43.139.144.179/');
-        //     // this.changeLocalUrl('http://159.75.97.241/');
-        //     return;
-        // }
+        if (cc.sys.isBrowser || GameConfig.SkipHotUpdate) {
+            //链接本地
+            this.changeLocalUrl('http://127.0.0.1:8000/');
+            return;
+        }
+
 
 
         // console.log("开始选择最佳线路")

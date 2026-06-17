@@ -1,6 +1,20 @@
 import { GameConfig } from "../../GameBase/GameConfig";
 import Http from "./network/Http";
-const JSEncrypt = require('../../Main/Script/jsencrypt');
+const JSEncrypt = require('../../Main/Script/jsencrypt.js');
+
+const getJSEncryptClass = () => {
+    if (JSEncrypt && JSEncrypt.JSEncrypt) {
+        return JSEncrypt.JSEncrypt;
+    }
+    if (typeof window != 'undefined' && window.JSEncrypt) {
+        return window.JSEncrypt;
+    }
+    if (typeof globalThis != 'undefined' && globalThis.JSEncrypt) {
+        return globalThis.JSEncrypt;
+    }
+    return null;
+};
+
 export default class GameUtils {
     /**判断value是否为空 */
     static isNullOrEmpty(value) {
@@ -126,8 +140,11 @@ export default class GameUtils {
     };
     /**加密token */
     static encryptToken(token) {
-        // let encryptor = new JSEncryptrypt();
-        let encryptor = new JSEncrypt.JSEncrypt()
+        let JSEncryptClass = getJSEncryptClass();
+        if (!JSEncryptClass) {
+            throw new Error('JSEncrypt load failed');
+        }
+        let encryptor = new JSEncryptClass()
         let pubkey = GameUtils.getValue(GameConfig.StorageKey.TokenPKey)
         encryptor.setPublicKey(pubkey);
         let tkn = encryptor.encrypt(token);
@@ -411,4 +428,3 @@ export default class GameUtils {
         });
     }
 }
-
