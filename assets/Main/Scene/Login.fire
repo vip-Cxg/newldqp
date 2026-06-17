@@ -1518,7 +1518,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1668,7 +1668,7 @@
     "node": {
       "__id__": 30
     },
-    "_enabled": false,
+    "_enabled": true,
     "_normalMaterial": null,
     "_grayMaterial": null,
     "duration": 0.1,
@@ -1741,7 +1741,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "24fdfa81ba3ec551"
+    "customEventData": "test1"
   },
   {
     "__type__": "cc.Node",
@@ -2167,8 +2167,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "玩家3",
-    "_N$string": "玩家3",
+    "_string": "玩家4",
+    "_N$string": "玩家4",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2297,7 +2297,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test3"
+    "customEventData": "test4"
   },
   {
     "__type__": "cc.Node",
@@ -2445,8 +2445,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "玩家4",
-    "_N$string": "玩家4",
+    "_string": "玩家5",
+    "_N$string": "玩家5",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2575,7 +2575,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test4"
+    "customEventData": "test5"
   },
   {
     "__type__": "cc.Node",
@@ -2723,8 +2723,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "玩家5",
-    "_N$string": "玩家5",
+    "_string": "玩家6",
+    "_N$string": "玩家6",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2853,7 +2853,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test5"
+    "customEventData": "test6"
   },
   {
     "__type__": "cc.Node",
@@ -2900,7 +2900,7 @@
       "ctor": "Float64Array",
       "array": [
         -402,
-        -88,
+        -98,
         0,
         0,
         0,
@@ -2908,7 +2908,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
