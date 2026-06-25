@@ -903,6 +903,8 @@ export class GameConfig {
         MessagePop: "Main/Prefab/MessagePop",
         /**桌子*/
         TablePop: "Main/Prefab/TablePop",
+        /**新大厅静态测试界面*/
+        HallStaticTestView: "Main/Prefab/HallStaticTestView",
         /**ZD GPS*/
         DistanceZDPop: "Main/Prefab/DistanceZDPop",
         /**市场 交易*/

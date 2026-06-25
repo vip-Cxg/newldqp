@@ -34,14 +34,36 @@ export default class ClubListPop extends cc.Component {
        this. titleSpr.spriteFrame=this.leagueSpr;
         this.itemContent.removeAllChildren();
         Connector.request(GameConfig.ServerEventName.ClubList,{isLeague:true},(data)=>{
-            if(!GameUtils.isNullOrEmpty(data.clubs)){
-                App.Club.initClubData(data.clubs);
-                data.clubs.forEach(element => {
-                    let item=cc.instantiate(this.clubItem);
-                    item.getComponent('ClubListItem').renderLeague(element);
-                    this.itemContent.addChild(item);
+            let clubs = GameUtils.isNullOrEmpty(data.clubs) ? [] : data.clubs.concat();
+            if (clubs.length == 0) {
+                clubs.push({
+                    clubID: -900001,
+                    inviter: 900001,
+                    peoples: 9999,
+                    role: 'user',
+                    club: { name: '原大厅测试联盟' },
+                    owner: { head: '', name: '测试' }
                 });
             }
+            if (clubs.length < 2) {
+                clubs.push({
+                    clubID: -900002,
+                    inviter: 900002,
+                    peoples: 9999,
+                    role: 'user',
+                    isStaticHallTest: true,
+                    club: { name: '新大厅测试联盟' },
+                    owner: { head: '', name: '测试' }
+                });
+            }
+            if(!GameUtils.isNullOrEmpty(data.clubs)){
+                App.Club.initClubData(data.clubs);
+            }
+            clubs.forEach((element, index) => {
+                let item=cc.instantiate(this.clubItem);
+                item.getComponent('ClubListItem').renderLeague(element, index);
+                this.itemContent.addChild(item);
+            });
         })
     }
 
@@ -70,5 +92,3 @@ export default class ClubListPop extends cc.Component {
 
 
 }
-
-

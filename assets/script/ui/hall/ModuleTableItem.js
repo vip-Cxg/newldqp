@@ -159,18 +159,6 @@ export default class RoomListItem extends CompListRenderer {
 
         });
 
-        if (data.gameType == GameConfig.GameType.DNIU) {
-            this.node.off(cc.Node.EventType.TOUCH_END);
-            this.node.on(cc.Node.EventType.TOUCH_END, () => {
-                if (!utils.isNullOrEmpty(data.matchID)) {
-                    Cache.alertTip("无法加入有奖专区的牌桌");
-                    return;
-                }
-                self.enterGame(data, roomData);
-            }, this);
-            return;
-        }
-
         // if (data.status == GameConfig.GameStatus.WAIT || data.status == GameConfig.GameStatus.SUMMARY) {
         //     this.node.on(cc.Node.EventType.TOUCH_END, () => {
         //         //无法进入匹配模式的桌子

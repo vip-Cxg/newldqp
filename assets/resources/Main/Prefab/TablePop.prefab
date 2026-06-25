@@ -7410,21 +7410,6 @@
     "tableItem": {
       "__uuid__": "89856f46-a546-43fe-b1f6-71cc0edc5ca0"
     },
-    "tableItemDniu": {
-      "__uuid__": "38370311-de0d-44be-8f24-013aca80c689"
-    },
-    "tableItemJh": {
-      "__uuid__": "5e9f940a-c0c5-41dc-adcc-e2cf8ef7a19b"
-    },
-    "tableItemZmz": {
-      "__uuid__": "a2918b6a-5865-47ba-99c0-825e9b9baa36"
-    },
-    "tableItemHsmj": {
-      "__uuid__": "6c2f5aa2-ccfe-4e57-bead-6c6ad36ab158"
-    },
-    "tableItemPdk": {
-      "__uuid__": "a2918b6a-5865-47ba-99c0-825e9b9baa36"
-    },
     "tableContent": {
       "__id__": 34
     },
