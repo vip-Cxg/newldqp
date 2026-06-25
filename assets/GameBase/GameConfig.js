@@ -18,6 +18,12 @@ export class GameConfig {
         XHZD: "XHZD",
         /**斗牛 */
         DNIU: "DNIU",
+        /**金花 */
+        JH: "JH",
+        /**捉麻子 */
+        ZMZ: "ZMZ",
+        /**划水麻将 */
+        HSMJ: "HSMJ",
         /**双人红中麻将 */
         HZMJ_SOLO: "HZMJ_SOLO",
         /**红中麻将 */
@@ -45,6 +51,15 @@ export class GameConfig {
         "XHZD_CLAN": "新化炸弹",
         "DNIU": "斗牛",
         "DNIU_CLAN": "斗牛",
+        "JH": "金花",
+        "JH_CLAN": "金花",
+        "JINHUA": "金花",
+        "ZMZ": "捉麻子",
+        "ZMZ_CLAN": "捉麻子",
+        "ZHUOMAZI": "捉麻子",
+        "HSMJ": "划水麻将",
+        "HSMJ_CLAN": "划水麻将",
+        "HUASHUI_MJ": "划水麻将",
         "LDZP": "放炮罚",
         "LDZP_CLAN": "放炮罚",
         "LDZP_SOLO": "放炮罚",

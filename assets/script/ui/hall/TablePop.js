@@ -18,6 +18,28 @@ import { turn } from "../../../Main/Script/TableInfo";
 
 
 const { ccclass, property } = cc._decorator
+const TABLE_MENU_ORDER = ["HALL", "DNIU", "JH", "ZMZ", "HSMJ", "PDK"];
+const TABLE_GAME_ORDER = ["DNIU", "JH", "ZMZ", "HSMJ", "PDK"];
+const TABLE_GAME_PERSON = {
+    DNIU: 8,
+    JH: 6,
+    ZMZ: 2,
+    HSMJ: 2,
+    PDK: 2,
+};
+const UI_TEST_TABLE_COUNT = 30;
+const ALLOWED_TABLE_GAME_TYPES = TABLE_GAME_ORDER.reduce((dict, key) => {
+    dict[key] = true;
+    return dict;
+}, {});
+const TABLE_GAME_NAME = {
+    HALL: "全部游戏",
+    DNIU: "牛牛",
+    JH: "金花",
+    ZMZ: "捉麻子",
+    HSMJ: "划水麻将",
+    PDK: "跑得快",
+};
 @ccclass
 export default class TablePop extends cc.Component {
 
@@ -28,6 +50,16 @@ export default class TablePop extends cc.Component {
 
     @property(cc.Prefab)
     tableItem = null;
+    @property(cc.Prefab)
+    tableItemDniu = null;
+    @property(cc.Prefab)
+    tableItemJh = null;
+    @property(cc.Prefab)
+    tableItemZmz = null;
+    @property(cc.Prefab)
+    tableItemHsmj = null;
+    @property(cc.Prefab)
+    tableItemPdk = null;
 
     @property(cc.Node)
     tableContent = null;
@@ -103,6 +135,7 @@ export default class TablePop extends cc.Component {
     onLoad() {
         this.roomNameDict = new Dict();
         this.addEvents();
+        this.setupVideoLobbyLayout();
 
         this.refreshUI();
         if (this.robotBtn)
@@ -127,6 +160,71 @@ export default class TablePop extends cc.Component {
         App.EventManager.removeEventListener(GameConfig.GameEventNames.CLUB_DATA_CHANGE, this.updateUI, this);
         App.EventManager.removeEventListener(GameConfig.GameEventNames.CLUB_ROOM_CHANGE, this.refreshUI, this);
         App.EventManager.removeEventListener(GameConfig.GameEventNames.CLUB_ROOM_DESTROY, this.refreshTableData, this);
+    }
+
+    setupVideoLobbyLayout() {
+        if (this.gameContent) {
+            this.gameContent.active = true;
+            this.gameContent.opacity = 255;
+            this.gameContent.setPosition(cc.v2(-520, 22));
+            this.gameContent.setContentSize(cc.size(163, 500));
+            let layout = this.gameContent.getComponent(cc.Layout);
+            if (layout) {
+                layout.type = cc.Layout.Type.VERTICAL;
+                layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
+                layout.paddingTop = 8;
+                layout.paddingBottom = 8;
+                layout.spacingY = 5;
+            }
+            let bg = this.gameContent.getComponent(cc.Sprite);
+            if (bg) {
+                bg.enabled = false;
+            }
+        }
+        let layer = this.gameContent && this.gameContent.parent;
+        let showGameBtn = layer && layer.getChildByName("showGameContent");
+        if (showGameBtn) {
+            showGameBtn.active = false;
+        }
+        if (this.roomContent && this.roomContent.parent && this.roomContent.parent.parent) {
+            let scroll = this.roomContent.parent.parent;
+            scroll.active = true;
+            scroll.setPosition(cc.v2(-70, -1));
+            scroll.setContentSize(cc.size(680, 68));
+            this.roomContent.parent.setContentSize(cc.size(680, 68));
+            let layout = this.roomContent.getComponent(cc.Layout);
+            if (layout) {
+                layout.type = cc.Layout.Type.HORIZONTAL;
+                layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
+                layout.spacingX = 8;
+            }
+        }
+        this.setupHorizontalTableScroll();
+    }
+    setupHorizontalTableScroll() {
+        if (!this.tableContent || !this.tableContent.parent || !this.tableContent.parent.parent) return;
+        let view = this.tableContent.parent;
+        let scrollNode = view.parent;
+        [scrollNode, view, this.tableContent].forEach((node) => {
+            let widget = node && node.getComponent(cc.Widget);
+            if (widget) {
+                widget.enabled = false;
+            }
+        });
+        let scrollView = scrollNode.getComponent(cc.ScrollView);
+        if (scrollView) {
+            scrollView.horizontal = true;
+            scrollView.vertical = false;
+        }
+        scrollNode.setPosition(cc.v2(90, -45));
+        scrollNode.setContentSize(cc.size(980, 430));
+        view.setContentSize(cc.size(980, 430));
+        this.tableContent.setAnchorPoint(cc.v2(0, 0.5));
+        this.tableContent.setPosition(cc.v2(-view.width * view.anchorX, 0));
+        let list = this.tableContent.getComponent(CompList);
+        if (list) {
+            list.enabled = false;
+        }
     }
     updateUI() {
         this.lblScore.string = GameUtils.formatGold(App.Club.ClubScore);
@@ -201,7 +299,7 @@ export default class TablePop extends cc.Component {
             if (!GameUtils.isNullOrEmpty(data.rooms)) {
 
                 GameConfig.TableAllRooms = GameUtils.deepcopyArr(data.rooms);
-                data.rooms.forEach((e) => {
+                data.rooms.filter((e) => ALLOWED_TABLE_GAME_TYPES[e.gameType]).forEach((e) => {
                     this.roomNameDict.add(e.roomID, e.name);
                     if (GameUtils.isNullOrEmpty(this.roomData[e.gameType]))
                         this.roomData[e.gameType] = [];
@@ -225,9 +323,12 @@ export default class TablePop extends cc.Component {
                     this.roomData[key].unshift(hallData)
                     this.roomData['HALL'][0].roomID = this.roomData['HALL'][0].roomID.concat(roomArr[key]);
                 }
+                this.fillLocalTableMenus();
                 this.renderGame();
             } else {
-                //TODO 显示无房间
+                this.roomData['HALL'] = [{ name: '大厅', roomID: [] }];
+                this.fillLocalTableMenus();
+                this.renderGame();
             }
         }, true, (err) => {
                 let msg=err.message;
@@ -256,33 +357,50 @@ export default class TablePop extends cc.Component {
             }
         }, 500)
     }
+    fillLocalTableMenus() {
+        if (GameUtils.isNullOrEmpty(this.roomData['HALL'])) {
+            this.roomData['HALL'] = [{ name: '大厅', roomID: [] }];
+        }
+        TABLE_GAME_ORDER.forEach((key) => {
+            if (!GameUtils.isNullOrEmpty(this.roomData[key])) return;
+            this.roomData[key] = [{
+                name: TABLE_GAME_NAME[key],
+                roomID: [],
+                gameType: key,
+                person: TABLE_GAME_PERSON[key],
+                lower: 0,
+            }];
+        });
+    }
     renderGame() {
         this.gameContent.removeAllChildren();
-        // TODO 默认第一个打开游戏
-        let firstKey = GameUtils.isNullOrEmpty(GameConfig.TableRoom) ? 'HALL' : GameConfig.TableRoom.gameType;
-        let gameTypeArr = [];
-        for (let key in this.roomData) {
-            gameTypeArr.push(key);
+        let gameTypeArr = TABLE_MENU_ORDER.filter((key) => !GameUtils.isNullOrEmpty(this.roomData[key]));
+        let firstKey = 'HALL';
+        gameTypeArr.forEach((key) => {
+            if (GameUtils.isNullOrEmpty(this.roomData[key])) return;
             let gameBtn = cc.instantiate(this.gameBtnItem)
             gameBtn.getComponent('TableGameItem').initData(key);
-            if (key == 'XHZD') {
-                this.gameContent.addChild(gameBtn, 2);
-
-            } else if (key == 'HALL') {
-                this.gameContent.addChild(gameBtn, 3);
-            } else {
-                this.gameContent.addChild(gameBtn);
-
-            }
+            this.gameContent.addChild(gameBtn);
+        });
+        if (!GameUtils.isNullOrEmpty(firstKey)) {
+            App.EventManager.dispatchEventWith(GameConfig.GameEventNames.GAME_TYPE_CHANGE, firstKey);
         }
-        App.EventManager.dispatchEventWith(GameConfig.GameEventNames.GAME_TYPE_CHANGE, firstKey);
     }
     renderRoom(e) {
         let gameType = e.data;
+        if (GameUtils.isNullOrEmpty(this.roomData[gameType])) {
+            gameType = 'HALL';
+        }
+        if (GameUtils.isNullOrEmpty(gameType)) return;
         this.currentType = gameType;
 
         this.currentRoomData = new Object();
         this.roomContent.removeAllChildren();
+        this.setRoomListVisible(gameType != 'HALL');
+        if (gameType == 'HALL') {
+            App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ROOM_TYPE_CHANGE, this.roomData[gameType][0]);
+            return;
+        }
         this.roomData[gameType].forEach(e => {
             let roomBtn = cc.instantiate(this.roomBtnItem)
             roomBtn.getComponent('TableRoomItem').initData(e);
@@ -300,6 +418,11 @@ export default class TablePop extends cc.Component {
         App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ROOM_TYPE_CHANGE, this.roomData[gameType][roomIndex])
 
     }
+    setRoomListVisible(visible) {
+        if (this.roomContent && this.roomContent.parent && this.roomContent.parent.parent) {
+            this.roomContent.parent.parent.active = visible;
+        }
+    }
 
     selectRoom(e) {
         let roomData = e.data;
@@ -310,13 +433,22 @@ export default class TablePop extends cc.Component {
 
     /**下载桌子数据 */
     downloadTableData(roomData) {
-        if (GameUtils.isNullOrEmpty(roomData.roomID))
+        if (GameUtils.isNullOrEmpty(roomData.roomID) && this.currentType != 'HALL' && !ALLOWED_TABLE_GAME_TYPES[this.currentType])
             return;
         let rooms = [];
         if (typeof (roomData.roomID) != "object") {
-            rooms.push(roomData.roomID)
+            if (!GameUtils.isNullOrEmpty(roomData.roomID)) {
+                rooms.push(roomData.roomID)
+            }
         } else {
             rooms = roomData.roomID;
+        }
+        if (GameUtils.isNullOrEmpty(rooms)) {
+            this.quickStartBtn.active = false;
+            this.tableData = this.createLocalTableData(roomData, []);
+            App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ROOM_TYPE_BTN_CHANGE, roomData);
+            this.renderTableUI(roomData);
+            return;
         }
         this.connecting = true;
         //TODO  可传参数limit 
@@ -342,40 +474,14 @@ export default class TablePop extends cc.Component {
                     let d = JSON.parse(strTable);
                     d.roomID = room.roomID;
                     return d;
-                }))).reduce((p, i) => p.concat(i));
+                }))).reduce((p, i) => p.concat(i)).filter((table) => {
+                    return table && ALLOWED_TABLE_GAME_TYPES[table.gameType];
+                });
 
                 newArr.sort(function (a, b) {
                     return GameUtils.sortByProps(a, b, { "status": "desc", "players": "asc" });
                 });
-                if (typeof (roomData.roomID) != 'object') {
-
-                    let firstTableData = {
-                        "person": roomData.person, "players": [], "status": "WAIT", "roomID": roomData.roomID, mode: 'CUSTOM', gameType: roomData.gameType
-                    }
-                    newArr.unshift(firstTableData)
-                } else if (this.currentType == 'HALL') {
-                    // let firstTableData = {
-                    //     "person": 2, "players": [], "status": "WAIT", mode: 'CUSTOM',gameType:'HALL'
-                    // }
-                    // newArr.unshift(firstTableData)
-                    console.log("this.roomData----- ", this.roomData)
-                    let sortArr = []
-                    for (let key in this.roomData) {
-                        if (key == 'HALL') continue;
-                        let createDataItem = {
-                            "person": 2, "players": [], "status": "WAIT", mode: 'CUSTOM', gameType: key, type: 'create', msg: this.roomData[key]
-                        }
-                        sortArr.unshift(createDataItem)
-                        // newArr.unshift(createDataItem)
-                        console.log("key: ", key)
-                    }
-
-                    sortArr.sort(function (a, b) {
-                        return GameUtils.sortByProps(a, b, { "gameType": "XHZD" });
-                    });
-                    newArr = sortArr.concat(newArr);
-
-                }
+                newArr = this.createLocalTableData(roomData, newArr);
 
                 // newArr.sort(function (a, b) {
                 //     return GameUtils.sortByProps(a, b, { 'gameType':'XHZD',"status": "desc", "players": "asc" });
@@ -390,6 +496,81 @@ export default class TablePop extends cc.Component {
             this.interval = 0;
         })
     }
+
+    createLocalTableData(roomData, tableArr) {
+        let newArr = tableArr || [];
+        if (typeof (roomData.roomID) != 'object') {
+            if (!GameUtils.isNullOrEmpty(roomData.roomID)) {
+                let firstTableData = {
+                    "person": roomData.person, "players": [], "status": "WAIT", "roomID": roomData.roomID, mode: 'CUSTOM', gameType: roomData.gameType
+                }
+                newArr.unshift(firstTableData)
+            }
+            newArr = newArr.concat(this.createUiTestTables(roomData.gameType || this.currentType, roomData.roomID, roomData.person));
+        } else if (this.currentType == 'HALL') {
+            let sortArr = []
+            TABLE_GAME_ORDER.forEach((key) => {
+                let firstRoom = this.getFirstRealRoom(key);
+                let roomID = firstRoom ? firstRoom.roomID : "";
+                let person = TABLE_GAME_PERSON[key] || (firstRoom && firstRoom.person) || 2;
+                let createDataItem = {
+                    "person": person,
+                    "players": [],
+                    "status": "WAIT",
+                    "roomID": roomID,
+                    mode: 'CUSTOM',
+                    gameType: key,
+                    type: 'create',
+                    msg: this.roomData[key]
+                }
+                sortArr.push(createDataItem)
+                sortArr = sortArr.concat(this.createUiTestTables(key, roomID, person));
+            });
+
+            newArr = sortArr.concat(newArr);
+
+        } else if (ALLOWED_TABLE_GAME_TYPES[this.currentType]) {
+            let firstRoom = this.getFirstRealRoom(this.currentType);
+            let roomID = firstRoom ? firstRoom.roomID : "";
+            let person = firstRoom ? firstRoom.person : TABLE_GAME_PERSON[this.currentType];
+            newArr = newArr.concat(this.createUiTestTables(this.currentType, roomID, person));
+        }
+        return newArr;
+    }
+
+    getFirstRealRoom(gameType) {
+        if (GameUtils.isNullOrEmpty(this.roomData[gameType])) return null;
+        return this.roomData[gameType].find((item) => typeof (item.roomID) != 'object') || null;
+    }
+
+    createUiTestTables(gameType, roomID, person) {
+        if (!ALLOWED_TABLE_GAME_TYPES[gameType]) return [];
+        let list = [];
+        let seatCount = TABLE_GAME_PERSON[gameType] || person || 2;
+        for (let i = 0; i < UI_TEST_TABLE_COUNT; i++) {
+            let playerCount = i % (seatCount + 1);
+            let players = [];
+            for (let j = 0; j < playerCount; j++) {
+                players.push({
+                    head: "",
+                    pid: 900000 + i * 10 + j,
+                    name: "测试" + (j + 1),
+                });
+            }
+            list.push({
+                person: seatCount,
+                players,
+                status: i % 3 == 0 ? GameConfig.GameStatus.START : GameConfig.GameStatus.WAIT,
+                roomID,
+                tableID: "UI" + (i + 1),
+                mode: "CUSTOM",
+                gameType,
+                uiTest: true,
+            });
+        }
+        return list;
+    }
+
     /**只看等待中 */
     onWaitTable() {
         Cache.playSfx();
@@ -403,32 +584,33 @@ export default class TablePop extends cc.Component {
 
     renderTableUI(roomData) {
         try {
+            this.setupHorizontalTableScroll();
             this.tableContent.removeAllChildren();
 
-            // console.log("roomDataroomDataroomData", this.tableData)
-
-            this.tableData.forEach((data, i) => {
-
-                if (GameUtils.isNullOrEmpty(data)) return;
+            let view = this.tableContent.parent;
+            let itemWidth = 360;
+            let itemHeight = 205;
+            let gapX = 24;
+            let gapY = 20;
+            let rowCount = 2;
+            let leftPadding = 18;
+            let dataList = (this.tableData || []).filter((data) => !GameUtils.isNullOrEmpty(data));
+            let columnCount = Math.ceil(dataList.length / rowCount);
+            this.tableContent.setContentSize(cc.size(Math.max(view.width, leftPadding * 2 + columnCount * (itemWidth + gapX)), view.height));
+            dataList.forEach((data, i) => {
                 data['roomData'] = roomData;
                 data['roomNameDict'] = this.roomNameDict;
-
-                // if (this.onlyWaitIcon.active) {
-                //     if (data.status == GameConfig.GameStatus.WAIT || data.status == GameConfig.GameStatus.SUMMARY) {
-
-                //         let tableItem = cc.instantiate(this.tableItem);
-                //         tableItem.getComponent("ModuleTableItem").initData(data, roomData, this.roomNameDict);
-                //         this.tableContent.addChild(tableItem);
-
-
-                //     }
-                // } else {
-                //     let tableItem = cc.instantiate(this.tableItem);
-                //     tableItem.getComponent("ModuleTableItem").initData(data, roomData, this.roomNameDict);
-                //     this.tableContent.addChild(tableItem);
-                // }
-            })
-            this.tableContent.getComponent(CompList).data = this.tableData;
+                let row = i % rowCount;
+                let col = Math.floor(i / rowCount);
+                let tableItem = cc.instantiate(this.getTableItemPrefab(data.gameType));
+                tableItem.setContentSize(cc.size(itemWidth, itemHeight));
+                tableItem.setPosition(cc.v2(
+                    leftPadding + itemWidth / 2 + col * (itemWidth + gapX),
+                    row == 0 ? itemHeight / 2 + gapY / 2 : -itemHeight / 2 - gapY / 2
+                ));
+                this.setTableItemData(tableItem, data);
+                this.tableContent.addChild(tableItem);
+            });
 
             if (GameConfig.IsQuickStart) {
                 GameConfig.IsQuickStart = false;
@@ -440,6 +622,38 @@ export default class TablePop extends cc.Component {
             //机型卡  切换场景超过三秒  定时器未销毁
         }
 
+    }
+
+    getTableItemPrefab(gameType) {
+        let map = {
+            DNIU: this.tableItemDniu,
+            JH: this.tableItemJh,
+            JINHUA: this.tableItemJh,
+            ZMZ: this.tableItemZmz,
+            HSMJ: this.tableItemHsmj,
+            PDK: this.tableItemPdk || this.tableItemZmz,
+            PDK_SOLO: this.tableItemPdk || this.tableItemZmz,
+        };
+        return map[gameType] || this.tableItem;
+    }
+
+    setTableItemData(tableItem, data) {
+        let component =
+            tableItem.getComponent("ModuleTableItem_DN") ||
+            tableItem.getComponent("ModuleTableItemDN") ||
+            tableItem.getComponent("ModuleTableItem_JH") ||
+            tableItem.getComponent("ModuleTableItemJH") ||
+            tableItem.getComponent("ModuleTableItem_ZMZ") ||
+            tableItem.getComponent("ModuleTableItemZMZ") ||
+            tableItem.getComponent("ModuleTableItem_HSMJ") ||
+            tableItem.getComponent("ModuleTableItemHSMJ") ||
+            tableItem.getComponent("ModuleTableItem_PDK") ||
+            tableItem.getComponent("ModuleTableItemPDK") ||
+            tableItem.getComponent("HallTableItemBase") ||
+            tableItem.getComponent("ModuleTableItem");
+        if (component) {
+            component.data = data;
+        }
     }
 
     newMatchEnter() {
@@ -696,24 +910,10 @@ export default class TablePop extends cc.Component {
     }
 
     showGameContent() {
-        if (this.gameContent.active) {
-            let ap = cc.sequence(
-                cc.fadeOut(0.3), cc.callFunc(() => {
-                    this.gameContent.active = false;
-                })
-            )
-            this.gameContent.runAction(ap)
-        } else {
-            this.gameContent.active = true;
-            let bp = cc.sequence(
-                cc.callFunc(() => {
-                    this.gameContent.active = true;
-                }),
-                cc.fadeIn(0.3)
-            )
-            this.gameContent.runAction(cc.fadeIn(0.3))
-
-        }
+        if (!this.gameContent) return;
+        this.gameContent.stopAllActions();
+        this.gameContent.active = true;
+        this.gameContent.opacity = 255;
     }
     /**关闭弹窗 */
     onClickClose() {
@@ -756,5 +956,3 @@ export default class TablePop extends cc.Component {
     }
 
 }
-
-

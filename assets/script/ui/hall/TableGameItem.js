@@ -9,6 +9,26 @@ const { GameConfig } = require("../../../GameBase/GameConfig");
 const Cache = require("../../../Main/Script/Cache");
 const { App } = require("./data/App");
 
+const GAME_NAME = {
+    HALL: "全部游戏",
+    DNIU: "牛牛",
+    JH: "金花",
+    JINHUA: "金花",
+    ZMZ: "捉麻子",
+    HSMJ: "划水麻将",
+    PDK: "跑得快",
+};
+const STYLE = {
+    width: 150,
+    height: 50,
+    radius: 8,
+    selectedBg: cc.color(238, 158, 54, 255),
+    selectedStroke: cc.color(255, 226, 137, 255),
+    normalBg: cc.color(37, 112, 123, 235),
+    normalStroke: cc.color(99, 198, 188, 255),
+    text: cc.color(255, 255, 255, 255),
+    normalText: cc.color(216, 245, 242, 255),
+};
 
 cc.Class({
     extends: cc.Component,
@@ -37,22 +57,46 @@ cc.Class({
         this.addEvents();
         this.gameType = gametype; 
 
-        let a={
-            'HALL':this.gameSprArr[0],
-            'PDK':this.gameSprArr[1],
-            'HZMJ':this.gameSprArr[2],
-            'LDZP':this.gameSprArr[3],
-            'XHZD':this.gameSprArr[4],
+        let name = GAME_NAME[gametype] || GameConfig.GameName[gametype] || gametype;
+        this.drawBlock(this.chooseNode, true);
+        this.drawBlock(this.unChooseNode, false);
+        let chooseName = this.chooseNode && this.chooseNode.getChildByName('name');
+        let unChooseName = this.unChooseNode && this.unChooseNode.getChildByName('name');
+        if (chooseName && chooseName.getComponent(cc.Label)) {
+            this.setupLabel(chooseName, name, true);
+        }
+        if (unChooseName && unChooseName.getComponent(cc.Label)) {
+            this.setupLabel(unChooseName, name, false);
         }
 
-        this.chooseNode.getComponent(cc.Sprite).spriteFrame =  a[gametype];
-        this.unChooseNode.getComponent(cc.Sprite).spriteFrame =  a[gametype];
-        this.unChooseNode.opacity=120;
-
-        // new cc.Node().opacity
-        // this.chooseNode. getChildByName('name').getComponent(cc.Label).string = GameConfig.GameName[gametype];
-        // this.unChooseNode.getChildByName('name').getComponent(cc.Label).string = GameConfig.GameName[gametype];
-
+    },
+    drawBlock(node, selected) {
+        if (!node) return;
+        node.opacity = 255;
+        node.setContentSize(cc.size(STYLE.width, STYLE.height));
+        let sprite = node.getComponent(cc.Sprite);
+        if (sprite) {
+            sprite.enabled = false;
+        }
+        let graphics = node.getComponent(cc.Graphics) || node.addComponent(cc.Graphics);
+        graphics.clear();
+        graphics.fillColor = selected ? STYLE.selectedBg : STYLE.normalBg;
+        graphics.strokeColor = selected ? STYLE.selectedStroke : STYLE.normalStroke;
+        graphics.lineWidth = selected ? 3 : 2;
+        graphics.roundRect(-STYLE.width / 2, -STYLE.height / 2, STYLE.width, STYLE.height, STYLE.radius);
+        graphics.fill();
+        graphics.stroke();
+    },
+    setupLabel(labelNode, name, selected) {
+        labelNode.setPosition(cc.v2(0, 0));
+        labelNode.setContentSize(cc.size(STYLE.width - 16, STYLE.height));
+        let label = labelNode.getComponent(cc.Label);
+        label.string = name;
+        label.fontSize = name.length >= 4 ? 22 : 24;
+        label.lineHeight = STYLE.height;
+        label.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
+        label.verticalAlign = cc.Label.VerticalAlign.CENTER;
+        labelNode.color = selected ? STYLE.text : STYLE.normalText;
     },
     onClickBtn() {
         Cache.playSfx();
