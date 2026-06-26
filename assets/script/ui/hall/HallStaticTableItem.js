@@ -110,6 +110,7 @@ cc.Class({
             let labelNode = seatData.nameLabel.node;
             labelNode.setPosition(cc.v2(0, style.nameY));
             labelNode.setContentSize(cc.size(style.nameWidth, style.nameHeight));
+            labelNode.zIndex = 20;
             seatData.nameLabel.fontSize = style.fontSize;
             seatData.nameLabel.lineHeight = style.nameHeight;
             seatData.nameLabel.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
@@ -125,9 +126,13 @@ cc.Class({
         if (!bg || !bg.isValid) return;
         bg.setPosition(cc.v2(0, style.nameY));
         bg.setContentSize(cc.size(style.nameWidth, style.nameHeight));
-        if (seatData.nameLabel) {
-            bg.zIndex = (seatData.nameLabel.node.zIndex || 0) - 1;
-        }
+        bg.color = cc.Color.BLACK;
+
+        // let sprite = bg.getComponent(cc.Sprite);
+        // if (sprite) {
+        //     sprite.spriteFrame = null;
+        //     sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        // }
     },
 
     setSeatName(seatData, name) {
