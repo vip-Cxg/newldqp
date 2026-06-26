@@ -90,6 +90,7 @@ cc.Class({
                 finish();
             });
         });
+
     },
 
     drawBackground(size) {
@@ -239,10 +240,20 @@ cc.Class({
         let cols = Math.ceil(tables.length / this.tableRows);
         let contentW = cols * this.tableStrideX + 110;
         this.tableContent.setContentSize(cc.size(contentW, this.tableContent.height));
-        this.tableContent.x = -this.scrollNode.width / 2;
         this.ensureTablePool();
+        this.resetTableScroll();
         this.firstVisibleIndex = -1;
         this.updateVisibleTables();
+    },
+
+    resetTableScroll() {
+        if (this.tableScroll) {
+            this.tableScroll.stopAutoScroll();
+            this.tableScroll.scrollToLeft(0);
+        }
+        if (this.tableContent && this.scrollNode) {
+            this.tableContent.setPosition(cc.v2(-this.scrollNode.width / 2, this.tableContent.y));
+        }
     },
 
     ensureTablePool() {
@@ -305,10 +316,23 @@ cc.Class({
             name: game.name + " 测试桌 " + index,
             rule: rules[ruleIndex] || rules[0],
             occupied: occupied,
+            players: this.createMockPlayers(occupied, index),
             state: isPlaying ? "游戏中" : "等待中",
             totalRound: game.key === "JH" ? 6 : 20,
             currentRound: (index * 2) % 20 + 1,
         };
+    },
+
+    createMockPlayers(count, tableIndex) {
+        let names = ["测1", "风一样的玩家", "阿强", "超长昵称测试用户", "小七", "Notemo", "旧朋友123", "一切安好"];
+        let players = [];
+        for (let i = 0; i < count; i++) {
+            players.push({
+                name: names[(tableIndex + i) % names.length],
+                head: "file://" + ((tableIndex + i) % 12),
+            });
+        }
+        return players;
     },
 
     createTableNode(data, x, y) {

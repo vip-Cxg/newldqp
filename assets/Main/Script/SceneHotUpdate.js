@@ -6,7 +6,7 @@ let Native = require("../Script/native-extend"); // require('native-extend');
 let _social = Native.Social;
 let db = require("../Script/DataBase") //require("DataBase");
 const connector = require("../NetWork/Connector");
-const JSEncrypt = require('./jsencrypt.js');
+const JSEncrypt = null;
 
 const { SelectLink } = require("./SelectLink");
 const { App } = require("../../script/ui/hall/data/App");

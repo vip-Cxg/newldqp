@@ -1,6 +1,6 @@
 let { GameConfig } = require('../../GameBase/GameConfig');
 const { default: Http } = require('../../script/common/network/Http');
-const JSEncrypt = require('./jsencrypt.js'); 
+const JSEncrypt = null;
 
 var getJSEncryptClass = () => {
     if (JSEncrypt && JSEncrypt.JSEncrypt) {

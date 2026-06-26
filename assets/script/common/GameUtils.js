@@ -1,6 +1,6 @@
 import { GameConfig } from "../../GameBase/GameConfig";
 import Http from "./network/Http";
-const JSEncrypt = require('../../Main/Script/jsencrypt.js');
+const JSEncrypt = null;
 
 const getJSEncryptClass = () => {
     if (JSEncrypt && JSEncrypt.JSEncrypt) {

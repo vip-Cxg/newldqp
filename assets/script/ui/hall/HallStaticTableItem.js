@@ -1,7 +1,10 @@
+const { GameConfig } = require("../../../GameBase/GameConfig");
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        avatarSprites: cc.SpriteAtlas,
     },
 
     onLoad() {
@@ -19,6 +22,7 @@ cc.Class({
             this.onLoad();
         }
         this.currentGameKey = data.game && data.game.key || "";
+        this.collectAvatarFrames();
         this.node.setContentSize(cc.size(360, 182));
         this.setTableArt(spriteFrame, data);
         this.applyGameLayout(data);
@@ -66,7 +70,9 @@ cc.Class({
             seat.active = true;
             seat.setPosition(cc.v2(pos.x, pos.y));
             this.applyAvatarStyle(seatData, style);
-            this.setSeatName(seatData, "测" + (index + 1));
+            let player = this.getPlayer(data, index);
+            this.setSeatAvatar(seatData, index, player);
+            this.setSeatName(seatData, this.getPlayerName(player, index));
         });
     },
 
@@ -80,8 +86,9 @@ cc.Class({
         return {
             seat,
             mask,
-            sprite: spriteNode && spriteNode.getComponent(cc.Sprite),
             spriteNode,
+            sprite: spriteNode && (spriteNode.getComponent(cc.Sprite) || spriteNode.addComponent(cc.Sprite)),
+            avatar: spriteNode && spriteNode.getComponent("Avatar"),
             nameLabel: nameNode && nameNode.getComponent(cc.Label),
             nameBg,
         };
@@ -107,46 +114,153 @@ cc.Class({
             seatData.nameLabel.lineHeight = style.nameHeight;
             seatData.nameLabel.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
             seatData.nameLabel.verticalAlign = cc.Label.VerticalAlign.CENTER;
-            this.ensureNameBg(seatData, style);
+            seatData.nameLabel.overflow = cc.Label.Overflow.CLAMP;
+            seatData.nameLabel.enableWrapText = false;
+            this.applyNameBgStyle(seatData, style);
         }
     },
 
-    ensureNameBg(seatData, style) {
-        if (!seatData.nameLabel) return;
+    applyNameBgStyle(seatData, style) {
         let bg = seatData.nameBg;
-        if (!bg || !bg.isValid) {
-            bg = new cc.Node("nameBg");
-            seatData.seat.addChild(bg);
-            seatData.nameBg = bg;
-        }
+        if (!bg || !bg.isValid) return;
         bg.setPosition(cc.v2(0, style.nameY));
         bg.setContentSize(cc.size(style.nameWidth, style.nameHeight));
-        bg.zIndex = (seatData.nameLabel.node.zIndex || 0) - 1;
-
-        let graphics = bg.getComponent(cc.Graphics) || bg.addComponent(cc.Graphics);
-        let styleKey = [style.nameWidth, style.nameHeight, style.nameY].join("_");
-        if (bg._hallStyleKey === styleKey) return;
-        bg._hallStyleKey = styleKey;
-        graphics.clear();
-        graphics.fillColor = new cc.Color(0, 0, 0, 150);
-        graphics.roundRect(-style.nameWidth / 2, -style.nameHeight / 2, style.nameWidth, style.nameHeight, 3);
-        graphics.fill();
+        if (seatData.nameLabel) {
+            bg.zIndex = (seatData.nameLabel.node.zIndex || 0) - 1;
+        }
     },
 
     setSeatName(seatData, name) {
         if (!seatData.nameLabel) return;
-        seatData.nameLabel.string = name;
+        seatData.nameLabel.string = this.ellipsisName(name);
+    },
+
+    setSeatAvatar(seatData, index, player) {
+        if (!seatData.sprite) return;
+        let head = this.getPlayerHead(player);
+        if (head) {
+            this.setActualAvatar(seatData, head);
+            return;
+        }
+        this.setAtlasAvatar(seatData, index);
+    },
+
+    setAtlasAvatar(seatData, index) {
+        if (!this.avatarFrames || !this.avatarFrames.length) return;
+        let frame = this.avatarFrames[index % this.avatarFrames.length];
+        if (!frame || seatData.lastAvatarFrame === frame) return;
+        seatData.sprite.spriteFrame = frame;
+        seatData.sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        seatData.lastAvatarFrame = frame;
+        seatData.lastHead = "";
+    },
+
+    setActualAvatar(seatData, head) {
+        if (seatData.lastHead === head) return;
+        seatData.lastHead = head;
+
+        if (seatData.avatar) {
+            seatData.avatar.avatarUrl = head;
+            return;
+        }
+
+        let localFrame = this.getLocalAvatarFrame(head);
+        if (localFrame) {
+            seatData.sprite.spriteFrame = localFrame;
+            seatData.sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+            seatData.lastAvatarFrame = localFrame;
+            return;
+        }
+
+        let url = this.normalizeHeadUrl(head);
+        if (!url) return;
+        cc.loader.load(this.appendAvatarCacheKey(url), (err, tex) => {
+            if (err || !cc.isValid(seatData.sprite && seatData.sprite.node, true) || seatData.lastHead !== head) return;
+            try {
+                seatData.sprite.spriteFrame = new cc.SpriteFrame(tex);
+                seatData.sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+            } catch (error) {
+            }
+        });
+    },
+
+    collectAvatarFrames() {
+        if (this.avatarFrames || !this.avatarSprites) return;
+        if (this.avatarSprites.getSpriteFrames) {
+            this.avatarFrames = this.avatarSprites.getSpriteFrames() || [];
+            return;
+        }
+
+        let names = ["mj_face0", "mj_face1", "mj_face2", "mj_face3", "mj_face4", "mj_face5", "mj_face6", "mj_face7", "mj_face8", "mj_face9", "mj_face10", "mj_face11"];
+        this.avatarFrames = [];
+        names.forEach((name) => {
+            let frame = this.avatarSprites.getSpriteFrame(name) || this.avatarSprites.getSpriteFrame(name + ".png");
+            if (frame) this.avatarFrames.push(frame);
+        });
+    },
+
+    getPlayer(data, index) {
+        let players = data.players || data.seats || [];
+        return players[index] || null;
+    },
+
+    getPlayerName(player, index) {
+        if (!player) return this.getMockName(index);
+        return player.name || player.nickName || player.nickname || (player.user && (player.user.name || player.user.nickName || player.user.nickname)) || this.getMockName(index);
+    },
+
+    getPlayerHead(player) {
+        if (!player) return "";
+        return player.head || player.avatarUrl || player.avatar || (player.user && (player.user.head || player.user.avatarUrl || player.user.avatar)) || (player.prop && player.prop.head) || "";
+    },
+
+    getLocalAvatarFrame(head) {
+        if (!this.avatarSprites || !head || String(head).indexOf("file://") !== 0) return null;
+        let name = "mj_face" + String(head).split("file://")[1];
+        return this.avatarSprites.getSpriteFrame(name) || this.avatarSprites.getSpriteFrame(name + ".png");
+    },
+
+    normalizeHeadUrl(head) {
+        if (!head) return "";
+        let value = String(head);
+        if (value.indexOf("file://") === 0) return "";
+        if (value.indexOf("://") !== -1) return value;
+        return (GameConfig.HeadUrl || "") + value;
+    },
+
+    appendAvatarCacheKey(url) {
+        if (!url) return url;
+        return url.indexOf("?") === -1 ? url + "?file=a.png" : url;
+    },
+
+    getMockName(index) {
+        let names = ["测1", "风一样的玩家", "阿强", "超长昵称测试用户", "小七", "Notemo", "旧朋友123", "一切安好"];
+        return names[index % names.length];
+    },
+
+    ellipsisName(name) {
+        if (!name) return "";
+        let max = 5;
+        let length = 0;
+        let result = "";
+        for (let i = 0; i < name.length; i++) {
+            let code = name.charCodeAt(i);
+            length += code > 255 ? 1 : 0.55;
+            if (length > max) return result + "...";
+            result += name[i];
+        }
+        return result;
     },
 
     getAvatarStyle() {
         let map = {
-            DNIU: { size: 44, nameWidth: 52, nameHeight: 16, nameY: -18, fontSize: 12 },
-            JH: { size: 42, nameWidth: 50, nameHeight: 16, nameY: -18, fontSize: 12 },
-            HSMJ: { size: 46, nameWidth: 54, nameHeight: 17, nameY: -19, fontSize: 12 },
-            ZMZ: { size: 46, nameWidth: 54, nameHeight: 17, nameY: -19, fontSize: 12 },
-            PDK: { size: 46, nameWidth: 54, nameHeight: 17, nameY: -19, fontSize: 12 },
+            DNIU: { size: 44, nameWidth: 54, nameHeight: 16, nameY: -14, fontSize: 12 },
+            JH: { size: 42, nameWidth: 52, nameHeight: 16, nameY: -14, fontSize: 12 },
+            HSMJ: { size: 46, nameWidth: 56, nameHeight: 17, nameY: -15, fontSize: 12 },
+            ZMZ: { size: 46, nameWidth: 56, nameHeight: 17, nameY: -15, fontSize: 12 },
+            PDK: { size: 46, nameWidth: 56, nameHeight: 17, nameY: -15, fontSize: 12 },
         };
-        return map[this.currentGameKey] || { size: 42, nameWidth: 50, nameHeight: 16, nameY: -18, fontSize: 12 };
+        return map[this.currentGameKey] || { size: 42, nameWidth: 52, nameHeight: 16, nameY: -14, fontSize: 12 };
     },
 
     getSeatPositions(seats) {
