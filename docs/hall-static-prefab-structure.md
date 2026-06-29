@@ -1,6 +1,6 @@
 # 新大厅 HallStaticTestView Prefab 结构说明
 
-目标：大厅整体位置、大小、层级尽量在 prefab 里调整；脚本只负责加载图片、填文字、生成测试桌、绑定点击。
+目标：先用代码把大厅效果图的位置和层级调准；等视觉稳定后，再导出节点结构和坐标，手动回填到 prefab。
 
 当前脚本入口：
 
@@ -97,7 +97,7 @@ HallStaticTestView
 - `PlayTypeTabs`
 - `BottomBar` 和底部按钮
 
-`HallStaticTestView.js` 里已经开启 `PREFAB_OWNS_LAYOUT = true`，这些节点不会再被脚本强制摆位置。
+当前阶段 `HallStaticTestView.js` 使用 `PREFAB_OWNS_LAYOUT = false`，也就是代码会强制摆位置。等最终布局确认后，再把坐标导出到 prefab。
 
 ## 三、脚本仍然会动态处理的内容
 
