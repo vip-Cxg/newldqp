@@ -12,6 +12,8 @@ const DESIGN = {
     top: 175,
     bottom: 84,
     menu: 128,
+    tableLeft: 142,
+    tableRight: 8,
     tableW: 360,
     tableH: 182,
     gapX: 44,
@@ -117,10 +119,10 @@ cc.Class({
         this.applyLayoutSprite("TopBar/BtnRefresh", "refresh", 92, 92);
         this.applyLayoutSprite("TopBar/BtnMessage", "message", 92, 92);
         this.applyLayoutSprite("TopBar/BtnSetting", "setting", 92, 92);
-        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.getNode("TopBar/BtnBack"), -614, 10, 77, 77);
+        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.getNode("TopBar/BtnBack"), this.leftX(53), 10, 77, 77);
         this.bindUserInfoPrefab();
         if (!PREFAB_OWNS_LAYOUT) {
-            this.resizeNode(this.getNode("TopBar/InfoBg"), -427.862, 10, 250, 74);
+            this.resizeNode(this.getNode("TopBar/InfoBg"), this.leftX(239), 10, 250, 74);
             this.resizeNode(this.getNode("TopBar/ClubTitle"), 16, 5, 382, 70);
             this.resizeNode(this.getNode("TopBar/ClubTitle/julebudi"), 0, 0, 382, 70);
             this.resizeNode(this.getNode("TopBar/BtnRefresh"), size.width / 2 - 368, 4, 92, 92);
@@ -145,7 +147,7 @@ cc.Class({
         this.drawPanel(this.getNode("TopBar/UserInfo/CoinBg"), cc.color(0, 0, 0, 135), 16);
         let coinIconPath = this.getNode("TopBar/UserInfo/CoinBg/CoinIcon") ? "TopBar/UserInfo/CoinBg/CoinIcon" : "TopBar/UserInfo/CoinIcon";
         let coinLabelPath = this.getNode("TopBar/UserInfo/CoinBg/LabelCoin") ? "TopBar/UserInfo/CoinBg/LabelCoin" : "TopBar/UserInfo/LabelCoin";
-        this.resizeNode(userInfo, -425, 10, 360, 90);
+        this.resizeNode(userInfo, this.leftX(242), 10, 360, 90);
         this.resizeNode(this.getNode("TopBar/UserInfo/AvatarRoot"), -93.718, 0, 76, 76);
         this.resizeNode(this.getNode("TopBar/UserInfo/AvatarRoot/AvatarMask"), 0, 0, 66, 66);
         this.resizeNode(this.getNode("TopBar/UserInfo/AvatarRoot/AvatarMask/AvatarSprite"), 0, 0, 58, 58);
@@ -204,12 +206,12 @@ cc.Class({
 
     bindTableScrollPrefab(size) {
         this.scrollNode = this.getNode("TableScroll");
-        let viewW = this.scrollNode ? this.scrollNode.width : size.width - DESIGN.menu - 6;
+        let viewW = this.scrollNode ? this.scrollNode.width : size.width - DESIGN.tableLeft - DESIGN.tableRight;
         let viewH = this.scrollNode ? this.scrollNode.height : size.height - DESIGN.top - DESIGN.bottom;
         if (!PREFAB_OWNS_LAYOUT) {
-            let x = -size.width / 2 + DESIGN.menu + viewW / 2 + 4;
+            viewW = size.width - DESIGN.tableLeft - DESIGN.tableRight;
+            let x = -size.width / 2 + DESIGN.tableLeft + viewW / 2;
             let y = -12;
-            viewW = size.width - DESIGN.menu - 6;
             viewH = size.height - DESIGN.top - DESIGN.bottom;
             this.resizeNode(this.scrollNode, x, y, viewW, viewH);
         }
@@ -272,7 +274,7 @@ cc.Class({
         this.bindTouch("BottomBar/BtnBank", () => {}, true);
         this.bindTouch("BottomBar/BtnQuickJoin", () => {}, true);
         this.playTypeBar = this.getNode("PlayTypeTabs");
-        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.playTypeBar, -size.width / 2 + DESIGN.menu + 360, -size.height / 2 + DESIGN.bottom + 32, 560, 52);
+        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.playTypeBar, this.leftX(DESIGN.menu + 360), -size.height / 2 + DESIGN.bottom + 32, 560, 52);
         this.renderRoomTabs();
     },
 
@@ -529,7 +531,7 @@ cc.Class({
             let table = this.tableData[dataIndex];
             let col = Math.floor(dataIndex / this.tableRows);
             let row = dataIndex % this.tableRows;
-            let x = 58 + col * this.tableStrideX + DESIGN.tableW / 2;
+            let x = 38 + col * this.tableStrideX + DESIGN.tableW / 2;
             let y = -18 - row * this.tableStrideY - DESIGN.tableH / 2;
             node.active = true;
             node.setPosition(cc.v2(x, y));
@@ -694,6 +696,14 @@ cc.Class({
         if (!node) return;
         node.setPosition(cc.v2(x, y));
         node.setContentSize(cc.size(w, h));
+    },
+
+    leftX(x) {
+        return -cc.winSize.width / 2 + x;
+    },
+
+    rightX(x) {
+        return cc.winSize.width / 2 - x;
     },
 
     bindTouch(path, handler) {
