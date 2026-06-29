@@ -10,6 +10,79 @@
 - `assets/script/ui/hall/HallStaticTableItem.js`：桌子渲染逻辑。
 - `assets/resources/Main/Prefab/HallStaticAvatarSeat.prefab`：独立头像座位 prefab。
 
+## 当前 HallStaticTestView 替换清单
+
+现在 `HallStaticTestView.prefab` 已经生成了可视化层级，不再只是空节点。后面替换美术时优先改这些节点的 `SpriteFrame`。
+
+```text
+HallStaticTestView
+  BgLayer
+    BgImage          大厅主背景
+    TopTint          顶部暗色遮罩，可换成顶部装饰图
+    BottomTint       底部暗色遮罩，可换成底部栏背景
+
+  TopBar
+    BtnBack          返回按钮
+      Label
+    UserPanel        左上角用户信息背景
+      UserAvatar     用户头像底图
+      LabelID
+      LabelCoin
+    BtnRefresh       刷新按钮
+      Label
+    ClubTitle        中间联盟标题
+      Label
+      Line
+    BtnSearch        查找牌桌按钮
+      Label
+    BtnMessage       消息按钮
+      Label
+
+  NoticeBar          喇叭横条背景
+    IconSpeaker
+    NoticeText
+
+  GameMenu
+    GameBtn_ALL
+      Label
+    GameBtn_DNIU
+      Label
+    GameBtn_JH
+      Label
+    GameBtn_ZMZ
+      Label
+    GameBtn_HSMJ
+      Label
+    GameBtn_PDK
+      Label
+
+  TableScroll
+    view
+      content        桌子 prefab 会运行时放到这里
+
+  PlayTypeTabs       玩法按钮会运行时放到这里
+
+  BottomBar          底部栏背景
+    BtnScore
+      Label
+    BtnManage
+      Label
+    BtnBank
+      Label
+    BtnQuickJoin
+      Label
+```
+
+替换规则：
+
+- 可以改节点位置、大小、颜色、SpriteFrame。
+- 不要改节点名。
+- `TableScroll/view/content` 不要手动放桌子，脚本会放。
+- `PlayTypeTabs` 不要手动放玩法按钮，脚本会按游戏生成。
+- `GameBtn_*` 可以换按钮图片，但保留 `Label` 子节点。
+- `BottomBar/BtnQuickJoin` 可以换成大黄按钮图片。
+- 当前这些节点的 SpriteFrame 大多是空的，你拖图进去即可。
+
 ## 一、最终 prefab 拆分
 
 推荐最终拆成这些 prefab：
