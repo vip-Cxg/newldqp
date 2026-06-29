@@ -1,21 +1,43 @@
 const MENU_ITEMS = [
-    { key: "ALL", name: "全部游戏", color: cc.color(238, 204, 170, 255) },
-    { key: "DNIU", name: "牛牛", color: cc.color(128, 146, 238, 255), seats: 8, asset: "hall/niuniu01", tableColor: cc.color(181, 44, 82, 255) },
-    { key: "JH", name: "金花", color: cc.color(128, 146, 238, 255), seats: 6, asset: "hall/jh02", tableColor: cc.color(52, 91, 158, 255) },
-    { key: "ZMZ", name: "捉麻子", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
-    { key: "HSMJ", name: "划水麻将", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/hsmj05", tableColor: cc.color(48, 130, 116, 255) },
-    { key: "PDK", name: "跑得快", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
+    { key: "ALL", name: "全部游戏", icon: "hall/quanbuyouxi", color: cc.color(238, 204, 170, 255) },
+    { key: "DNIU", name: "牛牛", icon: "hall/niuniu", color: cc.color(128, 146, 238, 255), seats: 8, asset: "hall/niuniu01", tableColor: cc.color(181, 44, 82, 255) },
+    { key: "JH", name: "金花", icon: "hall/jinhua", color: cc.color(128, 146, 238, 255), seats: 6, asset: "hall/jh02", tableColor: cc.color(52, 91, 158, 255) },
+    { key: "HSMJ", name: "划水麻将", icon: "hall/huashuimaj", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/hsmj05", tableColor: cc.color(48, 130, 116, 255) },
+    { key: "ZMZ", name: "捉麻子", icon: "hall/zuomazi", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
+    { key: "PDK", name: "跑得快", icon: "hall/zuomazi", hiddenInStaticHall: true, color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
 ];
 
 const TABLE_COUNT = 30;
 const DESIGN = {
     top: 175,
-    bottom: 96,
-    menu: 150,
+    bottom: 84,
+    menu: 128,
     tableW: 360,
     tableH: 182,
-    gapX: 76,
-    gapY: 52,
+    gapX: 44,
+    gapY: 42,
+    menuBtnW: 92,
+    menuBtnH: 93,
+};
+
+const PREFAB_OWNS_LAYOUT = true;
+
+const HALL_UI = {
+    bg: "hall/bgHall",
+    back: "hall/fanhui",
+    avatar: "hall/touxiang",
+    avatarFill: "head/common_moren",
+    coin: "hall/game_coin",
+    clubTitle: "hall/julebudi",
+    refresh: "hall/shuaxin",
+    message: "hall/xiaoxi",
+    setting: "hall/sehzhi",
+    score: "hall/zhanjitongji",
+    manage: "hall/jinyinfenxi",
+    bank: "hall/baoxianxiang",
+    quick: "hall/kuaisujiaru",
+    ruleNormal: "hall/suoyouwanan",
+    ruleSelected: "hall/suoyouwanfadi",
 };
 
 cc.Class({
@@ -28,6 +50,8 @@ cc.Class({
     onLoad() {
         this.menuButtons = {};
         this.tableSprites = {};
+        this.uiSprites = {};
+        this.menuSprites = {};
         this.labelPrefab = null;
         this.tableItemPrefab = null;
         this.tablePool = [];
@@ -68,8 +92,12 @@ cc.Class({
         this.node.setContentSize(size);
         this.resizeNode(this.getNode("BgLayer"), 0, 0, size.width, size.height);
         this.resizeNode(this.getNode("BgLayer/BgImage"), 0, 0, size.width, size.height);
-        this.resizeNode(this.getNode("BgLayer/TopTint"), 0, size.height / 2 - 82, size.width, 164);
-        this.resizeNode(this.getNode("BgLayer/BottomTint"), 0, -size.height / 2 + 48, size.width, 96);
+        this.applySprite("BgLayer/BgImage", "bg", size.width, size.height);
+        this.resizeNode(this.getNode("BgLayer/TopTint"), 0, size.height / 2 - 52, size.width, 104);
+        this.resizeNode(this.getNode("BgLayer/BottomTint"), 0, -size.height / 2 + 42, size.width, DESIGN.bottom);
+        this.drawPanel(this.getNode("BgLayer/BottomTint"), cc.color(0, 0, 0, 125), 0);
+        let ref = this.getNode("大厅效果");
+        if (ref) ref.active = false;
 
         this.bindTopPrefab(size);
         this.bindNoticePrefab(size);
@@ -82,41 +110,97 @@ cc.Class({
 
     bindTopPrefab(size) {
         let top = this.getNode("TopBar");
-        if (top) this.resizeNode(top, 0, size.height / 2 - 54, size.width, 108);
+        if (top && !PREFAB_OWNS_LAYOUT) this.resizeNode(top, 0, size.height / 2 - 46, size.width, 92);
+        this.applyLayoutSprite("TopBar/BtnBack", "back", 76, 77);
+        this.applyLayoutSprite("TopBar/ClubTitle/julebudi", "clubTitle", 364, 66);
+        this.applyLayoutSprite("TopBar/BtnRefresh", "refresh", 76, 90);
+        this.applyLayoutSprite("TopBar/BtnMessage", "message", 76, 90);
+        this.applyLayoutSprite("TopBar/BtnSetting", "setting", 76, 90);
+        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.getNode("TopBar/BtnBack"), -size.width / 2 + 53, 4, 76, 77);
+        this.bindUserInfoPrefab();
+        if (!PREFAB_OWNS_LAYOUT) {
+            this.resizeNode(this.getNode("TopBar/ClubTitle"), 0, 1, 364, 66);
+            this.resizeNode(this.getNode("TopBar/ClubTitle/julebudi"), 0, 0, 364, 66);
+            this.resizeNode(this.getNode("TopBar/BtnRefresh"), size.width / 2 - 362, 2, 76, 90);
+            this.resizeNode(this.getNode("TopBar/BtnMessage"), size.width / 2 - 210, 2, 76, 90);
+            this.resizeNode(this.getNode("TopBar/BtnSetting"), size.width / 2 - 58, 2, 76, 90);
+        }
         this.bindTouch("TopBar/BtnBack", () => this.node.destroy());
-        this.bindTouch("TopBar/BtnRefresh", () => this.renderTables());
-        this.setNodeLabel("TopBar/UserPanel/LabelID", "ID:514902");
-        this.setNodeLabel("TopBar/UserPanel/LabelCoin", "金币 0");
-        this.setNodeLabel("TopBar/ClubTitle/Label", "奇幻森林");
+        this.bindTouch("TopBar/BtnRefresh", () => this.renderTables(), true);
+        this.bindTouch("TopBar/BtnMessage", () => {}, true);
+        this.bindTouch("TopBar/BtnSetting", () => {}, true);
+        this.setNodeLabel("TopBar/ClubTitle/Label", "娱乐至上俱乐部");
+        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.getNode("TopBar/ClubTitle/Label"), 0, 3, 310, 48);
+    },
+
+    bindUserInfoPrefab() {
+        let userInfo = this.getNode("TopBar/UserInfo");
+        if (!userInfo) return;
+        userInfo.active = true;
+        userInfo.opacity = 255;
+        let infoBg = this.getNode("TopBar/UserInfo/InfoBg");
+        if (infoBg) {
+            infoBg.active = false;
+            this.clearGraphics(infoBg);
+        }
+        this.drawPanel(this.getNode("TopBar/UserInfo/CoinBg"), cc.color(0, 0, 0, 135), 16);
+        this.applyLayoutSprite("TopBar/UserInfo/AvatarRoot/AvatarMask/AvatarSprite", "avatarFill", 66, 66);
+        this.applyLayoutSprite("TopBar/UserInfo/AvatarRoot/AvatarFrame", "avatar", 76, 76);
+        this.applyLayoutSprite("TopBar/UserInfo/CoinIcon", "coin", 28, 28);
+        this.setNodeLabel("TopBar/UserInfo/LabelID", "ID:123456789");
+        this.setNodeLabel("TopBar/UserInfo/LabelCoin", "52.78");
+        let zMap = {
+            CoinBg: 0,
+            AvatarRoot: 10,
+            LabelID: 20,
+            CoinIcon: 20,
+            LabelCoin: 20,
+        };
+        Object.keys(zMap).forEach((name) => {
+            let node = userInfo.getChildByName(name);
+            if (node) node.zIndex = zMap[name];
+        });
     },
 
     bindNoticePrefab(size) {
         let notice = this.getNode("NoticeBar");
-        if (notice) this.resizeNode(notice, DESIGN.menu + 420, size.height / 2 - 138, size.width - DESIGN.menu - 250, 38);
+        if (notice && !PREFAB_OWNS_LAYOUT) this.resizeNode(notice, 8, size.height / 2 - 116, size.width - 16, 40);
+        if (!PREFAB_OWNS_LAYOUT) {
+            this.resizeNode(this.getNode("NoticeBar/IconSpeaker"), -size.width / 2 + 180, 0, 74, 34);
+            this.resizeNode(this.getNode("NoticeBar/NoticeText"), -size.width / 2 + 245, 0, 250, 34);
+        }
         this.setNodeLabel("NoticeBar/NoticeText", ": 代理");
     },
 
     bindMenuPrefab(size) {
         let menu = this.getNode("GameMenu");
-        if (menu) this.resizeNode(menu, -size.width / 2 + 82, 8, DESIGN.menu, size.height - DESIGN.top - 12);
+        if (menu && !PREFAB_OWNS_LAYOUT) this.resizeNode(menu, -size.width / 2 + 62, 5, DESIGN.menu, size.height - DESIGN.top - 22);
         MENU_ITEMS.forEach((item, index) => {
             let btn = this.getNode("GameMenu/GameBtn_" + item.key);
             if (!btn) return;
+            btn.active = !item.hiddenInStaticHall;
+            if (!PREFAB_OWNS_LAYOUT) this.resizeNode(btn, 0, size.height / 2 - 176 - index * 96, DESIGN.menuBtnW, DESIGN.menuBtnH);
+            this.applyMenuSprite(btn, item);
+            this.configureButton(btn);
             btn.gameKey = item.key;
             btn.off(cc.Node.EventType.TOUCH_END);
             btn.on(cc.Node.EventType.TOUCH_END, () => this.selectGame(item.key), this);
-            this.setChildLabel(btn, item.name);
+            this.setChildActive(btn, "Label", false);
             this.menuButtons[item.key] = btn;
         });
     },
 
     bindTableScrollPrefab(size) {
-        let viewW = size.width - DESIGN.menu - 6;
-        let viewH = size.height - DESIGN.top - DESIGN.bottom;
-        let x = -size.width / 2 + DESIGN.menu + viewW / 2;
-        let y = -18;
         this.scrollNode = this.getNode("TableScroll");
-        this.resizeNode(this.scrollNode, x, y, viewW, viewH);
+        let viewW = this.scrollNode ? this.scrollNode.width : size.width - DESIGN.menu - 6;
+        let viewH = this.scrollNode ? this.scrollNode.height : size.height - DESIGN.top - DESIGN.bottom;
+        if (!PREFAB_OWNS_LAYOUT) {
+            let x = -size.width / 2 + DESIGN.menu + viewW / 2 + 4;
+            let y = -12;
+            viewW = size.width - DESIGN.menu - 6;
+            viewH = size.height - DESIGN.top - DESIGN.bottom;
+            this.resizeNode(this.scrollNode, x, y, viewW, viewH);
+        }
 
         let scroll = this.scrollNode.getComponent(cc.ScrollView) || this.scrollNode.addComponent(cc.ScrollView);
         scroll.horizontal = true;
@@ -141,10 +225,31 @@ cc.Class({
 
     bindBottomPrefab(size) {
         let bottom = this.getNode("BottomBar");
-        if (bottom) this.resizeNode(bottom, 0, -size.height / 2 + 48, size.width, DESIGN.bottom);
-        this.bindTouch("BottomBar/BtnQuickJoin", () => {});
+        if (bottom && !PREFAB_OWNS_LAYOUT) this.resizeNode(bottom, 0, -size.height / 2 + 42, size.width, DESIGN.bottom);
+        this.clearGraphics(bottom);
+        let bottomW = bottom ? bottom.width : size.width;
+        let bottomH = bottom ? bottom.height : DESIGN.bottom;
+        this.drawPanelChild("BottomBar", "BottomBlackBg", 0, 0, bottomW, bottomH, cc.color(0, 0, 0, 125), 0, -20);
+        this.applyLayoutSprite("BottomBar/BtnScore", "score", 183, 59);
+        this.applyLayoutSprite("BottomBar/BtnManage", "manage", 192, 56);
+        this.applyLayoutSprite("BottomBar/BtnBank", "bank", 171, 50);
+        this.applyLayoutSprite("BottomBar/BtnQuickJoin", "quick", 198, 76);
+        if (!PREFAB_OWNS_LAYOUT) {
+            this.resizeNode(this.getNode("BottomBar/BtnScore"), -size.width / 2 + 120, 2, 183, 59);
+            this.resizeNode(this.getNode("BottomBar/BtnManage"), -size.width / 2 + 395, 2, 192, 56);
+            this.resizeNode(this.getNode("BottomBar/BtnBank"), -size.width / 2 + 650, 2, 171, 50);
+            this.resizeNode(this.getNode("BottomBar/BtnQuickJoin"), size.width / 2 - 155, 4, 198, 76);
+        }
+        ["BtnScore", "BtnManage", "BtnBank", "BtnQuickJoin"].forEach((name) => {
+            let node = this.getNode("BottomBar/" + name);
+            if (node) node.zIndex = 10;
+        });
+        this.bindTouch("BottomBar/BtnScore", () => {}, true);
+        this.bindTouch("BottomBar/BtnManage", () => {}, true);
+        this.bindTouch("BottomBar/BtnBank", () => {}, true);
+        this.bindTouch("BottomBar/BtnQuickJoin", () => {}, true);
         this.playTypeBar = this.getNode("PlayTypeTabs");
-        this.resizeNode(this.playTypeBar, -size.width / 2 + DESIGN.menu + 250, -size.height / 2 + DESIGN.bottom + 22, 540, 48);
+        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.playTypeBar, -size.width / 2 + DESIGN.menu + 360, -size.height / 2 + DESIGN.bottom + 32, 560, 52);
         this.renderRoomTabs();
     },
 
@@ -181,6 +286,27 @@ cc.Class({
             });
         });
 
+        MENU_ITEMS.forEach((item) => {
+            if (!item.icon || this.menuSprites[item.key]) return;
+            tasks++;
+            cc.loader.loadRes(item.icon, cc.SpriteFrame, (err, spriteFrame) => {
+                if (!err && spriteFrame) {
+                    this.menuSprites[item.key] = spriteFrame;
+                }
+                finish();
+            });
+        });
+
+        Object.keys(HALL_UI).forEach((key) => {
+            if (this.uiSprites[key]) return;
+            tasks++;
+            cc.loader.loadRes(HALL_UI[key], cc.SpriteFrame, (err, spriteFrame) => {
+                if (!err && spriteFrame) {
+                    this.uiSprites[key] = spriteFrame;
+                }
+                finish();
+            });
+        });
     },
 
     drawBackground(size) {
@@ -273,13 +399,14 @@ cc.Class({
     },
 
     renderRoomTabs() {
+        if (!this.playTypeBar) return;
         this.playTypeBar.removeAllChildren();
         if (this.currentGame === "ALL") return;
         let rules = this.getRules(this.currentGame);
-        let allBtn = this.makeRoundButton("RoomTabAll", this.playTypeBar, -128, 0, 142, 45, "所有玩法", 21, this.currentRuleIndex === -1 ? cc.color(239, 172, 78, 245) : cc.color(34, 96, 118, 150));
+        let allBtn = this.makeImageTab("RoomTabAll", -184, 0, "所有玩法", this.currentRuleIndex === -1);
         allBtn.on(cc.Node.EventType.TOUCH_END, () => this.selectRule(-1), this);
         rules.forEach((rule, index) => {
-            let btn = this.makeRoundButton("RoomTab_" + index, this.playTypeBar, 20 + index * 152, 0, 148, 45, rule, 21, this.currentRuleIndex === index ? cc.color(239, 172, 78, 245) : cc.color(34, 96, 118, 150));
+            let btn = this.makeImageTab("RoomTab_" + index, -18 + index * 170, 0, rule, this.currentRuleIndex === index);
             btn.on(cc.Node.EventType.TOUCH_END, () => this.selectRule(index), this);
         });
     },
@@ -301,21 +428,11 @@ cc.Class({
     updateMenuState() {
         Object.keys(this.menuButtons).forEach((key) => {
             let btn = this.menuButtons[key];
-            let g = btn.getComponent(cc.Graphics);
             let selected = key === this.currentGame;
-            if (g) {
-                g.clear();
-                g.fillColor = selected ? cc.color(238, 204, 170, 255) : cc.color(128, 146, 238, 238);
-                g.strokeColor = cc.color(235, 238, 255, 210);
-                g.lineWidth = 2;
-                g.roundRect(-btn.width / 2, -btn.height / 2, btn.width, btn.height, 7);
-                g.fill();
-                g.stroke();
-            } else {
-                btn.color = selected ? cc.color(238, 204, 170, 255) : cc.color(128, 146, 238, 255);
-            }
+            btn.opacity = selected ? 255 : 230;
+            btn.scale = selected ? 1.03 : 1;
             let label = btn.getChildByName("Label");
-            if (label) label.color = selected ? cc.color(109, 79, 55, 255) : cc.color(255, 255, 255, 255);
+            if (label) label.active = false;
         });
     },
 
@@ -401,7 +518,7 @@ cc.Class({
     },
 
     createTableData(game, index) {
-        let occupied = (index % game.seats) + 1;
+        let occupied = game.key === "DNIU" ? game.seats : (index % game.seats) + 1;
         let isPlaying = index % 4 === 0;
         let rules = this.getRules(game.key);
         let useSelectedRule = this.currentGame !== "ALL" && this.currentGame === game.key && this.currentRuleIndex >= 0;
@@ -410,11 +527,12 @@ cc.Class({
             game: game,
             name: game.name + " 测试桌 " + index,
             rule: rules[ruleIndex] || rules[0],
+            entryText: this.getEntryText(game.key, ruleIndex),
             occupied: occupied,
             players: this.createMockPlayers(occupied, index),
             state: isPlaying ? "游戏中" : "等待中",
-            totalRound: game.key === "JH" ? 6 : 20,
-            currentRound: (index * 2) % 20 + 1,
+            totalRound: 10,
+            currentRound: (index * 2) % 10 + 1,
         };
     },
 
@@ -499,13 +617,25 @@ cc.Class({
 
     getRules(key) {
         let ruleMap = {
-            DNIU: ["暗一100锅", "暗一200锅"],
+            DNIU: ["牛牛0.5底", "暗一100锅 3底"],
             JH: ["拼三张0.5底", "拼三张1底"],
             ZMZ: ["普通桌", "高级桌"],
             HSMJ: ["划水麻将", "2人玩法"],
             PDK: ["跑得快", "15张玩法"],
         };
         return ruleMap[key] || ["所有玩法"];
+    },
+
+    getEntryText(key, ruleIndex) {
+        let map = {
+            DNIU: ["入:100/出10", "入:100/出10"],
+            JH: ["入:50/出5", "入:100/出10"],
+            ZMZ: ["入:100/出10", "入:100/出10"],
+            HSMJ: ["入:100/出10", "入:100/出10"],
+            PDK: ["入:100/出10", "入:100/出10"],
+        };
+        let list = map[key] || ["入:100/出10"];
+        return list[ruleIndex] || list[0];
     },
 
     getRuleName(key) {
@@ -546,8 +676,17 @@ cc.Class({
     bindTouch(path, handler) {
         let node = this.getNode(path);
         if (!node) return;
+        this.configureButton(node);
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, handler, this);
+    },
+
+    configureButton(node) {
+        if (!node) return;
+        let button = node.getComponent(cc.Button) || node.addComponent(cc.Button);
+        button.transition = cc.Button.Transition.SCALE;
+        button.duration = 0.08;
+        button.zoomScale = 0.94;
     },
 
     setNodeLabel(path, text) {
@@ -561,6 +700,110 @@ cc.Class({
         let labelNode = node && node.getChildByName("Label");
         let label = labelNode && labelNode.getComponent(cc.Label);
         if (label) label.string = text;
+    },
+
+    setChildActive(node, childName, active) {
+        let child = node && node.getChildByName(childName);
+        if (child) child.active = active;
+    },
+
+    applySprite(path, key, w, h) {
+        let node = typeof path === "string" ? this.getNode(path) : path;
+        if (!node) return;
+        let spriteFrame = this.uiSprites[key];
+        if (!spriteFrame) return;
+        this.clearGraphics(node);
+        let sprite = node.getComponent(cc.Sprite) || node.addComponent(cc.Sprite);
+        sprite.spriteFrame = spriteFrame;
+        sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        if (w && h) node.setContentSize(cc.size(w, h));
+        node.color = cc.Color.WHITE;
+        node.opacity = 255;
+    },
+
+    applyLayoutSprite(path, key, w, h) {
+        if (PREFAB_OWNS_LAYOUT) {
+            this.applySprite(path, key);
+            return;
+        }
+        this.applySprite(path, key, w, h);
+    },
+
+    applySpriteToChild(parentPath, name, key, x, y, w, h, zIndex) {
+        let parent = this.getNode(parentPath);
+        let spriteFrame = this.uiSprites[key];
+        if (!parent || !spriteFrame) return null;
+        let node = parent.getChildByName(name);
+        if (!node) {
+            node = new cc.Node(name);
+            parent.addChild(node);
+        }
+        node.setPosition(cc.v2(x, y));
+        node.setContentSize(cc.size(w, h));
+        node.zIndex = zIndex || 0;
+        node.opacity = 255;
+        node.color = cc.Color.WHITE;
+        this.clearGraphics(node);
+        let sprite = node.getComponent(cc.Sprite) || node.addComponent(cc.Sprite);
+        sprite.spriteFrame = spriteFrame;
+        sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        return node;
+    },
+
+    applyMenuSprite(btn, item) {
+        if (!btn || !item) return;
+        let spriteFrame = this.menuSprites[item.key];
+        if (!spriteFrame) return;
+        this.clearGraphics(btn);
+        let sprite = btn.getComponent(cc.Sprite) || btn.addComponent(cc.Sprite);
+        sprite.spriteFrame = spriteFrame;
+        sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        btn.color = cc.Color.WHITE;
+        btn.opacity = item.key === this.currentGame ? 255 : 225;
+    },
+
+    clearGraphics(node) {
+        let graphics = node && node.getComponent(cc.Graphics);
+        if (!graphics) return;
+        graphics.clear();
+        if (node.removeComponent) {
+            node.removeComponent(graphics);
+        }
+    },
+
+    drawPanel(node, color, radius) {
+        if (!node) return;
+        let g = node.getComponent(cc.Graphics) || node.addComponent(cc.Graphics);
+        g.clear();
+        g.fillColor = color;
+        g.roundRect(-node.width / 2, -node.height / 2, node.width, node.height, radius || 0);
+        g.fill();
+    },
+
+    drawPanelChild(parentPath, name, x, y, w, h, color, radius, zIndex) {
+        let parent = this.getNode(parentPath);
+        if (!parent) return null;
+        let node = parent.getChildByName(name);
+        if (!node) {
+            node = new cc.Node(name);
+            parent.addChild(node);
+        }
+        node.setPosition(cc.v2(x, y));
+        node.setContentSize(cc.size(w, h));
+        node.zIndex = zIndex == null ? -10 : zIndex;
+        node.opacity = 255;
+        this.drawPanel(node, color, radius || 0);
+        return node;
+    },
+
+    makeImageTab(name, x, y, text, selected) {
+        let node = this.makeNode(name, this.playTypeBar, x, y, 157, 52);
+        let sprite = node.addComponent(cc.Sprite);
+        sprite.spriteFrame = selected ? this.uiSprites.ruleSelected : this.uiSprites.ruleNormal;
+        sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        this.configureButton(node);
+        this.makeLabel("Label", node, text, 24, selected ? cc.color(255, 255, 255, 255) : cc.color(255, 255, 255, 240), 0, 0, 145, 48);
+        return node;
     },
 
     makeLabel(name, parent, text, fontSize, color, x, y, w, h) {

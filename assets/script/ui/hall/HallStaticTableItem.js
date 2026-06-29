@@ -27,8 +27,28 @@ cc.Class({
         this.setTableArt(spriteFrame, data);
         this.applyGameLayout(data);
         this.setLabel(this.ruleLabel, data.rule || "");
-        this.setLabel(this.roundLabel, (data.occupied || 0) + "人/" + (data.totalRound || 20) + "局");
+        this.setLabel(this.roundLabel, (data.entryText || "") + "\n" + (data.occupied || 0) + "人/" + (data.totalRound || 10) + "局");
+        this.applyRuleTextStyle();
+        if (this.roundLabel) {
+            this.roundLabel.lineHeight = Math.max(18, Math.floor(this.roundLabel.fontSize * 1.05));
+            this.roundLabel.enableWrapText = false;
+            this.roundLabel.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
+            this.roundLabel.verticalAlign = cc.Label.VerticalAlign.CENTER;
+            this.roundLabel.overflow = cc.Label.Overflow.CLAMP;
+        }
         this.renderAvatars(data);
+    },
+
+    applyRuleTextStyle() {
+        let yellow = cc.color(255, 231, 120, 255);
+        let outlineColor = cc.color(65, 35, 50, 210);
+        [this.ruleLabel, this.roundLabel].forEach((label) => {
+            if (!label || !label.node) return;
+            label.node.color = yellow;
+            let outline = label.node.getComponent(cc.LabelOutline) || label.node.addComponent(cc.LabelOutline);
+            outline.color = outlineColor;
+            outline.width = 2;
+        });
     },
 
     applyGameLayout(data) {
@@ -40,7 +60,8 @@ cc.Class({
         }
         let roundNode = this.roundLabel && this.roundLabel.node;
         if (roundNode && layout.rule) {
-            roundNode.setPosition(cc.v2(layout.rule.x, layout.rule.y - 28));
+            roundNode.setPosition(cc.v2(layout.rule.x, layout.rule.y - 32));
+            roundNode.setContentSize(cc.size(160, 42));
         }
     },
 
