@@ -1,172 +1,331 @@
-# 新大厅 HallStaticTestView Prefab 结构说明
+# 新大厅 Prefab 结构与坐标调整文档
 
-目标：先用代码把大厅效果图的位置和层级调准；等视觉稳定后，再导出节点结构和坐标，手动回填到 prefab。
+目标：我们已经先按 `assets/resources/hall/大厅效果.jpg` 用代码实现了大厅布局。当前决定是：静态节点结构放在 `HallStaticTestView.prefab`，但具体坐标、尺寸、层级继续由 `HallStaticTestView.js` 控制。
 
-当前脚本入口：
+当前结论：
 
-- `assets/resources/Main/Prefab/HallStaticTestView.prefab`
-- `assets/script/ui/hall/HallStaticTestView.js`
-- `assets/resources/Main/Prefab/HallStaticTableItem.prefab`
-- `assets/script/ui/hall/HallStaticTableItem.js`
+- 新大厅界面的静态搭建已经基本完成。
+- 现在完成的是“代码布局版”，后续微调直接改脚本坐标。
+- prefab 主要负责节点结构和美术挂载，不负责最终摆放。
+- 后面主要是继续接真实数据、真实房间、真实玩法筛选、性能优化和细节动效。
 
-## 一、页面 prefab 推荐层级
+## 一、当前资源与脚本
 
-节点名尽量不要改，脚本按这些路径查找。
+- 页面 prefab：`assets/resources/Main/Prefab/HallStaticTestView.prefab`
+- 桌子 prefab：`assets/resources/Main/Prefab/HallStaticTableItem.prefab`
+- 页面脚本：`assets/script/ui/hall/HallStaticTestView.js`
+- 桌子脚本：`assets/script/ui/hall/HallStaticTableItem.js`
+- 参考图：`assets/resources/hall/大厅效果.jpg`
+
+当前没有布局开关。脚本每次进入大厅都会重新设置主要节点位置，所以你要调位置时直接改 `HallStaticTestView.js` 里的数字，运行后马上生效。
+
+常用修改位置：
+
+```text
+顶部栏、右上角按钮         bindTopPrefab(size)
+左上角头像、ID、金币       bindUserInfoPrefab()
+喇叭公告条                 bindNoticePrefab(size)
+左侧游戏菜单               bindMenuPrefab(size)
+桌子滚动区域               bindTableScrollPrefab(size)
+底部黑条和功能按钮         bindBottomPrefab(size)
+桌子大小、间距、边距       文件顶部 DESIGN
+玩法切换按钮               renderRoomTabs()
+桌子生成位置               updateVisibleTables()
+桌子内部头像位置           HallStaticTableItem.js 的 getGameLayout()
+```
+
+## 二、根节点结构
+
+节点名尽量不要改，脚本按这些名字找节点。
 
 ```text
 HallStaticTestView
-  大厅效果                         参考图，可隐藏
+  大厅效果                         参考图，运行时隐藏
 
   BgLayer
     BgImage                        大厅背景图
-    TopTint                        顶部黑色压暗层
-    BottomTint                     底部黑色压暗层
+    TopTint                        顶部暗色遮罩
 
   TopBar
-    BtnBack                        返回按钮，挂 Sprite/Button
-
-    UserInfo                       左上角用户信息整体容器
-      InfoBg                       可保留但当前脚本隐藏；顶部大黑底建议放在 TopTint
-      AvatarRoot                   头像整体容器
-        AvatarMask                 圆形/圆角遮罩，挂 Mask
-          AvatarSprite             真实头像图
-        AvatarFrame                头像金框/占位框
-      LabelID                      ID:123456789
-      CoinBg                       只包住金币图标和金币数字的黑色圆角背景
-      CoinIcon                     金币图标
-      LabelCoin                    金币数字
-
-    ClubTitle                      中间联盟标题
-      julebudi                     紫色标题底图
-      Label                        娱乐至上俱乐部
-
-    BtnRefresh                     右上刷新
-    BtnMessage                     右上消息
-    BtnSetting                     右上设置
+    InfoBg                         左上角用户信息后方黑底
+    BtnBack                        返回按钮
+    UserInfo
+      AvatarRoot
+        AvatarMask
+          AvatarSprite
+        AvatarFrame
+      LabelID
+      CoinBg
+        CoinIcon
+        LabelCoin
+    ClubTitle
+      julebudi
+      Label
+    BtnRefresh
+    BtnMessage
+    BtnSetting
 
   NoticeBar
-    IconSpeaker                    喇叭图标或文字
-    NoticeText                     公告文字
+    IconSpeaker
+    NoticeText
 
-  GameMenu                         左侧游戏菜单
+  GameMenu
     GameBtn_ALL
-      Label                        可隐藏，按钮图片自带字时不用
     GameBtn_DNIU
-      Label
     GameBtn_JH
-      Label
     GameBtn_HSMJ
-      Label
     GameBtn_ZMZ
-      Label
-    GameBtn_PDK                    当前隐藏，保留备用
-      Label
+    GameBtn_PDK                    当前隐藏备用
 
-  TableScroll                      桌子横向滚动区域，位置和大小在 prefab 里调
-    view                           滚动裁剪层，挂 Mask
-      content                      脚本运行时放桌子，不要手动放桌子
+  TableScroll
+    view                           必须有 Mask
+      content                      运行时放桌子
 
-  PlayTypeTabs                     玩法切换按钮容器，位置在 prefab 里调
+  PlayTypeTabs                     运行时生成玩法按钮
 
-  BottomBar                        底部功能区
-    BottomBlackBg                  底部黑底；没有时脚本会创建
+  BottomBar
+    bgBottom                       底部黑底
     BtnScore
     BtnManage
     BtnBank
     BtnQuickJoin
 ```
 
-## 二、现在可以手动调整的内容
+## 三、适配原则
 
-这些节点的位置、大小、缩放可以直接在 prefab 里调：
+不要所有节点都加 Widget。推荐只给“贴边容器”加 Widget，容器内部子节点继续用相对坐标。
 
-- `TopBar/BtnBack`
-- `TopBar/UserInfo`
-- `TopBar/UserInfo/AvatarRoot`
-- `TopBar/UserInfo/CoinBg`
-- `TopBar/UserInfo/CoinIcon`
-- `TopBar/UserInfo/LabelID`
-- `TopBar/UserInfo/LabelCoin`
-- `TopBar/ClubTitle`
-- `TopBar/BtnRefresh`
-- `TopBar/BtnMessage`
-- `TopBar/BtnSetting`
-- `NoticeBar`
-- `GameMenu` 和每个 `GameBtn_*`
-- `TableScroll`
-- `PlayTypeTabs`
-- `BottomBar` 和底部按钮
+推荐加 Widget：
 
-当前阶段 `HallStaticTestView.js` 使用 `PREFAB_OWNS_LAYOUT = false`，也就是代码会强制摆位置。等最终布局确认后，再把坐标导出到 prefab。
+- `BgLayer/BgImage`：四边贴齐，适配全屏背景。
+- `TopBar`：Top 对齐，Left/Right 拉满，高度固定约 `108`。
+- `TopBar/BtnBack`：Left + Top。
+- `TopBar/UserInfo`：Left + Top。
+- `TopBar/InfoBg`：Left + Top。
+- `TopBar/BtnRefresh`：Right + Top。
+- `TopBar/BtnMessage`：Right + Top。
+- `TopBar/BtnSetting`：Right + Top。
+- `GameMenu`：Left + Top/Bottom，或 Left + 固定 Y。
+- `TableScroll`：Left/Right/Top/Bottom，避开左侧菜单和底部栏。
+- `BottomBar`：Bottom + Left/Right，高度固定。
+- `BottomBar/bgBottom`：四边贴齐 `BottomBar`。
+- `BottomBar/BtnQuickJoin`：Right + CenterY 或 Right + Bottom。
 
-## 三、脚本仍然会动态处理的内容
+不建议加 Widget：
 
-这些保持脚本控制更合适：
+- `UserInfo` 下面的 `AvatarRoot`、`LabelID`、`CoinBg`、`CoinIcon`、`LabelCoin`。
+- 桌子 prefab 内部的头像座位。
+- 运行时动态生成的桌子节点。
+- `PlayTypeTabs` 里的玩法按钮。
 
-- 背景图填充窗口大小。
-- `TableScroll/view/content` 的滚动内容宽度。
-- 桌子测试数据，默认 30 张。
-- 横向滚动复用桌子节点，避免一次性生成太多。
-- 游戏切换、玩法切换、快速刷新。
-- 菜单按钮的选中透明度/缩放。
-- 桌子 prefab 内的游戏图片、规则文字、人数文字、头像显示。
+原因：内部子节点加太多 Widget 会互相打架，iPhone X 这类超宽比例更容易出现局部错位。
 
-如果要调桌子之间的间距，改 `HallStaticTestView.js` 顶部的：
+## 四、当前代码坐标参考
 
-```js
-const DESIGN = {
-    tableW: 360,
-    tableH: 182,
-    gapX: 44,
-    gapY: 42,
-};
-```
+以下坐标按 `1334 x 750` 设计稿换算，主要用于对照脚本里的数字。现在不要求你在 prefab 里逐个填写，因为运行时脚本会覆盖主要节点坐标。
 
-## 四、左上角用户信息建议坐标
-
-参考效果图结构是：顶部黑背景上，左边返回按钮，右边用户信息。只有金币这一行有单独黑色圆角背景。
-
-建议结构和层级：
+换算规则：
 
 ```text
-UserInfo
-  AvatarRoot
-    AvatarMask
-      AvatarSprite
-    AvatarFrame
-  LabelID
-  CoinBg
-  CoinIcon
-  LabelCoin
+屏幕宽 1334，半宽 667
+屏幕高 750，半高 375
+
+leftX(n)  = -667 + n
+rightX(n) =  667 - n
+屏幕高/2  = 375
 ```
 
-建议大致尺寸：
-
-- `UserInfo`: `360 x 90`
-- `AvatarRoot`: `76 x 76`
-- `AvatarMask`: `66 x 66`
-- `AvatarSprite`: `66 x 66`
-- `AvatarFrame`: `76 x 76`
-- `LabelID`: `210 x 36`
-- `CoinBg`: `176 x 34`
-- `CoinIcon`: `28 x 28`
-- `LabelCoin`: `112 x 32`
-
-建议相对位置：
+### 1. BgLayer
 
 ```text
-AvatarRoot  x=-92, y=0
-LabelID     x=92,  y=18
-CoinBg      x=82,  y=-22
-CoinIcon    x=18,  y=-22
-LabelCoin   x=88,  y=-22
+BgLayer                x=0, y=0,   w=1334, h=750
+BgImage                x=0, y=0,   w=1334, h=750
+TopTint                x=0, y=323, w=1334, h=104
 ```
 
-如果头像离返回按钮太近，只移动整个 `UserInfo` 节点向右，不要单独移动头像。
+Widget 建议：
+
+```text
+BgLayer/BgImage        Left=0, Right=0, Top=0, Bottom=0
+TopTint                Left=0, Right=0, Top=0
+```
+
+底部黑底统一用 `BottomBar/bgBottom`，不再需要 `BottomTint`。
+
+### 2. TopBar
+
+```text
+TopBar                 x=0,    y=321, w=1334, h=108
+
+InfoBg                 x=-428, y=10,  w=250, h=74
+BtnBack                x=-614, y=10,  w=77,  h=77
+
+ClubTitle              x=16,   y=5,   w=382, h=70
+ClubTitle/julebudi     x=0,    y=0,   w=382, h=70
+ClubTitle/Label        x=0,    y=2,   w=310, h=48
+
+BtnRefresh             x=299,  y=4,   w=92,  h=92
+BtnMessage             x=457,  y=4,   w=92,  h=92
+BtnSetting             x=605,  y=4,   w=92,  h=92
+```
+
+Widget 建议：
+
+```text
+TopBar                 Left=0, Right=0, Top=0
+InfoBg                 Left=114, Top=17
+BtnBack                Left=14,  Top=17
+BtnRefresh             Right=322, Top=8
+BtnMessage             Right=164, Top=8
+BtnSetting             Right=16,  Top=8
+```
+
+### 3. UserInfo
+
+```text
+UserInfo               x=-425,   y=10,  w=360, h=90
+
+AvatarRoot             x=-93.718, y=0,  w=76,  h=76
+AvatarMask             x=0,      y=0,  w=66,  h=66
+AvatarSprite           x=0,      y=0,  w=58,  h=58
+AvatarFrame            x=0,      y=0,  w=66,  h=66
+
+LabelID                x=34, y=13,  w=220, h=36
+CoinBg                 x=26, y=-18, w=168, h=34
+CoinIcon               x=-54, y=0,  w=28,  h=28
+LabelCoin              x=14,  y=0,  w=96,  h=28
+```
+
+Widget 建议：
+
+```text
+UserInfo               Left=62, Top=9
+UserInfo 子节点         不加 Widget
+```
+
+金币数字设置：
+
+- 左对齐。
+- 超长显示省略号。
+- 当前脚本用 `ellipsisText("52.7822222222", 8)` 做测试。
+
+### 4. NoticeBar
+
+```text
+NoticeBar              x=8,    y=259, w=1318, h=40
+IconSpeaker            x=-487, y=0,   w=74,   h=34
+NoticeText             x=-422, y=0,   w=250,  h=34
+```
+
+Widget 建议：
+
+```text
+NoticeBar              Left=8, Right=8, Top=96
+```
+
+这个后续可以继续微调，目前不是主问题。
+
+### 5. GameMenu
+
+```text
+GameMenu               x=-605, y=5,    w=128, h=553
+
+GameBtn_ALL            x=0, y=199,  w=92, h=93
+GameBtn_DNIU           x=0, y=103,  w=92, h=93
+GameBtn_JH             x=0, y=7,    w=92, h=93
+GameBtn_HSMJ           x=0, y=-89,  w=92, h=93
+GameBtn_ZMZ            x=0, y=-185, w=92, h=93
+GameBtn_PDK            hidden
+```
+
+Widget 建议：
+
+```text
+GameMenu               Left=0 或 Left=2，Top=99，Bottom=98
+GameBtn_*              不加 Widget，作为 GameMenu 子节点按上面 y 填
+```
+
+注意：当前数组顺序是 `ALL、DNIU、JH、HSMJ、ZMZ、PDK`，如果 prefab 里顺序不同不影响脚本，但视觉上建议按这个顺序摆。
+
+### 6. TableScroll
+
+```text
+TableScroll            x=67, y=-12, w=1184, h=491
+
+tableLeft              142
+tableRight             8
+top                    175
+bottom                 84
+
+view                   x=0,    y=0,     w=1184, h=491
+content                x=-592, y=245.5, w=动态内容宽, h=491
+```
+
+Widget 建议：
+
+```text
+TableScroll            Left=142, Right=8, Top=175, Bottom=84
+view                   不加 Widget，由脚本或 prefab 填满 TableScroll
+content                不加 Widget，脚本运行时控制
+```
+
+桌子布局参数：
+
+```text
+tableW                 360
+tableH                 182
+gapX                   44
+gapY                   42
+tableStrideX           404
+tableStrideY           224
+首个桌子 x              38 + tableW/2 = 218
+首个桌子 y              -18 - tableH/2 = -109
+```
+
+`TableScroll/view` 必须有 `cc.Mask`，否则桌子会盖到菜单栏。
+
+### 7. PlayTypeTabs
+
+```text
+PlayTypeTabs           x=leftX(menu + 360), y=-屏幕高/2 + bottom + 32, w=560, h=52
+```
+
+运行时生成：
+
+```text
+RoomTabAll             x=-184, y=0, w=157, h=52
+RoomTab_0              x=-18,  y=0, w=157, h=52
+RoomTab_1              x=152,  y=0, w=157, h=52
+```
+
+全部游戏时不显示玩法按钮。
+
+### 8. BottomBar
+
+```text
+BottomBar              x=0, y=-333, w=屏幕宽, h=84
+bgBottom               x=0, y=0,    w=BottomBar.w, h=BottomBar.h
+
+BtnScore               x=-552, y=0, w=183, h=59
+BtnManage              x=-308, y=0, w=192, h=56
+BtnBank                x=-70,  y=0, w=171, h=50
+BtnQuickJoin           x=536,  y=2, w=198, h=76
+```
+
+层级建议：
+
+```text
+BottomBar              zIndex=80
+bgBottom               zIndex=0
+BtnScore               zIndex=10
+BtnManage              zIndex=10
+BtnBank                zIndex=10
+BtnQuickJoin           zIndex=10
+```
 
 ## 五、桌子 prefab 结构
 
-当前一个 `HallStaticTableItem.prefab` 可以继续满足五种游戏，不急着拆五个。
+当前一个 `HallStaticTableItem.prefab` 继续满足五种游戏，暂时不用拆五个。
 
 ```text
 HallStaticTableItem
@@ -179,55 +338,37 @@ HallStaticTableItem
     nameBg
     nameLabel
   AvatarSeat2
-    avatarMask
-      avatarSprite
-    nameBg
-    nameLabel
   ...
   AvatarSeat8
 ```
 
-目前座位位置由 `HallStaticTableItem.js` 里的 `getGameLayout()` 控制，因为不同游戏的桌子图座位位置不同。
+不同游戏的座位坐标目前由 `HallStaticTableItem.js` 的 `getGameLayout()` 控制。等大厅主界面稳定后，再决定是否拆成五个桌子 prefab。
 
-如果以后想完全在 prefab 里调每个游戏的座位，可以再拆成：
+## 六、调整大厅的步骤
 
-```text
-HallStaticTableItem_DN.prefab
-HallStaticTableItem_JH.prefab
-HallStaticTableItem_HSMJ.prefab
-HallStaticTableItem_ZMZ.prefab
-HallStaticTableItem_PDK.prefab
-```
+1. 打开 `HallStaticTestView.prefab`。
+2. 只维护节点结构和拖美术资源，尤其是 `BottomBar/bgBottom`、`TableScroll/view/content`。
+3. 位置和尺寸去 `HallStaticTestView.js` 对应方法里改。
+4. `TableScroll/view` 保持 `cc.Mask`。
+5. 保存 prefab 和脚本。
+6. 浏览器分别测试：
+   - Default
+   - iPhone 6/7/8 Plus
+   - iPhone X
+   - iPad
 
-但现在先不拆，减少维护量。
+进入大厅会先隐藏根节点，等脚本设置完布局和图片后再显示，避免看到 prefab 默认位置闪一下。
 
-## 六、美术替换步骤
+## 七、哪些还不是最终上线内容
 
-1. 把图片放到 `assets/resources/hall`。
-2. 在 Cocos 里等待资源导入完成。
-3. 打开 `HallStaticTestView.prefab`。
-4. 选中对应节点，把图片拖到 SpriteFrame。
-5. 调节点位置、大小、缩放。
-6. 不改节点名。
-7. 保存 prefab。
-8. 浏览器运行检查。
+大厅 UI 搭建基本完成，但上线前还需要：
 
-页面级美术优先替换：
+- 接真实联盟信息、用户头像、金币。
+- 接真实桌子列表和人数。
+- 点击桌子进入真实房间。
+- 快速加入真实逻辑。
+- 玩法筛选真实逻辑。
+- 大量头像加载优化和缓存。
+- 不同机型截图验收。
 
-- 背景：`BgLayer/BgImage`
-- 返回：`TopBar/BtnBack`
-- 用户头像框：`TopBar/UserInfo/AvatarRoot/AvatarFrame`
-- 金币：`TopBar/UserInfo/CoinIcon`
-- 联盟标题：`TopBar/ClubTitle/julebudi`
-- 右上按钮：`BtnRefresh`、`BtnMessage`、`BtnSetting`
-- 左侧菜单：`GameMenu/GameBtn_*`
-- 底部按钮：`BottomBar/BtnScore`、`BtnManage`、`BtnBank`、`BtnQuickJoin`
-- 玩法按钮图：脚本使用 `hall/suoyouwanan` 和 `hall/suoyouwanfadi`
-
-## 七、注意事项
-
-- `TableScroll/view/content` 不要手动摆桌子，否则运行时会被脚本清理或覆盖。
-- `GameBtn_PDK` 当前只是保留备用，运行时隐藏。
-- `PlayTypeTabs` 容器可以调位置，但里面的玩法按钮由脚本运行时生成。
-- 桌子文字颜色当前在脚本里设置为黄色：`#FFE778`。
-- 名字黑底目前使用 `nameBg` 节点，脚本只调大小和黑色，不再画额外 Graphics。
+所以现在可以认为：大厅界面“静态搭建阶段”完成，下一步是 prefab 回填和数据接入。

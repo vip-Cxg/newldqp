@@ -22,8 +22,6 @@ const DESIGN = {
     menuBtnH: 93,
 };
 
-const PREFAB_OWNS_LAYOUT = false;
-
 const HALL_UI = {
     bg: "hall/bgHall",
     back: "hall/fanhui",
@@ -50,6 +48,7 @@ cc.Class({
     },
 
     onLoad() {
+        this.node.opacity = 0;
         this.menuButtons = {};
         this.tableSprites = {};
         this.uiSprites = {};
@@ -68,6 +67,7 @@ cc.Class({
         this.preloadAssets(() => {
             this.assetsReady = true;
             this.build();
+            this.node.opacity = 255;
         });
     },
 
@@ -96,8 +96,6 @@ cc.Class({
         this.resizeNode(this.getNode("BgLayer/BgImage"), 0, 0, size.width, size.height);
         this.applySprite("BgLayer/BgImage", "bg", size.width, size.height);
         this.resizeNode(this.getNode("BgLayer/TopTint"), 0, size.height / 2 - 52, size.width, 104);
-        this.resizeNode(this.getNode("BgLayer/BottomTint"), 0, -333, size.width, 84);
-        this.drawPanel(this.getNode("BgLayer/BottomTint"), cc.color(0, 0, 0, 125), 0);
         let ref = this.getNode("大厅效果");
         if (ref) ref.active = false;
 
@@ -114,27 +112,25 @@ cc.Class({
         let top = this.getNode("TopBar");
         if (top) this.resizeNode(top, 0, size.height / 2 - 54, size.width, 108);
         this.drawPanel(this.getNode("TopBar/InfoBg"), cc.color(0, 0, 0, 95), 0);
-        this.applyLayoutSprite("TopBar/BtnBack", "back", 77, 77);
-        this.applyLayoutSprite("TopBar/ClubTitle/julebudi", "clubTitle", 382, 70);
-        this.applyLayoutSprite("TopBar/BtnRefresh", "refresh", 92, 92);
-        this.applyLayoutSprite("TopBar/BtnMessage", "message", 92, 92);
-        this.applyLayoutSprite("TopBar/BtnSetting", "setting", 92, 92);
-        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.getNode("TopBar/BtnBack"), this.leftX(53), 10, 77, 77);
+        this.applySprite("TopBar/BtnBack", "back", 77, 77);
+        this.applySprite("TopBar/ClubTitle/julebudi", "clubTitle", 382, 70);
+        this.applySprite("TopBar/BtnRefresh", "refresh", 76, 90);
+        this.applySprite("TopBar/BtnMessage", "message", 76, 90);
+        this.applySprite("TopBar/BtnSetting", "setting", 76, 90);
+        this.resizeNode(this.getNode("TopBar/BtnBack"), this.leftX(53), 10, 77, 77);
         this.bindUserInfoPrefab();
-        if (!PREFAB_OWNS_LAYOUT) {
-            this.resizeNode(this.getNode("TopBar/InfoBg"), this.leftX(239), 10, 250, 74);
-            this.resizeNode(this.getNode("TopBar/ClubTitle"), 16, 5, 382, 70);
-            this.resizeNode(this.getNode("TopBar/ClubTitle/julebudi"), 0, 0, 382, 70);
-            this.resizeNode(this.getNode("TopBar/BtnRefresh"), size.width / 2 - 368, 4, 92, 92);
-            this.resizeNode(this.getNode("TopBar/BtnMessage"), size.width / 2 - 210, 4, 92, 92);
-            this.resizeNode(this.getNode("TopBar/BtnSetting"), size.width / 2 - 62, 4, 92, 92);
-        }
+        this.resizeNode(this.getNode("TopBar/InfoBg"), this.leftX(239), 10, 250, 74);
+        this.resizeNode(this.getNode("TopBar/ClubTitle"), 16, 5, 382, 70);
+        this.resizeNode(this.getNode("TopBar/ClubTitle/julebudi"), 0, 0, 382, 70);
+        this.resizeNode(this.getNode("TopBar/BtnRefresh"), size.width / 2 - 368, 4, 76, 90);
+        this.resizeNode(this.getNode("TopBar/BtnMessage"), size.width / 2 - 210, 4, 76, 90);
+        this.resizeNode(this.getNode("TopBar/BtnSetting"), size.width / 2 - 62, 4, 76, 90);
         this.bindTouch("TopBar/BtnBack", () => this.node.destroy());
         this.bindTouch("TopBar/BtnRefresh", () => this.renderTables(), true);
         this.bindTouch("TopBar/BtnMessage", () => {}, true);
         this.bindTouch("TopBar/BtnSetting", () => {}, true);
         this.setNodeLabel("TopBar/ClubTitle/Label", "娱乐至上俱乐部");
-        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.getNode("TopBar/ClubTitle/Label"), 0, 2, 310, 48);
+        this.resizeNode(this.getNode("TopBar/ClubTitle/Label"), 0, 2, 310, 48);
     },
 
     bindUserInfoPrefab() {
@@ -145,8 +141,8 @@ cc.Class({
         let infoBg = this.getNode("TopBar/UserInfo/InfoBg");
         if (infoBg) infoBg.active = false;
         this.drawPanel(this.getNode("TopBar/UserInfo/CoinBg"), cc.color(0, 0, 0, 135), 16);
-        let coinIconPath = this.getNode("TopBar/UserInfo/CoinBg/CoinIcon") ? "TopBar/UserInfo/CoinBg/CoinIcon" : "TopBar/UserInfo/CoinIcon";
-        let coinLabelPath = this.getNode("TopBar/UserInfo/CoinBg/LabelCoin") ? "TopBar/UserInfo/CoinBg/LabelCoin" : "TopBar/UserInfo/LabelCoin";
+        let coinIconPath = this.getNode("TopBar/UserInfo/CoinBg/CoinIcon");
+        let coinLabelPath = this.getNode("TopBar/UserInfo/CoinBg/LabelCoin");
         this.resizeNode(userInfo, this.leftX(242), 10, 360, 90);
         this.resizeNode(this.getNode("TopBar/UserInfo/AvatarRoot"), -93.718, 0, 76, 76);
         this.resizeNode(this.getNode("TopBar/UserInfo/AvatarRoot/AvatarMask"), 0, 0, 66, 66);
@@ -154,15 +150,15 @@ cc.Class({
         this.resizeNode(this.getNode("TopBar/UserInfo/AvatarRoot/AvatarFrame"), 0, 0, 66, 66);
         this.resizeNode(this.getNode("TopBar/UserInfo/LabelID"), 34, 13, 220, 36);
         this.resizeNode(this.getNode("TopBar/UserInfo/CoinBg"), 26, -18, 168, 34);
-        this.resizeNode(this.getNode(coinIconPath), -54, 0, 28, 28);
-        this.resizeNode(this.getNode(coinLabelPath), 20, 0, 108, 28);
-        this.applyLayoutSprite("TopBar/UserInfo/AvatarRoot/AvatarMask/AvatarSprite", "avatarFill", 58, 58);
-        this.applyLayoutSprite("TopBar/UserInfo/AvatarRoot/AvatarFrame", "avatar", 66, 66);
-        this.applyLayoutSprite(coinIconPath, "coin", 28, 28);
+        this.resizeNode(coinIconPath, -54, 0, 28, 28);
+        this.resizeNode(coinLabelPath, 28, 0, 104, 28);
+        this.applySprite("TopBar/UserInfo/AvatarRoot/AvatarMask/AvatarSprite", "avatarFill", 58, 58);
+        this.applySprite("TopBar/UserInfo/AvatarRoot/AvatarFrame", "avatar", 66, 66);
+        this.applySprite(coinIconPath, "coin", 28, 28);
         this.setNodeLabel("TopBar/UserInfo/LabelID", "ID:123456789");
-        this.setNodeLabel(coinLabelPath, "52.7822222222");
+        this.setNodeLabel(coinLabelPath, this.ellipsisText("52.7822222222", 10));
         this.styleLabel("TopBar/UserInfo/LabelID", 22, cc.color(255, 255, 255, 255), 24);
-        this.styleLabel(coinLabelPath, 20, cc.color(255, 231, 120, 255), 22);
+        this.styleCoinLabel(coinLabelPath, 20, cc.color(255, 231, 120, 255), 22);
         let zMap = {
             InfoBg: 0,
             AvatarRoot: 10,
@@ -178,22 +174,20 @@ cc.Class({
 
     bindNoticePrefab(size) {
         let notice = this.getNode("NoticeBar");
-        if (notice && !PREFAB_OWNS_LAYOUT) this.resizeNode(notice, 8, size.height / 2 - 116, size.width - 16, 40);
-        if (!PREFAB_OWNS_LAYOUT) {
-            this.resizeNode(this.getNode("NoticeBar/IconSpeaker"), -size.width / 2 + 180, 0, 74, 34);
-            this.resizeNode(this.getNode("NoticeBar/NoticeText"), -size.width / 2 + 245, 0, 250, 34);
-        }
+        this.resizeNode(notice, 8, size.height / 2 - 116, size.width - 16, 40);
+        this.resizeNode(this.getNode("NoticeBar/IconSpeaker"), -size.width / 2 + 180, 0, 74, 34);
+        this.resizeNode(this.getNode("NoticeBar/NoticeText"), -size.width / 2 + 245, 0, 250, 34);
         this.setNodeLabel("NoticeBar/NoticeText", ": 代理");
     },
 
     bindMenuPrefab(size) {
         let menu = this.getNode("GameMenu");
-        if (menu && !PREFAB_OWNS_LAYOUT) this.resizeNode(menu, -size.width / 2 + 62, 5, DESIGN.menu, size.height - DESIGN.top - 22);
+        this.resizeNode(menu, -size.width / 2 + 62, 5, DESIGN.menu, size.height - DESIGN.top - 22);
         MENU_ITEMS.forEach((item, index) => {
             let btn = this.getNode("GameMenu/GameBtn_" + item.key);
             if (!btn) return;
             btn.active = !item.hiddenInStaticHall;
-            if (!PREFAB_OWNS_LAYOUT) this.resizeNode(btn, 0, size.height / 2 - 176 - index * 96, DESIGN.menuBtnW, DESIGN.menuBtnH);
+            this.resizeNode(btn, 0, size.height / 2 - 176 - index * 96, DESIGN.menuBtnW, DESIGN.menuBtnH);
             this.applyMenuSprite(btn, item);
             this.configureButton(btn);
             btn.gameKey = item.key;
@@ -206,15 +200,11 @@ cc.Class({
 
     bindTableScrollPrefab(size) {
         this.scrollNode = this.getNode("TableScroll");
-        let viewW = this.scrollNode ? this.scrollNode.width : size.width - DESIGN.tableLeft - DESIGN.tableRight;
-        let viewH = this.scrollNode ? this.scrollNode.height : size.height - DESIGN.top - DESIGN.bottom;
-        if (!PREFAB_OWNS_LAYOUT) {
-            viewW = size.width - DESIGN.tableLeft - DESIGN.tableRight;
-            let x = -size.width / 2 + DESIGN.tableLeft + viewW / 2;
-            let y = -12;
-            viewH = size.height - DESIGN.top - DESIGN.bottom;
-            this.resizeNode(this.scrollNode, x, y, viewW, viewH);
-        }
+        let viewW = size.width - DESIGN.tableLeft - DESIGN.tableRight;
+        let viewH = size.height - DESIGN.top - DESIGN.bottom;
+        let x = -size.width / 2 + DESIGN.tableLeft + viewW / 2;
+        let y = -12;
+        this.resizeNode(this.scrollNode, x, y, viewW, viewH);
 
         let scroll = this.scrollNode.getComponent(cc.ScrollView) || this.scrollNode.addComponent(cc.ScrollView);
         scroll.horizontal = true;
@@ -239,7 +229,7 @@ cc.Class({
 
     bindBottomPrefab(size) {
         let bottom = this.getNode("BottomBar");
-        if (bottom && !PREFAB_OWNS_LAYOUT) this.resizeNode(bottom, 0, -333, size.width, 84);
+        this.resizeNode(bottom, 0, -333, size.width, 84);
         if (bottom) bottom.zIndex = 80;
         this.clearGraphics(bottom);
         let bgBottom = this.getNode("BottomBar/bgBottom");
@@ -255,16 +245,14 @@ cc.Class({
             }
             this.drawPanel(bgBottom, cc.color(0, 0, 0, 125), 0);
         }
-        this.applyLayoutSprite("BottomBar/BtnScore", "score", 183, 59);
-        this.applyLayoutSprite("BottomBar/BtnManage", "manage", 192, 56);
-        this.applyLayoutSprite("BottomBar/BtnBank", "bank", 171, 50);
-        this.applyLayoutSprite("BottomBar/BtnQuickJoin", "quick", 198, 76);
-        if (!PREFAB_OWNS_LAYOUT) {
-            this.resizeNode(this.getNode("BottomBar/BtnScore"), -552, 0, 183, 59);
-            this.resizeNode(this.getNode("BottomBar/BtnManage"), -308, 0, 192, 56);
-            this.resizeNode(this.getNode("BottomBar/BtnBank"), -70, 0, 171, 50);
-            this.resizeNode(this.getNode("BottomBar/BtnQuickJoin"), 536, 2, 198, 76);
-        }
+        this.applySprite("BottomBar/BtnScore", "score", 183, 59);
+        this.applySprite("BottomBar/BtnManage", "manage", 192, 56);
+        this.applySprite("BottomBar/BtnBank", "bank", 171, 50);
+        this.applySprite("BottomBar/BtnQuickJoin", "quick", 198, 76);
+        this.resizeNode(this.getNode("BottomBar/BtnScore"), -552, 0, 183, 59);
+        this.resizeNode(this.getNode("BottomBar/BtnManage"), -308, 0, 192, 56);
+        this.resizeNode(this.getNode("BottomBar/BtnBank"), -70, 0, 171, 50);
+        this.resizeNode(this.getNode("BottomBar/BtnQuickJoin"), 536, 2, 198, 76);
         ["BtnScore", "BtnManage", "BtnBank", "BtnQuickJoin"].forEach((name) => {
             let node = this.getNode("BottomBar/" + name);
             if (node) node.zIndex = 10;
@@ -274,7 +262,7 @@ cc.Class({
         this.bindTouch("BottomBar/BtnBank", () => {}, true);
         this.bindTouch("BottomBar/BtnQuickJoin", () => {}, true);
         this.playTypeBar = this.getNode("PlayTypeTabs");
-        if (!PREFAB_OWNS_LAYOUT) this.resizeNode(this.playTypeBar, this.leftX(DESIGN.menu + 360), -size.height / 2 + DESIGN.bottom + 32, 560, 52);
+        this.resizeNode(this.playTypeBar, this.leftX(DESIGN.menu + 360), -size.height / 2 + DESIGN.bottom + 32, 560, 52);
         this.renderRoomTabs();
     },
 
@@ -707,7 +695,7 @@ cc.Class({
     },
 
     bindTouch(path, handler) {
-        let node = this.getNode(path);
+        let node = this.resolveNode(path);
         if (!node) return;
         this.configureButton(node);
         node.off(cc.Node.EventType.TOUCH_END);
@@ -723,14 +711,14 @@ cc.Class({
     },
 
     setNodeLabel(path, text) {
-        let node = this.getNode(path);
+        let node = this.resolveNode(path);
         if (!node) return;
         let label = node.getComponent(cc.Label);
         if (label) label.string = text;
     },
 
     styleLabel(path, fontSize, color, lineHeight) {
-        let node = this.getNode(path);
+        let node = this.resolveNode(path);
         if (!node) return;
         let label = node.getComponent(cc.Label);
         if (!label) return;
@@ -741,6 +729,32 @@ cc.Class({
         label.enableWrapText = false;
         label.overflow = cc.Label.Overflow.CLAMP;
         node.color = color || cc.Color.WHITE;
+    },
+
+    styleCoinLabel(path, fontSize, color, lineHeight) {
+        let node = this.resolveNode(path);
+        if (!node) return;
+        let label = node.getComponent(cc.Label);
+        if (!label) return;
+        label.fontSize = fontSize;
+        label.lineHeight = lineHeight || node.height;
+        label.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
+        label.verticalAlign = cc.Label.VerticalAlign.CENTER;
+        label.enableWrapText = false;
+        label.overflow = cc.Label.Overflow.CLAMP;
+        node.color = color || cc.Color.WHITE;
+    },
+
+    resolveNode(path) {
+        if (!path) return null;
+        return typeof path === "string" ? this.getNode(path) : path;
+    },
+
+    ellipsisText(text, maxLength) {
+        let value = String(text == null ? "" : text);
+        if (value.length <= maxLength) return value;
+        if (maxLength <= 3) return value.slice(0, maxLength);
+        return value.slice(0, maxLength - 3) + "...";
     },
 
     setChildLabel(node, text) {
@@ -766,14 +780,6 @@ cc.Class({
         if (w && h) node.setContentSize(cc.size(w, h));
         node.color = cc.Color.WHITE;
         node.opacity = 255;
-    },
-
-    applyLayoutSprite(path, key, w, h) {
-        if (PREFAB_OWNS_LAYOUT) {
-            this.applySprite(path, key);
-            return;
-        }
-        this.applySprite(path, key, w, h);
     },
 
     applySpriteToChild(parentPath, name, key, x, y, w, h, zIndex) {
