@@ -6,6 +6,10 @@ const DniuTimelineConfig = {
     cardFlipHalfTime: 0.12,
     cardFlipDelay: 0.08,
     showCardFlipInterval: 0.06,
+    rubCardLiftTime: 0.16,
+    rubCardShakeTime: 0.08,
+    rubCardHoldTime: 0.45,
+    openCardDelay: 0.08,
 
     bankerAppearTime: 0.18,
     bankerHoldTime: 0.22,

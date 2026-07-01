@@ -44,6 +44,8 @@ cc.Class({
         this.clockEnd = 0;
         this.phase = "WAIT";
         this.banker = 0;
+        this.selfShowSent = false;
+        this.selfRubbed = false;
 
         this.buildTable();
         this.buildDebugPanel();
@@ -166,7 +168,7 @@ cc.Class({
         });
 
         this.rubBtn = this.makeButton("搓牌", cc.v2(385, -142), cc.size(100, 46), cc.color(72, 190, 90), () => {
-            this.revealOwnFinalCard();
+            this.rubOwnFinalCard();
         });
         this.openCardBtn = this.makeButton("开牌", cc.v2(498, -142), cc.size(100, 46), cc.color(72, 190, 90), () => {
             this.revealOwnFinalCard();
@@ -333,6 +335,8 @@ cc.Class({
         this.phase = data.phase || "CALL_BANKER";
         this.banker = data.banker == null ? this.banker : data.banker;
         this.selfHands = Array.isArray(data.hands) ? data.hands.slice() : [];
+        this.selfShowSent = false;
+        this.selfRubbed = false;
         this.readyBtn.active = false;
         this.roundLabel.string = "第" + data.turn + "圈 第" + data.round + "局";
         this.setClock(data.clock);
@@ -431,6 +435,8 @@ cc.Class({
         if (data.event == "FINAL_CARD") {
             this.phase = "FINAL_CARD";
             this.hideActionButtons();
+            this.selfShowSent = false;
+            this.selfRubbed = false;
             this.banker = data.banker == null ? this.banker : data.banker;
             this.setClock(data.clock);
             this.cardsByIdx = {};
@@ -447,6 +453,12 @@ cc.Class({
             this.renderFinalCard();
             this.showOpenCardButtons(!this.observer && this.idx >= 0);
             this.tipLabel.string = "发最后一张";
+            return;
+        }
+        if (data.event == "SHOW_CARDS_UPDATE") {
+            this.mergeTablePlayers(data.players);
+            if (data.idx == this.idx) this.showOpenCardButtons(false);
+            this.refreshPlayers(this.banker);
             return;
         }
         if (data.event == "SHOW_CARDS") {
@@ -787,8 +799,72 @@ cc.Class({
         if (!nodes || !nodes[4]) return;
         let real = this.realIdx[this.idx];
         let scale = real == 0 ? 0.82 : 0.46;
-        this.flipCard(nodes[4], this.selfHands[4], scale);
         this.showOpenCardButtons(false);
+        this.playOpenFinalCard(nodes[4], this.selfHands[4], scale);
+        if (!this.selfShowSent) {
+            this.selfShowSent = true;
+            connector.gameMessage(ROUTE.CS_DNIU_SHOW_CARDS, {});
+        }
+    },
+
+    rubOwnFinalCard() {
+        if (this.idx < 0 || !this.selfHands || this.selfHands.length < 5) return;
+        let nodes = this.cardNodesByIdx[this.idx];
+        if (!nodes || !nodes[4]) return;
+        let real = this.realIdx[this.idx];
+        let scale = real == 0 ? 0.82 : 0.46;
+        let card = nodes[4];
+        let basePos = card._dniuBasePos || card.getPosition();
+        card._dniuBasePos = basePos;
+        card.stopAllActions();
+        this.selfRubbed = true;
+        this.tipLabel.string = "搓牌中";
+        card.runAction(cc.sequence(
+            cc.spawn(
+                cc.moveTo(this.getTiming("rubCardLiftTime"), cc.v2(basePos.x, basePos.y + 18)).easing(cc.easeSineOut()),
+                cc.scaleTo(this.getTiming("rubCardLiftTime"), scale * 1.08)
+            ),
+            cc.repeat(
+                cc.sequence(
+                    cc.rotateTo(this.getTiming("rubCardShakeTime"), -5),
+                    cc.rotateTo(this.getTiming("rubCardShakeTime"), 5)
+                ),
+                3
+            ),
+            cc.rotateTo(this.getTiming("rubCardShakeTime"), 0),
+            cc.delayTime(this.getTiming("rubCardHoldTime")),
+            cc.spawn(
+                cc.moveTo(this.getTiming("rubCardLiftTime"), basePos).easing(cc.easeSineInOut()),
+                cc.scaleTo(this.getTiming("rubCardLiftTime"), scale)
+            ),
+            cc.callFunc(() => {
+                if (!this.selfShowSent) this.tipLabel.string = "请选择开牌";
+            })
+        ));
+    },
+
+    playOpenFinalCard(node, card, scale) {
+        if (!node || !node.isValid) return;
+        let basePos = node._dniuBasePos || node.getPosition();
+        let half = this.getTiming("cardFlipHalfTime");
+        node._dniuBasePos = basePos;
+        node.stopAllActions();
+        node.rotation = 0;
+        node.runAction(cc.sequence(
+            cc.spawn(
+                cc.moveTo(this.getTiming("rubCardLiftTime"), cc.v2(basePos.x, basePos.y + 22)).easing(cc.easeSineOut()),
+                cc.scaleTo(this.getTiming("rubCardLiftTime"), scale * 1.08)
+            ),
+            cc.delayTime(this.getTiming("openCardDelay")),
+            cc.scaleTo(half, 0.02, scale * 1.08).easing(cc.easeSineIn()),
+            cc.callFunc(() => this.paintCard(node, card)),
+            cc.scaleTo(half, scale * 1.08, scale * 1.08).easing(cc.easeSineOut()),
+            cc.delayTime(0.05),
+            cc.spawn(
+                cc.moveTo(this.getTiming("rubCardLiftTime"), basePos).easing(cc.easeSineInOut()),
+                cc.scaleTo(this.getTiming("rubCardLiftTime"), scale)
+            )
+        ));
     },
 
     playCoinFly(players) {
