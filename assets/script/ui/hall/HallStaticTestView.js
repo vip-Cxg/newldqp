@@ -1,3 +1,7 @@
+const { GameConfig } = require("../../../GameBase/GameConfig");
+const GameUtilsModule = require("../../common/GameUtils");
+const GameUtils = GameUtilsModule.default || GameUtilsModule;
+
 const MENU_ITEMS = [
     { key: "ALL", name: "全部游戏", icon: "hall/quanbuyouxi", color: cc.color(238, 204, 170, 255) },
     { key: "DNIU", name: "牛牛", icon: "hall/niuniu", color: cc.color(128, 146, 238, 255), seats: 8, asset: "hall/niuniu01", tableColor: cc.color(181, 44, 82, 255) },
@@ -258,7 +262,9 @@ cc.Class({
             if (node) node.zIndex = 10;
         });
         this.bindTouch("BottomBar/BtnScore", () => {}, true);
-        this.bindTouch("BottomBar/BtnManage", () => {}, true);
+        this.bindTouch("BottomBar/BtnManage", () => {
+            GameUtils.pop(GameConfig.pop.BusinessAnalysisView);
+        }, true);
         this.bindTouch("BottomBar/BtnBank", () => {}, true);
         this.bindTouch("BottomBar/BtnQuickJoin", () => {}, true);
         this.playTypeBar = this.getNode("PlayTypeTabs");
@@ -406,6 +412,9 @@ cc.Class({
         this.makeRoundButton("BtnManage", this.safeRoot, 125, y, 170, 55, "合伙人管理", 27, cc.color(14, 35, 51, 120));
         this.makeRoundButton("BtnBank", this.safeRoot, 330, y, 130, 55, "保险箱", 27, cc.color(14, 35, 51, 120));
         this.makeRoundButton("BtnQuickJoin", this.safeRoot, size.width / 2 - 145, y + 2, 220, 70, "快速加入", 34, cc.color(252, 174, 70, 255));
+        this.bindTouch("BtnManage", () => {
+            GameUtils.pop(GameConfig.pop.BusinessAnalysisView);
+        });
 
         this.playTypeBar = this.makeNode("RoomTabs", this.safeRoot, -size.width / 2 + DESIGN.menu + 210, -size.height / 2 + DESIGN.bottom + 21, 440, 52);
         this.renderRoomTabs();

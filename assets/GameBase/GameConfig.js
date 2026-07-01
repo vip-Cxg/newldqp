@@ -1034,6 +1034,8 @@ export class GameConfig {
         ClubActivePop: "prefab/ClubActivePop",
         /**奖励界面*/
         ClubRewardPop: "prefab/ClubRewardPop",
+        /**新版经营分析*/
+        BusinessAnalysisView: "Main/Prefab/BusinessAnalysisView",
         /**调配合伙人ID*/
         ChangeProxyPop: "prefab/ChangeProxyPop",
         /**调配玩家ID*/
