@@ -763,11 +763,14 @@ loadOperateLogs(params)
 - `BusinessAnalysisView.js` 静态脚本。
 - `GameConfig.pop.BusinessAnalysisView` 弹窗路径。
 - 旧的 Prefab 生成脚本已删除，避免误覆盖手动布局。
+- `PartnerTab` 已调整为 `HeaderRow + PartnerScroll + SearchBar`，并通过 `BusinessAnalysisPartnerItem.prefab` 动态生成合伙人行。
+- `MemberTab` 已调整为 `HeaderRow + MemberScroll + SearchBar`，并通过 `BusinessAnalysisMemberItem.prefab` 动态生成成员管理行。
+- 当前合伙人、成员管理都先使用 mock 数据验证 UI、滚动列表、按钮点击和状态显隐。
 
 下一步建议：
 
-1. 在大厅加临时入口，调用 `GameUtils.pop(GameConfig.pop.BusinessAnalysisView)`。
-2. 验证关闭、统计页静态数据、左侧 Tab 切换。
-3. 新建后端 `ldqp_xh/logic/businessAnalysis.js`，先提供 `overview` 静态/聚合接口。
-4. 前端把统计页 mock 数据替换成 `businessAnalysis/overview` 返回数据。
-5. 再接成员管理第一张真实列表。
+1. 手动微调 `BusinessAnalysisMemberItem.prefab` 的字体、按钮、头像和队长标识位置。
+2. 对照 `成员管理/成员管理效果图.jpg` 调整 `MemberTab/HeaderRow`、`MemberScroll`、`SearchBar`。
+3. 新建后端 `ldqp_xh/logic/businessAnalysis.js`，先提供 `overview` 和 `members` 静态/聚合接口。
+4. 前端把统计页、成员管理页 mock 数据替换成接口返回数据。
+5. 再继续做 `代理统计 / 奖励明细 / 操作记录 / 奖励提取` 的页面结构。

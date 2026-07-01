@@ -22,6 +22,8 @@ cc.Class({
         this.hideReferenceImage();
         this.renderStats(this.mockStats());
         this.renderPartners(this.mockPartners());
+        this.renderMembers(this.mockMembers());
+        this.renderAgentStats(this.mockAgentStats());
         this.showTab("Stats");
     },
 
@@ -52,6 +54,8 @@ cc.Class({
         this.bindClick("Panel/Content/StatsTab/BottomActions/InviteButton", this.onInvitePlayer.bind(this));
         this.bindClick("Panel/Content/StatsTab/BottomActions/SetPartnerButton", this.onSetPartner.bind(this));
         this.bindClick("Panel/Content/PartnerTab/SearchBar/SearchButton", this.onPartnerSearch.bind(this));
+        this.bindClick("Panel/Content/MemberTab/SearchBar/SearchButton", this.onMemberSearch.bind(this));
+        this.bindClick("Panel/Content/AgentStatsTab/SearchBar/SearchButton", this.onAgentStatsSearch.bind(this));
 
         this.tabs.forEach((tab) => {
             this.bindClick("Panel/LeftTabs/" + tab.button, () => {
@@ -229,6 +233,115 @@ cc.Class({
         ];
     },
 
+    mockMembers() {
+        return [
+            {
+                isCaptain: true,
+                name: "玩家信息",
+                userId: "123456",
+                online: true,
+                todayRounds: 0,
+                yesterdayRounds: 0,
+                todayContribution: 2.78,
+                yesterdayContribution: 0,
+                todayWin: 0,
+                yesterdayWin: 0,
+                score: 100.8,
+                todayDelta: "0",
+                yesterdayDelta: "0",
+            },
+            {
+                isCaptain: false,
+                name: "玩家信息",
+                userId: "123456",
+                online: false,
+                todayRounds: 1,
+                yesterdayRounds: 0,
+                todayContribution: 2.78,
+                yesterdayContribution: 0,
+                todayWin: -38.9,
+                yesterdayWin: 0,
+                score: 7.4,
+                todayDelta: "-38.9",
+                yesterdayDelta: "0",
+            },
+            {
+                isCaptain: false,
+                name: "玩家信息",
+                userId: "123456",
+                online: true,
+                todayRounds: 3,
+                yesterdayRounds: 2,
+                todayContribution: 12.6,
+                yesterdayContribution: 6.8,
+                todayWin: 20,
+                yesterdayWin: -5,
+                score: 88,
+                todayDelta: "20",
+                yesterdayDelta: "-5",
+            },
+        ];
+    },
+
+    mockAgentStats() {
+        return [
+            {
+                name: "代理玩家1",
+                userId: "900001",
+                personCount: 8,
+                income: 128.6,
+                memberScore: 2000,
+                win: -38.9,
+                contribution: 560,
+            },
+            {
+                name: "代理玩家2",
+                userId: "900002",
+                personCount: 12,
+                income: 256.8,
+                memberScore: 5300,
+                win: 72.4,
+                contribution: 880,
+            },
+            {
+                name: "代理玩家3",
+                userId: "900003",
+                personCount: 3,
+                income: 18.2,
+                memberScore: 600,
+                win: 0,
+                contribution: 90,
+            },
+            {
+                name: "代理玩家4",
+                userId: "900004",
+                personCount: 21,
+                income: 998.3,
+                memberScore: 12000,
+                win: 310.5,
+                contribution: 1880,
+            },
+            {
+                name: "代理玩家5",
+                userId: "900005",
+                personCount: 6,
+                income: 66.6,
+                memberScore: 1800,
+                win: -12,
+                contribution: 240,
+            },
+            {
+                name: "代理玩家6",
+                userId: "900006",
+                personCount: 15,
+                income: 420,
+                memberScore: 7600,
+                win: 88,
+                contribution: 1200,
+            },
+        ];
+    },
+
     renderStats(data) {
         this.setLabel("Panel/Content/StatsTab/ScoreBlock/TodayRewardLabel", "今日总奖励： " + data.todayReward);
         this.setLabel("Panel/Content/StatsTab/ScoreBlock/YesterdayRewardLabel", "昨日总奖励： " + data.yesterdayReward);
@@ -294,6 +407,93 @@ cc.Class({
         this.bindItemButton(item, "ReduceScoreButton", "下分功能待接入");
     },
 
+    renderMembers(list) {
+        let content = this.getNode("Panel/Content/MemberTab/MemberScroll/content");
+        if (!content) return;
+        content.removeAllChildren();
+        list = list || [];
+        let itemHeight = 184;
+        let gap = 10;
+        let contentHeight = Math.max(content.parent.height, list.length * (itemHeight + gap));
+        content.setContentSize(cc.size(content.width || 1038, contentHeight));
+
+        cc.loader.loadRes("Main/Prefab/BusinessAnalysisMemberItem", (err, prefab) => {
+            if (err || !prefab || !cc.isValid(content)) return;
+            content.removeAllChildren();
+            list.forEach((data, index) => {
+                let item = cc.instantiate(prefab);
+                item.name = "MemberItem_" + (index + 1);
+                item.setPosition(0, -itemHeight / 2 - index * (itemHeight + gap));
+                content.addChild(item);
+                this.renderMemberItem(item, data);
+            });
+        });
+    },
+
+    renderMemberItem(item, data) {
+        this.setChildActive(item, "CaptainBadge", !!data.isCaptain);
+        this.setItemLabel(item, "NameLabel", data.name);
+        this.setItemLabel(item, "IdLabel", data.userId);
+        this.setItemLabel(item, "StatusLabel", data.online ? "在线" : "离线");
+        this.setItemLabel(item, "TodayRoundsLabel", String(data.todayRounds));
+        this.setItemLabel(item, "YesterdayRoundsLabel", String(data.yesterdayRounds));
+        this.setItemLabel(item, "TodayContributionLabel", String(data.todayContribution));
+        this.setItemLabel(item, "YesterdayContributionLabel", String(data.yesterdayContribution));
+        this.setItemLabel(item, "TodayWinLabel", String(data.todayWin));
+        this.setItemLabel(item, "YesterdayWinLabel", String(data.yesterdayWin));
+        this.setItemLabel(item, "ScoreLabel", String(data.score));
+        this.setItemLabel(item, "TodayBox/Label", "今日： " + data.todayDelta);
+        this.setItemLabel(item, "YesterdayBox/Label", "昨日： " + data.yesterdayDelta);
+
+        let statusNode = this.getNodeFrom(item, "StatusLabel");
+        if (statusNode) statusNode.color = data.online ? cc.color(30, 190, 75) : cc.color(95, 95, 95);
+
+        this.bindItemButton(item, "SetPartnerButton", "设置合伙人功能待接入");
+        this.bindItemButton(item, "ForbidButton", "禁止游戏功能待接入");
+        this.bindItemButton(item, "RecordButton", "战绩明细功能待接入");
+        this.bindItemButton(item, "AddScoreButton", "上分功能待接入");
+        this.bindItemButton(item, "ReduceScoreButton", "下分功能待接入");
+    },
+
+    renderAgentStats(list) {
+        let content = this.getNode("Panel/Content/AgentStatsTab/MemberScroll/content");
+        if (!content) return;
+        content.removeAllChildren();
+        list = list || [];
+        let itemHeight = 100;
+        let gap = 8;
+        let contentHeight = Math.max(content.parent.height, list.length * (itemHeight + gap));
+        content.setContentSize(cc.size(content.width || 1038, contentHeight));
+
+        cc.loader.loadRes("Main/Prefab/BusinessAnalysisAgentStatsItem", (err, prefab) => {
+            if (err || !prefab || !cc.isValid(content)) return;
+            content.removeAllChildren();
+            list.forEach((data, index) => {
+                let item = cc.instantiate(prefab);
+                item.name = "AgentStatsItem_" + (index + 1);
+                item.setPosition(0, -itemHeight / 2 - index * (itemHeight + gap));
+                content.addChild(item);
+                this.renderAgentStatsItem(item, data);
+            });
+        });
+    },
+
+    renderAgentStatsItem(item, data) {
+        this.setItemLabel(item, "NameLabel", data.name);
+        this.setItemLabel(item, "IdLabel", data.userId);
+        this.setItemLabel(item, "PersonLabel", String(data.personCount));
+        this.setItemLabel(item, "ShouyiLabel", String(data.income));
+        this.setItemLabel(item, "CyJFLabel", String(data.memberScore));
+        this.setItemLabel(item, "WinLabel", String(data.win));
+        this.setItemLabel(item, "ScoreLabel", String(data.contribution));
+
+        let winNode = this.getNodeFrom(item, "WinLabel");
+        if (winNode) {
+            let value = Number(data.win) || 0;
+            winNode.color = value > 0 ? cc.color(40, 170, 70) : value < 0 ? cc.color(210, 65, 65) : cc.color(120, 75, 45);
+        }
+    },
+
     showTab(key) {
         this.currentTab = key;
         this.tabs.forEach((tab) => {
@@ -337,6 +537,16 @@ cc.Class({
     onPartnerSearch() {
         Cache.playSfx();
         Cache.alertTip("查询功能待接入");
+    },
+
+    onMemberSearch() {
+        Cache.playSfx();
+        Cache.alertTip("成员查询功能待接入");
+    },
+
+    onAgentStatsSearch() {
+        Cache.playSfx();
+        Cache.alertTip("代理统计查询功能待接入");
     },
 
     onClickClose() {
