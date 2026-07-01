@@ -41,6 +41,21 @@ newldqp/assets/script/ui/hall/BusinessAnalysisView.js
 GameConfig.pop.BusinessAnalysisView = "Main/Prefab/BusinessAnalysisView"
 ```
 
+- 当前开发策略调整为：先在单个 `BusinessAnalysisView.prefab` 内把所有 Tab 页面静态布局做完，列表类 item 可以先拆子 Prefab，确认视觉和节点命名后，再考虑拆分完整 Tab Prefab。
+- 已生成 `PartnerTab` 第一版节点骨架，并调整为滚动列表：
+  - `HeaderRow`
+  - `PartnerScroll`
+  - `PartnerScroll/content`
+  - `SearchBar`
+  - 查看下级、上分、下分、调整比例、警戒值等按钮节点
+- 已抽出合伙人列表项：
+
+```text
+newldqp/assets/resources/Main/Prefab/BusinessAnalysisPartnerItem.prefab
+```
+
+- `BusinessAnalysisView.js` 已用 mock 数据动态实例化合伙人 item，并按角色控制 `调整比例 / 警戒值` 按钮显隐。
+
 当前 `BusinessAnalysisView.prefab` 是结构壳，包含：
 
 - `Bg`
@@ -50,6 +65,7 @@ GameConfig.pop.BusinessAnalysisView = "Main/Prefab/BusinessAnalysisView"
 - `CommonFilter`
 - `Content`
 - `StatsTab`，已初步对齐 `统计/效果图.jpg`
+- `PartnerTab`，已生成合伙人页第一版静态骨架
 - 其他 Tab 占位节点
 - `Pager`
 - `LoadingMask`
