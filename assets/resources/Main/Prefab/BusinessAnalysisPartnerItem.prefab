@@ -399,8 +399,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -463.296,
-        46.111,
+        -455,
+        46,
         0,
         0,
         0,
@@ -507,7 +507,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -384,
+        -360,
         62,
         0,
         0,
@@ -636,7 +636,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -385,
+        -360,
         33,
         0,
         0,
@@ -766,8 +766,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -414.294,
-        -29.847,
+        -405,
+        -28,
         0,
         0,
         0,
@@ -1006,8 +1006,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -414.294,
-        -62.847,
+        -405,
+        -62,
         0,
         0,
         0,
@@ -1233,7 +1233,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 112,
+      "width": 102,
       "height": 34.76
     },
     "_anchorPoint": {
@@ -1245,7 +1245,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -264.516,
+        -257.12,
         -28.537,
         0,
         0,
@@ -1287,7 +1287,7 @@
     "_dstBlendFactor": 771,
     "_string": "成员积分：",
     "_N$string": "成员积分：",
-    "_fontSize": 22,
+    "_fontSize": 20,
     "_lineHeight": 26,
     "_enableWrapText": false,
     "_N$file": null,
@@ -1362,7 +1362,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 63.18,
+      "width": 57.62,
       "height": 34.76
     },
     "_anchorPoint": {
@@ -1374,7 +1374,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -273.357,
+        -265.961,
         -61.691,
         0,
         0,
@@ -1416,7 +1416,7 @@
     "_dstBlendFactor": 771,
     "_string": "99999",
     "_N$string": "99999",
-    "_fontSize": 22,
+    "_fontSize": 20,
     "_lineHeight": 26,
     "_enableWrapText": false,
     "_N$file": null,
@@ -1507,7 +1507,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -150.371,
+        -135,
         -48,
         0,
         0,
@@ -1820,7 +1820,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -2.91,
+        5,
         -48,
         0,
         0,
@@ -2133,7 +2133,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        147.09,
+        145,
         -48,
         0,
         0,
@@ -2446,7 +2446,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        285.405,
+        285,
         -48,
         0,
         0,
@@ -2759,7 +2759,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        432.73,
+        430,
         -48,
         0,
         0,
@@ -3068,7 +3068,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -242,
+        -245,
         60,
         0,
         0,
@@ -3197,7 +3197,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -242,
+        -245,
         32,
         0,
         0,
@@ -3326,7 +3326,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -55,
+        -65,
         60,
         0,
         0,
@@ -3455,7 +3455,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -55,
+        -65,
         32,
         0,
         0,
@@ -3584,7 +3584,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        115,
+        110,
         60,
         0,
         0,
@@ -3713,7 +3713,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        115,
+        110,
         32,
         0,
         0,
@@ -3842,7 +3842,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        280,
+        270,
         60,
         0,
         0,
@@ -3971,7 +3971,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        280,
+        270,
         32,
         0,
         0,

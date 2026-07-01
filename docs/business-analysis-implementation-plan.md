@@ -766,11 +766,14 @@ loadOperateLogs(params)
 - `PartnerTab` 已调整为 `HeaderRow + PartnerScroll + SearchBar`，并通过 `BusinessAnalysisPartnerItem.prefab` 动态生成合伙人行。
 - `MemberTab` 已调整为 `HeaderRow + MemberScroll + SearchBar`，并通过 `BusinessAnalysisMemberItem.prefab` 动态生成成员管理行。
 - 当前合伙人、成员管理都先使用 mock 数据验证 UI、滚动列表、按钮点击和状态显隐。
+- `RewardDetailTab` 已调整为日期筛选、奖励明细列表和底部汇总结构，并通过 `BusinessAnalysisRewardDetailItem.prefab` 动态生成奖励明细行。
+- `OperateLogTab` 已调整为日期筛选和操作记录列表结构，并通过 `BusinessAnalysisOperateLogItem.prefab` 动态生成操作记录行。
+- `RewardWithdrawTab` 已调整为日期筛选、当前奖励、取出按钮和提取记录列表结构，并通过 `BusinessAnalysisRewardWithdrawItem.prefab` 动态生成奖励提取行。
 
 下一步建议：
 
 1. 手动微调 `BusinessAnalysisMemberItem.prefab` 的字体、按钮、头像和队长标识位置。
 2. 对照 `成员管理/成员管理效果图.jpg` 调整 `MemberTab/HeaderRow`、`MemberScroll`、`SearchBar`。
-3. 新建后端 `ldqp_xh/logic/businessAnalysis.js`，先提供 `overview` 和 `members` 静态/聚合接口。
-4. 前端把统计页、成员管理页 mock 数据替换成接口返回数据。
-5. 再继续做 `代理统计 / 奖励明细 / 操作记录 / 奖励提取` 的页面结构。
+3. 继续按效果图微调 `奖励明细 / 操作记录 / 奖励提取` 的 Header、列表行、日期按钮和底部区域。
+4. 新建后端 `ldqp_xh/logic/businessAnalysis.js`，先提供 `overview`、`members`、`agentStats`、`rewardDetails`、`operateLogs`、`rewardWithdraw` 静态/聚合接口。
+5. 前端把当前 mock 数据逐步替换成接口返回数据。
