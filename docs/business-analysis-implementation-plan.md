@@ -89,7 +89,7 @@ newldqp/assets/resources/Main/Prefab/BusinessAnalysis/
 - `LeftTabs`
 - `CommonFilter`
 - `Content`
-- `StatsTab`，已初步对齐 `统计/效果图.jpg`
+- `StatsTab`，已初步对齐 `images/ref_stats.jpg`
 - `PartnerTab`，已生成合伙人页第一版静态骨架
 - 其他 Tab 占位节点
 - `Pager`
@@ -103,56 +103,26 @@ newldqp/assets/resources/Main/Prefab/BusinessAnalysis/
 
 ## 1. 资源目录
 
-当前美术资源已放入：
+当前经营分析图片资源已统一放入：
 
 ```text
-newldqp/assets/resources/hall/经营分析/
-├── 统计/
-│   ├── 效果图.jpg
-│   ├── bg01.png
-│   ├── bg02.png
-│   ├── bg03.png
-│   ├── anniu01.png
-│   ├── anniu02.png
-│   ├── an01.png
-│   ├── liao01.png
-│   └── guanbi.png
-├── 代理统计/
-│   └── 效果图.jpg
-├── 成员管理/
-│   ├── 成员管理效果图.jpg
-│   ├── 设置合伙人效果图.jpg
-│   ├── 战绩明细.jpg
-│   ├── 战绩回放.jpg
-│   ├── bg01.png
-│   ├── bg11.png
-│   ├── bg12.png
-│   ├── zaixian.png
-│   ├── lixian.png
-│   ├── fengjin.png
-│   ├── dayingjia_.png
-│   ├── 上下分/
-│   │   ├── 效果图.jpg
-│   │   └── 查找成员效果图.jpg
-│   └── ...
-├── 合伙人/
-│   ├── 合伙人效果图.jpg
-│   ├── 调整比例效果图.jpg
-│   ├── 调整警戒值效果图.jpg
-│   ├── 查看下级/
-│   │   ├── 查看下级-下级成员.jpg
-│   │   └── 查看下级-下级队长.jpg
-│   └── ...
-├── 奖励明细/
-│   ├── 效果图.jpg
-│   ├── anniu.png
-│   ├── shijianbg.png
-│   ├── rili.png
-│   └── ...
-├── 奖励提取/
-│   └── 效果图.jpg
-└── 操作记录/
-    └── 效果图.jpg
+newldqp/assets/resources/hall/经营分析/images/
+```
+
+命名规则：
+
+- `ref_*.jpg`：效果图/参考图。
+- `popup_*`：弹窗背景、弹窗内面板。
+- `btn_*`：按钮图片。
+- `left_tab_*`：左侧 Tab 状态图。
+- `badge_*`：身份标识。
+- `status_*`：在线/离线状态。
+- `*_bg`：背景块或输入框背景。
+
+旧文件名到新文件名的完整映射记录在：
+
+```text
+newldqp/docs/business-analysis-image-map.json
 ```
 
 ## 2. 后端策略

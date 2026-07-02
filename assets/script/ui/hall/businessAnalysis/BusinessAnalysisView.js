@@ -38,13 +38,13 @@ cc.Class({
 
     loadTabSprites() {
         this.tabSprites = {};
-        cc.loader.loadRes("hall/经营分析/统计/an01", cc.SpriteFrame, (err, spriteFrame) => {
+        cc.loader.loadRes("hall/经营分析/images/left_tab_normal", cc.SpriteFrame, (err, spriteFrame) => {
             if (!err && spriteFrame) {
                 this.tabSprites.normal = spriteFrame;
                 this.showTab(this.currentTab || "Stats");
             }
         });
-        cc.loader.loadRes("hall/经营分析/统计/liao01", cc.SpriteFrame, (err, spriteFrame) => {
+        cc.loader.loadRes("hall/经营分析/images/left_tab_selected", cc.SpriteFrame, (err, spriteFrame) => {
             if (!err && spriteFrame) {
                 this.tabSprites.selected = spriteFrame;
                 this.showTab(this.currentTab || "Stats");
@@ -859,7 +859,7 @@ cc.Class({
         this.addPopupField(c, "WaterRateInput", "0", 50, 5, 330, 54);
         this.addPopupLabel(c, "WaterPercent", "%", 245, 5, 44, 42, 30, cc.Color.WHITE);
 
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确定", 0, -115, 128, 58, () => {
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 0, -115, 128, 58, () => {
             Cache.alertTip("设置合伙人接口待接入");
         });
     },
@@ -882,7 +882,7 @@ cc.Class({
         this.addPopupField(c, "WaterRateInput", "0", 50, 5, 330, 54);
         this.addPopupLabel(c, "WaterPercent", "%", 245, 5, 44, 42, 30, cc.Color.WHITE);
 
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确定", 0, -115, 128, 58, () => {
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 0, -115, 128, 58, () => {
             Cache.alertTip("调整比例接口待接入");
         });
     },
@@ -900,21 +900,14 @@ cc.Class({
         this.addPopupField(c, "WarningInput", "0", 50, 95, 330, 54);
         this.addPopupLabel(c, "WarningPercent", "%", 245, 95, 44, 42, 30, cc.Color.WHITE);
         this.addPopupLabel(c, "TipLabel", "注：一条线玩家总分数低于警戒值分，玩家不能进入游戏，警戒分设置0，警戒解除，只能给直属代理和玩家设置！", 0, -12, 520, 92, 19, cc.Color.WHITE);
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确定", 0, -125, 128, 58, () => {
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 0, -125, 128, 58, () => {
             Cache.alertTip("调整警戒值接口待接入");
         });
     },
 
     showChildrenPopup() {
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupChildren", (panel) => {
-            let showMode = (captainMode) => {
-                this.setChildActive(panel, "RightPanel/CaptainView", captainMode);
-                this.setChildActive(panel, "RightPanel/MemberView", !captainMode);
-                let captainBtn = this.getNodeFrom(panel, "LeftPanel/CaptainTabButton");
-                let memberBtn = this.getNodeFrom(panel, "LeftPanel/MemberTabButton");
-                this.setPopupSprite(captainBtn, captainMode ? "hall/经营分析/合伙人/zdhuangan" : "hall/经营分析/合伙人/ylvanniu");
-                this.setPopupSprite(memberBtn, captainMode ? "hall/经营分析/合伙人/ylvanniu" : "hall/经营分析/合伙人/zdhuangan");
-            };
+            let showMode = this.switchChildrenPopupMode.bind(this, panel);
             this.bindItemButton(panel, "LeftPanel/CaptainTabButton", () => showMode(true));
             this.bindItemButton(panel, "LeftPanel/MemberTabButton", () => showMode(false));
             this.bindItemButton(panel, "RightPanel/SearchButton", () => {
@@ -937,10 +930,10 @@ cc.Class({
         let panel = new cc.Node("ChildrenPopupPanel");
         mask.addChild(panel);
         panel.setContentSize(cc.size(1075, 604));
-        this.addPopupSprite(panel, "Bg", "hall/经营分析/合伙人/查看下级/组 13", 0, 0, 1075, 604);
+        this.addPopupSprite(panel, "Bg", "hall/经营分析/images/popup_children_bg", 0, 0, 1075, 604);
 
         this.addPopupLabel(panel, "TitleLabel", "查看下级", 0, 258, 260, 62, 40, cc.Color.WHITE);
-        let close = this.addPopupSprite(panel, "CloseButton", "hall/经营分析/统计/guanbi", 520, 265, 54, 54);
+        let close = this.addPopupSprite(panel, "CloseButton", "hall/经营分析/images/popup_close_btn", 520, 265, 54, 54);
         close.addComponent(cc.Button);
         close.on(cc.Node.EventType.TOUCH_END, this.closeBusinessPopup, this);
 
@@ -950,16 +943,16 @@ cc.Class({
         left.setContentSize(cc.size(225, 470));
 
         this.addPopupBlock(left, "TopUserBg", 0, 186, 214, 78, cc.color(255, 240, 210));
-        this.addPopupSprite(left, "LeaderBadge", "hall/经营分析/合伙人/查看下级/上级队长", -92, 186, 30, 74);
-        this.addPopupSprite(left, "LeaderAvatar", "hall/经营分析/成员管理/bg01", -50, 186, 62, 62);
+        this.addPopupSprite(left, "LeaderBadge", "hall/经营分析/images/badge_superior_captain", -92, 186, 30, 74);
+        this.addPopupSprite(left, "LeaderAvatar", "hall/经营分析/images/avatar_placeholder_bg", -50, 186, 62, 62);
         this.addPopupLabel(left, "LeaderName", "玩家信息", 35, 202, 120, 28, 20, cc.color(120, 75, 45));
         this.addPopupLabel(left, "LeaderId", "123456", 35, 172, 120, 28, 20, cc.color(120, 75, 45));
 
-        let captainBtn = this.addPopupSprite(left, "CaptainTabButton", "hall/经营分析/合伙人/zdhuangan", 0, 84, 205, 67);
+        let captainBtn = this.addPopupSprite(left, "CaptainTabButton", "hall/经营分析/images/btn_large_orange", 0, 84, 205, 67);
         captainBtn.addComponent(cc.Button);
         this.addPopupLabel(captainBtn, "Label", "下级队长", 0, 1, 180, 54, 32, cc.Color.WHITE);
 
-        let memberBtn = this.addPopupSprite(left, "MemberTabButton", "hall/经营分析/合伙人/ylvanniu", 0, -3, 205, 67);
+        let memberBtn = this.addPopupSprite(left, "MemberTabButton", "hall/经营分析/images/btn_large_green", 0, -3, 205, 67);
         memberBtn.addComponent(cc.Button);
         this.addPopupLabel(memberBtn, "Label", "下级成员", 0, 1, 180, 54, 32, cc.Color.WHITE);
 
@@ -974,9 +967,9 @@ cc.Class({
         listLayer.setPosition(0, 0);
         listLayer.setContentSize(cc.size(780, 340));
 
-        let input = this.addPopupSprite(right, "SearchInputBg", "hall/经营分析/合伙人/bgshuru", -235, -220, 290, 50);
+        let input = this.addPopupSprite(right, "SearchInputBg", "hall/经营分析/images/input_field_bg", -235, -220, 290, 50);
         this.addPopupLabel(input, "Placeholder", "", 0, 0, 260, 38, 22, cc.color(150, 120, 100));
-        let query = this.addPopupSprite(right, "SearchButton", "hall/经营分析/奖励明细/anniu", 55, -220, 126, 52);
+        let query = this.addPopupSprite(right, "SearchButton", "hall/经营分析/images/btn_query_yellow", 55, -220, 126, 52);
         query.addComponent(cc.Button);
         this.addPopupLabel(query, "Label", "查询", 0, 2, 100, 40, 26, cc.Color.WHITE);
         query.on(cc.Node.EventType.TOUCH_END, () => {
@@ -989,8 +982,8 @@ cc.Class({
             header.removeAllChildren();
             listLayer.removeAllChildren();
             let captainMode = state.mode === "captain";
-            this.setPopupSprite(captainBtn, captainMode ? "hall/经营分析/合伙人/zdhuangan" : "hall/经营分析/合伙人/ylvanniu");
-            this.setPopupSprite(memberBtn, captainMode ? "hall/经营分析/合伙人/ylvanniu" : "hall/经营分析/合伙人/zdhuangan");
+            this.setPopupSprite(captainBtn, captainMode ? "hall/经营分析/images/btn_large_orange" : "hall/经营分析/images/btn_large_green");
+            this.setPopupSprite(memberBtn, captainMode ? "hall/经营分析/images/btn_large_green" : "hall/经营分析/images/btn_large_orange");
 
             if (captainMode) {
                 this.renderChildrenCaptainHeader(header);
@@ -1016,6 +1009,13 @@ cc.Class({
         render();
     },
 
+    switchChildrenPopupMode(panel, captainMode) {
+        this.setChildActive(panel, "RightPanel/CaptainView", captainMode);
+        this.setChildActive(panel, "RightPanel/MemberView", !captainMode);
+        this.setPopupSprite(this.getNodeFrom(panel, "LeftPanel/CaptainTabButton"), captainMode ? "hall/经营分析/images/btn_large_green" : "hall/经营分析/images/btn_large_yellow");
+        this.setPopupSprite(this.getNodeFrom(panel, "LeftPanel/MemberTabButton"), captainMode ? "hall/经营分析/images/btn_large_yellow" : "hall/经营分析/images/btn_large_green");
+    },
+
     showScorePopup() {
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupScore", (panel) => {
             this.bindItemButton(panel, "Content/AddModeButton", () => {
@@ -1032,8 +1032,8 @@ cc.Class({
         let popup = this.createKeyboardPopupBase("加减积分");
         let c = popup.content;
         let leftPanel = this.addPopupBlock(c, "ModePanel", -335, 0, 220, 485, cc.color(177, 143, 130));
-        this.addPopupImageButton(leftPanel, "AddModeButton", "hall/经营分析/合伙人/zdhuangan", "增加积分", 0, 177, 194, 72, null, 30);
-        this.addPopupImageButton(leftPanel, "ReduceModeButton", "hall/经营分析/合伙人/ylvanniu", "减少积分", 0, 87, 194, 72, null, 30);
+        this.addPopupImageButton(leftPanel, "AddModeButton", "hall/经营分析/images/btn_large_orange", "增加积分", 0, 177, 194, 72, null, 30);
+        this.addPopupImageButton(leftPanel, "ReduceModeButton", "hall/经营分析/images/btn_large_green", "减少积分", 0, 87, 194, 72, null, 30);
 
         this.addPopupBlock(c, "InputPanel", 165, 190, 590, 72, cc.color(177, 143, 130));
         this.addPopupField(c, "ScoreInput", "+0", 165, 190, 520, 58);
@@ -1049,7 +1049,7 @@ cc.Class({
         });
 
         this.addPopupLabel(c, "MyScoreLabel", "我的积分：99999", -95, -245, 280, 42, 28, cc.color(82, 72, 150));
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确认操作", 360, -245, 205, 72, () => {
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确认操作", 360, -245, 205, 72, () => {
             Cache.alertTip("上下分接口待接入");
         }, 28);
     },
@@ -1071,7 +1071,7 @@ cc.Class({
         rows.forEach((row, index) => {
             let y = 150 - index * 104;
             this.addPopupBlock(layer, "CaptainRowBg" + index, 0, y, 770, 92, cc.color(255, 240, 210));
-            this.addPopupSprite(layer, "Avatar" + index, "hall/经营分析/成员管理/bg01", -345, y, 70, 70);
+            this.addPopupSprite(layer, "Avatar" + index, "hall/经营分析/images/avatar_placeholder_bg", -345, y, 70, 70);
             this.addPopupLabel(layer, "Name" + index, row.name + "\n" + row.id, -270, y, 105, 56, 20, cc.color(120, 75, 45));
             this.addPopupLabel(layer, "Rate" + index, row.roomRate + "\n" + row.waterRate, -105, y, 125, 56, 20, cc.color(120, 75, 45));
             this.addPopupLabel(layer, "Yesterday" + index, row.yesterdayIncome + "\n" + row.yesterdayRounds, 55, y, 90, 56, 20, cc.color(120, 75, 45));
@@ -1099,7 +1099,7 @@ cc.Class({
         rows.forEach((row, index) => {
             let y = 150 - index * 104;
             this.addPopupBlock(layer, "MemberRowBg" + index, 0, y, 770, 92, cc.color(255, 240, 210));
-            this.addPopupSprite(layer, "Avatar" + index, "hall/经营分析/成员管理/bg01", -345, y, 70, 70);
+            this.addPopupSprite(layer, "Avatar" + index, "hall/经营分析/images/avatar_placeholder_bg", -345, y, 70, 70);
             this.addPopupLabel(layer, "Name" + index, row.name + "\n" + row.id, -270, y, 105, 56, 20, cc.color(120, 75, 45));
             this.addPopupLabel(layer, "Rounds" + index, String(row.rounds), -105, y, 80, 40, 20, cc.color(120, 75, 45));
             this.addPopupLabel(layer, "Score" + index, String(row.score), 5, y, 100, 40, 20, cc.color(120, 75, 45));
@@ -1122,11 +1122,11 @@ cc.Class({
 
         let dateTabs = ["06月28日", "06月27日", "06月27日", "06月27日", "06月27日", "06月27日", "06月27日"];
         dateTabs.forEach((text, index) => {
-            this.addPopupImageButton(c, "DateTab" + index, index === 0 ? "hall/经营分析/合伙人/zdhuangan" : "hall/经营分析/合伙人/ylvanniu", text, -440 + index * 145, 205, 130, 54, null, 24);
+            this.addPopupImageButton(c, "DateTab" + index, index === 0 ? "hall/经营分析/images/btn_large_orange" : "hall/经营分析/images/btn_large_green", text, -440 + index * 145, 205, 130, 54, null, 24);
         });
 
         this.addPopupBlock(c, "UserSummaryBg", 0, 145, 980, 100, cc.color(255, 236, 195));
-        this.addPopupSprite(c, "Avatar", "hall/经营分析/成员管理/bg01", -430, 145, 66, 66);
+        this.addPopupSprite(c, "Avatar", "hall/经营分析/images/avatar_placeholder_bg", -430, 145, 66, 66);
         this.addPopupLabel(c, "UserNameLabel", "玩家信息\n123456", -350, 145, 125, 66, 22, cc.color(130, 75, 35));
         this.addPopupLabel(c, "TodayRoundsLabel", "今日局数： 1", -90, 145, 210, 52, 26, cc.color(130, 75, 35));
         this.addPopupLabel(c, "WinLabel", "输赢： -35.6", 230, 145, 230, 52, 26, cc.color(50, 155, 70));
@@ -1143,10 +1143,10 @@ cc.Class({
             this.addPopupLabel(detail, "PlayerName" + i, "哇卡一为...\n12****6", x, -28, 80, 42, 16, cc.color(130, 75, 35));
             this.addPopupLabel(detail, "PlayerScore" + i, i === 0 ? "+3605" : "-36", x, -70, 82, 30, 20, i === 0 ? cc.color(220, 130, 25) : cc.color(45, 92, 210));
         }
-        this.addPopupImageButton(c, "CopyReplayCodeButton", "hall/经营分析/合伙人/zhonganni", "复制回放码", 415, -4, 132, 54, () => {
+        this.addPopupImageButton(c, "CopyReplayCodeButton", "hall/经营分析/images/btn_small_blue", "复制回放码", 415, -4, 132, 54, () => {
             Cache.alertTip("复制回放码待接入");
         }, 21);
-        this.addPopupImageButton(c, "OpenReplayButton", "hall/经营分析/合伙人/zhonganni", "查看回放", 415, -68, 132, 54, this.showReplayPopup.bind(this), 22);
+        this.addPopupImageButton(c, "OpenReplayButton", "hall/经营分析/images/btn_small_blue", "查看回放", 415, -68, 132, 54, this.showReplayPopup.bind(this), 22);
     },
 
     showReplayPopup() {
@@ -1155,6 +1155,15 @@ cc.Class({
                 Cache.alertTip("回放播放待接入");
             });
             this.bindItemButton(panel, "Content/ReplayButton1", () => {
+                Cache.alertTip("回放播放待接入");
+            });
+            this.bindItemButton(panel, "Content/ReplayScroll/content/ReplayButton0", () => {
+                Cache.alertTip("回放播放待接入");
+            });
+            this.bindItemButton(panel, "Content/ReplayScroll/content/ReplayButton1", () => {
+                Cache.alertTip("回放播放待接入");
+            });
+            this.bindItemButton(panel, "Content/ReplayScroll/content/ReplayButton2", () => {
                 Cache.alertTip("回放播放待接入");
             });
         })) return;
@@ -1181,7 +1190,7 @@ cc.Class({
                 this.addPopupLabel(c, "ReplayPlayer" + index + "_" + i, "玩家昵称...", x, y, 140, 30, 21, cc.color(60, 95, 195));
                 this.addPopupLabel(c, "ReplayScore" + index + "_" + i, i === 1 ? "-180" : "+18", x + 120, y, 90, 30, 21, i === 1 ? cc.color(35, 155, 70) : cc.color(190, 45, 45));
             }
-            this.addPopupImageButton(c, "ReplayButton" + index, "hall/经营分析/合伙人/zhonganni", "查看回放", 390, row.y, 145, 56, () => {
+            this.addPopupImageButton(c, "ReplayButton" + index, "hall/经营分析/images/btn_small_blue", "查看回放", 390, row.y, 145, 56, () => {
                 Cache.alertTip("回放播放待接入");
             }, 22);
         });
@@ -1198,8 +1207,8 @@ cc.Class({
         let popup = this.createFormPopupBase("禁止游戏");
         let c = popup.content;
         this.addPopupLabel(c, "MessageLabel", "确认禁止该玩家游戏？", 0, 58, 520, 70, 30, cc.Color.WHITE);
-        this.addPopupImageButton(c, "CancelButton", "hall/经营分析/合伙人/zlannanni", "取消", -95, -80, 128, 58, this.closeBusinessPopup.bind(this));
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确定", 95, -80, 128, 58, () => {
+        this.addPopupImageButton(c, "CancelButton", "hall/经营分析/images/btn_cancel_blue", "取消", -95, -80, 128, 58, this.closeBusinessPopup.bind(this));
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 95, -80, 128, 58, () => {
             Cache.alertTip("禁止游戏接口待接入");
         });
     },
@@ -1218,8 +1227,8 @@ cc.Class({
         this.addPopupLabel(c, "DayLabel", "28日", 160, 82, 120, 44, 28, cc.Color.WHITE);
         this.addPopupBlock(c, "DatePanel", 0, -15, 520, 90, cc.color(255, 248, 235));
         this.addPopupLabel(c, "SelectedLabel", "当前选择：2026-06-28", 0, -15, 420, 50, 26, cc.color(120, 75, 45));
-        this.addPopupImageButton(c, "CancelButton", "hall/经营分析/合伙人/zlannanni", "取消", -95, -130, 128, 58, this.closeBusinessPopup.bind(this));
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确定", 95, -130, 128, 58, this.closeBusinessPopup.bind(this));
+        this.addPopupImageButton(c, "CancelButton", "hall/经营分析/images/btn_cancel_blue", "取消", -95, -130, 128, 58, this.closeBusinessPopup.bind(this));
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 95, -130, 128, 58, this.closeBusinessPopup.bind(this));
     },
 
     showSearchPopup(title) {
@@ -1249,19 +1258,14 @@ cc.Class({
 
     showInvitePopup() {
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupInvite", (panel) => {
-            this.bindItemButton(panel, "Content/CopyButton", () => {
-                Cache.alertTip("复制邀请码待接入");
+            this.bindItemButton(panel, "Content/SearchConfirmButton", () => {
+                Cache.alertTip("邀请玩家接口待接入");
             });
         })) return;
 
-        let popup = this.createFormPopupBase("邀请玩家");
+        let popup = this.createKeyboardPopupBase("邀请玩家");
         let c = popup.content;
-        this.addPopupLabel(c, "InviteTitle", "邀请码", -185, 78, 140, 42, 30, cc.Color.WHITE);
-        this.addPopupField(c, "InviteCodeBg", "900001", 55, 78, 330, 54);
-        this.addPopupLabel(c, "InviteTip", "复制邀请码后发送给玩家加入联盟", 0, -15, 480, 52, 24, cc.Color.WHITE);
-        this.addPopupImageButton(c, "CopyButton", "hall/经营分析/合伙人/zlvanni", "复制", 0, -118, 128, 58, () => {
-            Cache.alertTip("复制邀请码待接入");
-        });
+        this.addSearchKeyboardContent(c, "输入ID号：", "邀请玩家接口待接入");
     },
 
     showWithdrawConfirmPopup() {
@@ -1276,22 +1280,22 @@ cc.Class({
         let c = popup.content;
         this.addPopupLabel(c, "MessageLabel", "确认取出当前奖励？", 0, 58, 520, 70, 30, cc.Color.WHITE);
         this.addPopupLabel(c, "RewardLabel", "当前奖励：2.7", 0, 4, 420, 40, 26, cc.Color.WHITE);
-        this.addPopupImageButton(c, "CancelButton", "hall/经营分析/合伙人/zlannanni", "取消", -95, -115, 128, 58, this.closeBusinessPopup.bind(this));
-        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/合伙人/zlvanni", "确定", 95, -115, 128, 58, () => {
+        this.addPopupImageButton(c, "CancelButton", "hall/经营分析/images/btn_cancel_blue", "取消", -95, -115, 128, 58, this.closeBusinessPopup.bind(this));
+        this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 95, -115, 128, 58, () => {
             Cache.alertTip("奖励提取接口待接入");
         });
     },
 
     createFormPopupBase(title) {
-        return this.createArtPopupBase(title, 583, 444, "hall/经营分析/合伙人/bg10", cc.size(540, 300), cc.v2(0, -28));
+        return this.createArtPopupBase(title, 583, 444, "hall/经营分析/images/popup_small_bg", cc.size(540, 300), cc.v2(0, -28));
     },
 
     createKeyboardPopupBase(title) {
-        return this.createArtPopupBase(title, 880, 645, "hall/经营分析/成员管理/bg11", cc.size(820, 535), cc.v2(0, -40));
+        return this.createArtPopupBase(title, 880, 645, "hall/经营分析/images/popup_large_bg", cc.size(820, 535), cc.v2(0, -40));
     },
 
     createLargePopupBase(title) {
-        return this.createArtPopupBase(title, 1075, 604, "hall/经营分析/成员管理/bg11", cc.size(980, 485), cc.v2(0, -28));
+        return this.createArtPopupBase(title, 1075, 604, "hall/经营分析/images/popup_large_bg", cc.size(980, 485), cc.v2(0, -28));
     },
 
     createArtPopupBase(title, width, height, bgResource, contentSize, contentPosition) {
@@ -1312,7 +1316,7 @@ cc.Class({
         this.addPopupSprite(panel, "PanelBg", bgResource, 0, 0, width, height);
 
         this.addPopupLabel(panel, "TitleLabel", title || "", 0, height / 2 - 52, 360, 64, 38, cc.Color.WHITE);
-        let close = this.addPopupSprite(panel, "CloseButton", "hall/经营分析/统计/guanbi", width / 2 - 22, height / 2 - 22, 54, 54);
+        let close = this.addPopupSprite(panel, "CloseButton", "hall/经营分析/images/popup_close_btn", width / 2 - 22, height / 2 - 22, 54, 54);
         close.addComponent(cc.Button);
         close.on(cc.Node.EventType.TOUCH_END, () => {
             Cache.playSfx();
@@ -1343,7 +1347,7 @@ cc.Class({
             this.addKeyboardKey(parent, key[0], key[1], key[2], 260, 92);
         });
 
-        this.addPopupImageButton(parent, "SearchConfirmButton", "hall/经营分析/合伙人/zlvanni", "查询", 380, -285, 128, 58, () => {
+        this.addPopupImageButton(parent, "SearchConfirmButton", "hall/经营分析/images/btn_confirm_green", "查询", 380, -285, 128, 58, () => {
             Cache.alertTip(tip || "查询接口待接入");
         }, 26);
     },

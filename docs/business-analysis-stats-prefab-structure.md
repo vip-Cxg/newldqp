@@ -1,6 +1,6 @@
 # 经营分析统计页 Prefab 结构
 
-本文档用于把 `assets/resources/hall/经营分析/统计/效果图.jpg` 一比一还原成 `BusinessAnalysisView.prefab`。
+本文档用于把 `assets/resources/hall/经营分析/images/ref_stats.jpg` 一比一还原成 `BusinessAnalysisView.prefab`。
 
 ## 1. 推荐方式
 
@@ -172,4 +172,3 @@ BottomActions/IndirectMemberBox/Value
 ```
 
 脚本不要再写死这些节点坐标。
-

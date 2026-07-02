@@ -20,22 +20,22 @@ function spriteUuid(resourcePath) {
 }
 
 const sprites = {
-  formBg: spriteUuid("hall/经营分析/合伙人/bg10"),
-  largeBg: spriteUuid("hall/经营分析/成员管理/bg11"),
-  close: spriteUuid("hall/经营分析/统计/guanbi"),
-  greenBtn: spriteUuid("hall/经营分析/合伙人/zlvanni"),
-  blueBtn: spriteUuid("hall/经营分析/合伙人/zlannanni"),
-  smallBlueBtn: spriteUuid("hall/经营分析/合伙人/zhonganni"),
-  orangeBigBtn: spriteUuid("hall/经营分析/合伙人/zdhuangan"),
-  greenBigBtn: spriteUuid("hall/经营分析/合伙人/ylvanniu"),
-  input: spriteUuid("hall/经营分析/合伙人/bgshuru"),
-  avatar: spriteUuid("hall/经营分析/成员管理/bg01"),
-  childrenBg: spriteUuid("hall/经营分析/合伙人/查看下级/组 13"),
-  leaderBadge: spriteUuid("hall/经营分析/合伙人/查看下级/上级队长"),
-  dateBtn: spriteUuid("hall/经营分析/奖励明细/anniu"),
-  key: spriteUuid("hall/经营分析/成员管理/上下分/anjian"),
-  paleBlock: spriteUuid("hall/经营分析/合伙人/bg05"),
-  brownBar: spriteUuid("hall/经营分析/合伙人/bg06"),
+  formBg: spriteUuid("hall/经营分析/images/popup_small_bg"),
+  largeBg: spriteUuid("hall/经营分析/images/popup_large_bg"),
+  close: spriteUuid("hall/经营分析/images/popup_close_btn"),
+  greenBtn: spriteUuid("hall/经营分析/images/btn_confirm_green"),
+  blueBtn: spriteUuid("hall/经营分析/images/btn_cancel_blue"),
+  smallBlueBtn: spriteUuid("hall/经营分析/images/btn_small_blue"),
+  orangeBigBtn: spriteUuid("hall/经营分析/images/btn_large_orange"),
+  greenBigBtn: spriteUuid("hall/经营分析/images/btn_large_green"),
+  input: spriteUuid("hall/经营分析/images/input_field_bg"),
+  avatar: spriteUuid("hall/经营分析/images/avatar_placeholder_bg"),
+  childrenBg: spriteUuid("hall/经营分析/images/popup_children_bg"),
+  leaderBadge: spriteUuid("hall/经营分析/images/badge_superior_captain"),
+  dateBtn: spriteUuid("hall/经营分析/images/btn_query_yellow"),
+  key: spriteUuid("hall/经营分析/images/keypad_button_bg"),
+  paleBlock: spriteUuid("hall/经营分析/images/popup_light_panel_bg"),
+  brownBar: spriteUuid("hall/经营分析/images/popup_brown_bar_bg"),
 };
 
 function makePrefab(name, width, height, childrenBuilder) {
