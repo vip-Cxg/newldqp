@@ -14,10 +14,10 @@
 2026-07-01：
 
 - 后端策略已调整为：新建经营分析后端模块，不直接修改旧联盟 JS。
-- 已生成第一版主框架 Prefab：
+- 已生成第一版主框架 Prefab，后续经营分析相关 Prefab 统一放在：
 
 ```text
-newldqp/assets/resources/Main/Prefab/BusinessAnalysisView.prefab
+newldqp/assets/resources/Main/Prefab/BusinessAnalysis/
 ```
 
 - 已按 `统计/效果图.jpg` 重做第一个 Tab 的静态布局：
@@ -32,13 +32,13 @@ newldqp/assets/resources/Main/Prefab/BusinessAnalysisView.prefab
 - 已新增业务脚本并挂到 Prefab 根节点：
 
 ```text
-newldqp/assets/script/ui/hall/BusinessAnalysisView.js
+newldqp/assets/script/ui/hall/businessAnalysis/BusinessAnalysisView.js
 ```
 
 - 已新增弹窗路径：
 
 ```text
-GameConfig.pop.BusinessAnalysisView = "Main/Prefab/BusinessAnalysisView"
+GameConfig.pop.BusinessAnalysisView = "Main/Prefab/BusinessAnalysis/BusinessAnalysisView"
 ```
 
 - 当前开发策略调整为：先在单个 `BusinessAnalysisView.prefab` 内把所有 Tab 页面静态布局做完，列表类 item 可以先拆子 Prefab，确认视觉和节点命名后，再考虑拆分完整 Tab Prefab。
@@ -51,10 +51,35 @@ GameConfig.pop.BusinessAnalysisView = "Main/Prefab/BusinessAnalysisView"
 - 已抽出合伙人列表项：
 
 ```text
-newldqp/assets/resources/Main/Prefab/BusinessAnalysisPartnerItem.prefab
+newldqp/assets/resources/Main/Prefab/BusinessAnalysis/BusinessAnalysisPartnerItem.prefab
 ```
 
 - `BusinessAnalysisView.js` 已用 mock 数据动态实例化合伙人 item，并按角色控制 `调整比例 / 警戒值` 按钮显隐。
+- 经营分析弹窗已拆成独立 Prefab，便于在 Cocos 里手动调整位置和替换美术：
+
+```text
+newldqp/assets/resources/Main/Prefab/BusinessAnalysis/
+├── BusinessAnalysisView.prefab
+├── BusinessAnalysisPartnerItem.prefab
+├── BusinessAnalysisMemberItem.prefab
+├── BusinessAnalysisAgentStatsItem.prefab
+├── BusinessAnalysisRewardDetailItem.prefab
+├── BusinessAnalysisOperateLogItem.prefab
+├── BusinessAnalysisRewardWithdrawItem.prefab
+├── BusinessAnalysisPopupAdjustRate.prefab
+├── BusinessAnalysisPopupWarning.prefab
+├── BusinessAnalysisPopupChildren.prefab
+├── BusinessAnalysisPopupScore.prefab
+├── BusinessAnalysisPopupSearch.prefab
+├── BusinessAnalysisPopupSearchMember.prefab
+├── BusinessAnalysisPopupSetPartner.prefab
+├── BusinessAnalysisPopupForbid.prefab
+├── BusinessAnalysisPopupDate.prefab
+├── BusinessAnalysisPopupInvite.prefab
+├── BusinessAnalysisPopupWithdrawConfirm.prefab
+├── BusinessAnalysisPopupRecord.prefab
+└── BusinessAnalysisPopupReplay.prefab
+```
 
 当前 `BusinessAnalysisView.prefab` 是结构壳，包含：
 
@@ -261,44 +286,26 @@ businessAnalysis/operate/logs
 
 ## 4. 前端模块拆分
 
-建议新增目录：
+当前前端目录：
 
 ```text
-newldqp/assets/script/ui/business/
+newldqp/assets/script/ui/hall/businessAnalysis/
 ├── BusinessAnalysisView.js
-├── BusinessStatsTab.js
-├── BusinessAgentStatsTab.js
-├── BusinessMemberTab.js
-├── BusinessPartnerTab.js
-├── BusinessRewardDetailTab.js
-├── BusinessRewardWithdrawTab.js
-├── BusinessOperateLogTab.js
-├── components/
-│   ├── BusinessTabButton.js
-│   ├── BusinessTableRow.js
-│   ├── BusinessDateFilter.js
-│   ├── BusinessPager.js
-│   ├── BusinessSearchBox.js
-│   └── BusinessConfirmDialog.js
-└── data/
-    └── BusinessAnalysisApi.js
+└── 后续可继续拆分 Tab/组件脚本
 ```
 
-建议新增 Prefab：
+当前 Prefab 目录：
 
 ```text
-newldqp/assets/resources/Main/Prefab/
+newldqp/assets/resources/Main/Prefab/BusinessAnalysis/
 ├── BusinessAnalysisView.prefab
-├── BusinessStatsTab.prefab
-├── BusinessAgentStatsTab.prefab
-├── BusinessMemberTab.prefab
-├── BusinessPartnerTab.prefab
-├── BusinessRewardDetailTab.prefab
-├── BusinessRewardWithdrawTab.prefab
-├── BusinessOperateLogTab.prefab
-├── BusinessTableRow.prefab
-├── BusinessDateFilter.prefab
-└── BusinessConfirmDialog.prefab
+├── BusinessAnalysisPartnerItem.prefab
+├── BusinessAnalysisMemberItem.prefab
+├── BusinessAnalysisAgentStatsItem.prefab
+├── BusinessAnalysisRewardDetailItem.prefab
+├── BusinessAnalysisOperateLogItem.prefab
+├── BusinessAnalysisRewardWithdrawItem.prefab
+└── BusinessAnalysisPopup*.prefab
 ```
 
 ## 5. 主界面节点建议
@@ -650,7 +657,7 @@ GameUtils.pop(GameConfig.pop.BusinessAnalysisView)
 需要在 `GameConfig.pop` 增加：
 
 ```js
-BusinessAnalysisView: "Main/Prefab/BusinessAnalysisView"
+BusinessAnalysisView: "Main/Prefab/BusinessAnalysis/BusinessAnalysisView"
 ```
 
 ### 第三步：封装 API
