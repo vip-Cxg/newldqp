@@ -947,6 +947,9 @@
     "_components": [
       {
         "__id__": 25
+      },
+      {
+        "__id__": 60
       }
     ],
     "_prefab": {
@@ -1441,6 +1444,9 @@
     "_components": [
       {
         "__id__": 40
+      },
+      {
+        "__id__": 61
       }
     ],
     "_prefab": {
@@ -2128,5 +2134,59 @@
     },
     "fileId": "",
     "sync": false
+  },
+  {
+    "__type__": "cc.EditBox",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 24
+    },
+    "_enabled": true,
+    "_useOriginalSize": false,
+    "_string": "",
+    "returnType": 0,
+    "maxLength": 3,
+    "_tabIndex": 0,
+    "editingDidBegan": [],
+    "textChanged": [],
+    "editingDidEnded": [],
+    "editingReturn": [],
+    "_N$textLabel": null,
+    "_N$placeholderLabel": null,
+    "_N$background": {
+      "__id__": 25
+    },
+    "_N$inputFlag": 5,
+    "_N$inputMode": 2,
+    "_N$stayOnTop": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.EditBox",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 39
+    },
+    "_enabled": true,
+    "_useOriginalSize": false,
+    "_string": "",
+    "returnType": 0,
+    "maxLength": 3,
+    "_tabIndex": 0,
+    "editingDidBegan": [],
+    "textChanged": [],
+    "editingDidEnded": [],
+    "editingReturn": [],
+    "_N$textLabel": null,
+    "_N$placeholderLabel": null,
+    "_N$background": {
+      "__id__": 40
+    },
+    "_N$inputFlag": 5,
+    "_N$inputMode": 2,
+    "_N$stayOnTop": false,
+    "_id": ""
   }
 ]

@@ -1,4 +1,8 @@
 const Cache = require("../../../../Main/Script/Cache");
+const Connector = require("../../../../Main/NetWork/Connector");
+const utils = require("../../../../Main/Script/utils");
+const { GameConfig } = require("../../../../GameBase/GameConfig");
+const { App } = require("../data/App");
 
 cc.Class({
     extends: cc.Component,
@@ -6,6 +10,7 @@ cc.Class({
     properties: {},
 
     onLoad() {
+        console.log("[BusinessAnalysis] onLoad");
         this.node.addComponent(cc.BlockInputEvents);
         this.tabs = [
             { key: "Stats", node: "StatsTab", button: "Tab_Stats", title: "统计" },
@@ -28,6 +33,13 @@ cc.Class({
         this.renderOperateLogs(this.mockOperateLogs());
         this.renderRewardWithdraw(this.mockRewardWithdraw());
         this.showTab("Stats");
+        this.loadOverview();
+        this.loadPartners();
+        this.loadMembers();
+        this.loadAgentStats();
+        this.loadRewardDetails();
+        this.loadOperateLogs();
+        this.loadRewardWithdraw();
     },
 
     cacheNodes() {
@@ -103,6 +115,252 @@ cc.Class({
             directMembers: 1,
             indirectMembers: 1,
         };
+    },
+
+    loadOverview() {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            console.warn("[BusinessAnalysis] overview skip, invalid clubID", App && App.Club && App.Club.CurrentClubID);
+            return;
+        }
+
+        console.log("[BusinessAnalysis] overview request", App.Club.CurrentClubID);
+        Connector.request(GameConfig.ServerEventName.BusinessAnalysisOverview, {
+            clubID: App.Club.CurrentClubID
+        }, (res) => {
+            console.log("[BusinessAnalysis] overview from server", res);
+            let overview = res && (res.overview || res.data && res.data.overview);
+            if (!overview) return;
+            this.renderStats(this.normalizeOverview(overview));
+        }, 0, () => {
+            console.warn("[BusinessAnalysis] overview load failed, using mock data");
+        });
+    },
+
+    loadPartners(page, keywords) {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            console.warn("[BusinessAnalysis] partners skip, invalid clubID", App && App.Club && App.Club.CurrentClubID);
+            return;
+        }
+
+        console.log("[BusinessAnalysis] partners request", App.Club.CurrentClubID);
+        Connector.request(GameConfig.ServerEventName.BusinessAnalysisPartners, {
+            clubID: App.Club.CurrentClubID,
+            page: page || 1,
+            pageSize: 10,
+            keywords: keywords || ""
+        }, (res) => {
+            console.log("[BusinessAnalysis] partners from server", res);
+            let partners = res && (res.partners || res.data && res.data.partners);
+            if (!partners) return;
+            this.renderPartners(this.normalizePartners(partners.rows || []));
+        }, 0, () => {
+            console.warn("[BusinessAnalysis] partners load failed, using mock data");
+        });
+    },
+
+    requestBusinessList(eventName, payload, onSuccess, logName) {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            console.warn("[BusinessAnalysis] " + logName + " skip, invalid clubID", App && App.Club && App.Club.CurrentClubID);
+            return;
+        }
+        payload = payload || {};
+        payload.clubID = App.Club.CurrentClubID;
+        payload.page = payload.page || 1;
+        payload.pageSize = payload.pageSize || 10;
+        Connector.request(eventName, payload, (res) => {
+            console.log("[BusinessAnalysis] " + logName + " from server", res);
+            if (typeof onSuccess === "function") onSuccess(res);
+        }, 0, () => {
+            console.warn("[BusinessAnalysis] " + logName + " load failed, using mock data");
+        });
+    },
+
+    loadMembers(page, keywords) {
+        this.requestBusinessList(GameConfig.ServerEventName.BusinessAnalysisMembers, {
+            page: page || 1,
+            pageSize: 10,
+            keywords: keywords || ""
+        }, (res) => {
+            let data = res && (res.members || res.data && res.data.members);
+            if (!data) return;
+            console.log("[BusinessAnalysis] members rows", data.rows || []);
+            this.renderMembers(this.normalizeMembers(data.rows || []));
+        }, "members");
+    },
+
+    loadAgentStats(page, keywords) {
+        this.requestBusinessList(GameConfig.ServerEventName.BusinessAnalysisAgentStats, {
+            page: page || 1,
+            pageSize: 10,
+            keywords: keywords || ""
+        }, (res) => {
+            let data = res && (res.agentStats || res.data && res.data.agentStats);
+            if (!data) return;
+            this.renderAgentStats(this.normalizeAgentStats(data.rows || []));
+        }, "agentStats");
+    },
+
+    loadRewardDetails(page) {
+        this.requestBusinessList(GameConfig.ServerEventName.BusinessAnalysisRewardDetails, {
+            page: page || 1,
+            pageSize: 10
+        }, (res) => {
+            let data = res && (res.rewardDetails || res.data && res.data.rewardDetails);
+            if (!data) return;
+            this.renderRewardDetails(this.normalizeRewardDetails(data));
+        }, "rewardDetails");
+    },
+
+    loadOperateLogs(page) {
+        this.requestBusinessList(GameConfig.ServerEventName.BusinessAnalysisOperateLogs, {
+            page: page || 1,
+            pageSize: 10
+        }, (res) => {
+            let data = res && (res.operateLogs || res.data && res.data.operateLogs);
+            if (!data) return;
+            this.renderOperateLogs(this.normalizeOperateLogs(data.rows || []));
+        }, "operateLogs");
+    },
+
+    loadRewardWithdraw(page) {
+        this.requestBusinessList(GameConfig.ServerEventName.BusinessAnalysisRewardWithdraw, {
+            page: page || 1,
+            pageSize: 10
+        }, (res) => {
+            let data = res && (res.rewardWithdraw || res.data && res.data.rewardWithdraw);
+            if (!data) return;
+            this.renderRewardWithdraw(this.normalizeRewardWithdraw(data));
+        }, "rewardWithdraw");
+    },
+
+    normalizeOverview(overview) {
+        return {
+            todayReward: this.formatNumber(overview.todayReward),
+            yesterdayReward: this.formatNumber(overview.yesterdayReward),
+            teamScore: this.formatNumber(overview.teamScore),
+            teamUsers: this.formatNumber(overview.teamCount),
+            roomRate: this.formatPercent(overview.roomRate),
+            shuffleRate: this.formatPercent(overview.waterRate),
+            gameRounds: this.formatNumber(overview.gameRounds),
+            directCaptains: this.formatNumber(overview.directCaptainCount),
+            directMembers: this.formatNumber(overview.directMemberCount),
+            indirectMembers: this.formatNumber(overview.indirectMemberCount),
+        };
+    },
+
+    formatNumber(value) {
+        let n = Number(value);
+        if (!Number.isFinite(n)) return value || 0;
+        return Math.round(n * 100) / 100;
+    },
+
+    formatPercent(value) {
+        if (value === undefined || value === null || value === "") return 0;
+        let text = String(value);
+        return text.indexOf("%") >= 0 ? text : text + "%";
+    },
+
+    normalizePartners(list) {
+        return (list || []).map((row) => {
+            return {
+                role: row.role || "direct",
+                name: row.name || "玩家信息",
+                userId: row.userID || row.userId || "",
+                peopleCount: this.formatNumber(row.peopleCount),
+                roomRate: row.roomRate || "0%",
+                shuffleRate: row.shuffleRate || "0%",
+                todayRounds: this.formatNumber(row.todayRounds),
+                yesterdayRounds: this.formatNumber(row.yesterdayRounds),
+                todayIncome: this.formatNumber(row.todayIncome),
+                yesterdayIncome: this.formatNumber(row.yesterdayIncome),
+                todayContribution: this.formatNumber(row.todayContribution),
+                yesterdayContribution: this.formatNumber(row.yesterdayContribution),
+                score: this.formatNumber(row.score),
+                limit: this.formatNumber(row.limit),
+                todayDelta: this.formatNumber(row.todayDelta),
+                yesterdayDelta: this.formatNumber(row.yesterdayDelta),
+                memberScore: this.formatNumber(row.memberScore),
+            };
+        });
+    },
+
+    normalizeMembers(list) {
+        return (list || []).map((row) => ({
+            isCaptain: !!row.isCaptain,
+            name: row.name || "玩家信息",
+            userId: row.userID || row.userId || "",
+            head: row.head || row.avatar || "",
+            online: !!row.online,
+            todayRounds: this.formatNumber(row.todayRounds),
+            yesterdayRounds: this.formatNumber(row.yesterdayRounds),
+            todayContribution: this.formatNumber(row.todayContribution),
+            yesterdayContribution: this.formatNumber(row.yesterdayContribution),
+            todayWin: this.formatNumber(row.todayWin),
+            yesterdayWin: this.formatNumber(row.yesterdayWin),
+            score: this.formatNumber(row.score),
+            todayDelta: this.formatNumber(row.todayDelta),
+            yesterdayDelta: this.formatNumber(row.yesterdayDelta),
+        }));
+    },
+
+    normalizeAgentStats(list) {
+        return (list || []).map((row) => ({
+            name: row.name || "代理玩家",
+            userId: row.userID || row.userId || "",
+            personCount: this.formatNumber(row.personCount),
+            income: this.formatNumber(row.income),
+            memberScore: this.formatNumber(row.memberScore),
+            win: this.formatNumber(row.win),
+            contribution: this.formatNumber(row.contribution),
+        }));
+    },
+
+    normalizeRewardDetails(data) {
+        data = data || {};
+        return {
+            totalTicket: this.formatNumber(data.totalTicket),
+            subReward: this.formatNumber(data.subReward),
+            myIncome: this.formatNumber(data.myIncome),
+            list: (data.list || []).map((row) => ({
+                reward: this.formatSigned(row.reward),
+                gameName: row.gameName || "-",
+                playerCount: row.playerCount || "-",
+                roomId: row.roomId || "-",
+                date: row.date || "",
+            }))
+        };
+    },
+
+    normalizeOperateLogs(list) {
+        return (list || []).map((row) => ({
+            playerName: row.playerName || "玩家信息",
+            playerId: row.playerId || "",
+            scoreRecord: this.formatSigned(row.scoreRecord),
+            playerRemain: this.formatNumber(row.playerRemain),
+            operatorName: row.operatorName || "-",
+            operatorId: row.operatorId || "-",
+            operatorRemain: this.formatNumber(row.operatorRemain),
+            date: row.date || "",
+        }));
+    },
+
+    normalizeRewardWithdraw(data) {
+        data = data || {};
+        return {
+            currentReward: this.formatNumber(data.currentReward),
+            list: (data.list || []).map((row) => ({
+                date: row.date || "",
+                amount: this.formatNumber(row.amount),
+                total: this.formatNumber(row.total),
+            }))
+        };
+    },
+
+    formatSigned(value) {
+        let n = Number(value);
+        if (!Number.isFinite(n)) return value || 0;
+        let rounded = Math.round(n * 100) / 100;
+        return rounded > 0 ? "+" + rounded : String(rounded);
     },
 
     mockPartners() {
@@ -474,8 +732,8 @@ cc.Class({
         this.bindItemButton(item, "AdjustRateButton", this.showAdjustRatePopup.bind(this));
         this.bindItemButton(item, "WarningButton", this.showWarningPopup.bind(this));
         this.bindItemButton(item, "ChildrenButton", this.showChildrenPopup.bind(this));
-        this.bindItemButton(item, "AddScoreButton", this.showScorePopup.bind(this));
-        this.bindItemButton(item, "ReduceScoreButton", this.showScorePopup.bind(this));
+        this.bindItemButton(item, "AddScoreButton", () => this.showScorePopup(data, "add"));
+        this.bindItemButton(item, "ReduceScoreButton", () => this.showScorePopup(data, "reduce"));
     },
 
     renderMembers(list) {
@@ -502,7 +760,8 @@ cc.Class({
     },
 
     renderMemberItem(item, data) {
-        this.setChildActive(item, "CaptainBadge", !!data.isCaptain);
+        this.setMemberRoleBadge(item, !!data.isCaptain);
+        this.setMemberAvatar(item, data.head);
         this.setItemLabel(item, "NameLabel", data.name);
         this.setItemLabel(item, "IdLabel", data.userId);
         this.setItemLabel(item, "StatusLabel", data.online ? "在线" : "离线");
@@ -519,11 +778,47 @@ cc.Class({
         let statusNode = this.getNodeFrom(item, "StatusLabel");
         if (statusNode) statusNode.color = data.online ? cc.color(30, 190, 75) : cc.color(95, 95, 95);
 
-        this.bindItemButton(item, "SetPartnerButton", this.showSetPartnerPopup.bind(this));
+        this.setChildActive(item, "SetPartnerButton", !data.isCaptain);
+        if (!data.isCaptain) {
+            this.bindItemButton(item, "SetPartnerButton", () => {
+                this.showSetPartnerPopup({
+                    id: data.userId,
+                    userID: data.userId,
+                    name: data.name,
+                    roomRate: 0,
+                    waterRate: 0
+                });
+            });
+        }
         this.bindItemButton(item, "ForbidButton", this.showForbidPopup.bind(this));
         this.bindItemButton(item, "RecordButton", this.showRecordPopup.bind(this));
-        this.bindItemButton(item, "AddScoreButton", this.showScorePopup.bind(this));
-        this.bindItemButton(item, "ReduceScoreButton", this.showScorePopup.bind(this));
+        this.bindItemButton(item, "AddScoreButton", () => this.showScorePopup(data, "add"));
+        this.bindItemButton(item, "ReduceScoreButton", () => this.showScorePopup(data, "reduce"));
+    },
+
+    setMemberRoleBadge(item, isCaptain) {
+        this.setChildActive(item, "DZBadge", isCaptain);
+        this.setChildActive(item, "ZXBadge", false);
+    },
+
+    setMemberAvatar(item, head) {
+        let avatarNode = this.getNodeFrom(item, "Avatar");
+        if (!avatarNode) return;
+
+        let avatarComp = avatarNode.getComponent("Avatar");
+        if (avatarComp) {
+            avatarComp.avatarUrl = head || "";
+            return;
+        }
+
+        let sprite = avatarNode.getComponent(cc.Sprite);
+        if (!sprite || !utils || !utils.setHead) return;
+
+        try {
+            utils.setHead(sprite, head || "file://0");
+        } catch (err) {
+            console.warn("[BusinessAnalysis] set member avatar failed", err);
+        }
     },
 
     renderAgentStats(list) {
@@ -717,7 +1012,7 @@ cc.Class({
 
     onSetPartner() {
         Cache.playSfx();
-        this.showSetPartnerPopup();
+        this.showSetPartnerIdPopup();
     },
 
     onPartnerSearch() {
@@ -813,6 +1108,162 @@ cc.Class({
         }, this);
     },
 
+    bindNodeButton(node, handler) {
+        if (!node) return;
+        let button = node.getComponent(cc.Button) || node.addComponent(cc.Button);
+        button.transition = cc.Button.Transition.SCALE;
+        button.duration = 0.08;
+        button.zoomScale = 0.96;
+        node.off(cc.Node.EventType.TOUCH_END);
+        node.on(cc.Node.EventType.TOUCH_END, () => {
+            Cache.playSfx();
+            if (typeof handler === "function") handler();
+        }, this);
+    },
+
+    bindNodeButtonTree(node, handler) {
+        if (!node) return;
+        let bind = (target) => {
+            if (!target) return;
+            let button = target.getComponent(cc.Button) || target.addComponent(cc.Button);
+            button.transition = cc.Button.Transition.SCALE;
+            button.duration = 0.08;
+            button.zoomScale = 0.96;
+            target.off(cc.Node.EventType.TOUCH_END);
+            target.on(cc.Node.EventType.TOUCH_END, (event) => {
+                if (event && event.stopPropagation) event.stopPropagation();
+                Cache.playSfx();
+                if (typeof handler === "function") handler();
+            }, this);
+        };
+        bind(node);
+        (node.children || []).forEach(bind);
+    },
+
+    bindIdInputPopup(panel, options) {
+        options = options || {};
+        let inputLabel = this.findNodeDeep(panel, options.inputLabelName || "SearchInputLabel");
+        let inputValue = "";
+        let refreshInput = () => {
+            let label = inputLabel && inputLabel.getComponent(cc.Label);
+            if (label) label.string = inputValue || (options.placeholder || "");
+        };
+        refreshInput();
+
+        for (let i = 0; i <= 9; i++) {
+            let keyNode = this.findNodeDeep(panel, "Key_" + i);
+            this.bindNodeButton(keyNode, () => {
+                if (inputValue.length >= (options.maxLength || 10)) return;
+                inputValue += String(i);
+                refreshInput();
+                if (options.autoSubmitLength && inputValue.length >= options.autoSubmitLength) {
+                    submitInput();
+                }
+            });
+        }
+
+        this.bindNodeButton(this.findNodeDeep(panel, "Key_重输"), () => {
+            inputValue = "";
+            refreshInput();
+        });
+        this.bindNodeButton(this.findNodeDeep(panel, "Key_删除"), () => {
+            inputValue = inputValue.slice(0, -1);
+            refreshInput();
+        });
+        let submitInput = () => {
+            let userID = Number(inputValue);
+            if (!Number.isInteger(userID) || userID <= 0) {
+                Cache.alertTip(options.emptyTip || "请输入正确的玩家ID");
+                return;
+            }
+            if (typeof options.onConfirm === "function") {
+                options.onConfirm(userID, inputValue);
+            }
+        };
+        this.bindNodeButton(this.findNodeDeep(panel, "SearchConfirmButton"), submitInput);
+    },
+
+    requestInvitePlayer(userID) {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            Cache.alertTip("请先进入联盟");
+            return;
+        }
+        Connector.request(GameConfig.ServerEventName.BusinessAnalysisInvitePlayer, {
+            clubID: App.Club.CurrentClubID,
+            userID
+        }, () => {
+            Cache.alertTip("邀请成功");
+            if (App.EventManager) {
+                App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ADD_USER);
+            }
+            this.closeBusinessPopup();
+            this.loadOverview();
+            this.loadPartners();
+        });
+    },
+
+    requestFindPartnerUser(userID) {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            Cache.alertTip("请先进入联盟");
+            return;
+        }
+        Connector.request(GameConfig.ServerEventName.BusinessAnalysisFindUser, {
+            clubID: App.Club.CurrentClubID,
+            userID
+        }, (res) => {
+            let user = res && (res.user || res.data && res.data.user);
+            if (!user) {
+                Cache.alertTip("用户不存在");
+                return;
+            }
+            this.showSetPartnerPopup(user);
+        });
+    },
+
+    requestSetPartner(user, roomRate, waterRate) {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            Cache.alertTip("请先进入联盟");
+            return;
+        }
+        Connector.request(GameConfig.ServerEventName.BusinessAnalysisSetPartner, {
+            clubID: App.Club.CurrentClubID,
+            userID: user.id || user.userID,
+            roomRate,
+            waterRate
+        }, () => {
+            Cache.alertTip("设置合伙人成功");
+            if (App.EventManager) {
+                App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ADD_PROXY);
+            }
+            this.closeBusinessPopup();
+            this.loadOverview();
+            this.loadPartners();
+            this.loadMembers();
+            this.loadAgentStats();
+        });
+    },
+
+    requestChangePartnerScore(user, mode, amount) {
+        if (!App || !App.Club || App.Club.CurrentClubID === -1) {
+            Cache.alertTip("请先进入联盟");
+            return;
+        }
+        Connector.request(GameConfig.ServerEventName.BusinessAnalysisChangeScore, {
+            clubID: App.Club.CurrentClubID,
+            userID: user.userId || user.userID || user.id,
+            mode,
+            amount
+        }, () => {
+            Cache.alertTip(mode === "reduce" ? "下分成功" : "上分成功");
+            this.closeBusinessPopup();
+            this.loadOverview();
+            this.loadPartners();
+            this.loadMembers();
+            this.loadAgentStats();
+            this.loadOperateLogs();
+        });
+    },
+
     showBusinessPopupPrefab(prefabName, setup) {
         this.closeBusinessPopup();
 
@@ -841,10 +1292,39 @@ cc.Class({
         return true;
     },
 
-    showSetPartnerPopup() {
+    showSetPartnerIdPopup() {
+        if (this.showBusinessPopupPrefab("BusinessAnalysisPopupInvite", (panel) => {
+            this.setItemLabel(panel, "TitleLabel", "设置合伙人");
+            this.bindIdInputPopup(panel, {
+                placeholder: "",
+                emptyTip: "请输入玩家ID",
+                maxLength: 6,
+                autoSubmitLength: 6,
+                onConfirm: (userID) => {
+                    this.requestFindPartnerUser(userID);
+                }
+            });
+        })) return;
+    },
+
+    showSetPartnerPopup(user) {
+        user = user || {};
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupSetPartner", (panel) => {
+            this.setItemLabel(panel, "TitleLabel", "设置合伙人");
+            let roomInput = this.bindNumberEditBox(panel, "Content/RoomRateInput", user.roomRate || 0);
+            let waterInput = this.bindNumberEditBox(panel, "Content/WaterRateInput", user.waterRate || 0);
             this.bindItemButton(panel, "Content/ConfirmButton", () => {
-                Cache.alertTip("设置合伙人接口待接入");
+                let roomRate = Number(roomInput ? roomInput.string : 0);
+                let waterRate = Number(waterInput ? waterInput.string : 0);
+                if (!Number.isFinite(roomRate) || roomRate < 0 || roomRate > 100) {
+                    Cache.alertTip("房费比例必须是0-100");
+                    return;
+                }
+                if (!Number.isFinite(waterRate) || waterRate < 0 || waterRate > 100) {
+                    Cache.alertTip("抽水比例必须是0-100");
+                    return;
+                }
+                this.requestSetPartner(user, roomRate, waterRate);
             });
         })) return;
 
@@ -862,6 +1342,25 @@ cc.Class({
         this.addPopupImageButton(c, "ConfirmButton", "hall/经营分析/images/btn_confirm_green", "确定", 0, -115, 128, 58, () => {
             Cache.alertTip("设置合伙人接口待接入");
         });
+    },
+
+    bindNumberEditBox(root, path, defaultValue, options) {
+        options = options || {};
+        let node = this.getNodeFrom(root, path);
+        if (!node) return null;
+        let editBox = node.getComponent(cc.EditBox);
+        if (!editBox) {
+            Cache.alertTip("输入框缺少EditBox组件：" + path);
+            return null;
+        }
+        editBox.string = String(defaultValue === undefined ? 0 : defaultValue);
+        editBox.placeholder = "";
+        editBox.maxLength = options.maxLength || editBox.maxLength || 3;
+        editBox.inputMode = cc.EditBox.InputMode.NUMERIC;
+        editBox.returnType = cc.EditBox.KeyboardReturnType.DONE;
+        if (options.fontSize) editBox.fontSize = options.fontSize;
+        editBox.fontColor = options.color || cc.color(120, 75, 45);
+        return editBox;
     },
 
     showAdjustRatePopup() {
@@ -1016,17 +1515,75 @@ cc.Class({
         this.setPopupSprite(this.getNodeFrom(panel, "LeftPanel/MemberTabButton"), captainMode ? "hall/经营分析/images/btn_large_yellow" : "hall/经营分析/images/btn_large_green");
     },
 
-    showScorePopup() {
+    showScorePopup(user, defaultMode) {
+        user = user || {};
+        let state = {
+            mode: defaultMode === "reduce" ? "reduce" : "add",
+            input: "0"
+        };
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupScore", (panel) => {
-            this.bindItemButton(panel, "Content/AddModeButton", () => {
-                Cache.alertTip("切换增加积分");
+            let inputLabel = this.getNodeFrom(panel, "Content/ScoreInputLabel");
+            if (inputLabel) {
+                inputLabel.setContentSize(cc.size(520, 58));
+            }
+            let addButton = this.getNodeFrom(panel, "Content/AddModeButton");
+            let reduceButton = this.getNodeFrom(panel, "Content/ReduceModeButton");
+            let selectedFrame = addButton && addButton.getComponent(cc.Sprite) && addButton.getComponent(cc.Sprite).spriteFrame;
+            let normalFrame = reduceButton && reduceButton.getComponent(cc.Sprite) && reduceButton.getComponent(cc.Sprite).spriteFrame;
+            console.log("[BusinessAnalysis] score popup bind", {
+                addButton: !!addButton,
+                reduceButton: !!reduceButton,
+                key1: !!this.findNodeDeep(panel, "Key_1"),
+                key0: !!this.findNodeDeep(panel, "Key_0"),
+                reset: !!this.findNodeDeep(panel, "Key_重输"),
+                label: !!inputLabel
             });
-            this.bindItemButton(panel, "Content/ReduceModeButton", () => {
-                Cache.alertTip("切换减少积分");
+            let refresh = () => {
+                let signed = (state.mode === "reduce" ? "-" : "+") + (state.input || "0");
+                let label = inputLabel && inputLabel.getComponent(cc.Label);
+                if (label) label.string = signed;
+                this.setItemLabel(panel, "TitleLabel", state.mode === "reduce" ? "下分" : "上分");
+                let addSprite = addButton && addButton.getComponent(cc.Sprite);
+                let reduceSprite = reduceButton && reduceButton.getComponent(cc.Sprite);
+                if (addSprite && selectedFrame && normalFrame) addSprite.spriteFrame = state.mode === "add" ? selectedFrame : normalFrame;
+                if (reduceSprite && selectedFrame && normalFrame) reduceSprite.spriteFrame = state.mode === "reduce" ? selectedFrame : normalFrame;
+            };
+            this.bindNodeButton(addButton, () => {
+                state.mode = "add";
+                refresh();
+            });
+            this.bindNodeButton(reduceButton, () => {
+                state.mode = "reduce";
+                refresh();
+            });
+            for (let i = 0; i <= 9; i++) {
+                this.bindNodeButton(this.findNodeDeep(panel, "Key_" + i), () => {
+                    if (state.input === "0") state.input = "";
+                    if (state.input.length >= 8) return;
+                    state.input += String(i);
+                    refresh();
+                });
+            }
+            this.bindNodeButton(this.findNodeDeep(panel, "Key_."), () => {
+                if (state.input.indexOf(".") >= 0) return;
+                state.input += state.input ? "." : "0.";
+                refresh();
+            });
+            this.bindNodeButton(this.findNodeDeep(panel, "Key_重输"), () => {
+                state.input = "0";
+                refresh();
             });
             this.bindItemButton(panel, "Content/ConfirmButton", () => {
-                Cache.alertTip("上下分接口待接入");
+                let value = state.input;
+                let amount = Number(value);
+                if (!Number.isFinite(amount) || amount <= 0) {
+                    Cache.alertTip("请输入正确的积分");
+                    return;
+                }
+                this.requestChangePartnerScore(user, state.mode, amount);
             });
+            this.setItemLabel(panel, "Content/MyScoreLabel", "当前积分：" + (user.score || 0));
+            refresh();
         })) return;
 
         let popup = this.createKeyboardPopupBase("加减积分");
@@ -1258,8 +1815,14 @@ cc.Class({
 
     showInvitePopup() {
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupInvite", (panel) => {
-            this.bindItemButton(panel, "Content/SearchConfirmButton", () => {
-                Cache.alertTip("邀请玩家接口待接入");
+            this.bindIdInputPopup(panel, {
+                placeholder: "",
+                emptyTip: "请输入玩家ID",
+                maxLength: 6,
+                autoSubmitLength: 6,
+                onConfirm: (userID) => {
+                    this.requestInvitePlayer(userID);
+                }
             });
         })) return;
 
@@ -1590,5 +2153,15 @@ cc.Class({
             if (!node) return null;
         }
         return node;
+    },
+
+    findNodeDeep(root, name) {
+        if (!root || !name) return null;
+        if (root.name === name) return root;
+        for (let i = 0; i < root.childrenCount; i++) {
+            let found = this.findNodeDeep(root.children[i], name);
+            if (found) return found;
+        }
+        return null;
     },
 });

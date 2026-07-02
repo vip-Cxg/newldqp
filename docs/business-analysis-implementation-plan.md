@@ -11,6 +11,41 @@
 
 ## 0. 当前进度
 
+2026-07-02：
+
+- 已加入经营分析完整流程参考视频：
+
+```text
+ldqp_xh/docs/BusinessAnalysis.mp4
+```
+
+- 已使用现有抽帧工具生成关键帧：
+
+```bash
+/usr/bin/python3 ldqp_xh/tools/video_frames.py ldqp_xh/docs/BusinessAnalysis.mp4 --info --every 3 --sheet --out ldqp_xh/docs/business_analysis_frames_tool --width 960
+```
+
+- 已整理视频流程规格文档：
+
+```text
+newldqp/docs/business-analysis-video-flow-spec.md
+```
+
+- 结论：视频 UI 是旧皮肤，当前项目继续使用新版美术；只参考视频中的布局位置、按钮点击效果、弹窗流转、分页、搜索和接口数据流程。
+- 已新增后端独立模块 `ldqp_xh/logic/businessAnalysis.js`，并在 `ldqp_xh/bin/api.js` 挂载 `/businessAnalysis` 路由，避免扰动旧联盟接口。
+- 已实现第一步接口 `businessAnalysis/overview`，前端 `BusinessAnalysisView` 的 `统计 Tab` 已接入该接口；接口失败时继续显示静态测试数据，方便调 UI。
+- 已实现第二步接口 `businessAnalysis/partners`，前端 `合伙人 Tab` 已接入第一页真实数据；今日/昨日收益、贡献等复杂统计字段暂时保留 0，后续接奖励/战绩统计时补齐。
+- 已实现 `businessAnalysis/invitePlayer`，前端 `邀请玩家` 弹窗已支持数字键输入、删除、重输和确认请求。
+- ID 输入类弹窗先复用 `BusinessAnalysisView.bindIdInputPopup`，后续如果 `邀请/搜索/设置合伙人/查看下级查询` 都稳定复用，再抽成独立脚本和单一 Prefab。
+- 已新增并接入列表接口骨架：
+  - `businessAnalysis/members`：成员管理列表。
+  - `businessAnalysis/agentStats`：代理统计列表。
+  - `businessAnalysis/rewardDetails`：奖励明细列表。
+  - `businessAnalysis/operateLogs`：操作记录列表。
+  - `businessAnalysis/rewardWithdraw`：奖励提取记录列表。
+- 上述接口当前先返回可渲染的真实用户/日志骨架数据，今日/昨日收益、贡献、局数等复杂统计项后续再按业务规则补齐。
+- 下一步从 `查看下级` 弹窗开始接前后端数据，再按 `上下分 -> 设置合伙人/调整比例/警戒值` 的顺序推进。
+
 2026-07-01：
 
 - 后端策略已调整为：新建经营分析后端模块，不直接修改旧联盟 JS。

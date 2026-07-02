@@ -775,6 +775,29 @@ export class GameConfig {
         ClubActive: 'game/task',
         /**获取联盟活动*/
         GetTaskReward: 'game/getTaskReward',
+
+        /**新经营分析-统计概览 */
+        BusinessAnalysisOverview: 'businessAnalysis/overview',
+        /**新经营分析-合伙人列表 */
+        BusinessAnalysisPartners: 'businessAnalysis/partners',
+        /**新经营分析-邀请玩家 */
+        BusinessAnalysisInvitePlayer: 'businessAnalysis/invitePlayer',
+        /**新经营分析-查找玩家 */
+        BusinessAnalysisFindUser: 'businessAnalysis/findUser',
+        /**新经营分析-设置合伙人 */
+        BusinessAnalysisSetPartner: 'businessAnalysis/setPartner',
+        /**新经营分析-合伙人上下分 */
+        BusinessAnalysisChangeScore: 'businessAnalysis/changeScore',
+        /**新经营分析-成员管理 */
+        BusinessAnalysisMembers: 'businessAnalysis/members',
+        /**新经营分析-代理统计 */
+        BusinessAnalysisAgentStats: 'businessAnalysis/agentStats',
+        /**新经营分析-奖励明细 */
+        BusinessAnalysisRewardDetails: 'businessAnalysis/rewardDetails',
+        /**新经营分析-操作记录 */
+        BusinessAnalysisOperateLogs: 'businessAnalysis/operateLogs',
+        /**新经营分析-奖励提取 */
+        BusinessAnalysisRewardWithdraw: 'businessAnalysis/rewardWithdraw',
     }
 
     static ErrorCode = {
