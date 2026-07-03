@@ -1,0 +1,20 @@
+{
+  "name": "ui-generator",
+  "version": "1.0.0",
+  "description": "联盟经营分析 UI Generator for Cocos Creator 2.4.14",
+  "author": "jim",
+  "main": "main.js",
+  "scene-script": "scene.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/ui-generator/open": {
+      "message": "ui-generator:open"
+    }
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "UI Generator",
+    "width": 520,
+    "height": 680
+  }
+}

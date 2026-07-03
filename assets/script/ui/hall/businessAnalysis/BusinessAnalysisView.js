@@ -974,6 +974,7 @@ cc.Class({
     },
 
     showTab(key) {
+        console.log(222)
         this.currentTab = key;
         this.tabs.forEach((tab) => {
             if (tab.key === key) this.setLabel("Panel/Header/TitleLabel", tab.title || "经营分析");
@@ -1138,6 +1139,19 @@ cc.Class({
         };
         bind(node);
         (node.children || []).forEach(bind);
+    },
+
+    bindScoreKeyButton(node, handler) {
+        if (!node) return;
+        let button = node.getComponent(cc.Button) || node.addComponent(cc.Button);
+        button.transition = cc.Button.Transition.SCALE;
+        button.duration = 0.08;
+        button.zoomScale = 0.96;
+        node.off(cc.Node.EventType.TOUCH_START);
+        node.on(cc.Node.EventType.TOUCH_START, () => {
+            Cache.playSfx();
+            if (typeof handler === "function") handler();
+        }, this);
     },
 
     bindIdInputPopup(panel, options) {
@@ -1516,74 +1530,11 @@ cc.Class({
     },
 
     showScorePopup(user, defaultMode) {
-        user = user || {};
-        let state = {
-            mode: defaultMode === "reduce" ? "reduce" : "add",
-            input: "0"
-        };
         if (this.showBusinessPopupPrefab("BusinessAnalysisPopupScore", (panel) => {
-            let inputLabel = this.getNodeFrom(panel, "Content/ScoreInputLabel");
-            if (inputLabel) {
-                inputLabel.setContentSize(cc.size(520, 58));
+            let scorePopup = panel.getComponent("BusinessAnalysisPopupScore") || panel.addComponent("BusinessAnalysisPopupScore");
+            if (scorePopup && scorePopup.init) {
+                scorePopup.init(this, user, defaultMode);
             }
-            let addButton = this.getNodeFrom(panel, "Content/AddModeButton");
-            let reduceButton = this.getNodeFrom(panel, "Content/ReduceModeButton");
-            let selectedFrame = addButton && addButton.getComponent(cc.Sprite) && addButton.getComponent(cc.Sprite).spriteFrame;
-            let normalFrame = reduceButton && reduceButton.getComponent(cc.Sprite) && reduceButton.getComponent(cc.Sprite).spriteFrame;
-            console.log("[BusinessAnalysis] score popup bind", {
-                addButton: !!addButton,
-                reduceButton: !!reduceButton,
-                key1: !!this.findNodeDeep(panel, "Key_1"),
-                key0: !!this.findNodeDeep(panel, "Key_0"),
-                reset: !!this.findNodeDeep(panel, "Key_重输"),
-                label: !!inputLabel
-            });
-            let refresh = () => {
-                let signed = (state.mode === "reduce" ? "-" : "+") + (state.input || "0");
-                let label = inputLabel && inputLabel.getComponent(cc.Label);
-                if (label) label.string = signed;
-                this.setItemLabel(panel, "TitleLabel", state.mode === "reduce" ? "下分" : "上分");
-                let addSprite = addButton && addButton.getComponent(cc.Sprite);
-                let reduceSprite = reduceButton && reduceButton.getComponent(cc.Sprite);
-                if (addSprite && selectedFrame && normalFrame) addSprite.spriteFrame = state.mode === "add" ? selectedFrame : normalFrame;
-                if (reduceSprite && selectedFrame && normalFrame) reduceSprite.spriteFrame = state.mode === "reduce" ? selectedFrame : normalFrame;
-            };
-            this.bindNodeButton(addButton, () => {
-                state.mode = "add";
-                refresh();
-            });
-            this.bindNodeButton(reduceButton, () => {
-                state.mode = "reduce";
-                refresh();
-            });
-            for (let i = 0; i <= 9; i++) {
-                this.bindNodeButton(this.findNodeDeep(panel, "Key_" + i), () => {
-                    if (state.input === "0") state.input = "";
-                    if (state.input.length >= 8) return;
-                    state.input += String(i);
-                    refresh();
-                });
-            }
-            this.bindNodeButton(this.findNodeDeep(panel, "Key_."), () => {
-                if (state.input.indexOf(".") >= 0) return;
-                state.input += state.input ? "." : "0.";
-                refresh();
-            });
-            this.bindNodeButton(this.findNodeDeep(panel, "Key_重输"), () => {
-                state.input = "0";
-                refresh();
-            });
-            this.bindItemButton(panel, "Content/ConfirmButton", () => {
-                let value = state.input;
-                let amount = Number(value);
-                if (!Number.isFinite(amount) || amount <= 0) {
-                    Cache.alertTip("请输入正确的积分");
-                    return;
-                }
-                this.requestChangePartnerScore(user, state.mode, amount);
-            });
-            this.setItemLabel(panel, "Content/MyScoreLabel", "当前积分：" + (user.score || 0));
-            refresh();
         })) return;
 
         let popup = this.createKeyboardPopupBase("加减积分");

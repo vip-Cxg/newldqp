@@ -31,7 +31,11 @@
       }
     ],
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 156
+      }
+    ],
     "_prefab": {
       "__id__": 155
     },
@@ -6026,5 +6030,15 @@
     },
     "fileId": "",
     "sync": false
+  },
+  {
+    "__type__": "3f1d6uVGm5OOLZKL40tnoWe",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_id": ""
   }
 ]
