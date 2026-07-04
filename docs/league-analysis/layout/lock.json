@@ -1,0 +1,16 @@
+{
+  "lockManualLayout": true,
+  "protectedPrefabs": [
+    "LeagueAnalysisView",
+    "MemberPage",
+    "MemberRow",
+    "ScorePopup",
+    "SetPartnerPopup",
+    "SearchMemberPopup",
+    "BattleDetailPopup",
+    "BattleReplayPopup",
+    "ConfirmPopup",
+    "BattleDetailRow",
+    "BattleReplayRow"
+  ]
+}

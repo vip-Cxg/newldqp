@@ -1,0 +1,478 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/SetPartnerPopup.prefab",
+  "generatedAt": "2026-07-04T19:34:51.953Z",
+  "nodes": {
+    "SetPartnerPopup": {
+      "path": "SetPartnerPopup",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SetPartnerPopup/Mask": {
+      "path": "SetPartnerPopup/Mask",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 160,
+      "zIndex": 0,
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 160
+      },
+      "sprite": {
+        "assetName": null,
+        "uuid": null,
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SetPartnerPopup/WindowFrame": {
+      "path": "SetPartnerPopup/WindowFrame",
+      "x": 0,
+      "y": 0,
+      "width": 760,
+      "height": 500,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SetPartnerPopup/WindowFrame/Sprite": {
+      "path": "SetPartnerPopup/WindowFrame/Sprite",
+      "x": 0,
+      "y": 0,
+      "width": 760,
+      "height": 500,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_main_frame",
+        "uuid": "359a52a9-1bfb-4133-9054-d80ced2cfc7b",
+        "type": 1
+      }
+    },
+    "SetPartnerPopup/WindowFrame/Title": {
+      "path": "SetPartnerPopup/WindowFrame/Title",
+      "x": 0,
+      "y": 192,
+      "width": 360,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 40,
+        "lineHeight": 50,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SetPartnerPopup/BtnClose": {
+      "path": "SetPartnerPopup/BtnClose",
+      "x": 346,
+      "y": 216,
+      "width": 54,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_close",
+        "uuid": "d8c24932-91c2-4d26-9746-3e65163f70e6",
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SetPartnerPopup/BtnClose/Label": {
+      "path": "SetPartnerPopup/BtnClose/Label",
+      "x": 0,
+      "y": 1,
+      "width": 42,
+      "height": 46,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 1,
+        "lineHeight": 2,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot": {
+      "path": "SetPartnerPopup/PanelRoot",
+      "x": 0,
+      "y": -28,
+      "width": 698,
+      "height": 384,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SetPartnerPopup/PanelRoot/BgOut": {
+      "path": "SetPartnerPopup/PanelRoot/BgOut",
+      "x": 0,
+      "y": 0,
+      "width": 698,
+      "height": 384,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/BgIn": {
+      "path": "SetPartnerPopup/PanelRoot/BgIn",
+      "x": 0,
+      "y": 0,
+      "width": 664,
+      "height": 348,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_in",
+        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
+        "type": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content": {
+      "path": "SetPartnerPopup/PanelRoot/Content",
+      "x": 0,
+      "y": 0,
+      "width": 644,
+      "height": 328,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/RoomRateTitle": {
+      "path": "SetPartnerPopup/PanelRoot/Content/RoomRateTitle",
+      "x": -210,
+      "y": 90,
+      "width": 170,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/RoomRateBox": {
+      "path": "SetPartnerPopup/PanelRoot/Content/RoomRateBox",
+      "x": 90,
+      "y": 90,
+      "width": 350,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/RoomRateLabel": {
+      "path": "SetPartnerPopup/PanelRoot/Content/RoomRateLabel",
+      "x": 90,
+      "y": 90,
+      "width": 330,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 28,
+        "lineHeight": 35,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/WaterRateTitle": {
+      "path": "SetPartnerPopup/PanelRoot/Content/WaterRateTitle",
+      "x": -210,
+      "y": 15,
+      "width": 170,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/WaterRateBox": {
+      "path": "SetPartnerPopup/PanelRoot/Content/WaterRateBox",
+      "x": 90,
+      "y": 15,
+      "width": 350,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/WaterRateLabel": {
+      "path": "SetPartnerPopup/PanelRoot/Content/WaterRateLabel",
+      "x": 90,
+      "y": 15,
+      "width": 330,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 28,
+        "lineHeight": 35,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/BtnConfirm": {
+      "path": "SetPartnerPopup/PanelRoot/Content/BtnConfirm",
+      "x": 0,
+      "y": -120,
+      "width": 150,
+      "height": 62,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SetPartnerPopup/PanelRoot/Content/BtnConfirm/Label": {
+      "path": "SetPartnerPopup/PanelRoot/Content/BtnConfirm/Label",
+      "x": 0,
+      "y": 1,
+      "width": 138,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    }
+  }
+}

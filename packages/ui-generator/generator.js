@@ -9,6 +9,7 @@ const REQUIRED_ASSETS = [
   'league_bg_out',
   'league_bg_in',
   'row_member_bg',
+  'row_simple_bg',
   'table_header_green',
   'tab_normal_green',
   'tab_selected_orange',
@@ -40,6 +41,7 @@ const SLICED_INSETS = {
   league_bg_out: [28, 28, 28, 28],
   league_bg_in: [24, 24, 24, 24],
   row_member_bg: [28, 28, 28, 28],
+  row_simple_bg: [18, 18, 18, 18],
   table_header_green: [18, 18, 18, 18],
   input_box: [12, 12, 12, 12],
   btn_green_small: [18, 18, 18, 18],
@@ -144,6 +146,25 @@ const PREFAB_UUIDS = {
   ConfirmPopup: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0009'
 };
 
+const PREFAB_LAYOUT_FILES = {
+  LeagueAnalysisView: 'league_analysis_view.json',
+  MemberPage: 'member_page.json',
+  MemberRow: 'member_row.json',
+  ScorePopup: 'score_popup.json',
+  SetPartnerPopup: 'set_partner_popup.json',
+  SearchMemberPopup: 'search_member_popup.json',
+  BattleDetailPopup: 'battle_detail_popup.json',
+  BattleReplayPopup: 'battle_replay_popup.json',
+  ConfirmPopup: 'confirm_popup.json',
+  BattleDetailRow: 'battle_detail_row.json',
+  BattleReplayRow: 'battle_replay_row.json'
+};
+
+const DEFAULT_LOCK = {
+  lockManualLayout: true,
+  protectedPrefabs: Object.keys(PREFAB_LAYOUT_FILES)
+};
+
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
@@ -207,6 +228,386 @@ function scanSprites(root) {
     });
   }
   return map;
+}
+
+function layoutDir(root) {
+  return path.join(root, 'docs/league-analysis/layout');
+}
+
+function layoutFile(root, prefabName) {
+  return path.join(layoutDir(root), PREFAB_LAYOUT_FILES[prefabName]);
+}
+
+function lockFile(root) {
+  return path.join(layoutDir(root), 'lock.json');
+}
+
+function ensureLayoutLock(root) {
+  const file = lockFile(root);
+  if (!fs.existsSync(file)) writeJSON(file, DEFAULT_LOCK);
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (err) {
+    return DEFAULT_LOCK;
+  }
+}
+
+function prefabPath(root, prefabName) {
+  return path.join(root, 'assets/prefabs/LeagueAnalysis', prefabName + '.prefab');
+}
+
+function readPrefabData(root, prefabName) {
+  const file = prefabPath(root, prefabName);
+  if (!fs.existsSync(file)) return null;
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function roundValue(value) {
+  return Math.round((Number(value) || 0) * 1000) / 1000;
+}
+
+function refId(ref) {
+  return ref && typeof ref.__id__ === 'number' ? ref.__id__ : null;
+}
+
+function colorToPlain(value) {
+  if (!value) return null;
+  return {
+    r: value.r == null ? 255 : value.r,
+    g: value.g == null ? 255 : value.g,
+    b: value.b == null ? 255 : value.b,
+    a: value.a == null ? 255 : value.a
+  };
+}
+
+function plainToColor(value) {
+  if (!value) return null;
+  return color([value.r, value.g, value.b, value.a]);
+}
+
+function makeSpriteReverseMap(root) {
+  const sprites = scanSprites(root);
+  const map = {};
+  Object.keys(sprites).forEach(name => { map[sprites[name]] = name; });
+  return map;
+}
+
+function buildPrefabIndex(data) {
+  const nodeIds = [];
+  const nodeById = {};
+  const compByNode = {};
+  const parentOf = {};
+  data.forEach((item, index) => {
+    if (item && item.__type__ === 'cc.Node') {
+      nodeIds.push(index);
+      nodeById[index] = item;
+      (item._children || []).forEach(child => {
+        const id = refId(child);
+        if (id != null) parentOf[id] = index;
+      });
+    }
+  });
+  data.forEach((item, index) => {
+    if (!item || !item.node) return;
+    const nid = refId(item.node);
+    if (nid == null || !nodeById[nid]) return;
+    if (!compByNode[nid]) compByNode[nid] = [];
+    compByNode[nid].push({ id: index, comp: item });
+  });
+  const rootId = refId(data[0] && data[0].data) || nodeIds[0];
+  const pathByNodeId = {};
+  const nodeIdByPath = {};
+  function walk(id, prefix) {
+    const node = nodeById[id];
+    if (!node) return;
+    const p = prefix ? prefix + '/' + node._name : node._name;
+    pathByNodeId[id] = p;
+    nodeIdByPath[p] = id;
+    (node._children || []).forEach(child => walk(refId(child), p));
+  }
+  walk(rootId, '');
+  return { nodeIds, nodeById, compByNode, parentOf, rootId, pathByNodeId, nodeIdByPath };
+}
+
+function componentOf(index, nodeId, type) {
+  const comps = index.compByNode[nodeId] || [];
+  for (let i = 0; i < comps.length; i++) {
+    if (comps[i].comp.__type__ === type) return comps[i].comp;
+  }
+  return null;
+}
+
+function extractLayoutFromPrefab(root, prefabName) {
+  const data = readPrefabData(root, prefabName);
+  if (!data) return null;
+  const index = buildPrefabIndex(data);
+  const spriteNames = makeSpriteReverseMap(root);
+  const nodes = {};
+  index.nodeIds.forEach(nodeId => {
+    const node = index.nodeById[nodeId];
+    const p = index.pathByNodeId[nodeId];
+    const arr = node._trs && node._trs.array ? node._trs.array : [];
+    const parent = index.nodeById[index.parentOf[nodeId]];
+    const zIndex = parent && parent._children ? parent._children.findIndex(child => refId(child) === nodeId) : 0;
+    const entry = {
+      path: p,
+      x: roundValue(arr[0]),
+      y: roundValue(arr[1]),
+      width: roundValue(node._contentSize && node._contentSize.width),
+      height: roundValue(node._contentSize && node._contentSize.height),
+      anchorX: roundValue(node._anchorPoint && node._anchorPoint.x),
+      anchorY: roundValue(node._anchorPoint && node._anchorPoint.y),
+      scaleX: roundValue(arr[7] == null ? 1 : arr[7]),
+      scaleY: roundValue(arr[8] == null ? 1 : arr[8]),
+      active: node._active !== false,
+      opacity: node._opacity == null ? 255 : node._opacity,
+      zIndex,
+      color: colorToPlain(node._color)
+    };
+    const label = componentOf(index, nodeId, 'cc.Label');
+    if (label) {
+      entry.label = {
+        fontSize: label._fontSize,
+        lineHeight: label._lineHeight,
+        horizontalAlign: label._N$horizontalAlign,
+        verticalAlign: label._N$verticalAlign
+      };
+    }
+    const sprite = componentOf(index, nodeId, 'cc.Sprite');
+    if (sprite) {
+      const uuid = sprite._spriteFrame && sprite._spriteFrame.__uuid__;
+      entry.sprite = {
+        assetName: spriteNames[uuid] || null,
+        uuid: uuid || null,
+        type: sprite._type
+      };
+    }
+    const button = componentOf(index, nodeId, 'cc.Button');
+    if (button) {
+      const tid = refId(button._target);
+      entry.button = { targetPath: tid == null ? null : index.pathByNodeId[tid] || null };
+    }
+    const scrollView = componentOf(index, nodeId, 'cc.ScrollView');
+    if (scrollView) {
+      const cid = refId(scrollView.content);
+      entry.scrollView = { contentPath: cid == null ? null : index.pathByNodeId[cid] || null };
+    }
+    const layout = componentOf(index, nodeId, 'cc.Layout');
+    if (layout) {
+      entry.layout = {
+        type: layout._type,
+        resizeMode: layout._resize,
+        spacingX: layout._spacingX,
+        spacingY: layout._spacingY,
+        paddingLeft: layout._N$paddingLeft,
+        paddingRight: layout._N$paddingRight,
+        paddingTop: layout._N$paddingTop,
+        paddingBottom: layout._N$paddingBottom
+      };
+    }
+    nodes[p] = entry;
+  });
+  return {
+    version: 1,
+    sourcePrefab: 'assets/prefabs/LeagueAnalysis/' + prefabName + '.prefab',
+    generatedAt: new Date().toISOString(),
+    nodes
+  };
+}
+
+function pullLayoutsFromPrefabs(root) {
+  ensureDir(layoutDir(root));
+  const lock = ensureLayoutLock(root);
+  const pulled = [];
+  const missing = [];
+  Object.keys(PREFAB_LAYOUT_FILES).forEach(prefabName => {
+    const layout = extractLayoutFromPrefab(root, prefabName);
+    if (!layout) {
+      missing.push(prefabName);
+      return;
+    }
+    writeJSON(layoutFile(root, prefabName), layout);
+    pulled.push(prefabName);
+  });
+  return { pulled, missing, lock };
+}
+
+function ensureLayoutFilesFromCurrentPrefabs(root) {
+  ensureDir(layoutDir(root));
+  ensureLayoutLock(root);
+  const created = [];
+  Object.keys(PREFAB_LAYOUT_FILES).forEach(prefabName => {
+    const file = layoutFile(root, prefabName);
+    if (fs.existsSync(file)) return;
+    const layout = extractLayoutFromPrefab(root, prefabName);
+    if (!layout) return;
+    writeJSON(file, layout);
+    created.push(prefabName);
+  });
+  return created;
+}
+
+function readLayout(root, prefabName) {
+  const file = layoutFile(root, prefabName);
+  if (!fs.existsSync(file)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (err) {
+    return null;
+  }
+}
+
+function applyLayoutToPrefabData(root, prefabName, data, options = {}) {
+  const layout = readLayout(root, prefabName);
+  if (!layout || !layout.nodes || options.forceRebuildLayout) return { applied: 0, missingInGenerated: [] };
+  const sprites = scanSprites(root);
+  const index = buildPrefabIndex(data);
+  const applied = [];
+  const missingInGenerated = [];
+  Object.keys(layout.nodes).forEach(p => {
+    const nodeId = index.nodeIdByPath[p];
+    const entry = layout.nodes[p];
+    if (nodeId == null) {
+      missingInGenerated.push(p);
+      return;
+    }
+    const node = index.nodeById[nodeId];
+    const arr = node._trs && node._trs.array;
+    if (arr) {
+      if (entry.x != null) arr[0] = entry.x;
+      if (entry.y != null) arr[1] = entry.y;
+      if (entry.scaleX != null) arr[7] = entry.scaleX;
+      if (entry.scaleY != null) arr[8] = entry.scaleY;
+    }
+    if (entry.width != null && entry.height != null) node._contentSize = size(entry.width, entry.height);
+    if (entry.anchorX != null && entry.anchorY != null) node._anchorPoint = vec2(entry.anchorX, entry.anchorY);
+    if (entry.active != null) node._active = !!entry.active;
+    if (entry.opacity != null) node._opacity = entry.opacity;
+    const c = plainToColor(entry.color);
+    if (c) node._color = c;
+
+    const label = componentOf(index, nodeId, 'cc.Label');
+    if (label && entry.label) {
+      if (entry.label.fontSize != null) label._fontSize = entry.label.fontSize;
+      if (entry.label.lineHeight != null) label._lineHeight = entry.label.lineHeight;
+      if (entry.label.horizontalAlign != null) label._N$horizontalAlign = entry.label.horizontalAlign;
+      if (entry.label.verticalAlign != null) label._N$verticalAlign = entry.label.verticalAlign;
+    }
+    const sprite = componentOf(index, nodeId, 'cc.Sprite');
+    if (sprite && entry.sprite) {
+      if (entry.sprite.type != null) sprite._type = entry.sprite.type;
+      if (entry.sprite.assetName && sprites[entry.sprite.assetName]) sprite._spriteFrame = { __uuid__: sprites[entry.sprite.assetName] };
+    }
+    const scrollView = componentOf(index, nodeId, 'cc.ScrollView');
+    if (scrollView && entry.scrollView && entry.scrollView.contentPath) {
+      const cid = index.nodeIdByPath[entry.scrollView.contentPath];
+      if (cid != null) scrollView.content = { __id__: cid };
+    }
+    const button = componentOf(index, nodeId, 'cc.Button');
+    if (button && entry.button && entry.button.targetPath) {
+      const tid = index.nodeIdByPath[entry.button.targetPath];
+      if (tid != null) button._target = { __id__: tid };
+    }
+    const layoutComp = componentOf(index, nodeId, 'cc.Layout');
+    if (layoutComp && entry.layout) {
+      if (entry.layout.resizeMode != null) layoutComp._resize = entry.layout.resizeMode;
+      if (entry.layout.spacingX != null) layoutComp._spacingX = entry.layout.spacingX;
+      if (entry.layout.spacingY != null) layoutComp._spacingY = entry.layout.spacingY;
+      if (entry.layout.paddingLeft != null) layoutComp._N$paddingLeft = entry.layout.paddingLeft;
+      if (entry.layout.paddingRight != null) layoutComp._N$paddingRight = entry.layout.paddingRight;
+      if (entry.layout.paddingTop != null) layoutComp._N$paddingTop = entry.layout.paddingTop;
+      if (entry.layout.paddingBottom != null) layoutComp._N$paddingBottom = entry.layout.paddingBottom;
+    }
+    applied.push(p);
+  });
+  index.nodeIds.forEach(parentId => {
+    const parent = index.nodeById[parentId];
+    if (!parent || !parent._children || parent._children.length < 2) return;
+    parent._children.sort((a, b) => {
+      const ap = index.pathByNodeId[refId(a)];
+      const bp = index.pathByNodeId[refId(b)];
+      const az = layout.nodes[ap] && layout.nodes[ap].zIndex != null ? layout.nodes[ap].zIndex : 99999;
+      const bz = layout.nodes[bp] && layout.nodes[bp].zIndex != null ? layout.nodes[bp].zIndex : 99999;
+      return az - bz;
+    });
+  });
+  return { applied: applied.length, missingInGenerated };
+}
+
+function validateLayoutFiles(root) {
+  const result = { checked: [], missingLayout: [], missingPrefab: [], differences: [] };
+  Object.keys(PREFAB_LAYOUT_FILES).forEach(prefabName => {
+    const layout = readLayout(root, prefabName);
+    if (!layout) {
+      result.missingLayout.push(prefabName);
+      return;
+    }
+    if (!fs.existsSync(prefabPath(root, prefabName))) {
+      result.missingPrefab.push(prefabName);
+      return;
+    }
+    result.checked.push(prefabName);
+    const current = extractLayoutFromPrefab(root, prefabName);
+    const currentNodes = current.nodes || {};
+    Object.keys(layout.nodes || {}).forEach(p => {
+      const expected = layout.nodes[p];
+      const actual = currentNodes[p];
+      if (!actual) {
+        result.differences.push({ prefabName, path: p, field: 'node', expected: 'exists', actual: 'missingInPrefab' });
+        return;
+      }
+      [['x', 1], ['y', 1], ['width', 1], ['height', 1], ['anchorX', 0], ['anchorY', 0], ['scaleX', 0], ['scaleY', 0]].forEach(pair => {
+        const field = pair[0];
+        const tolerance = pair[1];
+        if (expected[field] == null || actual[field] == null) return;
+        if (Math.abs(expected[field] - actual[field]) > tolerance) {
+          result.differences.push({ prefabName, path: p, field, expected: expected[field], actual: actual[field] });
+        }
+      });
+      if (expected.label && actual.label) {
+        ['fontSize', 'lineHeight', 'horizontalAlign', 'verticalAlign'].forEach(field => {
+          if (expected.label[field] !== actual.label[field]) {
+            result.differences.push({ prefabName, path: p, field: 'label.' + field, expected: expected.label[field], actual: actual.label[field] });
+          }
+        });
+      }
+      if (expected.sprite && !actual.sprite) {
+        result.differences.push({ prefabName, path: p, field: 'sprite', expected: expected.sprite.assetName || expected.sprite.uuid, actual: 'missing' });
+      } else if (expected.sprite && actual.sprite && expected.sprite.assetName && actual.sprite.assetName !== expected.sprite.assetName) {
+        result.differences.push({ prefabName, path: p, field: 'sprite.assetName', expected: expected.sprite.assetName, actual: actual.sprite.assetName || actual.sprite.uuid });
+      }
+      if (expected.scrollView && expected.scrollView.contentPath && (!actual.scrollView || actual.scrollView.contentPath !== expected.scrollView.contentPath)) {
+        result.differences.push({ prefabName, path: p, field: 'scrollView.contentPath', expected: expected.scrollView.contentPath, actual: actual.scrollView && actual.scrollView.contentPath });
+      }
+      if (expected.button && expected.button.targetPath && (!actual.button || actual.button.targetPath !== expected.button.targetPath)) {
+        result.differences.push({ prefabName, path: p, field: 'button.targetPath', expected: expected.button.targetPath, actual: actual.button && actual.button.targetPath });
+      }
+    });
+    Object.keys(currentNodes).forEach(p => {
+      if (!layout.nodes[p]) result.differences.push({ prefabName, path: p, field: 'node', expected: 'notInJson', actual: 'extraInPrefab' });
+    });
+  });
+  writeLayoutValidationReport(root, result);
+  return result;
+}
+
+function writeLayoutValidationReport(root, result) {
+  const lines = ['# LeagueAnalysis Layout Validation Report', '', `生成时间：${new Date().toISOString()}`, ''];
+  lines.push(`- 已检查 Prefab：${result.checked.join(', ') || '无'}`);
+  lines.push(`- 缺少 Layout JSON：${result.missingLayout.join(', ') || '无'}`);
+  lines.push(`- 缺少 Prefab：${result.missingPrefab.join(', ') || '无'}`);
+  lines.push(`- 差异数量：${result.differences.length}`);
+  lines.push('');
+  if (result.differences.length) {
+    lines.push('| Prefab | Path | Field | JSON | Prefab |');
+    lines.push('| --- | --- | --- | --- | --- |');
+    result.differences.forEach(diff => {
+      lines.push(`| ${diff.prefabName} | ${diff.path} | ${diff.field} | ${JSON.stringify(diff.expected)} | ${JSON.stringify(diff.actual)} |`);
+    });
+  } else {
+    lines.push('当前 Prefab 与 layout JSON 一致。');
+  }
+  writeText(path.join(layoutDir(root), 'VALIDATION_REPORT.md'), lines.join('\n') + '\n');
 }
 
 function setSlicedInsets(root) {
@@ -488,6 +889,15 @@ function addModeButton(b, parent, name, selectedSf, normalSf, text, x, y, w, h, 
   return node;
 }
 
+function addToggleSpriteButton(b, parent, name, selectedSf, normalSf, text, x, y, w, h, selected, font = 24) {
+  const node = b.node(name, parent, x, y, w, h);
+  b.button(node);
+  addSprite(b, node, 'Normal', normalSf, 0, 0, w, h, 1, { active: !selected });
+  addSprite(b, node, 'Selected', selectedSf, 0, 0, w, h, 1, { active: selected });
+  addLabel(b, node, 'Label', text, 0, 0, w - 10, h - 6, font, [255, 255, 255, 255], { bold: true });
+  return node;
+}
+
 function addTabButton(b, parent, tab, s) {
   const x = tab.localX == null ? cx(tab) : tab.localX;
   const y = tab.localY == null ? cy(tab) : tab.localY;
@@ -672,19 +1082,20 @@ function makeBattleDetailPopup(s) {
   const { b, content: c } = popupBase('BattleDetailPopup', '战绩明细', s, 1075, 604);
   const dates = ['06月28日', '06月27日', '06月27日', '06月27日', '06月27日', '06月27日', '06月27日'];
   for (let i = 0; i < dates.length; i++) {
-    addSpriteButton(b, c, 'DateButton' + (i + 1), i === 0 ? s.btn_orange : s.btn_green_small, dates[i], -426 + i * 148, 258, 136, 48, 24);
+    addToggleSpriteButton(b, c, 'DateButton' + (i + 1), s.btn_orange, s.btn_green_small, dates[i], -426 + i * 148, 258, 136, 48, i === 0, 24);
   }
-  const playerPanel = addSprite(b, c, 'PlayerInfoPanel', s.league_bg_in, 0, 168, 920, 96, 1);
-  addSprite(b, playerPanel, 'Avatar', s.input_box_bg, -390, 0, 66, 66);
-  addLabel(b, playerPanel, 'PlayerName', '玩家信息', -300, 14, 130, 30, 20, [110, 62, 36, 255], { bold: true, align: 0 });
-  addLabel(b, playerPanel, 'PlayerID', '123456', -300, -16, 130, 30, 20, [110, 62, 36, 255], { bold: true, align: 0 });
-  addLabel(b, playerPanel, 'TodayRoundsLabel', '今日局数： 1', -30, 0, 220, 44, 24, [110, 62, 36, 255], { bold: true });
-  addLabel(b, playerPanel, 'WinLoseLabel', '输赢：-35.6', 300, 0, 220, 44, 24, [55, 160, 70, 255], { bold: true });
-  const scroll = b.node('ScrollView', c, 0, -42, 920, 250);
-  const view = b.node('view', scroll, 0, 0, 920, 250);
+  const playerSummary = b.node('PlayerSummary', c, 0, 169, 920, 96);
+  addSprite(b, playerSummary, 'Bg', s.row_simple_bg, 0, 0, 920, 92, 1);
+  addSprite(b, playerSummary, 'Avatar', s.input_box, -390, 0, 66, 66, 1);
+  addLabel(b, playerSummary, 'Name', '玩家信息', -302, 15, 145, 30, 21, [110, 62, 36, 255], { bold: true, align: 0 });
+  addLabel(b, playerSummary, 'UserID', '123456', -302, -17, 145, 30, 20, [110, 62, 36, 255], { bold: true, align: 0 });
+  addLabel(b, playerSummary, 'TodayRound', '今日局数： 1', -28, 0, 230, 44, 25, [110, 62, 36, 255], { bold: true });
+  addLabel(b, playerSummary, 'WinLose', '输赢： -35.6', 306, 0, 230, 44, 25, [54, 150, 54, 255], { bold: true });
+  const scroll = b.node('ScrollView', c, 0, -62, 920, 300);
+  const view = b.node('view', scroll, 0, 0, 920, 300);
   b.mask(view);
-  const content = b.node('content', view, 0, 125, 920, 540, { ax: 0.5, ay: 1 });
-  b.layout(content, { w: 920, h: 540, spacingY: 8 });
+  const content = b.node('content', view, 0, 150, 920, 620, { ax: 0.5, ay: 1 });
+  b.layout(content, { w: 920, h: 620, spacingY: 12 });
   b.scrollView(scroll, content);
   b.script(b.root, 'BattleDetailPopup', {
     rowPrefab: { __uuid__: PREFAB_UUIDS.BattleDetailRow }
@@ -693,36 +1104,40 @@ function makeBattleDetailPopup(s) {
 }
 
 function makeBattleDetailRow(s) {
-  const b = new PrefabBuilder('BattleDetailRow', 920, 190);
-  addSprite(b, b.root, 'Bg', s.row_battle_bg, 0, 0, 920, 190, 1);
-  addSprite(b, b.root, 'InfoHeader', s.table_header_green, 0, 66, 920, 42, 1);
-  addLabel(b, b.root, 'RoomLabel', '房间ID:123456  2019-12-12 12:12', -305, 66, 360, 36, 22, [255, 255, 255, 255], { bold: true, align: 0 });
-  addLabel(b, b.root, 'GameNameLabel', '牛牛0.5底', 0, 66, 190, 36, 22, [255, 255, 255, 255], { bold: true });
-  addLabel(b, b.root, 'ReplayCodeLabel', '回访码：WEEWTFDGFDFGDGFAF', 265, 66, 350, 36, 22, [255, 255, 255, 255], { bold: true, align: 0 });
+  const b = new PrefabBuilder('BattleDetailRow', 920, 206);
+  addSprite(b, b.root, 'Bg', s.row_battle_bg, 0, 0, 920, 206, 1);
+  const header = b.node('HeaderBar', b.root, -72, 74, 760, 48);
+  addSprite(b, header, 'Bg', s.table_header_green, 0, 0, 760, 42, 1);
+  addLabel(b, header, 'RoomId', '房间ID:123456', -310, 0, 170, 36, 20, [255, 255, 255, 255], { bold: true, align: 0 });
+  addLabel(b, header, 'Time', '2019-12-12 12:12', -122, 0, 210, 36, 20, [255, 255, 255, 255], { bold: true, align: 0 });
+  addLabel(b, header, 'GameType', '牛牛0.5底', 88, 0, 150, 36, 20, [255, 255, 255, 255], { bold: true });
+  addLabel(b, header, 'ReplayCode', '回访码：WEEWTFDGFDFGDGFAF', 255, 0, 300, 36, 18, [255, 255, 255, 255], { bold: true, align: 0 });
+  const playersArea = b.node('PlayerCardsArea', b.root, -70, -30, 760, 124);
   for (let i = 0; i < 8; i++) {
-    const x = -380 + i * 88;
-    const slot = b.node('PlayerSlot' + (i + 1), b.root, x, -22, 78, 110);
-    addSprite(b, slot, 'Avatar', s.input_box_bg, 0, 28, 50, 50);
-    addLabel(b, slot, 'NameLabel', i === 0 ? '哇卡一为...' : '哇卡一为...', 0, -10, 76, 24, 16, [110, 62, 36, 255], { bold: true });
-    addLabel(b, slot, 'MaskedIDLabel', '12****6', 0, -34, 76, 22, 15, [110, 62, 36, 255], { bold: true });
-    addLabel(b, slot, 'ScoreLabel', i === 0 ? '+3605' : (i === 2 ? '-36.5' : '-36'), 0, -68, 76, 24, 18, i === 0 ? [200, 90, 20, 255] : [40, 100, 210, 255], { bold: true });
+    const x = -326 + i * 93;
+    const slot = b.node('PlayerCard_' + i, playersArea, x, 0, 86, 116);
+    addSprite(b, slot, 'Avatar', s.input_box, 0, 35, 52, 52, 1);
+    addLabel(b, slot, 'NameLabel', '哇卡一为...', 0, -6, 84, 22, 15, [110, 62, 36, 255], { bold: true });
+    addLabel(b, slot, 'MaskedIDLabel', '12****6', 0, -29, 84, 20, 14, [110, 62, 36, 255], { bold: true });
+    addLabel(b, slot, 'ScoreLabel', i === 0 ? '+3605' : (i === 2 ? '-36.5' : '-36'), 0, -58, 84, 24, 17, i === 0 ? [200, 70, 35, 255] : [35, 110, 205, 255], { bold: true });
   }
-  addSpriteButton(b, b.root, 'BtnCopyReplayCode', s.btn_blue_small, '复制回放码', 388, 20, 127, 47, 20);
-  addSpriteButton(b, b.root, 'BtnReplay', s.btn_blue_small, '查看回放', 388, -42, 127, 47, 20);
+  const right = b.node('RightButtons', b.root, 390, 4, 140, 150);
+  addSpriteButton(b, right, 'BtnCopyReplayCode', s.btn_blue_small, '复制回放码', 0, 32, 127, 47, 19);
+  addSpriteButton(b, right, 'BtnViewReplay', s.btn_blue_small, '查看回放', 0, -34, 127, 47, 19);
   b.script(b.root, 'BattleDetailRow');
   return b.data;
 }
 
 function makeBattleReplayPopup(s) {
   const { b, content: c } = popupBase('BattleReplayPopup', '战绩回放', s, 1075, 604);
-  addSprite(b, c, 'HeaderBg', s.table_header_green, 0, 188, 920, 42, 1);
-  addLabel(b, c, 'RoomLabel', '房间号：9999999', -330, 188, 240, 40, 22, [255, 255, 255, 255], { bold: true, align: 0 });
-  addLabel(b, c, 'RoundLabel', '局数：7', -70, 188, 160, 40, 22, [255, 255, 255, 255], { bold: true, align: 0 });
-  const scroll = b.node('ScrollView', c, 0, -20, 920, 380);
-  const view = b.node('view', scroll, 0, 0, 920, 380);
+  addSprite(b, c, 'HeaderBg', s.row_simple_bg, 0, 206, 920, 58, 1);
+  addLabel(b, c, 'RoomLabel', '房间号：9999999', -330, 206, 250, 42, 24, [255, 255, 255, 255], { bold: true, align: 0 });
+  addLabel(b, c, 'RoundLabel', '局数：7', -70, 206, 170, 42, 24, [255, 255, 255, 255], { bold: true, align: 0 });
+  const scroll = b.node('ScrollView', c, 0, -38, 920, 430);
+  const view = b.node('view', scroll, 0, 0, 920, 430);
   b.mask(view);
-  const content = b.node('content', view, 0, 190, 920, 900, { ax: 0.5, ay: 1 });
-  b.layout(content, { w: 920, h: 900, spacingY: 16 });
+  const content = b.node('content', view, 0, 215, 920, 1050, { ax: 0.5, ay: 1 });
+  b.layout(content, { w: 920, h: 1050, spacingY: 18 });
   b.scrollView(scroll, content);
   b.script(b.root, 'BattleReplayPopup', {
     rowPrefab: { __uuid__: PREFAB_UUIDS.BattleReplayRow }
@@ -731,20 +1146,23 @@ function makeBattleReplayPopup(s) {
 }
 
 function makeBattleReplayRow(s) {
-  const b = new PrefabBuilder('BattleReplayRow', 920, 186);
-  addSprite(b, b.root, 'Bg', s.battle_replay_row_bg, 0, 0, 920, 186, 1);
-  addSprite(b, b.root, 'ResultLoseIcon', s.battle_lose_icon, -370, 10, 72, 72);
-  addSprite(b, b.root, 'ResultWinIcon', s.battle_win_icon, -370, 10, 72, 72, 0, { active: false });
-  addLabel(b, b.root, 'RoundLabel', '1/7', -302, 8, 90, 66, 36, [110, 62, 36, 255], { bold: true });
-  const left = b.node('PlayerListLeft', b.root, -35, 0, 250, 150);
-  const right = b.node('PlayerListRight', b.root, 270, 0, 250, 150);
+  const b = new PrefabBuilder('BattleReplayRow', 920, 188);
+  addSprite(b, b.root, 'Bg', s.battle_replay_row_bg, 0, 0, 920, 188, 1);
+  const resultArea = b.node('ResultArea', b.root, -370, 0, 180, 160);
+  addSprite(b, resultArea, 'ResultLoseIcon', s.battle_lose_icon, -38, 22, 72, 72);
+  addSprite(b, resultArea, 'ResultWinIcon', s.battle_win_icon, -38, 22, 72, 72, 0, { active: false });
+  addLabel(b, resultArea, 'RoundLabel', '1/7', 40, 20, 85, 54, 34, [110, 62, 36, 255], { bold: true });
+  const listArea = b.node('PlayerListArea', b.root, -36, 0, 570, 160);
+  const left = b.node('PlayerListLeft', listArea, -140, 0, 250, 150);
+  const right = b.node('PlayerListRight', listArea, 150, 0, 250, 150);
   for (let i = 0; i < 4; i++) {
     addLabel(b, left, 'Name' + (i + 1), '玩家昵称...', -70, 55 - i * 36, 130, 28, 20, [50, 110, 210, 255], { bold: true, align: 0 });
-    addLabel(b, left, 'Score' + (i + 1), '+18', 70, 55 - i * 36, 75, 28, 20, [190, 55, 35, 255], { bold: true });
+    addLabel(b, left, 'Score' + (i + 1), '+18', 78, 55 - i * 36, 75, 28, 20, [190, 55, 35, 255], { bold: true });
     addLabel(b, right, 'Name' + (i + 1), '玩家昵称...', -70, 55 - i * 36, 130, 28, 20, [50, 110, 210, 255], { bold: true, align: 0 });
-    addLabel(b, right, 'Score' + (i + 1), i === 0 ? '-180' : '+18', 70, 55 - i * 36, 75, 28, 20, i === 0 ? [42, 155, 48, 255] : [190, 55, 35, 255], { bold: true });
+    addLabel(b, right, 'Score' + (i + 1), i === 0 ? '-180' : '+18', 78, 55 - i * 36, 75, 28, 20, i === 0 ? [42, 155, 48, 255] : [190, 55, 35, 255], { bold: true });
   }
-  addSpriteButton(b, b.root, 'BtnViewReplay', s.btn_blue_small, '查看回放', 360, 0, 145, 56, 24);
+  const actionArea = b.node('ActionArea', b.root, 358, 0, 180, 160);
+  addSpriteButton(b, actionArea, 'BtnViewReplay', s.btn_blue_small, '查看回放', 0, 0, 145, 56, 23);
   b.script(b.root, 'BattleReplayRow');
   return b.data;
 }
@@ -1092,9 +1510,9 @@ function battleDetailPopupJs() {
         var content=this.nodes.content;
         if(!content||!this.rowPrefab)return;
         content.removeAllChildren();
-        var rowH=190, spacingY=8, contentW=content.width||920;
+        var rowH=206, spacingY=12, contentW=content.width||920;
         content.setAnchorPoint(0.5,1);
-        content.setContentSize(contentW,Math.max(250,this.rows.length*(rowH+spacingY)));
+        content.setContentSize(contentW,Math.max(300,this.rows.length*(rowH+spacingY)));
         for(var i=0;i<this.rows.length;i++){
             var node=cc.instantiate(this.rowPrefab);
             var comp=node.getComponent('BattleDetailRow');
@@ -1112,6 +1530,15 @@ function battleDetailPopupJs() {
         cc.log('[BattleDetailPopup] copy replay code',row&&row.replayCode);
     },
     onDateClick:function(index){
+        this.selectedDate=index;
+        for(var i=1;i<=7;i++){
+            var n=this.nodes['DateButton'+i];
+            if(!n)continue;
+            var normal=n.getChildByName('Normal');
+            var selected=n.getChildByName('Selected');
+            if(normal)normal.active=i!==index;
+            if(selected)selected.active=i===index;
+        }
         cc.log('[BattleDetailPopup] date click',index);
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
@@ -1148,23 +1575,26 @@ function battleDetailRowJs() {
         this.data=data||{};
         this.handlers=handlers||{};
         if(!this.nodes)this.cacheNodes();
-        this.text('RoomLabel','房间ID:'+this.data.roomID+'  '+this.data.time);
-        this.text('GameNameLabel',this.data.gameName||'');
-        this.text('ReplayCodeLabel','回访码：'+(this.data.replayCode||''));
+        this.setChildText(this.nodes.HeaderBar,'RoomId','房间ID:'+this.data.roomID);
+        this.setChildText(this.nodes.HeaderBar,'Time',this.data.time||'');
+        this.setChildText(this.nodes.HeaderBar,'GameType',this.data.gameName||'');
+        this.setChildText(this.nodes.HeaderBar,'ReplayCode','回访码：'+(this.data.replayCode||''));
         var players=this.data.players||[];
         for(var i=0;i<8;i++){
-            var slot=this.nodes['PlayerSlot'+(i+1)];
+            var slot=this.nodes['PlayerCard_'+i];
             if(!slot)continue;
             slot.active=!!players[i];
             if(!players[i])continue;
             this.setChildText(slot,'NameLabel',players[i].name);
             this.setChildText(slot,'MaskedIDLabel',players[i].maskedID);
             this.setChildText(slot,'ScoreLabel',players[i].score);
+            this.setScoreColor(slot,'ScoreLabel',players[i].score);
         }
         this.bind('BtnCopyReplayCode','copy');
-        this.bind('BtnReplay','replay');
+        this.bind('BtnViewReplay','replay');
     },
     setChildText:function(root,name,value){var n=root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(l)l.string=value;},
+    setScoreColor:function(root,name,value){var n=root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(!l)return;var str=String(value||'');l.node.color=str.indexOf('-')===0?new cc.Color(35,110,205,255):new cc.Color(200,70,35,255);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
     bind:function(name,eventName){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();if(this.handlers[eventName])this.handlers[eventName](this.data);},this);}
 });\n`;
@@ -1191,9 +1621,9 @@ function battleReplayPopupJs() {
         var content=this.nodes.content;
         if(!content||!this.rowPrefab)return;
         content.removeAllChildren();
-        var rowH=186, spacingY=16, contentW=content.width||920;
+        var rowH=188, spacingY=18, contentW=content.width||920;
         content.setAnchorPoint(0.5,1);
-        content.setContentSize(contentW,Math.max(380,this.rows.length*(rowH+spacingY)));
+        content.setContentSize(contentW,Math.max(430,this.rows.length*(rowH+spacingY)));
         for(var i=0;i<this.rows.length;i++){
             var node=cc.instantiate(this.rowPrefab);
             var comp=node.getComponent('BattleReplayRow');
@@ -1206,19 +1636,24 @@ function battleReplayPopupJs() {
     viewReplay:function(row){cc.log('[BattleReplayPopup] view replay',row);},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
     mockRows:function(){
-        var players=[
-            {name:'玩家昵称...',score:'+18'},
-            {name:'玩家昵称...',score:'+18'},
-            {name:'玩家昵称...',score:'+18'},
-            {name:'玩家昵称...',score:'+18'},
-            {name:'玩家昵称...',score:'-180'},
-            {name:'玩家昵称...',score:'+18'},
-            {name:'玩家昵称...',score:'+18'},
-            {name:'玩家昵称...',score:'+18'}
-        ];
+        function players(offset){
+            return [
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:offset%2?'-36':'+18'},
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:'-180'},
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:offset%2?'+36':'-18'},
+                {name:'玩家昵称...',score:'+18'}
+            ];
+        }
         return [
-            {result:'lose',round:'1/7',players:players},
-            {result:'win',round:'1/7',players:players}
+            {result:'lose',round:'1/7',players:players(1)},
+            {result:'win',round:'2/7',players:players(2)},
+            {result:'lose',round:'3/7',players:players(3)},
+            {result:'win',round:'4/7',players:players(4)},
+            {result:'lose',round:'5/7',players:players(5)}
         ];
     },
     close:function(){this.node.destroy();}
@@ -1236,7 +1671,7 @@ function battleReplayRowJs() {
         this.data=data||{};
         this.handlers=handlers||{};
         if(!this.nodes)this.cacheNodes();
-        this.text('RoundLabel',this.data.round||'1/7');
+        this.setChildText(this.nodes.ResultArea,'RoundLabel',this.data.round||'1/7');
         var isWin=this.data.result==='win';
         if(this.nodes.ResultLoseIcon)this.nodes.ResultLoseIcon.active=!isWin;
         if(this.nodes.ResultWinIcon)this.nodes.ResultWinIcon.active=isWin;
@@ -1249,9 +1684,11 @@ function battleReplayRowJs() {
         for(var i=0;i<4;i++){
             this.setChildText(root,'Name'+(i+1),list[i]?list[i].name:'');
             this.setChildText(root,'Score'+(i+1),list[i]?list[i].score:'');
+            this.setScoreColor(root,'Score'+(i+1),list[i]?list[i].score:'');
         }
     },
     setChildText:function(root,name,value){var n=root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(l)l.string=value;},
+    setScoreColor:function(root,name,value){var n=root&&root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(!l)return;var str=String(value||'');l.node.color=str.indexOf('-')===0?new cc.Color(42,155,48,255):new cc.Color(190,55,35,255);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
     bind:function(name,eventName){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();if(this.handlers[eventName])this.handlers[eventName](this.data);},this);}
 });\n`;
@@ -1284,7 +1721,7 @@ function confirmPopupJs() {
 });\n`;
 }
 
-function generateMemberModule(root) {
+function generateMemberModule(root, options = {}) {
   const assetDir = path.join(root, 'assets/resources/LeagueAnalysis');
   const refDir = path.join(root, 'docs/ui-reference/member');
   if (!fs.existsSync(assetDir)) throw new Error('missing assets/resources/LeagueAnalysis');
@@ -1296,6 +1733,12 @@ function generateMemberModule(root) {
     : [];
   const insetReport = setSlicedInsets(root);
   writeScripts(root);
+  const lock = ensureLayoutLock(root);
+  let autoPulledLayouts = null;
+  if (!options.forceRebuildLayout && lock.lockManualLayout) {
+    autoPulledLayouts = pullLayoutsFromPrefabs(root);
+  }
+  const createdLayoutFiles = options.forceRebuildLayout ? [] : ensureLayoutFilesFromCurrentPrefabs(root);
 
   const outDir = path.join(root, 'assets/prefabs/LeagueAnalysis');
   ensureDir(outDir);
@@ -1316,7 +1759,9 @@ function generateMemberModule(root) {
     ConfirmPopup: makeConfirmPopup(sprites)
   };
 
+  const layoutApply = {};
   Object.keys(prefabs).forEach(name => {
+    layoutApply[name] = applyLayoutToPrefabData(root, name, prefabs[name], options);
     writeJSON(path.join(outDir, name + '.prefab'), prefabs[name]);
     writeJSON(path.join(outDir, name + '.prefab.meta'), newMeta(PREFAB_UUIDS[name], 'prefab'));
   });
@@ -1330,7 +1775,16 @@ function generateMemberModule(root) {
   });
 
   const validation = validateMemberModule(root);
-  return { prefabs: Object.keys(prefabs), insets: insetReport, referencesUsed: referenceImages, validation };
+  return {
+    prefabs: Object.keys(prefabs),
+    insets: insetReport,
+    referencesUsed: referenceImages,
+    createdLayoutFiles,
+    autoPulledLayouts,
+    layoutLock: lock,
+    layoutApply,
+    validation
+  };
 }
 
 function validateMemberModule(root) {
@@ -1367,5 +1821,7 @@ function validateMemberModule(root) {
 module.exports = {
   install() {},
   generateMemberModule,
-  validateMemberModule
+  validateMemberModule,
+  pullLayoutsFromPrefabs,
+  validateLayoutFiles
 };

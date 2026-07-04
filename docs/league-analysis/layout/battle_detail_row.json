@@ -1,0 +1,1333 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleDetailRow.prefab",
+  "generatedAt": "2026-07-04T19:34:51.999Z",
+  "nodes": {
+    "BattleDetailRow": {
+      "path": "BattleDetailRow",
+      "x": 0,
+      "y": 0,
+      "width": 920,
+      "height": 206,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/Bg": {
+      "path": "BattleDetailRow/Bg",
+      "x": 0,
+      "y": 0,
+      "width": 920,
+      "height": 206,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "row_battle_bg",
+        "uuid": "16c973c1-dcd9-42ca-ad03-7f23ec15a914",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/HeaderBar": {
+      "path": "BattleDetailRow/HeaderBar",
+      "x": -72,
+      "y": 74,
+      "width": 760,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/HeaderBar/Bg": {
+      "path": "BattleDetailRow/HeaderBar/Bg",
+      "x": 0,
+      "y": 0,
+      "width": 760,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "table_header_green",
+        "uuid": "aeae7ea7-ae9a-4b08-801b-4457ef214eb2",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/HeaderBar/RoomId": {
+      "path": "BattleDetailRow/HeaderBar/RoomId",
+      "x": -310,
+      "y": 0,
+      "width": 170,
+      "height": 36,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/HeaderBar/Time": {
+      "path": "BattleDetailRow/HeaderBar/Time",
+      "x": -122,
+      "y": 0,
+      "width": 210,
+      "height": 36,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/HeaderBar/GameType": {
+      "path": "BattleDetailRow/HeaderBar/GameType",
+      "x": 88,
+      "y": 0,
+      "width": 150,
+      "height": 36,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/HeaderBar/ReplayCode": {
+      "path": "BattleDetailRow/HeaderBar/ReplayCode",
+      "x": 255,
+      "y": 0,
+      "width": 300,
+      "height": 36,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 18,
+        "lineHeight": 23,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea": {
+      "path": "BattleDetailRow/PlayerCardsArea",
+      "x": -70,
+      "y": -30,
+      "width": 760,
+      "height": 124,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_0": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_0",
+      "x": -326,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_0/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_0/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_0/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_0/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_0/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_0/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_0/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_0/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 200,
+        "g": 70,
+        "b": 35,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_1": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_1",
+      "x": -233,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_1/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_1/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_1/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_1/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_1/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_1/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_1/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_1/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_2": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_2",
+      "x": -140,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_2/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_2/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_2/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_2/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_2/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_2/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_2/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_2/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_3": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_3",
+      "x": -47,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_3/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_3/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_3/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_3/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_3/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_3/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_3/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_3/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_4": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_4",
+      "x": 46,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_4/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_4/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_4/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_4/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_4/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_4/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_4/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_4/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_5": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_5",
+      "x": 139,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_5/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_5/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_5/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_5/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_5/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_5/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_5/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_5/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_6": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_6",
+      "x": 232,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_6/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_6/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_6/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_6/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_6/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_6/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_6/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_6/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_7": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_7",
+      "x": 325,
+      "y": 0,
+      "width": 86,
+      "height": 116,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_7/Avatar": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_7/Avatar",
+      "x": 0,
+      "y": 35,
+      "width": 52,
+      "height": 52,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_7/NameLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_7/NameLabel",
+      "x": 0,
+      "y": -6,
+      "width": 84,
+      "height": 22,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 15,
+        "lineHeight": 19,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_7/MaskedIDLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_7/MaskedIDLabel",
+      "x": 0,
+      "y": -29,
+      "width": 84,
+      "height": 20,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 14,
+        "lineHeight": 18,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/PlayerCardsArea/PlayerCard_7/ScoreLabel": {
+      "path": "BattleDetailRow/PlayerCardsArea/PlayerCard_7/ScoreLabel",
+      "x": 0,
+      "y": -58,
+      "width": 84,
+      "height": 24,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 35,
+        "g": 110,
+        "b": 205,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 17,
+        "lineHeight": 22,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/RightButtons": {
+      "path": "BattleDetailRow/RightButtons",
+      "x": 390,
+      "y": 4,
+      "width": 140,
+      "height": 150,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailRow/RightButtons/BtnCopyReplayCode": {
+      "path": "BattleDetailRow/RightButtons/BtnCopyReplayCode",
+      "x": 0,
+      "y": 32,
+      "width": 127,
+      "height": 47,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_blue_small",
+        "uuid": "306d551c-5196-4ffc-a126-ea101dbfd58a",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailRow/RightButtons/BtnCopyReplayCode/Label": {
+      "path": "BattleDetailRow/RightButtons/BtnCopyReplayCode/Label",
+      "x": 0,
+      "y": 1,
+      "width": 115,
+      "height": 39,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailRow/RightButtons/BtnViewReplay": {
+      "path": "BattleDetailRow/RightButtons/BtnViewReplay",
+      "x": 0,
+      "y": -34,
+      "width": 127,
+      "height": 47,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_blue_small",
+        "uuid": "306d551c-5196-4ffc-a126-ea101dbfd58a",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailRow/RightButtons/BtnViewReplay/Label": {
+      "path": "BattleDetailRow/RightButtons/BtnViewReplay/Label",
+      "x": 0,
+      "y": 1,
+      "width": 115,
+      "height": 39,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    }
+  }
+}

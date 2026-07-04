@@ -1,0 +1,818 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/MemberRow.prefab",
+  "generatedAt": "2026-07-04T19:34:51.939Z",
+  "nodes": {
+    "MemberRow": {
+      "path": "MemberRow",
+      "x": 0,
+      "y": 0,
+      "width": 1028,
+      "height": 184,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "MemberRow/Bg": {
+      "path": "MemberRow/Bg",
+      "x": 0,
+      "y": 0,
+      "width": 1028,
+      "height": 184,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "row_member_bg",
+        "uuid": "e0e0587a-fafa-4dbb-9984-f73301cace30",
+        "type": 1
+      }
+    },
+    "MemberRow/Avatar": {
+      "path": "MemberRow/Avatar",
+      "x": -462,
+      "y": 48,
+      "width": 72,
+      "height": 72,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box_bg",
+        "uuid": "6bdde460-98d1-48d6-9c73-0d4d5904487f",
+        "type": 0
+      }
+    },
+    "MemberRow/RoleBadge": {
+      "path": "MemberRow/RoleBadge",
+      "x": -500,
+      "y": 54,
+      "width": 22,
+      "height": 56,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "badge_leader",
+        "uuid": "75bf7698-09d3-4eb6-b6e0-49e250a4b7cf",
+        "type": 0
+      }
+    },
+    "MemberRow/Name": {
+      "path": "MemberRow/Name",
+      "x": -382,
+      "y": 56,
+      "width": 120,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/UserID": {
+      "path": "MemberRow/UserID",
+      "x": -382,
+      "y": 25,
+      "width": 120,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 21,
+        "lineHeight": 27,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/StatusOnline": {
+      "path": "MemberRow/StatusOnline",
+      "x": -237,
+      "y": 34,
+      "width": 90,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "status_online",
+        "uuid": "a85c8e55-50eb-4c33-8e23-816d6d79bc93",
+        "type": 0
+      }
+    },
+    "MemberRow/StatusOffline": {
+      "path": "MemberRow/StatusOffline",
+      "x": -237,
+      "y": 34,
+      "width": 90,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "status_offline",
+        "uuid": "d88e4d40-6591-477e-8dcd-db9af9b10093",
+        "type": 0
+      }
+    },
+    "MemberRow/RoundsGroup": {
+      "path": "MemberRow/RoundsGroup",
+      "x": -40,
+      "y": 36,
+      "width": 80,
+      "height": 64,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "MemberRow/RoundsGroup/TodayRounds": {
+      "path": "MemberRow/RoundsGroup/TodayRounds",
+      "x": 0,
+      "y": 13,
+      "width": 80,
+      "height": 32,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/RoundsGroup/YesterdayRounds": {
+      "path": "MemberRow/RoundsGroup/YesterdayRounds",
+      "x": 0,
+      "y": -17,
+      "width": 80,
+      "height": 32,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/ContributionGroup": {
+      "path": "MemberRow/ContributionGroup",
+      "x": 124,
+      "y": 36,
+      "width": 90,
+      "height": 64,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 8,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "MemberRow/ContributionGroup/TodayContribution": {
+      "path": "MemberRow/ContributionGroup/TodayContribution",
+      "x": 0,
+      "y": 13,
+      "width": 90,
+      "height": 32,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/ContributionGroup/YesterdayContribution": {
+      "path": "MemberRow/ContributionGroup/YesterdayContribution",
+      "x": 0,
+      "y": -17,
+      "width": 90,
+      "height": 32,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/ResultGroup": {
+      "path": "MemberRow/ResultGroup",
+      "x": 283,
+      "y": 36,
+      "width": 90,
+      "height": 64,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 9,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "MemberRow/ResultGroup/TodayResult": {
+      "path": "MemberRow/ResultGroup/TodayResult",
+      "x": 0,
+      "y": 13,
+      "width": 90,
+      "height": 32,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/ResultGroup/YesterdayResult": {
+      "path": "MemberRow/ResultGroup/YesterdayResult",
+      "x": 0,
+      "y": -17,
+      "width": 90,
+      "height": 32,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/Score": {
+      "path": "MemberRow/Score",
+      "x": 433,
+      "y": 36,
+      "width": 100,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 10,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 22,
+        "lineHeight": 28,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/TodayBox": {
+      "path": "MemberRow/TodayBox",
+      "x": -411,
+      "y": -35,
+      "width": 160,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 11,
+      "color": {
+        "r": 181,
+        "g": 141,
+        "b": 106,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "MemberRow/TodayLabel": {
+      "path": "MemberRow/TodayLabel",
+      "x": -411,
+      "y": -35,
+      "width": 152,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 12,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/YesterdayBox": {
+      "path": "MemberRow/YesterdayBox",
+      "x": -411,
+      "y": -69,
+      "width": 160,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 13,
+      "color": {
+        "r": 181,
+        "g": 141,
+        "b": 106,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "MemberRow/YesterdayLabel": {
+      "path": "MemberRow/YesterdayLabel",
+      "x": -411,
+      "y": -69,
+      "width": 152,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 14,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/BtnSetPartner": {
+      "path": "MemberRow/BtnSetPartner",
+      "x": -153,
+      "y": -54,
+      "width": 127,
+      "height": 47,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 15,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "MemberRow/BtnSetPartner/Label": {
+      "path": "MemberRow/BtnSetPartner/Label",
+      "x": 0,
+      "y": 1,
+      "width": 115,
+      "height": 39,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/BtnLimitGame": {
+      "path": "MemberRow/BtnLimitGame",
+      "x": -6,
+      "y": -54,
+      "width": 127,
+      "height": 47,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 16,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_red_small",
+        "uuid": "30340d74-bb51-4774-9a65-157dbd4c30ec",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "MemberRow/BtnLimitGame/Label": {
+      "path": "MemberRow/BtnLimitGame/Label",
+      "x": 0,
+      "y": 1,
+      "width": 115,
+      "height": 39,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/BtnBattleDetail": {
+      "path": "MemberRow/BtnBattleDetail",
+      "x": 141,
+      "y": -54,
+      "width": 127,
+      "height": 47,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 17,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_blue_small",
+        "uuid": "306d551c-5196-4ffc-a126-ea101dbfd58a",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "MemberRow/BtnBattleDetail/Label": {
+      "path": "MemberRow/BtnBattleDetail/Label",
+      "x": 0,
+      "y": 1,
+      "width": 115,
+      "height": 39,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 19,
+        "lineHeight": 24,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/BtnAddScore": {
+      "path": "MemberRow/BtnAddScore",
+      "x": 284,
+      "y": -51,
+      "width": 131,
+      "height": 67,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 18,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_score_add",
+        "uuid": "3ad8c3f3-8d66-4645-b81a-12db493c3998",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "MemberRow/BtnAddScore/Label": {
+      "path": "MemberRow/BtnAddScore/Label",
+      "x": 0,
+      "y": 1,
+      "width": 119,
+      "height": 59,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "MemberRow/BtnSubScore": {
+      "path": "MemberRow/BtnSubScore",
+      "x": 435,
+      "y": -51,
+      "width": 131,
+      "height": 67,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 19,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_score_sub",
+        "uuid": "a8373014-a252-4d5a-9006-1950b9d8079c",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "MemberRow/BtnSubScore/Label": {
+      "path": "MemberRow/BtnSubScore/Label",
+      "x": 0,
+      "y": 1,
+      "width": 119,
+      "height": 59,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    }
+  }
+}

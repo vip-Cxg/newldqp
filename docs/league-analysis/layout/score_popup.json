@@ -1,0 +1,1317 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/ScorePopup.prefab",
+  "generatedAt": "2026-07-04T19:34:51.947Z",
+  "nodes": {
+    "ScorePopup": {
+      "path": "ScorePopup",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "ScorePopup/Mask": {
+      "path": "ScorePopup/Mask",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 160,
+      "zIndex": 0,
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 160
+      },
+      "sprite": {
+        "assetName": null,
+        "uuid": null,
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/WindowFrame": {
+      "path": "ScorePopup/WindowFrame",
+      "x": 26,
+      "y": 9,
+      "width": 892,
+      "height": 647,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "ScorePopup/WindowFrame/Sprite": {
+      "path": "ScorePopup/WindowFrame/Sprite",
+      "x": 0,
+      "y": 0,
+      "width": 892,
+      "height": 647,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_main_frame",
+        "uuid": "359a52a9-1bfb-4133-9054-d80ced2cfc7b",
+        "type": 1
+      }
+    },
+    "ScorePopup/BtnClose": {
+      "path": "ScorePopup/BtnClose",
+      "x": 458,
+      "y": 318,
+      "width": 58,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_close",
+        "uuid": "d8c24932-91c2-4d26-9746-3e65163f70e6",
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/BtnClose/Label": {
+      "path": "ScorePopup/BtnClose/Label",
+      "x": 0,
+      "y": 1,
+      "width": 46,
+      "height": 50,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 1,
+        "lineHeight": 2,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot": {
+      "path": "ScorePopup/PanelRoot",
+      "x": 24,
+      "y": -10,
+      "width": 862,
+      "height": 556,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "ScorePopup/PanelRoot/BgOut": {
+      "path": "ScorePopup/PanelRoot/BgOut",
+      "x": 0,
+      "y": 0,
+      "width": 862,
+      "height": 556,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/BgIn": {
+      "path": "ScorePopup/PanelRoot/BgIn",
+      "x": 0,
+      "y": 0,
+      "width": 838,
+      "height": 532,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_in",
+        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Title": {
+      "path": "ScorePopup/PanelRoot/Title",
+      "x": 2,
+      "y": 312,
+      "width": 300,
+      "height": 56,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 40,
+        "lineHeight": 50,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content": {
+      "path": "ScorePopup/PanelRoot/Content",
+      "x": 0,
+      "y": 0,
+      "width": 832,
+      "height": 526,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "ScorePopup/PanelRoot/Content/LeftPanel": {
+      "path": "ScorePopup/PanelRoot/Content/LeftPanel",
+      "x": -313,
+      "y": -1,
+      "width": 222,
+      "height": 552,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 181,
+        "g": 141,
+        "b": 126,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/ScoreInput": {
+      "path": "ScorePopup/PanelRoot/Content/ScoreInput",
+      "x": 116,
+      "y": 233,
+      "width": 624,
+      "height": 91,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 181,
+        "g": 141,
+        "b": 126,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/ScoreInputBox": {
+      "path": "ScorePopup/PanelRoot/Content/ScoreInputBox",
+      "x": 118,
+      "y": 229,
+      "width": 550,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/InputLabel": {
+      "path": "ScorePopup/PanelRoot/Content/InputLabel",
+      "x": 118,
+      "y": 229,
+      "width": 530,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 36,
+        "lineHeight": 45,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnAddMode": {
+      "path": "ScorePopup/PanelRoot/Content/BtnAddMode",
+      "x": -316,
+      "y": 229,
+      "width": 200,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnAddMode/Normal": {
+      "path": "ScorePopup/PanelRoot/Content/BtnAddMode/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 200,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnAddMode/Selected": {
+      "path": "ScorePopup/PanelRoot/Content/BtnAddMode/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 200,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnAddMode/Label": {
+      "path": "ScorePopup/PanelRoot/Content/BtnAddMode/Label",
+      "x": 0,
+      "y": 0,
+      "width": 184,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnSubMode": {
+      "path": "ScorePopup/PanelRoot/Content/BtnSubMode",
+      "x": -316,
+      "y": 143,
+      "width": 200,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnSubMode/Normal": {
+      "path": "ScorePopup/PanelRoot/Content/BtnSubMode/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 200,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnSubMode/Selected": {
+      "path": "ScorePopup/PanelRoot/Content/BtnSubMode/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 200,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnSubMode/Label": {
+      "path": "ScorePopup/PanelRoot/Content/BtnSubMode/Label",
+      "x": 0,
+      "y": 0,
+      "width": 184,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard",
+      "x": 116,
+      "y": 9,
+      "width": 631,
+      "height": 354,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key1": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key1",
+      "x": -212,
+      "y": 135,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key1/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key1/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key2": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key2",
+      "x": 0,
+      "y": 135,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key2/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key2/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key3": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key3",
+      "x": 212,
+      "y": 135,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key3/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key3/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key4": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key4",
+      "x": -212,
+      "y": 45,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key4/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key4/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key5": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key5",
+      "x": 0,
+      "y": 45,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key5/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key5/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key6": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key6",
+      "x": 212,
+      "y": 45,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key6/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key6/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key7": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key7",
+      "x": -212,
+      "y": -45,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key7/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key7/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key8": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key8",
+      "x": 0,
+      "y": -45,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key8/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key8/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key9": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key9",
+      "x": 212,
+      "y": -45,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 8,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key9/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key9/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/KeyDot": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/KeyDot",
+      "x": -212,
+      "y": -135,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 9,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/KeyDot/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/KeyDot/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key0": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key0",
+      "x": 0,
+      "y": -135,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 10,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/Key0/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/Key0/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 52,
+        "lineHeight": 65,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/KeyReset": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/KeyReset",
+      "x": 212,
+      "y": -135,
+      "width": 207,
+      "height": 84,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 11,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/Keyboard/KeyReset/Label": {
+      "path": "ScorePopup/PanelRoot/Content/Keyboard/KeyReset/Label",
+      "x": 0,
+      "y": 1,
+      "width": 195,
+      "height": 76,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 32,
+        "lineHeight": 40,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/MyScoreLabel": {
+      "path": "ScorePopup/PanelRoot/Content/MyScoreLabel",
+      "x": -71,
+      "y": -227,
+      "width": 260,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 82,
+        "g": 72,
+        "b": 150,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnConfirm": {
+      "path": "ScorePopup/PanelRoot/Content/BtnConfirm",
+      "x": 323,
+      "y": -224,
+      "width": 202,
+      "height": 70,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 8,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "ScorePopup/PanelRoot/Content/BtnConfirm/Label": {
+      "path": "ScorePopup/PanelRoot/Content/BtnConfirm/Label",
+      "x": 0,
+      "y": 1,
+      "width": 190,
+      "height": 62,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    }
+  }
+}

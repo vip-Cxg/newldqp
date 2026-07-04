@@ -255,3 +255,104 @@ assets/prefabs/LeagueAnalysis/LeagueAnalysisView.prefab
 - 成员 Row 在 ScrollView/content 中从上往下排列
 - ScrollView 可以滚动
 - 点击查询、上分、下分、战绩明细等按钮能弹出对应 Popup
+
+## 布局回填和手调保护
+
+为避免 Cocos Creator 中手动微调过的 prefab 被生成器覆盖，已增加布局 JSON 回填机制。
+
+布局 JSON 目录：
+
+```text
+docs/league-analysis/layout/
+```
+
+当前已回填：
+
+```text
+league_analysis_view.json
+member_page.json
+member_row.json
+score_popup.json
+set_partner_popup.json
+search_member_popup.json
+battle_detail_popup.json
+battle_detail_row.json
+battle_replay_popup.json
+battle_replay_row.json
+confirm_popup.json
+lock.json
+```
+
+`lock.json` 默认开启：
+
+```json
+{
+  "lockManualLayout": true,
+  "protectedPrefabs": [
+    "LeagueAnalysisView",
+    "MemberPage",
+    "MemberRow",
+    "ScorePopup",
+    "SetPartnerPopup",
+    "SearchMemberPopup",
+    "BattleDetailPopup",
+    "BattleReplayPopup",
+    "ConfirmPopup",
+    "BattleDetailRow",
+    "BattleReplayRow"
+  ]
+}
+```
+
+普通生成流程现在会先读取当前真实 prefab 并回填 JSON，再按 JSON 生成，尽量保护 Cocos 中刚手调过的位置。
+
+Cocos 菜单：
+
+```text
+Tools/LeagueAnalysis/1 安装/检查
+Tools/LeagueAnalysis/2 生成/更新 LeagueAnalysis（保护手调布局）
+Tools/LeagueAnalysis/3 回填当前 Prefab 布局到 JSON
+Tools/LeagueAnalysis/4 验证 Prefab 与 JSON
+Tools/LeagueAnalysis/5 强制重建布局（危险，会覆盖手调）
+```
+
+命令行：
+
+```bash
+cd /Users/gj/develop/newqp/newldqp
+/usr/local/bin/node packages/ui-generator/main.js pull-layouts
+/usr/local/bin/node packages/ui-generator/main.js generate
+/usr/local/bin/node packages/ui-generator/main.js validate-layouts
+/usr/local/bin/node packages/ui-generator/main.js force-generate
+```
+
+推荐工作流：
+
+1. 在 Cocos Creator 里手动调整 prefab 节点位置、大小、字体、层级。
+2. 点 `Tools/LeagueAnalysis/3 回填当前 Prefab 布局到 JSON`。
+3. 点 `Tools/LeagueAnalysis/4 验证 Prefab 与 JSON`，报告输出到 `docs/league-analysis/layout/VALIDATION_REPORT.md`。
+4. 以后点 `Tools/LeagueAnalysis/2 生成/更新 LeagueAnalysis（保护手调布局）` 会优先使用 JSON 布局。
+5. 只有确认要放弃手调位置时，才点 `强制重建布局（危险）`。
+
+当前回填字段：
+
+- node path
+- x / y
+- width / height
+- anchorX / anchorY
+- scaleX / scaleY
+- active
+- opacity
+- zIndex（按父节点 children 顺序记录）
+- color
+- Label fontSize / lineHeight / horizontalAlign / verticalAlign
+- Sprite assetName / uuid / type
+- Button targetPath
+- ScrollView contentPath
+- Layout type / resizeMode / spacing / padding
+
+当前限制：
+
+- 只能从磁盘上的真实 prefab 文件回填，不能直接读取 Cocos 场景中尚未保存的临时状态。
+- 如果在 Cocos 中调整后没有保存 prefab，生成器读不到这些修改。
+- 如果手动重命名或移动节点，旧 JSON 路径会显示为 `missingInGenerated`，需要重新回填。

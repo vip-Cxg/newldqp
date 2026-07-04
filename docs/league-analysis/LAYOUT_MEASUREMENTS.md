@@ -173,15 +173,54 @@ ScrollView/content 规则：
 | DateButton5 | 832 | 145 | 136 | 48 | 165 | 230 | btn_green_small |
 | DateButton6 | 980 | 145 | 136 | 48 | 313 | 230 | btn_green_small |
 | DateButton7 | 1128 | 145 | 136 | 48 | 461 | 230 | btn_green_small |
-| PlayerInfoPanel | 667 | 235 | 920 | 96 | 0 | 140 | league_bg_in |
-| PlayerAvatar | 277 | 235 | 66 | 66 | -390 | 140 | input_box_bg |
-| TodayRoundsLabel | 637 | 235 | 220 | 44 | -30 | 140 | Label |
-| WinLoseLabel | 967 | 235 | 220 | 44 | 300 | 140 | Label |
-| ScrollView | 667 | 445 | 920 | 250 | 0 | -70 | - |
-| BattleDetailRow | 667 | 403 | 920 | 190 | 0 | -28 | row_battle_bg |
-| RowInfoHeader | 667 | 337 | 920 | 42 | 0 | 38 | table_header_green |
-| BtnCopyReplayCode | 1055 | 383 | 127 | 47 | 388 | -8 | btn_blue_small |
-| BtnReplay | 1055 | 445 | 127 | 47 | 388 | -70 | btn_blue_small |
+| PlayerSummary | 667 | 234 | 920 | 96 | 0 | 141 | row_simple_bg |
+| PlayerSummary/Bg | 667 | 234 | 920 | 92 | 0 | 141 | row_simple_bg |
+| PlayerSummary/Avatar | 277 | 234 | 66 | 66 | -390 | 141 | input_box |
+| PlayerSummary/Name | 365 | 219 | 145 | 30 | -302 | 156 | Label |
+| PlayerSummary/UserID | 365 | 251 | 145 | 30 | -302 | 124 | Label |
+| PlayerSummary/TodayRound | 639 | 234 | 230 | 44 | -28 | 141 | Label |
+| PlayerSummary/WinLose | 973 | 234 | 230 | 44 | 306 | 141 | Label |
+| ScrollView | 667 | 437 | 920 | 300 | 0 | -62 | - |
+| BattleDetailRow | 667 | 403 | 920 | 206 | 0 | -28 | row_battle_bg |
+| BattleDetailRow/HeaderBar | 595 | 329 | 760 | 48 | -72 | 46 | table_header_green |
+| HeaderBar/RoomId | 285 | 329 | 170 | 36 | -382 | 46 | Label |
+| HeaderBar/Time | 473 | 329 | 210 | 36 | -194 | 46 | Label |
+| HeaderBar/GameType | 683 | 329 | 150 | 36 | 16 | 46 | Label |
+| HeaderBar/ReplayCode | 850 | 329 | 300 | 36 | 183 | 46 | Label |
+| BattleDetailRow/PlayerCardsArea | 597 | 433 | 760 | 124 | -70 | -58 | - |
+| PlayerCard_0..7 | 271..922 | 433 | 86 | 116 | -396..255 | -58 | input_box / Label |
+| RightButtons | 1057 | 399 | 140 | 150 | 390 | -24 | - |
+| BtnCopyReplayCode | 1057 | 367 | 127 | 47 | 390 | 8 | btn_blue_small |
+| BtnViewReplay | 1057 | 433 | 127 | 47 | 390 | -58 | btn_blue_small |
+
+日期按钮结构：
+
+```text
+DateButtonN
+├── Normal   // btn_green_small
+├── Selected // btn_orange
+└── Label
+```
+
+点击任意日期时，脚本会把所有按钮切回 `Normal`，当前按钮显示 `Selected`。
+
+BattleDetailRow 分区：
+
+```text
+BattleDetailRow
+├── HeaderBar
+│   ├── RoomId
+│   ├── Time
+│   ├── GameType
+│   └── ReplayCode
+├── PlayerCardsArea
+│   ├── PlayerCard_0
+│   ├── PlayerCard_1
+│   └── ...
+└── RightButtons
+    ├── BtnCopyReplayCode
+    └── BtnViewReplay
+```
 
 BattleDetailRow 静态数据至少包含：
 
@@ -209,15 +248,28 @@ BattleDetailRow 静态数据至少包含：
 | PanelRoot | 667 | 403 | 1013 | 488 | 0 | -28 | - |
 | BgOut | 667 | 403 | 1013 | 488 | 0 | 0 | league_bg_out |
 | BgIn | 667 | 403 | 979 | 452 | 0 | 0 | league_bg_in |
-| HeaderBg | 667 | 215 | 920 | 42 | 0 | 160 | table_header_green |
-| RoomLabel | 337 | 215 | 240 | 40 | -330 | 160 | Label |
-| RoundLabel | 597 | 215 | 160 | 40 | -70 | 160 | Label |
-| ScrollView | 667 | 423 | 920 | 380 | 0 | -48 | - |
-| BattleReplayRow1 | 667 | 305 | 920 | 186 | 0 | 70 | battle_replay_row_bg |
-| BattleReplayRow2 | 667 | 508 | 920 | 186 | 0 | -133 | battle_replay_row_bg |
-| ResultLoseIcon | 297 | 305 | 72 | 72 | -370 | 70 | battle_lose_icon |
-| ResultWinIcon | 297 | 508 | 72 | 72 | -370 | -133 | battle_win_icon |
-| BtnViewReplay | 1027 | 305 | 145 | 56 | 360 | 70 | btn_blue_small |
+| HeaderBg | 667 | 197 | 920 | 58 | 0 | 178 | row_simple_bg |
+| RoomLabel | 337 | 197 | 250 | 42 | -330 | 178 | Label |
+| RoundLabel | 597 | 197 | 170 | 42 | -70 | 178 | Label |
+| ScrollView | 667 | 413 | 920 | 430 | 0 | -38 | - |
+| BattleReplayRow | 667 | 305 | 920 | 188 | 0 | 70 | battle_replay_row_bg |
+| ResultArea | 297 | 305 | 180 | 160 | -370 | 70 | battle_lose_icon / battle_win_icon |
+| ResultIcon | 259 | 283 | 72 | 72 | -408 | 92 | battle_lose_icon / battle_win_icon |
+| ResultArea/RoundLabel | 337 | 285 | 85 | 54 | -330 | 90 | Label |
+| PlayerListArea | 631 | 305 | 570 | 160 | -36 | 70 | - |
+| PlayerListLeft | 491 | 305 | 250 | 150 | -176 | 70 | Label |
+| PlayerListRight | 781 | 305 | 250 | 150 | 114 | 70 | Label |
+| ActionArea | 1025 | 305 | 180 | 160 | 358 | 70 | - |
+| BtnViewReplay | 1025 | 305 | 145 | 56 | 358 | 70 | btn_blue_small |
+
+BattleReplayRow 分区：
+
+```text
+BattleReplayRow
+├── ResultArea       // 180 宽，输/赢 + 1/7
+├── PlayerListArea   // 570 宽，两列玩家名字和分数
+└── ActionArea       // 180 宽，查看回放按钮居中
+```
 
 BattleReplayRow 静态数据至少包含：
 
@@ -233,12 +285,15 @@ BattleReplayRow 静态数据至少包含：
   },
   {
     result: "win",
-    round: "1/7",
+    round: "2/7",
     players: [
       { name: "玩家昵称...", score: "+18" },
       { name: "玩家昵称...", score: "-180" }
     ]
-  }
+  },
+  { result: "lose", round: "3/7", players: [] },
+  { result: "win", round: "4/7", players: [] },
+  { result: "lose", round: "5/7", players: [] }
 ]
 ```
 

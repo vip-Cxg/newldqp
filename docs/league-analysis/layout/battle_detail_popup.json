@@ -1,0 +1,1207 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleDetailPopup.prefab",
+  "generatedAt": "2026-07-04T19:34:51.971Z",
+  "nodes": {
+    "BattleDetailPopup": {
+      "path": "BattleDetailPopup",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/Mask": {
+      "path": "BattleDetailPopup/Mask",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 160,
+      "zIndex": 0,
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 160
+      },
+      "sprite": {
+        "assetName": null,
+        "uuid": null,
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/WindowFrame": {
+      "path": "BattleDetailPopup/WindowFrame",
+      "x": 0,
+      "y": 0,
+      "width": 1075,
+      "height": 604,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/WindowFrame/Sprite": {
+      "path": "BattleDetailPopup/WindowFrame/Sprite",
+      "x": 0,
+      "y": 0,
+      "width": 1075,
+      "height": 604,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_main_frame",
+        "uuid": "359a52a9-1bfb-4133-9054-d80ced2cfc7b",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/WindowFrame/Title": {
+      "path": "BattleDetailPopup/WindowFrame/Title",
+      "x": 0,
+      "y": 244,
+      "width": 360,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 40,
+        "lineHeight": 50,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/BtnClose": {
+      "path": "BattleDetailPopup/BtnClose",
+      "x": 503.5,
+      "y": 268,
+      "width": 54,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_close",
+        "uuid": "d8c24932-91c2-4d26-9746-3e65163f70e6",
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/BtnClose/Label": {
+      "path": "BattleDetailPopup/BtnClose/Label",
+      "x": 0,
+      "y": 1,
+      "width": 42,
+      "height": 46,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 1,
+        "lineHeight": 2,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot": {
+      "path": "BattleDetailPopup/PanelRoot",
+      "x": 0,
+      "y": -28,
+      "width": 1013,
+      "height": 488,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/PanelRoot/BgOut": {
+      "path": "BattleDetailPopup/PanelRoot/BgOut",
+      "x": 0,
+      "y": 0,
+      "width": 1013,
+      "height": 488,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/BgIn": {
+      "path": "BattleDetailPopup/PanelRoot/BgIn",
+      "x": 0,
+      "y": 0,
+      "width": 979,
+      "height": 452,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_in",
+        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content": {
+      "path": "BattleDetailPopup/PanelRoot/Content",
+      "x": 0,
+      "y": 0,
+      "width": 959,
+      "height": 432,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton1": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1",
+      "x": -426,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton1/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton1/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton1/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton2": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2",
+      "x": -278,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton2/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton2/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton2/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton3": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3",
+      "x": -130,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton3/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton3/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton3/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton4": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4",
+      "x": 18,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton4/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton4/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton4/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton5": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5",
+      "x": 166,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton5/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton5/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton5/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton6": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6",
+      "x": 314,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton6/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton6/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton6/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton7": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7",
+      "x": 462,
+      "y": 258,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton7/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_green_small",
+        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton7/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 136,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_orange",
+        "uuid": "9f1baada-808c-46eb-a5b5-52964cfac39a",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/DateButton7/Label": {
+      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7/Label",
+      "x": 0,
+      "y": 0,
+      "width": 126,
+      "height": 42,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary",
+      "x": 0,
+      "y": 169,
+      "width": 920,
+      "height": 96,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Bg": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Bg",
+      "x": 0,
+      "y": 0,
+      "width": 920,
+      "height": 92,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "row_simple_bg",
+        "uuid": "332ba49a-549e-4950-8296-8c276262b468",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Avatar": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Avatar",
+      "x": -390,
+      "y": 0,
+      "width": 66,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Name": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Name",
+      "x": -302,
+      "y": 15,
+      "width": 145,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 21,
+        "lineHeight": 27,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary/UserID": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/UserID",
+      "x": -302,
+      "y": -17,
+      "width": 145,
+      "height": 30,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary/TodayRound": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/TodayRound",
+      "x": -28,
+      "y": 0,
+      "width": 230,
+      "height": 44,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 25,
+        "lineHeight": 32,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary/WinLose": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/WinLose",
+      "x": 306,
+      "y": 0,
+      "width": 230,
+      "height": 44,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 54,
+        "g": 150,
+        "b": 54,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 25,
+        "lineHeight": 32,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/ScrollView": {
+      "path": "BattleDetailPopup/PanelRoot/Content/ScrollView",
+      "x": 0,
+      "y": -62,
+      "width": 920,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 8,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "scrollView": {
+        "contentPath": "BattleDetailPopup/PanelRoot/Content/ScrollView/view/content"
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/ScrollView/view": {
+      "path": "BattleDetailPopup/PanelRoot/Content/ScrollView/view",
+      "x": 0,
+      "y": 0,
+      "width": 920,
+      "height": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/ScrollView/view/content": {
+      "path": "BattleDetailPopup/PanelRoot/Content/ScrollView/view/content",
+      "x": 0,
+      "y": 150,
+      "width": 920,
+      "height": 620,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "layout": {
+        "resizeMode": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 0,
+        "paddingBottom": 0
+      }
+    }
+  }
+}

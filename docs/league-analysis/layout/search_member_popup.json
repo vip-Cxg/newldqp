@@ -1,0 +1,995 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/SearchMemberPopup.prefab",
+  "generatedAt": "2026-07-04T19:34:51.961Z",
+  "nodes": {
+    "SearchMemberPopup": {
+      "path": "SearchMemberPopup",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SearchMemberPopup/Mask": {
+      "path": "SearchMemberPopup/Mask",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 160,
+      "zIndex": 0,
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 160
+      },
+      "sprite": {
+        "assetName": null,
+        "uuid": null,
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/WindowFrame": {
+      "path": "SearchMemberPopup/WindowFrame",
+      "x": 0,
+      "y": 0,
+      "width": 760,
+      "height": 500,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SearchMemberPopup/WindowFrame/Sprite": {
+      "path": "SearchMemberPopup/WindowFrame/Sprite",
+      "x": 0,
+      "y": 0,
+      "width": 760,
+      "height": 500,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_main_frame",
+        "uuid": "359a52a9-1bfb-4133-9054-d80ced2cfc7b",
+        "type": 1
+      }
+    },
+    "SearchMemberPopup/WindowFrame/Title": {
+      "path": "SearchMemberPopup/WindowFrame/Title",
+      "x": 0,
+      "y": 192,
+      "width": 360,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 40,
+        "lineHeight": 50,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/BtnClose": {
+      "path": "SearchMemberPopup/BtnClose",
+      "x": 346,
+      "y": 216,
+      "width": 54,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_close",
+        "uuid": "d8c24932-91c2-4d26-9746-3e65163f70e6",
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/BtnClose/Label": {
+      "path": "SearchMemberPopup/BtnClose/Label",
+      "x": 0,
+      "y": 1,
+      "width": 42,
+      "height": 46,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 1,
+        "lineHeight": 2,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot": {
+      "path": "SearchMemberPopup/PanelRoot",
+      "x": 0,
+      "y": -28,
+      "width": 698,
+      "height": 384,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SearchMemberPopup/PanelRoot/BgOut": {
+      "path": "SearchMemberPopup/PanelRoot/BgOut",
+      "x": 0,
+      "y": 0,
+      "width": 698,
+      "height": 384,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/BgIn": {
+      "path": "SearchMemberPopup/PanelRoot/BgIn",
+      "x": 0,
+      "y": 0,
+      "width": 664,
+      "height": 348,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_in",
+        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
+        "type": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content": {
+      "path": "SearchMemberPopup/PanelRoot/Content",
+      "x": 0,
+      "y": 0,
+      "width": 644,
+      "height": 328,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/InputTitle": {
+      "path": "SearchMemberPopup/PanelRoot/Content/InputTitle",
+      "x": -180,
+      "y": 90,
+      "width": 160,
+      "height": 48,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 32,
+        "lineHeight": 40,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/InputBox": {
+      "path": "SearchMemberPopup/PanelRoot/Content/InputBox",
+      "x": 90,
+      "y": 90,
+      "width": 360,
+      "height": 55,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "input_box",
+        "uuid": "4598c81f-35ff-4bbe-a4e9-3559726537b0",
+        "type": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/InputLabel": {
+      "path": "SearchMemberPopup/PanelRoot/Content/InputLabel",
+      "x": 90,
+      "y": 90,
+      "width": 340,
+      "height": 44,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 110,
+        "g": 62,
+        "b": 36,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_1": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_1",
+      "x": -210,
+      "y": -20,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_1/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_1/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_2": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_2",
+      "x": -61,
+      "y": -20,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_2/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_2/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_3": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_3",
+      "x": 88,
+      "y": -20,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_3/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_3/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_4": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_4",
+      "x": -210,
+      "y": -100,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_4/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_4/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_5": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_5",
+      "x": -61,
+      "y": -100,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_5/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_5/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_6": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_6",
+      "x": 88,
+      "y": -100,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 8,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_6/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_6/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_7": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_7",
+      "x": -210,
+      "y": -180,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 9,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_7/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_7/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_8": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_8",
+      "x": -61,
+      "y": -180,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 10,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_8/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_8/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_9": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_9",
+      "x": 88,
+      "y": -180,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 11,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_9/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_9/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_重输": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_重输",
+      "x": -210,
+      "y": -260,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 12,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_重输/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_重输/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 28,
+        "lineHeight": 35,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_0": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_0",
+      "x": -61,
+      "y": -260,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 13,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_0/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_0/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 44,
+        "lineHeight": 55,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_删除": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_删除",
+      "x": 88,
+      "y": -260,
+      "width": 135,
+      "height": 68,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 14,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "keypad_button",
+        "uuid": "c7abb260-1f19-4fc6-8e96-722a6214734b",
+        "type": 1
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "SearchMemberPopup/PanelRoot/Content/Key_删除/Label": {
+      "path": "SearchMemberPopup/PanelRoot/Content/Key_删除/Label",
+      "x": 0,
+      "y": 1,
+      "width": 123,
+      "height": 60,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 28,
+        "lineHeight": 35,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,910 @@
+{
+  "version": 1,
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/LeagueAnalysisView.prefab",
+  "generatedAt": "2026-07-04T19:34:51.923Z",
+  "nodes": {
+    "LeagueAnalysisView": {
+      "path": "LeagueAnalysisView",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "LeagueAnalysisView/MainFrame": {
+      "path": "LeagueAnalysisView/MainFrame",
+      "x": -3,
+      "y": 3,
+      "width": 1311,
+      "height": 717,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_main_frame",
+        "uuid": "359a52a9-1bfb-4133-9054-d80ced2cfc7b",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/Title": {
+      "path": "LeagueAnalysisView/Title",
+      "x": 0,
+      "y": 327,
+      "width": 360,
+      "height": 58,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 40,
+        "lineHeight": 50,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/BtnClose": {
+      "path": "LeagueAnalysisView/BtnClose",
+      "x": 635,
+      "y": 344,
+      "width": 54,
+      "height": 54,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "btn_close",
+        "uuid": "d8c24932-91c2-4d26-9746-3e65163f70e6",
+        "type": 0
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/BtnClose/Label": {
+      "path": "LeagueAnalysisView/BtnClose/Label",
+      "x": 0,
+      "y": 1,
+      "width": 42,
+      "height": 46,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 1,
+        "lineHeight": 2,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu": {
+      "path": "LeagueAnalysisView/LeftMenu",
+      "x": -525,
+      "y": -21,
+      "width": 228,
+      "height": 580,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/Bg": {
+      "path": "LeagueAnalysisView/LeftMenu/Bg",
+      "x": 0,
+      "y": 0,
+      "width": 228,
+      "height": 580,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 176,
+        "g": 141,
+        "b": 127,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnStatistics": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnStatistics",
+      "x": 0,
+      "y": 247,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnStatistics/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnStatistics/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnStatistics/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnStatistics/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnStatistics/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnStatistics/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 34,
+        "lineHeight": 43,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnPartner": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnPartner",
+      "x": 0,
+      "y": 166,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnPartner/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnPartner/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnPartner/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnPartner/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnPartner/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnPartner/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 34,
+        "lineHeight": 43,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnMember": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnMember",
+      "x": 0,
+      "y": 85,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnMember/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnMember/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnMember/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnMember/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnMember/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnMember/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnAgentStatistics": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnAgentStatistics",
+      "x": 0,
+      "y": 4,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnAgentStatistics/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnAgentStatistics/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnAgentStatistics/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnAgentStatistics/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnAgentStatistics/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnAgentStatistics/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardDetail": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardDetail",
+      "x": 0,
+      "y": -77,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardDetail/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardDetail/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardDetail/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardDetail/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardDetail/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardDetail/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnOperationRecord": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnOperationRecord",
+      "x": 0,
+      "y": -159,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 6,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnOperationRecord/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnOperationRecord/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnOperationRecord/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnOperationRecord/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnOperationRecord/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnOperationRecord/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw",
+      "x": 0,
+      "y": -240,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 7,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "button": {
+        "targetPath": null
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw/Normal": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw/Normal",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw/Selected": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw/Selected",
+      "x": 0,
+      "y": 0,
+      "width": 204,
+      "height": 74,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "tab_selected_orange",
+        "uuid": "73e476be-7070-432e-91ef-a501d8c5d84e",
+        "type": 1
+      }
+    },
+    "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw/Label": {
+      "path": "LeagueAnalysisView/LeftMenu/BtnRewardWithdraw/Label",
+      "x": 0,
+      "y": 0,
+      "width": 192,
+      "height": 66,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 30,
+        "lineHeight": 38,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "LeagueAnalysisView/PageRoot": {
+      "path": "LeagueAnalysisView/PageRoot",
+      "x": 116,
+      "y": -20,
+      "width": 1040,
+      "height": 582,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "LeagueAnalysisView/PopupLayer": {
+      "path": "LeagueAnalysisView/PopupLayer",
+      "x": 0,
+      "y": 0,
+      "width": 1334,
+      "height": 750,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    }
+  }
+}

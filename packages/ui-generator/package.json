@@ -5,11 +5,26 @@
   "main": "main.js",
   "author": "codex",
   "main-menu": {
+    "Tools/LeagueAnalysis/1 安装/检查": {
+      "message": "ui-generator:validate-member-module"
+    },
     "Tools/LeagueAnalysis/Generate Member Module": {
       "message": "ui-generator:generate-member-module"
     },
     "Tools/LeagueAnalysis/Validate Member Module": {
       "message": "ui-generator:validate-member-module"
+    },
+    "Tools/LeagueAnalysis/2 生成/更新 LeagueAnalysis（保护手调布局）": {
+      "message": "ui-generator:generate-member-module"
+    },
+    "Tools/LeagueAnalysis/3 回填当前 Prefab 布局到 JSON": {
+      "message": "ui-generator:pull-layouts"
+    },
+    "Tools/LeagueAnalysis/4 验证 Prefab 与 JSON": {
+      "message": "ui-generator:validate-layouts"
+    },
+    "Tools/LeagueAnalysis/5 强制重建布局（危险，会覆盖手调）": {
+      "message": "ui-generator:force-rebuild-layout"
     }
   }
 }

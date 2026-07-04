@@ -86,7 +86,7 @@ cc.Class({
         var rowH = 184;
         var spacingY = 4;
         var contentW = this.content.width || 1028;
-        this.content.setAnchorPoint(0.5, 1);
+        this.content.setAnchorPoint(0, 1);
         this.content.setContentSize(contentW, Math.max(372, list.length * (rowH + spacingY)));
         for (var i = 0; i < list.length; i++) {
             var rowNode = cc.instantiate(this.rowPrefab);

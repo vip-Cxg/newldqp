@@ -6,8 +6,6 @@
   "bundleName": "",
   "priority": 1,
   "compressionType": {},
-  "optimizeHotUpdate": {},
-  "inlineSpriteFrames": {},
-  "isRemoteBundle": {},
+  "optConfig": {},
   "subMetas": {}
 }
