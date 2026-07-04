@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleDetailRow.prefab",
-  "generatedAt": "2026-07-04T19:34:51.999Z",
+  "generatedAt": "2026-07-04T20:48:52.934Z",
   "nodes": {
     "BattleDetailRow": {
       "path": "BattleDetailRow",

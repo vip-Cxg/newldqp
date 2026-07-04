@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/SetPartnerPopup.prefab",
-  "generatedAt": "2026-07-04T19:34:51.953Z",
+  "generatedAt": "2026-07-04T20:48:52.911Z",
   "nodes": {
     "SetPartnerPopup": {
       "path": "SetPartnerPopup",
@@ -43,12 +43,9 @@
         "a": 160
       },
       "sprite": {
-        "assetName": null,
-        "uuid": null,
+        "assetName": "bg_mask",
+        "uuid": "cda2627c-9f30-45b9-b31f-d59073dcbf36",
         "type": 0
-      },
-      "button": {
-        "targetPath": null
       }
     },
     "SetPartnerPopup/WindowFrame": {

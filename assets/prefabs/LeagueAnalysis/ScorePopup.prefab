@@ -168,7 +168,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "cda2627c-9f30-45b9-b31f-d59073dcbf36"
+    },
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -184,71 +186,13 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "cc.BlockInputEvents",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "_normalMaterial": null,
-    "_grayMaterial": null,
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$transition": 0,
-    "transition": 0,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "_N$hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": null,
     "_id": ""
   },
   {
@@ -767,8 +711,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 880,
-      "height": 556
+      "width": 875,
+      "height": 580
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -832,7 +776,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 875,
-      "height": 570
+      "height": 580
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1134,7 +1078,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 222,
+      "width": 216,
       "height": 552
     },
     "_anchorPoint": {
@@ -1147,7 +1091,7 @@
       "ctor": "Float64Array",
       "array": [
         -316,
-        0,
+        -1,
         0,
         0,
         0,

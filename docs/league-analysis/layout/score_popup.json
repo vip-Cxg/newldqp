@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/ScorePopup.prefab",
-  "generatedAt": "2026-07-04T19:34:51.947Z",
+  "generatedAt": "2026-07-04T20:48:52.908Z",
   "nodes": {
     "ScorePopup": {
       "path": "ScorePopup",
@@ -43,12 +43,9 @@
         "a": 160
       },
       "sprite": {
-        "assetName": null,
-        "uuid": null,
+        "assetName": "bg_mask",
+        "uuid": "cda2627c-9f30-45b9-b31f-d59073dcbf36",
         "type": 0
-      },
-      "button": {
-        "targetPath": null
       }
     },
     "ScorePopup/WindowFrame": {
@@ -154,8 +151,8 @@
       "path": "ScorePopup/PanelRoot",
       "x": 24,
       "y": -10,
-      "width": 862,
-      "height": 556,
+      "width": 875,
+      "height": 580,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -174,8 +171,8 @@
       "path": "ScorePopup/PanelRoot/BgOut",
       "x": 0,
       "y": 0,
-      "width": 862,
-      "height": 556,
+      "width": 875,
+      "height": 580,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -195,31 +192,6 @@
         "type": 1
       }
     },
-    "ScorePopup/PanelRoot/BgIn": {
-      "path": "ScorePopup/PanelRoot/BgIn",
-      "x": 0,
-      "y": 0,
-      "width": 838,
-      "height": 532,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 1,
-      "color": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      },
-      "sprite": {
-        "assetName": "league_bg_in",
-        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
-        "type": 1
-      }
-    },
     "ScorePopup/PanelRoot/Title": {
       "path": "ScorePopup/PanelRoot/Title",
       "x": 2,
@@ -232,7 +204,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 2,
+      "zIndex": 1,
       "color": {
         "r": 255,
         "g": 255,
@@ -258,7 +230,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 3,
+      "zIndex": 2,
       "color": {
         "r": 255,
         "g": 255,
@@ -268,9 +240,9 @@
     },
     "ScorePopup/PanelRoot/Content/LeftPanel": {
       "path": "ScorePopup/PanelRoot/Content/LeftPanel",
-      "x": -313,
+      "x": -316,
       "y": -1,
-      "width": 222,
+      "width": 216,
       "height": 552,
       "anchorX": 0.5,
       "anchorY": 0.5,

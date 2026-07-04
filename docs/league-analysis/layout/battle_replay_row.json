@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleReplayRow.prefab",
-  "generatedAt": "2026-07-04T19:34:52.011Z",
+  "generatedAt": "2026-07-04T20:48:52.938Z",
   "nodes": {
     "BattleReplayRow": {
       "path": "BattleReplayRow",
@@ -50,8 +50,8 @@
     },
     "BattleReplayRow/ResultArea": {
       "path": "BattleReplayRow/ResultArea",
-      "x": -370,
-      "y": 0,
+      "x": -356.303,
+      "y": -2.283,
       "width": 180,
       "height": 160,
       "anchorX": 0.5,
@@ -166,7 +166,7 @@
     },
     "BattleReplayRow/PlayerListArea/PlayerListLeft": {
       "path": "BattleReplayRow/PlayerListArea/PlayerListLeft",
-      "x": -140,
+      "x": -87.493,
       "y": 0,
       "width": 250,
       "height": 150,
@@ -177,26 +177,6 @@
       "active": true,
       "opacity": 255,
       "zIndex": 0,
-      "color": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      }
-    },
-    "BattleReplayRow/PlayerListArea/PlayerListRight": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight",
-      "x": 150,
-      "y": 0,
-      "width": 250,
-      "height": 150,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 1,
       "color": {
         "r": 255,
         "g": 255,
@@ -256,58 +236,6 @@
         "verticalAlign": 1
       }
     },
-    "BattleReplayRow/PlayerListArea/PlayerListRight/Name1": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Name1",
-      "x": -70,
-      "y": 55,
-      "width": 130,
-      "height": 28,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 0,
-      "color": {
-        "r": 50,
-        "g": 110,
-        "b": 210,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 20,
-        "lineHeight": 25,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
-    "BattleReplayRow/PlayerListArea/PlayerListRight/Score1": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Score1",
-      "x": 78,
-      "y": 55,
-      "width": 75,
-      "height": 28,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 1,
-      "color": {
-        "r": 42,
-        "g": 155,
-        "b": 48,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 20,
-        "lineHeight": 25,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
     "BattleReplayRow/PlayerListArea/PlayerListLeft/Name2": {
       "path": "BattleReplayRow/PlayerListArea/PlayerListLeft/Name2",
       "x": -70,
@@ -336,58 +264,6 @@
     },
     "BattleReplayRow/PlayerListArea/PlayerListLeft/Score2": {
       "path": "BattleReplayRow/PlayerListArea/PlayerListLeft/Score2",
-      "x": 78,
-      "y": 19,
-      "width": 75,
-      "height": 28,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 3,
-      "color": {
-        "r": 190,
-        "g": 55,
-        "b": 35,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 20,
-        "lineHeight": 25,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
-    "BattleReplayRow/PlayerListArea/PlayerListRight/Name2": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Name2",
-      "x": -70,
-      "y": 19,
-      "width": 130,
-      "height": 28,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 2,
-      "color": {
-        "r": 50,
-        "g": 110,
-        "b": 210,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 20,
-        "lineHeight": 25,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
-    "BattleReplayRow/PlayerListArea/PlayerListRight/Score2": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Score2",
       "x": 78,
       "y": 19,
       "width": 75,
@@ -464,58 +340,6 @@
         "verticalAlign": 1
       }
     },
-    "BattleReplayRow/PlayerListArea/PlayerListRight/Name3": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Name3",
-      "x": -70,
-      "y": -17,
-      "width": 130,
-      "height": 28,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 4,
-      "color": {
-        "r": 50,
-        "g": 110,
-        "b": 210,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 20,
-        "lineHeight": 25,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
-    "BattleReplayRow/PlayerListArea/PlayerListRight/Score3": {
-      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Score3",
-      "x": 78,
-      "y": -17,
-      "width": 75,
-      "height": 28,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 5,
-      "color": {
-        "r": 190,
-        "g": 55,
-        "b": 35,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 20,
-        "lineHeight": 25,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
     "BattleReplayRow/PlayerListArea/PlayerListLeft/Name4": {
       "path": "BattleReplayRow/PlayerListArea/PlayerListLeft/Name4",
       "x": -70,
@@ -555,6 +379,182 @@
       "active": true,
       "opacity": 255,
       "zIndex": 7,
+      "color": {
+        "r": 190,
+        "g": 55,
+        "b": 35,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight",
+      "x": 161.415,
+      "y": 0,
+      "width": 250,
+      "height": 150,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight/Name1": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Name1",
+      "x": -70,
+      "y": 55,
+      "width": 130,
+      "height": 28,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 50,
+        "g": 110,
+        "b": 210,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight/Score1": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Score1",
+      "x": 78,
+      "y": 55,
+      "width": 75,
+      "height": 28,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 42,
+        "g": 155,
+        "b": 48,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight/Name2": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Name2",
+      "x": -70,
+      "y": 19,
+      "width": 130,
+      "height": 28,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 2,
+      "color": {
+        "r": 50,
+        "g": 110,
+        "b": 210,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight/Score2": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Score2",
+      "x": 78,
+      "y": 19,
+      "width": 75,
+      "height": 28,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
+      "color": {
+        "r": 190,
+        "g": 55,
+        "b": 35,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight/Name3": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Name3",
+      "x": -70,
+      "y": -17,
+      "width": 130,
+      "height": 28,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 4,
+      "color": {
+        "r": 50,
+        "g": 110,
+        "b": 210,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 20,
+        "lineHeight": 25,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayRow/PlayerListArea/PlayerListRight/Score3": {
+      "path": "BattleReplayRow/PlayerListArea/PlayerListRight/Score3",
+      "x": 78,
+      "y": -17,
+      "width": 75,
+      "height": 28,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 5,
       "color": {
         "r": 190,
         "g": 55,

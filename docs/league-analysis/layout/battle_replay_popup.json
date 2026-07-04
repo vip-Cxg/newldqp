@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleReplayPopup.prefab",
-  "generatedAt": "2026-07-04T19:34:51.979Z",
+  "generatedAt": "2026-07-04T20:48:52.925Z",
   "nodes": {
     "BattleReplayPopup": {
       "path": "BattleReplayPopup",
@@ -278,7 +278,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 0,
+      "zIndex": 3,
       "color": {
         "r": 255,
         "g": 255,
@@ -294,9 +294,35 @@
     "BattleReplayPopup/PanelRoot/Content/RoomLabel": {
       "path": "BattleReplayPopup/PanelRoot/Content/RoomLabel",
       "x": -330,
-      "y": 206,
-      "width": 250,
-      "height": 42,
+      "y": 185,
+      "width": 240,
+      "height": 40,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayPopup/PanelRoot/Content/RoundLabel": {
+      "path": "BattleReplayPopup/PanelRoot/Content/RoundLabel",
+      "x": -70,
+      "y": 185,
+      "width": 160,
+      "height": 40,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -317,12 +343,12 @@
         "verticalAlign": 1
       }
     },
-    "BattleReplayPopup/PanelRoot/Content/RoundLabel": {
-      "path": "BattleReplayPopup/PanelRoot/Content/RoundLabel",
-      "x": -70,
-      "y": 206,
-      "width": 170,
-      "height": 42,
+    "BattleReplayPopup/PanelRoot/Content/ScrollView": {
+      "path": "BattleReplayPopup/PanelRoot/Content/ScrollView",
+      "x": 95,
+      "y": -25,
+      "width": 680,
+      "height": 360,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -330,32 +356,6 @@
       "active": true,
       "opacity": 255,
       "zIndex": 2,
-      "color": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      },
-      "label": {
-        "fontSize": 24,
-        "lineHeight": 30,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
-      }
-    },
-    "BattleReplayPopup/PanelRoot/Content/ScrollView": {
-      "path": "BattleReplayPopup/PanelRoot/Content/ScrollView",
-      "x": 0,
-      "y": -38,
-      "width": 920,
-      "height": 430,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 3,
       "color": {
         "r": 255,
         "g": 255,
@@ -370,8 +370,8 @@
       "path": "BattleReplayPopup/PanelRoot/Content/ScrollView/view",
       "x": 0,
       "y": 0,
-      "width": 920,
-      "height": 430,
+      "width": 680,
+      "height": 360,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -388,11 +388,11 @@
     },
     "BattleReplayPopup/PanelRoot/Content/ScrollView/view/content": {
       "path": "BattleReplayPopup/PanelRoot/Content/ScrollView/view/content",
-      "x": 0,
-      "y": 215,
-      "width": 920,
-      "height": 1050,
-      "anchorX": 0.5,
+      "x": -340,
+      "y": 180,
+      "width": 680,
+      "height": 900,
+      "anchorX": 0,
       "anchorY": 1,
       "scaleX": 1,
       "scaleY": 1,

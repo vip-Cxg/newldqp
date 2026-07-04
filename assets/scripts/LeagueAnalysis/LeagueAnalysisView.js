@@ -1,3 +1,6 @@
+var LeagueAnalysisApi = require("./LeagueAnalysisApi");
+var LeagueAnalysisMapper = require("./LeagueAnalysisMapper");
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -13,7 +16,9 @@ cc.Class({
     onLoad: function () {
         this.cacheNodes();
         this.bindButtons();
-        this.setData(this.mockMembers());
+        this.page = 1;
+        this.pageSize = 20;
+        this.loadMembers();
     },
     cacheNodes: function () {
         this.pageRoot = this.node.getChildByName('PageRoot');
@@ -80,13 +85,30 @@ cc.Class({
             fn();
         }, this);
     },
+    loadMembers: function (options) {
+        options = options || {};
+        var req = {
+            page: options.page || this.page || 1,
+            pageSize: options.pageSize || this.pageSize || 20
+        };
+        if (options.keywords) req.keywords = options.keywords;
+        LeagueAnalysisApi.members(req).then(function (res) {
+            var data = LeagueAnalysisMapper.normalizeMemberList(res);
+            this.members = data.rows;
+            this.setData(this.members);
+        }.bind(this)).catch(function (err) {
+            cc.log('[LeagueAnalysisView] members fallback', err);
+            this.setData(this.mockMembers());
+        }.bind(this));
+    },
     setData: function (list) {
+        list = list || [];
         if (!this.content || !this.rowPrefab) return;
         this.content.removeAllChildren();
         var rowH = 184;
         var spacingY = 4;
         var contentW = this.content.width || 1028;
-        this.content.setAnchorPoint(0, 1);
+        this.content.setAnchorPoint(0.5, 1);
         this.content.setContentSize(contentW, Math.max(372, list.length * (rowH + spacingY)));
         for (var i = 0; i < list.length; i++) {
             var rowNode = cc.instantiate(this.rowPrefab);
@@ -113,15 +135,34 @@ cc.Class({
         }
         return node;
     },
-    showSearchPopup: function () { this.openPopup(this.searchPopupPrefab, { title: '查询成员' }); },
-    showSetPartnerPopup: function (data) { this.openPopup(this.setPartnerPopupPrefab, data); },
+    showSearchPopup: function () { this.openPopup(this.searchPopupPrefab, {
+        title: '查询成员',
+        onSubmit: function (userID) {
+            this.loadMembers({ page: 1, pageSize: this.pageSize, keywords: userID });
+        }.bind(this)
+    }); },
+    showSetPartnerPopup: function (data) { this.openPopup(this.setPartnerPopupPrefab, {
+        user: data,
+        onSubmit: function (payload) {
+            return LeagueAnalysisApi.setPartner({
+                userID: data.userID || data.userId,
+                roomRate: payload.roomRate,
+                waterRate: payload.waterRate
+            }).then(function () {
+                this.loadMembers();
+            }.bind(this));
+        }.bind(this)
+    }); },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
     showBattleReplayPopup: function (data) { this.openPopup(this.battleReplayPopupPrefab, data); },
     showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, { user: data, mode: mode }); },
     showLimitConfirm: function (data) {
-        this.openPopup(this.confirmPopupPrefab, { message: '确认禁止该玩家游戏？', onOK: function () {
-            data.banned = true;
-            this.setData(this.members);
+        var forbidden = !data.forbidden;
+        this.openPopup(this.confirmPopupPrefab, { message: forbidden ? '确认禁止该玩家游戏？' : '确认解除禁止？', onOK: function () {
+            LeagueAnalysisApi.updateForbidden(data.userID || data.userId, forbidden).then(function () {
+                data.forbidden = forbidden;
+                this.setData(this.members);
+            }.bind(this));
         }.bind(this) });
     },
     mockMembers: function () {

@@ -1,10 +1,57 @@
 cc.Class({
     extends: cc.Component,
-    properties: {},
-    init:function(data,owner){this.data=data||{};this.owner=owner;this.cacheNodes();this.bindAll();},
+    properties:{
+        rowPrefab: cc.Prefab
+    },
+    init:function(data,owner){
+        this.data=data||{};
+        this.owner=owner;
+        this.rows=this.mockRows();
+        this.cacheNodes();
+        this.bindAll();
+        this.renderRows();
+    },
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
-    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);this.bind('BtnReplay',function(){if(this.owner)this.owner.showBattleReplayPopup(this.data);});this.bind('BtnOpenReplay',function(){cc.log('[BattleReplayPopup] open replay',this.data);});},
+    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);},
+    renderRows:function(){
+        var content=this.nodes.content;
+        if(!content||!this.rowPrefab)return;
+        content.removeAllChildren();
+        var rowH=188, spacingY=18, contentW=content.width||920;
+        content.setAnchorPoint(0.5,1);
+        content.setContentSize(contentW,Math.max(430,this.rows.length*(rowH+spacingY)));
+        for(var i=0;i<this.rows.length;i++){
+            var node=cc.instantiate(this.rowPrefab);
+            var comp=node.getComponent('BattleReplayRow');
+            if(comp)comp.setData(this.rows[i],{
+                viewReplay:this.viewReplay.bind(this)
+            });
+            content.addChild(node);
+        }
+    },
+    viewReplay:function(row){cc.log('[BattleReplayPopup] view replay',row);},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    mockRows:function(){
+        function players(offset){
+            return [
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:offset%2?'-36':'+18'},
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:'-180'},
+                {name:'玩家昵称...',score:'+18'},
+                {name:'玩家昵称...',score:offset%2?'+36':'-18'},
+                {name:'玩家昵称...',score:'+18'}
+            ];
+        }
+        return [
+            {result:'lose',round:'1/7',players:players(1)},
+            {result:'win',round:'2/7',players:players(2)},
+            {result:'lose',round:'3/7',players:players(3)},
+            {result:'win',round:'4/7',players:players(4)},
+            {result:'lose',round:'5/7',players:players(5)}
+        ];
+    },
     close:function(){this.node.destroy();}
 });

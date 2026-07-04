@@ -23,7 +23,17 @@ cc.Class({
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, function(e){ if(e&&e.stopPropagation)e.stopPropagation(); fn.call(this); }, this);
     },
-    append: function (n) { if(this.input.length>=6) return; this.input+=n; this.refresh(); if(this.input.length===6) cc.log('[SearchMemberPopup] submit id', this.input); },
+    append: function (n) {
+        if(this.input.length>=6) return;
+        this.input+=n;
+        this.refresh();
+        if(this.input.length===6) this.submit();
+    },
+    submit: function () {
+        cc.log('[SearchMemberPopup] submit id', this.input);
+        if (this.data && this.data.onSubmit) this.data.onSubmit(this.input);
+        this.close();
+    },
     refresh: function () { var label=this.nodes.InputLabel&&this.nodes.InputLabel.getComponent(cc.Label); if(label) label.string=this.input; },
     close: function () { this.node.destroy(); }
 });

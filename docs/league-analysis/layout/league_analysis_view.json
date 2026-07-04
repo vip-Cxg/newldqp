@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/LeagueAnalysisView.prefab",
-  "generatedAt": "2026-07-04T19:34:51.923Z",
+  "generatedAt": "2026-07-04T20:48:52.895Z",
   "nodes": {
     "LeagueAnalysisView": {
       "path": "LeagueAnalysisView",
@@ -25,9 +25,9 @@
     },
     "LeagueAnalysisView/MainFrame": {
       "path": "LeagueAnalysisView/MainFrame",
-      "x": -3,
-      "y": 3,
-      "width": 1311,
+      "x": 0,
+      "y": 0,
+      "width": 1334,
       "height": 717,
       "anchorX": 0.5,
       "anchorY": 0.5,
@@ -48,6 +48,31 @@
         "type": 1
       }
     },
+    "LeagueAnalysisView/league_bg_out": {
+      "path": "LeagueAnalysisView/league_bg_out",
+      "x": 0,
+      "y": -37.5,
+      "width": 1314,
+      "height": 635,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 1,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_out",
+        "uuid": "1e77b795-ddec-4698-9541-dc49a8b1f168",
+        "type": 0
+      }
+    },
     "LeagueAnalysisView/Title": {
       "path": "LeagueAnalysisView/Title",
       "x": 0,
@@ -60,7 +85,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 1,
+      "zIndex": 2,
       "color": {
         "r": 255,
         "g": 255,
@@ -86,7 +111,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 2,
+      "zIndex": 3,
       "color": {
         "r": 255,
         "g": 255,
@@ -140,7 +165,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 3,
+      "zIndex": 4,
       "color": {
         "r": 255,
         "g": 255,
@@ -878,7 +903,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 4,
+      "zIndex": 5,
       "color": {
         "r": 255,
         "g": 255,
@@ -898,7 +923,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 5,
+      "zIndex": 6,
       "color": {
         "r": 255,
         "g": 255,
