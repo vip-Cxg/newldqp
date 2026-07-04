@@ -1,0 +1,15 @@
+{
+  "name": "ui-generator",
+  "version": "1.0.0",
+  "description": "LeagueAnalysis prefab generator for Cocos Creator 2.4.14",
+  "main": "main.js",
+  "author": "codex",
+  "main-menu": {
+    "Tools/LeagueAnalysis/Generate Member Module": {
+      "message": "ui-generator:generate-member-module"
+    },
+    "Tools/LeagueAnalysis/Validate Member Module": {
+      "message": "ui-generator:validate-member-module"
+    }
+  }
+}
