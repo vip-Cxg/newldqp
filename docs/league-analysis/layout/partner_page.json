@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/PartnerPage.prefab",
-  "generatedAt": "2026-07-05T15:24:09.110Z",
+  "generatedAt": "2026-07-05T17:05:49.799Z",
   "nodes": {
     "PartnerPage": {
       "path": "PartnerPage",
@@ -98,7 +98,7 @@
       "x": -392,
       "y": 257,
       "width": 150,
-      "height": 48,
+      "height": 52,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -114,17 +114,17 @@
       },
       "label": {
         "fontSize": 24,
-        "lineHeight": 30,
+        "lineHeight": 28,
         "horizontalAlign": 1,
         "verticalAlign": 1
       }
     },
     "PartnerPage/Content/HeaderStatus": {
       "path": "PartnerPage/Content/HeaderStatus",
-      "x": -238,
+      "x": -210,
       "y": 257,
-      "width": 100,
-      "height": 48,
+      "width": 175,
+      "height": 56,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -139,18 +139,18 @@
         "a": 255
       },
       "label": {
-        "fontSize": 22,
-        "lineHeight": 28,
+        "fontSize": 19,
+        "lineHeight": 22,
         "horizontalAlign": 1,
         "verticalAlign": 1
       }
     },
     "PartnerPage/Content/HeaderRounds": {
       "path": "PartnerPage/Content/HeaderRounds",
-      "x": -40,
+      "x": -20,
       "y": 257,
-      "width": 120,
-      "height": 52,
+      "width": 130,
+      "height": 56,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -185,8 +185,8 @@
         "a": 255
       },
       "label": {
-        "fontSize": 21,
-        "lineHeight": 27,
+        "fontSize": 20,
+        "lineHeight": 23,
         "horizontalAlign": 1,
         "verticalAlign": 1
       }
@@ -219,10 +219,10 @@
     },
     "PartnerPage/Content/HeaderContribution": {
       "path": "PartnerPage/Content/HeaderContribution",
-      "x": 124,
+      "x": 145,
       "y": 257,
-      "width": 120,
-      "height": 52,
+      "width": 130,
+      "height": 56,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -257,8 +257,8 @@
         "a": 255
       },
       "label": {
-        "fontSize": 21,
-        "lineHeight": 27,
+        "fontSize": 20,
+        "lineHeight": 23,
         "horizontalAlign": 1,
         "verticalAlign": 1
       }
@@ -291,10 +291,10 @@
     },
     "PartnerPage/Content/HeaderResult": {
       "path": "PartnerPage/Content/HeaderResult",
-      "x": 284,
+      "x": 315,
       "y": 257,
-      "width": 120,
-      "height": 52,
+      "width": 130,
+      "height": 56,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -329,8 +329,8 @@
         "a": 255
       },
       "label": {
-        "fontSize": 21,
-        "lineHeight": 27,
+        "fontSize": 20,
+        "lineHeight": 23,
         "horizontalAlign": 1,
         "verticalAlign": 1
       }
@@ -363,10 +363,10 @@
     },
     "PartnerPage/Content/HeaderScore": {
       "path": "PartnerPage/Content/HeaderScore",
-      "x": 438,
+      "x": 460,
       "y": 257,
       "width": 120,
-      "height": 48,
+      "height": 56,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -381,8 +381,8 @@
         "a": 255
       },
       "label": {
-        "fontSize": 22,
-        "lineHeight": 28,
+        "fontSize": 20,
+        "lineHeight": 23,
         "horizontalAlign": 1,
         "verticalAlign": 1
       }
