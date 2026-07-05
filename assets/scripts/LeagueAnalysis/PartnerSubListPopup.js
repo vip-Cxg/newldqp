@@ -26,28 +26,42 @@ cc.Class({
     renderSummary: function () {
         var user = this.data.user || this.data || {};
         this.text('Title', '查看下级');
-        this.text('RoomLabel', '玩家信息\n' + (user.userID || user.userId || '123456'));
-        this.text('RoundLabel', '');
+        this.text('SuperiorName', user.nickname || user.name || '玩家信息');
+        this.text('SuperiorID', String(user.userID || user.userId || user.id || '123456'));
     },
     getRows: function () {
         var rows = this.data.children || [];
-        if (rows.length) return rows;
+        if (rows.length) {
+            var filtered = [];
+            for (var r = 0; r < rows.length; r++) {
+                var item = rows[r] || {};
+                var role = item.role || item.proxyRole || '';
+                var isLeader = role === 'leader' || role === 'owner' || item.partner || item.isPartner || item.children && item.children.length;
+                if (this.mode === 'leader' && isLeader) filtered.push(item);
+                if (this.mode === 'member' && !isLeader) filtered.push(item);
+            }
+            return filtered;
+        }
         var list = [];
-        for (var i = 0; i < 6; i++) {
+        var count = this.mode === 'leader' ? 2 : 1;
+        for (var i = 0; i < count; i++) {
             list.push({
                 userID: 323456 + i,
                 name: (this.mode === 'leader' ? '下级队长' : '下级成员') + (i + 1),
                 role: this.mode === 'leader' ? (i % 2 ? 'proxy' : 'leader') : 'user',
                 partner: this.mode === 'leader',
-                peopleCount: i + 1,
                 roomRate: 60,
-                waterRate: 40,
+                waterRate: 99,
+                rounds: 99,
                 todayRounds: 99,
                 yesterdayRounds: 0,
                 todayContribution: 9999,
                 yesterdayContribution: 0,
                 todayIncome: 9999,
                 yesterdayIncome: 0,
+                winnerCount: 0,
+                totalWin: 999900,
+                contribution: 999900,
                 score: 999900,
                 warningScore: 0,
                 children: i % 2 === 0 ? [{}] : []
@@ -58,27 +72,62 @@ cc.Class({
     renderRows: function () {
         this.setModeButton('BtnLeader', this.mode === 'leader');
         this.setModeButton('BtnMember', this.mode === 'member');
+        this.renderHeader();
         var content = this.nodes.content;
         if (!content || !this.rowPrefab) return;
         var rows = this.getRows();
         content.removeAllChildren();
-        var rowH = 184;
-        var spacingY = 8;
+        var rowH = 82;
+        var spacingY = 10;
         content.setAnchorPoint(0.5, 1);
-        content.setContentSize(content.width || 920, Math.max(430, rows.length * (rowH + spacingY)));
+        content.setContentSize(content.width || 790, Math.max(242, rows.length * (rowH + spacingY)));
         for (var i = 0; i < rows.length; i++) {
             var node = cc.instantiate(this.rowPrefab);
-            node.scale = 0.86;
-            var comp = node.getComponent('PartnerRow');
-            if (comp) comp.setData(rows[i], {
-                setPartner: this.openSetPartner.bind(this),
-                warning: this.openWarning.bind(this),
-                viewSub: this.openSubList.bind(this),
-                addScore: this.openAddScore.bind(this),
-                subScore: this.openSubScore.bind(this)
-            });
+            var comp = node.getComponent('PartnerSubRow') || node.getComponent('PartnerRow');
+            if (comp && comp.setData) comp.setData(rows[i], this.mode);
             content.addChild(node);
         }
+    },
+    renderHeader: function () {
+        var leader = this.mode === 'leader';
+        this.text('HeaderPlayerInfo', '玩家信息');
+        this.text('HeaderRounds', !leader ? '局数' : '');
+        this.text('HeaderScore', !leader ? '积分' : '积分');
+        this.text('HeaderWinnerCount', !leader ? '大赢家次数' : '');
+        this.text('HeaderTotalWin', !leader ? '总赢分' : '');
+        this.text('HeaderContribution', !leader ? '贡献分' : '');
+        this.text('HeaderRate', !leader ? '' : '比例');
+        this.text('HeaderYesterday', !leader ? '' : '昨日收益\n昨日局数');
+        this.text('HeaderToday', !leader ? '' : '今日收益\n今日局数');
+        this.setHeaderNode('HeaderRounds', !leader);
+        this.setHeaderNode('HeaderWinnerCount', !leader);
+        this.setHeaderNode('HeaderTotalWin', !leader);
+        this.setHeaderNode('HeaderContribution', !leader);
+        this.setHeaderNode('HeaderRate', leader);
+        this.setHeaderNode('HeaderYesterday', leader);
+        this.setHeaderNode('HeaderToday', leader);
+        this.placeHeader('HeaderPlayerInfo', -313, 220);
+        if (!leader) {
+            this.placeHeader('HeaderRounds', -144, 220);
+            this.placeHeader('HeaderScore', -35, 220);
+            this.placeHeader('HeaderWinnerCount', 88, 220);
+            this.placeHeader('HeaderTotalWin', 222, 220);
+            this.placeHeader('HeaderContribution', 337, 220);
+        } else {
+            this.placeHeader('HeaderRate', -125, 220);
+            this.placeHeader('HeaderYesterday', 23, 220);
+            this.placeHeader('HeaderToday', 192, 220);
+            this.placeHeader('HeaderScore', 346, 220);
+        }
+    },
+    setHeaderNode: function (name, active) {
+        if (this.nodes[name]) this.nodes[name].active = !!active;
+    },
+    placeHeader: function (name, x, y) {
+        var node = this.nodes[name];
+        if (!node) return;
+        node.active = true;
+        node.setPosition(x, y);
     },
     openSetPartner: function (row) {
         if (this.owner && this.owner.showSetPartnerPopup) this.owner.showSetPartnerPopup(row);
