@@ -31,7 +31,7 @@ cc.Class({
         this.text('YesterdayContribution', this.data.yesterdayIncome || this.data.yesterdayContribution || this.data.ydFee || 0);
         this.text('TodayResult', this.data.todayContribution || this.data.todayResult || this.data.result || 0);
         this.text('YesterdayResult', this.data.yesterdayContribution || this.data.yesterdayResult || 0);
-        this.text('Score', this.formatScore(this.data.score));
+        this.text('Score', this.formatScore(this.data.score) + '\n' + this.formatScore(this.data.warningScore || this.data.warning || this.data.limitScore || 0));
         this.text('TodayLabel', '今日：' + (this.data.todayIncome || this.data.todayContribution || this.data.today || 0));
         this.text('YesterdayLabel', '昨日：' + (this.data.yesterdayIncome || this.data.yesterdayContribution || this.data.yesterday || 0));
 
@@ -39,13 +39,15 @@ cc.Class({
         var roomRate = this.data.roomRate != null ? this.data.roomRate : (this.data.level != null ? this.data.level : 0);
         var waterRate = this.data.waterRate != null ? this.data.waterRate : (this.data.shuffleLevel != null ? this.data.shuffleLevel : 0);
         this.text('PeopleCount', peopleText);
-        this.text('Rate', roomRate + '% ' + waterRate + '%');
-        this.text('Warning', this.formatScore(this.data.warningScore || this.data.warning || this.data.limitScore || 0));
+        this.text('RoomRate', roomRate + '%');
+        this.text('WaterRate',  waterRate + '%');
 
         if (this.nodes.RoleBadge) this.nodes.RoleBadge.active = true;
         if (this.nodes.ZXBadge) this.nodes.ZXBadge.active = !isLeader;
         if (this.nodes.DZBadge) this.nodes.DZBadge.active = !!isLeader;
         if (this.nodes.ForbiddenStamp) this.nodes.ForbiddenStamp.active = false;
+        if (this.nodes.BtnAdjustRate) this.nodes.BtnAdjustRate.active = !isLeader;
+        if (this.nodes.BtnWarning) this.nodes.BtnWarning.active = !isLeader;
         if (this.nodes.BtnAdjustRate) this.textButton('BtnAdjustRate', '调整比例');
         if (this.nodes.BtnWarning) this.textButton('BtnWarning', '警戒值');
         if (this.nodes.BtnViewSub) this.textButton('BtnViewSub', '查看下级');

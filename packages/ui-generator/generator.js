@@ -1501,7 +1501,7 @@ function idPopupJs(name) {
     collect: function (node) { this.nodes[node.name] = node; for (var i=0;i<node.children.length;i++) this.collect(node.children[i]); },
     bindAll: function () {
         this.bind('BtnClose', this.close);
-        this.bind('Mask', this.close);
+        this.block('Mask');
         for (var i=0;i<=9;i++) this.bind('Key_' + i, this.append.bind(this, String(i)));
         this.bind('Key_重输', function(){ this.input=''; this.refresh(); });
         this.bind('Key_删除', function(){ this.input=this.input.slice(0,-1); this.refresh(); });
@@ -1510,6 +1510,11 @@ function idPopupJs(name) {
         var node=this.nodes[name]; if(!node) return;
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, function(e){ if(e&&e.stopPropagation)e.stopPropagation(); fn.call(this); }, this);
+    },
+    block: function (name) {
+        var node=this.nodes[name]; if(!node) return;
+        node.off(cc.Node.EventType.TOUCH_END);
+        node.on(cc.Node.EventType.TOUCH_END, function(e){ if(e&&e.stopPropagation)e.stopPropagation(); }, this);
     },
     append: function (n) { if(this.input.length>=6) return; this.input+=n; this.refresh(); if(this.input.length===6) cc.log('[${name}] submit id', this.input); },
     refresh: function () { var label=this.nodes.InputLabel&&this.nodes.InputLabel.getComponent(cc.Label); if(label) label.string=this.input; },
@@ -1528,7 +1533,7 @@ function scorePopupJs() {
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
     bindAll:function(){
-        this.bind('BtnClose',this.close); this.bind('Mask',this.close);
+        this.bind('BtnClose',this.close); this.block('Mask');
         this.bind('BtnAddMode',function(){this.mode='add';this.refresh();});
         this.bind('BtnSubMode',function(){this.mode='sub';this.refresh();});
         for(var i=0;i<=9;i++)this.bind('Key'+i,this.append.bind(this,String(i)));
@@ -1537,6 +1542,7 @@ function scorePopupJs() {
         this.bind('BtnConfirm',function(){cc.log('[ScorePopup]',this.mode,this.input,this.data.user);this.close();});
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     append:function(n){if(n==='.'&&this.input.indexOf('.')>=0)return;if(this.input==='0'&&n!=='.')this.input='';if(this.input.length>=8)return;this.input+=n;this.refresh();},
     refresh:function(){this.text('Title','加减积分');this.text('InputLabel',(this.mode==='sub'?'-':'+')+(this.input||'0'));this.text('MyScoreLabel','我的积分：'+((this.data.user&&this.data.user.score)||0));this.setModeButton('BtnAddMode',this.mode==='add');this.setModeButton('BtnSubMode',this.mode==='sub');},
     setModeButton:function(name,selected){var node=this.nodes[name];if(!node)return;var normal=node.getChildByName('Normal');var selectedNode=node.getChildByName('Selected');if(normal)normal.active=!selected;if(selectedNode)selectedNode.active=selected;},
@@ -1552,8 +1558,9 @@ function setPartnerPopupJs() {
     init:function(data){this.data=data||{};this.cacheNodes();this.bindAll();},
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
-    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);this.bind('BtnConfirm',function(){cc.log('[SetPartnerPopup]',this.data);this.close();});},
+    bindAll:function(){this.bind('BtnClose',this.close);this.block('Mask');this.bind('BtnConfirm',function(){cc.log('[SetPartnerPopup]',this.data);this.close();});},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     close:function(){this.node.destroy();}
 });\n`;
 }
@@ -1576,7 +1583,7 @@ function battleDetailPopupJs() {
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
     bindAll:function(){
         this.bind('BtnClose',this.close);
-        this.bind('Mask',this.close);
+        this.block('Mask');
         for(var i=1;i<=7;i++)this.bind('DateButton'+i,this.onDateClick.bind(this,i));
     },
     renderRows:function(){
@@ -1615,6 +1622,7 @@ function battleDetailPopupJs() {
         cc.log('[BattleDetailPopup] date click',index);
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     mockRows:function(){
         return [{
             roomID:'123456',
@@ -1689,7 +1697,7 @@ function battleReplayPopupJs() {
     },
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
-    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);},
+    bindAll:function(){this.bind('BtnClose',this.close);this.block('Mask');},
     renderRows:function(){
         var content=this.nodes.content;
         if(!content||!this.rowPrefab)return;
@@ -1708,6 +1716,7 @@ function battleReplayPopupJs() {
     },
     viewReplay:function(row){cc.log('[BattleReplayPopup] view replay',row);},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     mockRows:function(){
         function players(offset){
             return [
@@ -1774,8 +1783,9 @@ function simplePopupJs(name) {
     init:function(data,owner){this.data=data||{};this.owner=owner;this.cacheNodes();this.bindAll();},
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
-    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);this.bind('BtnReplay',function(){if(this.owner)this.owner.showBattleReplayPopup(this.data);});this.bind('BtnOpenReplay',function(){cc.log('[${name}] open replay',this.data);});},
+    bindAll:function(){this.bind('BtnClose',this.close);this.block('Mask');this.bind('BtnReplay',function(){if(this.owner)this.owner.showBattleReplayPopup(this.data);});this.bind('BtnOpenReplay',function(){cc.log('[${name}] open replay',this.data);});},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     close:function(){this.node.destroy();}
 });\n`;
 }
@@ -1787,8 +1797,9 @@ function confirmPopupJs() {
     init:function(data){this.data=data||{};this.cacheNodes();this.bindAll();this.text('MessageLabel',this.data.message||'确认操作？');},
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
-    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);this.bind('BtnCancel',this.close);this.bind('BtnOK',function(){if(this.data.onOK)this.data.onOK();this.close();});},
+    bindAll:function(){this.bind('BtnClose',this.close);this.block('Mask');this.bind('BtnCancel',this.close);this.bind('BtnOK',function(){if(this.data.onOK)this.data.onOK();this.close();});},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     text:function(name,v){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=v;},
     close:function(){this.node.destroy();}
 });\n`;

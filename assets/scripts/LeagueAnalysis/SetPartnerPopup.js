@@ -6,7 +6,7 @@ cc.Class({
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
     bindAll:function(){
         this.bind('BtnClose',this.close);
-        this.bind('Mask',this.close);
+        this.block('Mask');
         this.bind('BtnConfirm',this.submit);
     },
     refresh:function(){
@@ -45,6 +45,7 @@ cc.Class({
         this.close();
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     text:function(name,v){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=v;},
     close:function(){this.node.destroy();}
 });

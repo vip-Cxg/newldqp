@@ -13,7 +13,7 @@ cc.Class({
     collect: function (node) { this.nodes[node.name] = node; for (var i=0;i<node.children.length;i++) this.collect(node.children[i]); },
     bindAll: function () {
         this.bind('BtnClose', this.close);
-        this.bind('Mask', this.close);
+        this.block('Mask');
         for (var i=0;i<=9;i++) this.bind('Key_' + i, this.append.bind(this, String(i)));
         this.bind('Key_重输', function(){ this.input=''; this.refresh(); });
         this.bind('Key_删除', function(){ this.input=this.input.slice(0,-1); this.refresh(); });
@@ -22,6 +22,11 @@ cc.Class({
         var node=this.nodes[name]; if(!node) return;
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, function(e){ if(e&&e.stopPropagation)e.stopPropagation(); fn.call(this); }, this);
+    },
+    block: function (name) {
+        var node=this.nodes[name]; if(!node) return;
+        node.off(cc.Node.EventType.TOUCH_END);
+        node.on(cc.Node.EventType.TOUCH_END, function(e){ if(e&&e.stopPropagation)e.stopPropagation(); }, this);
     },
     append: function (n) {
         if(this.input.length>=6) return;

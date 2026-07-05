@@ -15,7 +15,7 @@ cc.Class({
     },
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
-    bindAll:function(){this.bind('BtnClose',this.close);this.bind('Mask',this.close);},
+    bindAll:function(){this.bind('BtnClose',this.close);this.block('Mask');},
     loadRows:function(){
         LeagueAnalysisApi.battleReplay({
             logID:this.data.logID||this.data.id,
@@ -50,6 +50,7 @@ cc.Class({
     },
     viewReplay:function(row){cc.log('[BattleReplayPopup] view replay',row);},
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
     mockRows:function(){
         function players(offset){

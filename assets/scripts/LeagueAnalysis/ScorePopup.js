@@ -8,7 +8,7 @@ cc.Class({
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
     bindAll:function(){
-        this.bind('BtnClose',this.close); this.bind('Mask',this.close);
+        this.bind('BtnClose',this.close); this.block('Mask');
         this.bind('BtnAddMode',function(){this.mode='add';this.refresh();});
         this.bind('BtnSubMode',function(){this.mode='sub';this.refresh();});
         for(var i=0;i<=9;i++)this.bind('Key'+i,this.append.bind(this,String(i)));
@@ -17,6 +17,7 @@ cc.Class({
         this.bind('BtnConfirm',this.submit);
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     append:function(n){if(n==='.'&&this.input.indexOf('.')>=0)return;if(this.input==='0'&&n!=='.')this.input='';if(this.input.length>=8)return;this.input+=n;this.refresh();},
     submit:function(){
         var amount=parseFloat(this.input||'0');

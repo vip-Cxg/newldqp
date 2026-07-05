@@ -4445,6 +4445,12 @@
     },
     "partnerRowPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0013"
+    },
+    "warningPopupPrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0014"
+    },
+    "subListPopupPrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0015"
     }
   },
   {

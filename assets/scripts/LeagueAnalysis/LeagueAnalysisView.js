@@ -11,6 +11,8 @@ cc.Class({
         searchPopupPrefab: cc.Prefab,
         scorePopupPrefab: cc.Prefab,
         setPartnerPopupPrefab: cc.Prefab,
+        warningPopupPrefab: cc.Prefab,
+        subListPopupPrefab: cc.Prefab,
         battleDetailPopupPrefab: cc.Prefab,
         battleReplayPopupPrefab: cc.Prefab,
         confirmPopupPrefab: cc.Prefab
@@ -233,11 +235,25 @@ cc.Class({
     }); },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
     showBattleReplayPopup: function (data) { this.openPopup(this.battleReplayPopupPrefab, data); },
-    showWarningTodo: function () {
-        this.openPopup(this.confirmPopupPrefab, { message: '警戒值功能待接入' });
+    showWarningTodo: function (data) {
+        this.showWarningPopup(data);
     },
-    showViewSubTodo: function () {
-        this.openPopup(this.confirmPopupPrefab, { message: '查看下级功能待接入' });
+    showViewSubTodo: function (data) {
+        this.showSubListPopup(data);
+    },
+    showWarningPopup: function (data) {
+        this.openPopup(this.warningPopupPrefab || this.confirmPopupPrefab, {
+            user: data,
+            onSubmit: function () {
+                this.setData(this.currentTab === 'partner' ? this.partners : this.members);
+            }.bind(this)
+        });
+    },
+    showSubListPopup: function (data) {
+        this.openPopup(this.subListPopupPrefab || this.confirmPopupPrefab, {
+            user: data,
+            children: data && data.children
+        });
     },
     showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, {
         user: data,

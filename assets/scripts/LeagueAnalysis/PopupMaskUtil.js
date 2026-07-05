@@ -23,6 +23,16 @@ function drawGraphicsMask(mask) {
     graphics.fill();
 }
 
+function loadMaskSprite(mask) {
+    var sprite = mask.getComponent(cc.Sprite) || mask.addComponent(cc.Sprite);
+    sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+    cc.loader.loadRes('LeagueAnalysis/bg_mask', cc.SpriteFrame, function (err, frame) {
+        if (err || !cc.isValid(mask)) return;
+        sprite.spriteFrame = frame;
+        sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+    });
+}
+
 module.exports = {
     ensure: function (root) {
         var mask = findNode(root);
@@ -33,7 +43,7 @@ module.exports = {
         if (mask.width < 1000 || mask.height < 600) {
             mask.setContentSize(cc.size(1334, 750));
         }
-        mask.color = cc.Color.BLACK;
+        mask.color = cc.Color.WHITE;
         mask.opacity = mask.opacity > 0 ? mask.opacity : 160;
         mask.zIndex = -999;
 
@@ -43,7 +53,10 @@ module.exports = {
 
         var sprite = mask.getComponent(cc.Sprite);
         if (!sprite || !sprite.spriteFrame) {
+            loadMaskSprite(mask);
             drawGraphicsMask(mask);
+        } else {
+            sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
         }
 
         return mask;
