@@ -1,5 +1,6 @@
 var Connector = require("../../Main/NetWork/Connector");
 var DataBase = require("../../Main/Script/DataBase");
+var Cache = require("../../Main/Script/Cache");
 var GameConfig = require("../../GameBase/GameConfig").GameConfig;
 var App = require("../../script/ui/hall/data/App").App;
 
@@ -19,6 +20,24 @@ function clone(data, withClubID) {
     return output;
 }
 
+function getErrorMessage(err) {
+    if (!err) return "请求失败";
+    if (typeof err === "string") return err;
+    if (err.message) return err.message;
+    if (err.msg) return err.msg;
+    if (err.detail) return err.detail;
+    return "请求失败";
+}
+
+function showErrorTip(err) {
+    var message = getErrorMessage(err);
+    if (Cache && Cache.showTipsMsg) {
+        Cache.showTipsMsg(message);
+    } else if (Cache && Cache.alertTip) {
+        Cache.alertTip(message);
+    }
+}
+
 function request(route, data, mask) {
     var payload = clone(data);
     cc.log("[LeagueAnalysisApi] request", route, payload);
@@ -28,6 +47,7 @@ function request(route, data, mask) {
             resolve(res);
         }, mask == null ? 1 : mask, function (err) {
             console.error("[LeagueAnalysisApi] error", route, err);
+            showErrorTip(err);
             reject(err || { message: "请求失败" });
         });
     });

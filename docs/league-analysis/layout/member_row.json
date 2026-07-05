@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/MemberRow.prefab",
-  "generatedAt": "2026-07-04T20:48:52.903Z",
+  "generatedAt": "2026-07-05T12:53:52.438Z",
   "nodes": {
     "MemberRow": {
       "path": "MemberRow",
@@ -118,7 +118,7 @@
         "a": 255
       },
       "label": {
-        "fontSize": 22,
+        "fontSize": 18,
         "lineHeight": 28,
         "horizontalAlign": 1,
         "verticalAlign": 1
@@ -150,6 +150,31 @@
         "verticalAlign": 1
       }
     },
+    "MemberRow/ForbiddenStamp": {
+      "path": "MemberRow/ForbiddenStamp",
+      "x": -414.524,
+      "y": 43.366,
+      "width": 161,
+      "height": 93,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": false,
+      "opacity": 255,
+      "zIndex": 5,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "sprite": {
+        "assetName": "stamp_banned",
+        "uuid": "28533c58-627f-4baf-9ce1-4778ce97be50",
+        "type": 0
+      }
+    },
     "MemberRow/StatusOnline": {
       "path": "MemberRow/StatusOnline",
       "x": -237,
@@ -162,7 +187,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 5,
+      "zIndex": 6,
       "color": {
         "r": 255,
         "g": 255,
@@ -187,7 +212,7 @@
       "scaleY": 1,
       "active": false,
       "opacity": 255,
-      "zIndex": 6,
+      "zIndex": 7,
       "color": {
         "r": 255,
         "g": 255,
@@ -212,7 +237,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 7,
+      "zIndex": 8,
       "color": {
         "r": 255,
         "g": 255,
@@ -284,7 +309,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 8,
+      "zIndex": 9,
       "color": {
         "r": 255,
         "g": 255,
@@ -356,7 +381,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 9,
+      "zIndex": 10,
       "color": {
         "r": 255,
         "g": 255,
@@ -428,7 +453,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 10,
+      "zIndex": 11,
       "color": {
         "r": 110,
         "g": 62,
@@ -454,7 +479,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 11,
+      "zIndex": 12,
       "color": {
         "r": 181,
         "g": 141,
@@ -479,7 +504,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 12,
+      "zIndex": 13,
       "color": {
         "r": 255,
         "g": 255,
@@ -505,7 +530,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 13,
+      "zIndex": 14,
       "color": {
         "r": 181,
         "g": 141,
@@ -530,7 +555,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 14,
+      "zIndex": 15,
       "color": {
         "r": 255,
         "g": 255,
@@ -556,7 +581,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 15,
+      "zIndex": 16,
       "color": {
         "r": 255,
         "g": 255,
@@ -610,7 +635,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 16,
+      "zIndex": 17,
       "color": {
         "r": 255,
         "g": 255,
@@ -664,7 +689,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 17,
+      "zIndex": 18,
       "color": {
         "r": 255,
         "g": 255,
@@ -718,7 +743,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 18,
+      "zIndex": 19,
       "color": {
         "r": 255,
         "g": 255,
@@ -772,7 +797,7 @@
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 19,
+      "zIndex": 20,
       "color": {
         "r": 255,
         "g": 255,

@@ -33,6 +33,7 @@ cc.Class({
         if (this.nodes.BtnSetPartner) this.nodes.BtnSetPartner.active = role === 'user';
         if (this.nodes.StatusOnline) this.nodes.StatusOnline.active = !!(this.data.online || this.data.isInGame);
         if (this.nodes.StatusOffline) this.nodes.StatusOffline.active = !(this.data.online || this.data.isInGame);
+        this.showForbiddenStamp(this.data.forbidden);
         this.textButton('BtnLimitGame', this.data.forbidden ? '解除禁止' : '禁止游戏');
         this.bind('BtnSetPartner', 'setPartner');
         this.bind('BtnLimitGame', 'limitGame');
@@ -42,7 +43,11 @@ cc.Class({
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);
-        if (label) label.string = value;
+        if (label) {
+            label.string = value;
+            label.enableWrapText = false;
+            label.overflow = cc.Label.Overflow.CLAMP;
+        }
     },
     textButton: function (name, value) {
         var node = this.nodes[name];
@@ -51,9 +56,12 @@ cc.Class({
         if (label) label.string = value;
     },
     formatScore: function (score) {
-        score = Number(score || 0);
-        var value = score / 100;
-        return value.toFixed(2).replace(/\.00$/, '');
+        score = Number(score || 0) / 100;
+        return score.toFixed(2).replace(/\.00$/, '');
+    },
+    showForbiddenStamp: function (active) {
+        this.nodes.ForbiddenStamp.active = !!active;
+        
     },
     bind: function (name, eventName) {
         var node = this.nodes[name];

@@ -33,8 +33,10 @@ cc.Class({
         }
         this.close();
     },
-    refresh:function(){this.text('Title','加减积分');this.text('InputLabel',(this.mode==='sub'?'-':'+')+(this.input||'0'));this.text('MyScoreLabel','我的积分：'+((this.data.user&&this.data.user.score)||0));this.setModeButton('BtnAddMode',this.mode==='add');this.setModeButton('BtnSubMode',this.mode==='sub');},
+    refresh:function(){this.text('Title','加减积分');this.text('InputLabel',(this.mode==='sub'?'-':'+')+(this.input||'0'));this.text('MyScoreLabel','我的积分：'+this.formatScore((this.data.user&&this.data.user.score)||0));this.noWrap('MyScoreLabel');this.noWrap('InputLabel');this.setModeButton('BtnAddMode',this.mode==='add');this.setModeButton('BtnSubMode',this.mode==='sub');},
     setModeButton:function(name,selected){var node=this.nodes[name];if(!node)return;var normal=node.getChildByName('Normal');var selectedNode=node.getChildByName('Selected');if(normal)normal.active=!selected;if(selectedNode)selectedNode.active=selected;},
     text:function(name,v){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=v;},
+    formatScore:function(score){score=Number(score||0)/100;return score.toFixed(2).replace(/\.00$/,'');},
+    noWrap:function(name){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(!l)return;l.enableWrapText=false;l.overflow=cc.Label.Overflow.CLAMP;},
     close:function(){this.node.destroy();}
 });

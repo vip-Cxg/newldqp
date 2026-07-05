@@ -5113,6 +5113,9 @@
     },
     "_enabled": true,
     "currentGame": "ALL",
+    "leagueAnalysisViewPrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0000"
+    },
     "_id": ""
   },
   {

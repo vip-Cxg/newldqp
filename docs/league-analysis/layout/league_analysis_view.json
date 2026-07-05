@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/LeagueAnalysisView.prefab",
-  "generatedAt": "2026-07-04T20:48:52.895Z",
+  "generatedAt": "2026-07-05T12:53:52.427Z",
   "nodes": {
     "LeagueAnalysisView": {
       "path": "LeagueAnalysisView",

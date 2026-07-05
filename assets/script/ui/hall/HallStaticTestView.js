@@ -49,6 +49,7 @@ cc.Class({
 
     properties: {
         currentGame: "ALL",
+        leagueAnalysisViewPrefab: cc.Prefab,
     },
 
     onLoad() {
@@ -262,7 +263,7 @@ cc.Class({
             if (node) node.zIndex = 10;
         });
         this.bindTouch("BottomBar/BtnScore", () => {}, true);
-        this.bindTouch("BottomBar/BtnManage", () => {}, true);
+        this.bindTouch("BottomBar/BtnManage", this.openLeagueAnalysisView, true);
         this.bindTouch("BottomBar/BtnBank", () => {}, true);
         this.bindTouch("BottomBar/BtnQuickJoin", () => {}, true);
         this.playTypeBar = this.getNode("PlayTypeTabs");
@@ -705,6 +706,26 @@ cc.Class({
         this.configureButton(node);
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, handler, this);
+    },
+
+    openLeagueAnalysisView() {
+        if (!this.leagueAnalysisViewPrefab) {
+            console.error("[HallStaticTestView] leagueAnalysisViewPrefab is missing. Please bind assets/prefabs/LeagueAnalysis/LeagueAnalysisView.prefab.");
+            return;
+        }
+        let canvas = cc.find("Canvas") || this.node;
+        let nodeName = "LeagueAnalysisView";
+        let oldNode = canvas.getChildByName(nodeName);
+        if (oldNode && oldNode.isValid) {
+            oldNode.active = true;
+            oldNode.zIndex = 1000;
+            return;
+        }
+        let popNode = cc.instantiate(this.leagueAnalysisViewPrefab);
+        popNode.name = nodeName;
+        popNode.setPosition(cc.v2(0, 0));
+        popNode.zIndex = 1000;
+        canvas.addChild(popNode);
     },
 
     configureButton(node) {
