@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleReplayPopup.prefab",
-  "generatedAt": "2026-07-05T17:05:49.833Z",
+  "generatedAt": "2026-07-05T18:45:34.336Z",
   "nodes": {
     "BattleReplayPopup": {
       "path": "BattleReplayPopup",

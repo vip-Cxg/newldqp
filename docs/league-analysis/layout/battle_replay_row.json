@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleReplayRow.prefab",
-  "generatedAt": "2026-07-05T17:05:49.849Z",
+  "generatedAt": "2026-07-05T18:45:34.357Z",
   "nodes": {
     "BattleReplayRow": {
       "path": "BattleReplayRow",
