@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/SetPartnerPopup.prefab",
-  "generatedAt": "2026-07-05T15:16:34.161Z",
+  "generatedAt": "2026-07-05T15:24:09.125Z",
   "nodes": {
     "SetPartnerPopup": {
       "path": "SetPartnerPopup",
