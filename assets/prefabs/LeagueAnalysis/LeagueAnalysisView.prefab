@@ -4421,6 +4421,36 @@
     "rowPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0003"
     },
+    "partnerPagePrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0012"
+    },
+    "partnerRowPrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0013"
+    },
+    "agentPagePrefab": {
+      "__uuid__": "478ee415-c71c-4396-bafe-5b33276cdad2"
+    },
+    "agentRowPrefab": {
+      "__uuid__": "4cbb1688-dda3-492b-b4cd-739cd19e3c7b"
+    },
+    "rewardDetailPagePrefab": {
+      "__uuid__": "acad9186-f783-4421-ae0b-bf0f74bef15d"
+    },
+    "rewardRowPrefab": {
+      "__uuid__": "0a0febf7-51b5-4d29-9be2-ff099f3e4d89"
+    },
+    "operationPagePrefab": {
+      "__uuid__": "912cbd64-c9ea-4fd6-accb-125ae4fa8d45"
+    },
+    "operationRowPrefab": {
+      "__uuid__": "49beae68-a7c0-42bf-a1b1-f592aaf21eb5"
+    },
+    "rewardWithdrawPagePrefab": {
+      "__uuid__": "c51d745c-d0bc-425a-9a1d-2beacb4cb1be"
+    },
+    "rewardWithdrawRowPrefab": {
+      "__uuid__": "2fe52ad7-3d83-4b0a-abf8-8aee4f21f449"
+    },
     "searchPopupPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0004"
     },
@@ -4429,6 +4459,12 @@
     },
     "setPartnerPopupPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0006"
+    },
+    "warningPopupPrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0014"
+    },
+    "subListPopupPrefab": {
+      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0015"
     },
     "battleDetailPopupPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0007"
@@ -4439,19 +4475,7 @@
     "confirmPopupPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0009"
     },
-    "_id": "",
-    "partnerPagePrefab": {
-      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0012"
-    },
-    "partnerRowPrefab": {
-      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0013"
-    },
-    "warningPopupPrefab": {
-      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0014"
-    },
-    "subListPopupPrefab": {
-      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0015"
-    }
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",

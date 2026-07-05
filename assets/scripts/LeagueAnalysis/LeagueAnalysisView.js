@@ -8,6 +8,14 @@ cc.Class({
         rowPrefab: cc.Prefab,
         partnerPagePrefab: cc.Prefab,
         partnerRowPrefab: cc.Prefab,
+        agentPagePrefab: cc.Prefab,
+        agentRowPrefab: cc.Prefab,
+        rewardDetailPagePrefab: cc.Prefab,
+        rewardRowPrefab: cc.Prefab,
+        operationPagePrefab: cc.Prefab,
+        operationRowPrefab: cc.Prefab,
+        rewardWithdrawPagePrefab: cc.Prefab,
+        rewardWithdrawRowPrefab: cc.Prefab,
         searchPopupPrefab: cc.Prefab,
         scorePopupPrefab: cc.Prefab,
         setPartnerPopupPrefab: cc.Prefab,
@@ -86,6 +94,22 @@ cc.Class({
                     this.showPartnerTab();
                     return;
                 }
+                if (tabName === 'BtnAgentStatistics') {
+                    this.showAgentTab();
+                    return;
+                }
+                if (tabName === 'BtnRewardDetail') {
+                    this.showRewardDetailTab();
+                    return;
+                }
+                if (tabName === 'BtnOperationRecord') {
+                    this.showOperationTab();
+                    return;
+                }
+                if (tabName === 'BtnRewardWithdraw') {
+                    this.showRewardWithdrawTab();
+                    return;
+                }
                 this.setTabSelected(tabName);
             }.bind(this, name));
         }
@@ -114,6 +138,54 @@ cc.Class({
         this.setTabSelected('BtnPartner');
         this.mountPartnerPage();
         this.loadPartners();
+    },
+    showAgentTab: function () {
+        this.currentTab = 'agent';
+        this.setTabSelected('BtnAgentStatistics');
+        this.mountListPage('agent');
+        this.loadGenericList('agent');
+    },
+    showRewardDetailTab: function () {
+        this.currentTab = 'rewardDetail';
+        this.setTabSelected('BtnRewardDetail');
+        this.mountListPage('rewardDetail');
+        this.loadGenericList('rewardDetail');
+    },
+    showOperationTab: function () {
+        this.currentTab = 'operation';
+        this.setTabSelected('BtnOperationRecord');
+        this.mountListPage('operation');
+        this.loadGenericList('operation');
+    },
+    showRewardWithdrawTab: function () {
+        this.currentTab = 'rewardWithdraw';
+        this.setTabSelected('BtnRewardWithdraw');
+        this.mountListPage('rewardWithdraw');
+        this.loadGenericList('rewardWithdraw');
+    },
+    getListConfig: function (tab) {
+        var configs = {
+            member: { page: this.memberPagePrefab, row: this.rowPrefab, rowComp: 'MemberRow', api: 'members', store: 'members' },
+            partner: { page: this.partnerPagePrefab, row: this.partnerRowPrefab, rowComp: 'PartnerRow', api: 'partners', store: 'partners', filter: this.filterPartnerRows.bind(this) },
+            agent: { page: this.agentPagePrefab, row: this.agentRowPrefab, rowComp: 'AgentRow', api: 'agentStats', store: 'agents' },
+            rewardDetail: { page: this.rewardDetailPagePrefab, row: this.rewardRowPrefab, rowComp: 'RewardRow', api: 'rewardDetails', store: 'rewardDetails', summary: this.renderRewardDetailSummary.bind(this) },
+            operation: { page: this.operationPagePrefab, row: this.operationRowPrefab, rowComp: 'OperationRow', api: 'operateLogs', store: 'operations' },
+            rewardWithdraw: { page: this.rewardWithdrawPagePrefab, row: this.rewardWithdrawRowPrefab, rowComp: 'RewardWithdrawRow', api: 'rewardWithdraw', store: 'rewardWithdrawRows', summary: this.renderRewardWithdrawSummary.bind(this) }
+        };
+        return configs[tab || this.currentTab];
+    },
+    mountListPage: function (tab) {
+        var config = this.getListConfig(tab);
+        if (!this.pageRoot || !config || !config.page) {
+            console.error('[LeagueAnalysisView] page prefab missing', tab);
+            return;
+        }
+        this.pageRoot.removeAllChildren();
+        var pageNode = cc.instantiate(config.page);
+        pageNode.name = (tab || this.currentTab) + 'Page';
+        this.pageRoot.addChild(pageNode);
+        pageNode.setPosition(0, 0);
+        this.bindPageContent(pageNode);
     },
     bindClick: function (node, fn) {
         if (!node) return;
@@ -150,11 +222,37 @@ cc.Class({
             var users = res && (res.users || res.data && res.data.users || res.data) || {};
             var rows = users.rows || res.rows || [];
             this.partners = this.filterPartnerRows(rows);
-            if (!this.partners.length) this.partners = this.mockPartners();
             this.setData(this.partners);
         }.bind(this)).catch(function (err) {
-            console.error('[LeagueAnalysisView] partners fallback', err);
-            this.setData(this.mockPartners());
+            console.error('[LeagueAnalysisView] partners load failed', err);
+            this.partners = [];
+            this.setData(this.partners);
+        }.bind(this));
+    },
+    loadGenericList: function (tab, options) {
+        options = options || {};
+        var config = this.getListConfig(tab);
+        if (!config || !LeagueAnalysisApi[config.api]) {
+            console.error('[LeagueAnalysisView] api config missing', tab);
+            return;
+        }
+        var req = {
+            page: options.page || this.page || 1,
+            pageSize: options.pageSize || this.pageSize || 20
+        };
+        if (options.keywords) req.keywords = options.keywords;
+        LeagueAnalysisApi[config.api](req).then(function (res) {
+            var data = res && (res.data || res.detail) || res || {};
+            var rows = data.rows || data.list || res.rows || [];
+            if (config.filter) rows = config.filter(rows);
+            this[config.store] = rows;
+            if (config.summary) config.summary(data);
+            this.setData(rows);
+        }.bind(this)).catch(function (err) {
+            console.error('[LeagueAnalysisView] list load failed', tab, err);
+            this[config.store] = [];
+            if (config.summary) config.summary({});
+            this.setData([]);
         }.bind(this));
     },
     filterPartnerRows: function (rows) {
@@ -171,8 +269,9 @@ cc.Class({
     },
     setData: function (list) {
         list = list || [];
-        var rowPrefab = this.currentTab === 'partner' ? this.partnerRowPrefab : this.rowPrefab;
-        var rowCompName = this.currentTab === 'partner' ? 'PartnerRow' : 'MemberRow';
+        var config = this.getListConfig(this.currentTab) || this.getListConfig('member');
+        var rowPrefab = config && config.row;
+        var rowCompName = config && config.rowComp;
         if (!this.content || !rowPrefab) return;
         this.content.removeAllChildren();
         var rowH = 184;
@@ -197,6 +296,36 @@ cc.Class({
             this.content.addChild(rowNode);
         }
     },
+    renderRewardDetailSummary: function (data) {
+        data = data || {};
+        this.setPageText('Value_TotalTicket', this.formatScore(data.totalTicket || data.totalReward || data.reward || 0));
+        this.setPageText('Value_SubReward', this.formatScore(data.subReward || data.childrenReward || 0));
+        this.setPageText('Value_MyIncome', this.formatScore(data.myIncome || data.income || 0));
+    },
+    renderRewardWithdrawSummary: function (data) {
+        data = data || {};
+        this.setPageText('CurrentRewardLabel', '当前奖励：' + this.formatScore(data.reward || 0));
+    },
+    setPageText: function (name, value) {
+        if (!this.currentPageNode) return;
+        var node = this.findNode(this.currentPageNode, name);
+        var label = node && node.getComponent(cc.Label);
+        if (label) label.string = String(value);
+    },
+    findNode: function (root, name) {
+        if (!root) return null;
+        if (root.name === name) return root;
+        for (var i = 0; i < root.children.length; i++) {
+            var found = this.findNode(root.children[i], name);
+            if (found) return found;
+        }
+        return null;
+    },
+    formatScore: function (value) {
+        var num = Number(value || 0);
+        if (Math.abs(num) >= 100 && num % 100 === 0) num = num / 100;
+        return String(Number(num.toFixed ? num.toFixed(2) : num)).replace(/\.00$/, '');
+    },
     openPopup: function (prefab, data) {
         if (!prefab || !this.popupLayer) return null;
         var node = cc.instantiate(prefab);
@@ -214,6 +343,7 @@ cc.Class({
         onSubmit: function (userID) {
             var options = { page: 1, pageSize: this.pageSize, keywords: userID };
             if (this.currentTab === 'partner') this.loadPartners(options);
+            else if (this.currentTab === 'agent' || this.currentTab === 'rewardDetail' || this.currentTab === 'operation' || this.currentTab === 'rewardWithdraw') this.loadGenericList(this.currentTab, options);
             else this.loadMembers(options);
         }.bind(this)
     }); },

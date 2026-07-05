@@ -129,5 +129,44 @@ module.exports = {
             logID: data.logID || data.id,
             fileID: data.fileID || data.replayCode
         });
+    },
+    agentStats: function (data) {
+        data = data || {};
+        return request("businessAnalysis/agentStats", {
+            clubID: getClubID(),
+            page: data.page || 1,
+            pageSize: data.pageSize || 20,
+            keywords: data.keywords || null
+        });
+    },
+    rewardDetails: function (data) {
+        data = data || {};
+        return request("businessAnalysis/rewardDetails", {
+            clubID: getClubID(),
+            page: data.page || 1,
+            pageSize: data.pageSize || 20,
+            startDate: data.startDate || null,
+            endDate: data.endDate || null
+        });
+    },
+    operateLogs: function (data) {
+        data = data || {};
+        return request("businessAnalysis/operateLogs", {
+            clubID: getClubID(),
+            page: data.page || 1,
+            pageSize: data.pageSize || 20,
+            startDate: data.startDate || null,
+            endDate: data.endDate || null
+        });
+    },
+    rewardWithdraw: function (data) {
+        data = data || {};
+        return request("businessAnalysis/rewardWithdraw", {
+            clubID: getClubID(),
+            page: data.page || 1,
+            pageSize: data.pageSize || 20,
+            startDate: data.startDate || null,
+            endDate: data.endDate || null
+        });
     }
 };

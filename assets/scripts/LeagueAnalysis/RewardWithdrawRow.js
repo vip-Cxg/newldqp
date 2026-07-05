@@ -16,11 +16,9 @@ cc.Class({
         this.data = data || {};
         this.mode = mode || 'leader';
         if (!this.nodes) this.cacheNodes();
-        this.text('RewardValue', this.formatScore(this.data.reward || this.data.rewardValue || this.data.amount || 0));
-        this.text('PlayerName', this.data.name || this.data.playerName || this.data.nickname || '玩家');
-        this.text('PlayerCount', this.data.playerCount || this.data.count || this.data.turn || 0);
-        this.text('RoomId', this.data.roomID || this.data.roomId || this.data.tableID || this.data.source || '');
         this.text('Time', this.formatTime(this.data.createdAt || this.data.updatedAt || this.data.time || this.data.strDate || ''));
+        this.text('Level', this.data.level || this.data.reason || this.data.type || '奖励提取');
+        this.text('TotalTaken', this.formatScore(this.data.reward || this.data.totalTaken || this.data.amount || 0));
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);

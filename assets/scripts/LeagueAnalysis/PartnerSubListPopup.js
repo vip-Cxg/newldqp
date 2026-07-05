@@ -110,10 +110,17 @@ cc.Class({
         this.setModeButton('BtnLeader', this.mode === 'leader');
         this.setModeButton('BtnMember', this.mode === 'member');
         this.renderHeader();
-        var content = this.nodes.content;
-        if (!content || !this.rowPrefab) return;
+        var content = this.getContentNode();
+        if (!content) {
+            console.error('[PartnerSubListPopup] content node not found');
+            return;
+        }
         var rows = this.rows || [];
         content.removeAllChildren();
+        if (!this.rowPrefab) {
+            console.error('[PartnerSubListPopup] rowPrefab not bound');
+            return;
+        }
         var rowH = 82;
         var spacingY = 10;
         content.setAnchorPoint(0.5, 1);
@@ -125,6 +132,20 @@ cc.Class({
             this.bindRowClick(node, rows[i]);
             content.addChild(node);
         }
+    },
+    getContentNode: function () {
+        return this.nodes.content || this.nodes.Content || this.findFirstNode(this.node, ['content', 'Content', 'ListContent', 'RowContent']);
+    },
+    findFirstNode: function (node, names) {
+        if (!node) return null;
+        for (var i = 0; i < names.length; i++) {
+            if (node.name === names[i]) return node;
+        }
+        for (var j = 0; j < node.children.length; j++) {
+            var found = this.findFirstNode(node.children[j], names);
+            if (found) return found;
+        }
+        return null;
     },
     bindRowClick: function (node, row) {
         node.off(cc.Node.EventType.TOUCH_END);
