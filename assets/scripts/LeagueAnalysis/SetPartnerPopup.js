@@ -36,7 +36,9 @@ cc.Class({
         if(this.data.onSubmit){
             var ret=this.data.onSubmit(payload);
             if(ret&&ret.then){
-                ret.then(function(){this.close();}.bind(this));
+                ret.then(function(){this.close();}.bind(this)).catch(function(err){
+                    console.error('[SetPartnerPopup] submit failed', err);
+                });
                 return;
             }
         }

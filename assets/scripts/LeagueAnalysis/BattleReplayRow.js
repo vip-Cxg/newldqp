@@ -20,9 +20,16 @@ cc.Class({
         if(!root)return;
         for(var i=0;i<4;i++){
             this.setChildText(root,'Name'+(i+1),list[i]?list[i].name:'');
-            this.setChildText(root,'Score'+(i+1),list[i]?list[i].score:'');
-            this.setScoreColor(root,'Score'+(i+1),list[i]?list[i].score:'');
+            this.setChildText(root,'Score'+(i+1),list[i]?this.formatScore(list[i].score):'');
+            this.setScoreColor(root,'Score'+(i+1),list[i]?this.formatScore(list[i].score):'');
         }
+    },
+    formatScore:function(value){
+        if(typeof value==='string')return value;
+        value=Number(value||0);
+        var text=(value/100).toFixed(2).replace(/\.00$/,'');
+        if(value>0&&text.indexOf('+')!==0)text='+'+text;
+        return text;
     },
     setChildText:function(root,name,value){var n=root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(l)l.string=value;},
     setScoreColor:function(root,name,value){var n=root&&root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(!l)return;var str=String(value||'');l.node.color=str.indexOf('-')===0?new cc.Color(42,155,48,255):new cc.Color(190,55,35,255);},

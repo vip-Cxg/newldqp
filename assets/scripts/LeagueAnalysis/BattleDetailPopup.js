@@ -1,3 +1,5 @@
+var LeagueAnalysisApi = require("./LeagueAnalysisApi");
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -6,10 +8,36 @@ cc.Class({
     init:function(data,owner){
         this.data=data||{};
         this.owner=owner;
-        this.rows=this.mockRows();
+        this.selectedDate=1;
+        this.rows=[];
         this.cacheNodes();
         this.bindAll();
-        this.renderRows();
+        this.renderSummary();
+        this.loadRows();
+    },
+    renderSummary:function(){
+        this.text('Name', this.data.nickname || this.data.name || '玩家信息');
+        this.text('UserID', String(this.data.userID || this.data.userId || ''));
+        this.text('TodayRound', '今日局数：' + (this.data.todayRounds || 0));
+        this.text('WinLose', '输赢：' + (this.data.todayResult || 0));
+    },
+    loadRows:function(){
+        var userID=this.data.userID||this.data.userId;
+        LeagueAnalysisApi.battleDetails({
+            userID:userID,
+            page:1,
+            pageSize:20,
+            strDate:this.getDateString(this.selectedDate)
+        }).then(function(res){
+            var logs=res && (res.logs || res.data && res.data.logs || res.data) || {};
+            this.rows=(logs.rows || res.rows || []);
+            if(!this.rows.length)this.rows=this.mockRows();
+            this.renderRows();
+        }.bind(this)).catch(function(err){
+            console.error('[BattleDetailPopup] fallback',err);
+            this.rows=this.mockRows();
+            this.renderRows();
+        }.bind(this));
     },
     cacheNodes:function(){this.nodes={};this.collect(this.node);},
     collect:function(node){this.nodes[node.name]=node;for(var i=0;i<node.children.length;i++)this.collect(node.children[i]);},
@@ -17,6 +45,14 @@ cc.Class({
         this.bind('BtnClose',this.close);
         this.bind('Mask',this.close);
         for(var i=1;i<=7;i++)this.bind('DateButton'+i,this.onDateClick.bind(this,i));
+    },
+    getDateString:function(index){
+        var date=new Date();
+        date.setDate(date.getDate()-(Number(index||1)-1));
+        var y=date.getFullYear();
+        var m=date.getMonth()+1;
+        var d=date.getDate();
+        return String(y)+(m<10?'0':'')+m+(d<10?'0':'')+d;
     },
     renderRows:function(){
         var content=this.nodes.content;
@@ -52,8 +88,10 @@ cc.Class({
             if(selected)selected.active=i===index;
         }
         cc.log('[BattleDetailPopup] date click',index);
+        this.loadRows();
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
+    text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
     mockRows:function(){
         return [{
             roomID:'123456',

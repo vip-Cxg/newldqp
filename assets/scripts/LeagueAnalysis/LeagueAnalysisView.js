@@ -1,5 +1,4 @@
 var LeagueAnalysisApi = require("./LeagueAnalysisApi");
-var LeagueAnalysisMapper = require("./LeagueAnalysisMapper");
 
 cc.Class({
     extends: cc.Component,
@@ -93,11 +92,11 @@ cc.Class({
         };
         if (options.keywords) req.keywords = options.keywords;
         LeagueAnalysisApi.members(req).then(function (res) {
-            var data = LeagueAnalysisMapper.normalizeMemberList(res);
-            this.members = data.rows;
+            var users = res && (res.users || res.data && res.data.users || res.data) || {};
+            this.members = users.rows || res.rows || [];
             this.setData(this.members);
         }.bind(this)).catch(function (err) {
-            cc.log('[LeagueAnalysisView] members fallback', err);
+            console.error('[LeagueAnalysisView] members fallback', err);
             this.setData(this.mockMembers());
         }.bind(this));
     },
@@ -149,18 +148,35 @@ cc.Class({
                 roomRate: payload.roomRate,
                 waterRate: payload.waterRate
             }).then(function () {
-                this.loadMembers();
+                data.role = 'proxy';
+                data.partner = true;
+                data.level = payload.roomRate;
+                data.shuffleLevel = payload.waterRate;
+                this.setData(this.members);
             }.bind(this));
         }.bind(this)
     }); },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
     showBattleReplayPopup: function (data) { this.openPopup(this.battleReplayPopupPrefab, data); },
-    showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, { user: data, mode: mode }); },
+    showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, {
+        user: data,
+        mode: mode,
+        onSubmit: function (payload) {
+            return LeagueAnalysisApi.changeScore(data.userID || data.userId, payload.mode, payload.amount).then(function () {
+                var delta = Math.floor(Number(payload.amount || 0) * 100);
+                if (payload.mode === 'sub' || payload.mode === 'reduce') delta = -delta;
+                data.score = Number(data.score || 0) + delta;
+                this.setData(this.members);
+            }.bind(this));
+        }.bind(this)
+    }); },
     showLimitConfirm: function (data) {
         var forbidden = !data.forbidden;
         this.openPopup(this.confirmPopupPrefab, { message: forbidden ? '确认禁止该玩家游戏？' : '确认解除禁止？', onOK: function () {
-            LeagueAnalysisApi.updateForbidden(data.userID || data.userId, forbidden).then(function () {
+            return LeagueAnalysisApi.updateForbidden(data.userID || data.userId, forbidden).then(function () {
                 data.forbidden = forbidden;
+                data.hasLimit = forbidden ? (data.userID || data.userId) : 0;
+                data.status = forbidden ? 'limit' : 'normal';
                 this.setData(this.members);
             }.bind(this));
         }.bind(this) });
