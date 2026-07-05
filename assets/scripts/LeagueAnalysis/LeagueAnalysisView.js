@@ -146,7 +146,7 @@ cc.Class({
             pageSize: options.pageSize || this.pageSize || 20
         };
         if (options.keywords) req.keywords = options.keywords;
-        LeagueAnalysisApi.members(req).then(function (res) {
+        LeagueAnalysisApi.partners(req).then(function (res) {
             var users = res && (res.users || res.data && res.data.users || res.data) || {};
             var rows = users.rows || res.rows || [];
             this.partners = this.filterPartnerRows(rows);

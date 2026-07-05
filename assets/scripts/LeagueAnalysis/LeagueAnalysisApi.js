@@ -69,6 +69,15 @@ module.exports = {
     searchMember: function (userID) {
         return this.members({ keywords: userID, page: 1, pageSize: 20 });
     },
+    partners: function (data) {
+        data = data || {};
+        return request("businessAnalysis/partners", {
+            clubID: getClubID(),
+            page: data.page || 1,
+            pageSize: data.pageSize || 20,
+            keywords: data.keywords || null
+        });
+    },
     setPartner: function (data) {
         data = data || {};
         return request(GameConfig.ServerEventName.AddProxy, {

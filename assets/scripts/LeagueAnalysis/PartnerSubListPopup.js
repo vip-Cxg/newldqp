@@ -71,7 +71,7 @@ cc.Class({
 
         var targetID = this.getTargetID();
         if (!targetID) {
-            this.rows = this.getRowsFallback();
+            this.rows = [];
             this.renderRows();
             return;
         }
@@ -87,7 +87,7 @@ cc.Class({
             this.renderRows();
         }.bind(this)).catch(function (err) {
             console.error('[PartnerSubListPopup] load children failed', err);
-            this.rows = this.getRowsFallback();
+            this.rows = [];
             this.renderRows();
         }.bind(this));
     },
@@ -112,7 +112,7 @@ cc.Class({
         this.renderHeader();
         var content = this.nodes.content;
         if (!content || !this.rowPrefab) return;
-        var rows = this.rows || this.getRowsFallback();
+        var rows = this.rows || [];
         content.removeAllChildren();
         var rowH = 82;
         var spacingY = 10;
