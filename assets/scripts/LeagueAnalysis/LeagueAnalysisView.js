@@ -249,10 +249,15 @@ cc.Class({
             }.bind(this)
         });
     },
-    showSubListPopup: function (data) {
+    showSubListPopup: function (data, defaultMode) {
+        if (!defaultMode) {
+            var hasCount = data && (data.leaderCount != null || data.memberCount != null || data.childrenCount != null);
+            defaultMode = hasCount && Number(data.memberCount || 0) > 0 && Number(data.leaderCount || 0) <= 0 ? 'member' : 'leader';
+        }
         this.openPopup(this.subListPopupPrefab || this.confirmPopupPrefab, {
             user: data,
-            children: data && data.children
+            children: data && data.children,
+            defaultMode: defaultMode
         });
     },
     showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, {

@@ -1,3 +1,6 @@
+var LeagueAnalysisApi = require("./LeagueAnalysisApi");
+var Cache = require("../../Main/Script/Cache");
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -6,11 +9,11 @@ cc.Class({
     init: function (data, owner) {
         this.data = data || {};
         this.owner = owner;
-        this.mode = 'leader';
+        this.mode = data.mode || data.defaultMode || this.pickDefaultMode(data.user || data || {});
         this.cacheNodes();
         this.bindAll();
         this.renderSummary();
-        this.renderRows();
+        this.loadRows();
     },
     cacheNodes: function () { this.nodes = {}; this.collect(this.node); },
     collect: function (node) {
@@ -19,9 +22,9 @@ cc.Class({
     },
     bindAll: function () {
         this.bind('BtnClose', this.close);
-        this.bind('BtnLeader', function () { this.mode = 'leader'; this.renderRows(); });
-        this.bind('BtnMember', function () { this.mode = 'member'; this.renderRows(); });
-        this.bind('BtnSearch', this.renderRows);
+        this.bind('BtnLeader', function () { this.switchMode('leader'); });
+        this.bind('BtnMember', function () { this.switchMode('member'); });
+        this.bind('BtnSearch', this.loadRows);
     },
     renderSummary: function () {
         var user = this.data.user || this.data || {};
@@ -29,7 +32,66 @@ cc.Class({
         this.text('SuperiorName', user.nickname || user.name || '玩家信息');
         this.text('SuperiorID', String(user.userID || user.userId || user.id || '123456'));
     },
-    getRows: function () {
+    switchMode: function (mode) {
+        if (this.mode === mode) return;
+        this.mode = mode;
+        this.loadRows();
+    },
+    getCurrentUser: function () {
+        return this.data.user || this.data || {};
+    },
+    pickDefaultMode: function (user) {
+        if (Number(user && user.leaderCount || 0) > 0) return 'leader';
+        if (Number(user && user.memberCount || 0) > 0) return 'member';
+        return 'leader';
+    },
+    getTargetID: function () {
+        var user = this.getCurrentUser();
+        return user.userID || user.userId || user.id;
+    },
+    getSearchKeyword: function () {
+        var node = this.nodes.SearchInput || this.nodes.Input || this.nodes.SearchEditBox;
+        if (!node) return '';
+        var editBox = node.getComponent(cc.EditBox);
+        if (editBox) return editBox.string;
+        var label = node.getComponent(cc.Label) || node.getComponentInChildren(cc.Label);
+        return label ? label.string : '';
+    },
+    extractRows: function (res) {
+        var data = res && (res.data || res.detail) || res || {};
+        if (data.rows) return data.rows;
+        if (data.list) return data.list;
+        if (Array.isArray(data)) return data;
+        return [];
+    },
+    loadRows: function () {
+        this.setModeButton('BtnLeader', this.mode === 'leader');
+        this.setModeButton('BtnMember', this.mode === 'member');
+        this.renderHeader();
+
+        var targetID = this.getTargetID();
+        if (!targetID) {
+            this.rows = this.getRowsFallback();
+            this.renderRows();
+            return;
+        }
+
+        LeagueAnalysisApi.children({
+            userID: targetID,
+            type: this.mode,
+            page: 1,
+            pageSize: 50,
+            keywords: this.getSearchKeyword()
+        }).then(function (res) {
+            this.rows = this.extractRows(res);
+            this.renderRows();
+        }.bind(this)).catch(function (err) {
+            console.error('[PartnerSubListPopup] load children failed', err);
+            this.rows = this.getRowsFallback();
+            this.renderRows();
+        }.bind(this));
+    },
+    getRowsFallback: function () {
         var rows = this.data.children || [];
         if (rows.length) {
             var filtered = [];
@@ -42,32 +104,7 @@ cc.Class({
             }
             return filtered;
         }
-        var list = [];
-        var count = this.mode === 'leader' ? 2 : 1;
-        for (var i = 0; i < count; i++) {
-            list.push({
-                userID: 323456 + i,
-                name: (this.mode === 'leader' ? '下级队长' : '下级成员') + (i + 1),
-                role: this.mode === 'leader' ? (i % 2 ? 'proxy' : 'leader') : 'user',
-                partner: this.mode === 'leader',
-                roomRate: 60,
-                waterRate: 99,
-                rounds: 99,
-                todayRounds: 99,
-                yesterdayRounds: 0,
-                todayContribution: 9999,
-                yesterdayContribution: 0,
-                todayIncome: 9999,
-                yesterdayIncome: 0,
-                winnerCount: 0,
-                totalWin: 999900,
-                contribution: 999900,
-                score: 999900,
-                warningScore: 0,
-                children: i % 2 === 0 ? [{}] : []
-            });
-        }
-        return list;
+        return [];
     },
     renderRows: function () {
         this.setModeButton('BtnLeader', this.mode === 'leader');
@@ -75,7 +112,7 @@ cc.Class({
         this.renderHeader();
         var content = this.nodes.content;
         if (!content || !this.rowPrefab) return;
-        var rows = this.getRows();
+        var rows = this.rows || this.getRowsFallback();
         content.removeAllChildren();
         var rowH = 82;
         var spacingY = 10;
@@ -85,8 +122,37 @@ cc.Class({
             var node = cc.instantiate(this.rowPrefab);
             var comp = node.getComponent('PartnerSubRow') || node.getComponent('PartnerRow');
             if (comp && comp.setData) comp.setData(rows[i], this.mode);
+            this.bindRowClick(node, rows[i]);
             content.addChild(node);
         }
+    },
+    bindRowClick: function (node, row) {
+        node.off(cc.Node.EventType.TOUCH_END);
+        node.on(cc.Node.EventType.TOUCH_END, function (event) {
+            if (event && event.stopPropagation) event.stopPropagation();
+            this.handleRowClick(row);
+        }, this);
+    },
+    handleRowClick: function (row) {
+        if (!row) return;
+        if (this.hasNextLayer(row)) {
+            this.openSubList(row);
+        } else {
+            this.showTip('没有下一层');
+        }
+    },
+    hasNextLayer: function (row) {
+        if (!row) return false;
+        if (row.hasChildren === true) return true;
+        if (Number(row.childrenCount || 0) > 0) return true;
+        if (Number(row.leaderCount || 0) > 0) return true;
+        if (Number(row.memberCount || 0) > 0) return true;
+        return !!(row.children && row.children.length);
+    },
+    showTip: function (message) {
+        if (Cache && Cache.showTipsMsg) Cache.showTipsMsg(message);
+        else if (Cache && Cache.alertTip) Cache.alertTip(message);
+        else cc.warn(message);
     },
     renderHeader: function () {
         var leader = this.mode === 'leader';
@@ -136,7 +202,9 @@ cc.Class({
         if (this.owner && this.owner.showWarningPopup) this.owner.showWarningPopup(row);
     },
     openSubList: function (row) {
-        if (this.owner && this.owner.showSubListPopup) this.owner.showSubListPopup(row);
+        if (!this.owner || !this.owner.showSubListPopup) return;
+        var defaultMode = this.pickDefaultMode(row);
+        this.owner.showSubListPopup(row, defaultMode);
     },
     openAddScore: function (row) {
         if (this.owner && this.owner.showScorePopup) this.owner.showScorePopup(row, 'add');

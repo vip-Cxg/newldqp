@@ -93,6 +93,17 @@ module.exports = {
             status: forbidden ? "limit" : "normal"
         });
     },
+    children: function (data) {
+        data = data || {};
+        return request("businessAnalysis/children", {
+            clubID: getClubID(),
+            userID: data.userID || data.userId || data.id,
+            type: data.type || data.mode || "leader",
+            page: data.page || 1,
+            pageSize: data.pageSize || 50,
+            keywords: data.keywords || null
+        });
+    },
     battleDetails: function (data) {
         data = data || {};
         return request(GameConfig.ServerEventName.ClubLogs, {
