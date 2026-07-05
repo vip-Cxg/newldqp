@@ -1,13 +1,13 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleReplayRow.prefab",
-  "generatedAt": "2026-07-05T12:53:52.499Z",
+  "generatedAt": "2026-07-05T15:16:34.190Z",
   "nodes": {
     "BattleReplayRow": {
       "path": "BattleReplayRow",
       "x": 0,
       "y": 0,
-      "width": 920,
+      "width": 980,
       "height": 188,
       "anchorX": 0.5,
       "anchorY": 0.5,
@@ -27,7 +27,7 @@
       "path": "BattleReplayRow/Bg",
       "x": 0,
       "y": 0,
-      "width": 920,
+      "width": 980,
       "height": 188,
       "anchorX": 0.5,
       "anchorY": 0.5,
@@ -50,7 +50,7 @@
     },
     "BattleReplayRow/ResultArea": {
       "path": "BattleReplayRow/ResultArea",
-      "x": -356.303,
+      "x": -384.84,
       "y": -2.283,
       "width": 180,
       "height": 160,
@@ -71,7 +71,7 @@
     "BattleReplayRow/ResultArea/ResultLoseIcon": {
       "path": "BattleReplayRow/ResultArea/ResultLoseIcon",
       "x": -38,
-      "y": 22,
+      "y": 0,
       "width": 72,
       "height": 72,
       "anchorX": 0.5,
@@ -96,7 +96,7 @@
     "BattleReplayRow/ResultArea/ResultWinIcon": {
       "path": "BattleReplayRow/ResultArea/ResultWinIcon",
       "x": -38,
-      "y": 22,
+      "y": 0,
       "width": 72,
       "height": 72,
       "anchorX": 0.5,
@@ -121,7 +121,7 @@
     "BattleReplayRow/ResultArea/RoundLabel": {
       "path": "BattleReplayRow/ResultArea/RoundLabel",
       "x": 40,
-      "y": 20,
+      "y": 0,
       "width": 85,
       "height": 54,
       "anchorX": 0.5,

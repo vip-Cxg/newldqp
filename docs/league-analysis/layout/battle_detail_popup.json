@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleDetailPopup.prefab",
-  "generatedAt": "2026-07-05T12:53:52.465Z",
+  "generatedAt": "2026-07-05T15:16:34.171Z",
   "nodes": {
     "BattleDetailPopup": {
       "path": "BattleDetailPopup",
@@ -200,7 +200,7 @@
       "path": "BattleDetailPopup/PanelRoot/BgOut",
       "x": 0,
       "y": 0,
-      "width": 1013,
+      "width": 1040,
       "height": 488,
       "anchorX": 0.5,
       "anchorY": 0.5,
@@ -221,55 +221,10 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/BgIn": {
-      "path": "BattleDetailPopup/PanelRoot/BgIn",
-      "x": 0,
-      "y": 0,
-      "width": 979,
-      "height": 452,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 1,
-      "color": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      },
-      "sprite": {
-        "assetName": "league_bg_in",
-        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
-        "type": 1
-      }
-    },
-    "BattleDetailPopup/PanelRoot/Content": {
-      "path": "BattleDetailPopup/PanelRoot/Content",
-      "x": 0,
-      "y": 0,
-      "width": 959,
-      "height": 432,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 2,
-      "color": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      }
-    },
-    "BattleDetailPopup/PanelRoot/Content/DateButton1": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1",
-      "x": -426,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton1": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton1",
+      "x": -445.962,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -289,8 +244,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton1/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton1/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton1/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -309,13 +264,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton1/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton1/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton1/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -339,8 +294,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton1/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton1/Label",
+    "BattleDetailPopup/PanelRoot/DateButton1/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton1/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -365,10 +320,10 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton2": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2",
-      "x": -278,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton2": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton2",
+      "x": -297.962,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -388,8 +343,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton2/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton2/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton2/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -408,13 +363,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton2/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton2/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton2/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -438,8 +393,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton2/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton2/Label",
+    "BattleDetailPopup/PanelRoot/DateButton2/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton2/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -464,10 +419,10 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton3": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3",
-      "x": -130,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton3": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton3",
+      "x": -149.962,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -487,8 +442,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton3/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton3/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton3/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -507,13 +462,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton3/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton3/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton3/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -537,8 +492,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton3/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton3/Label",
+    "BattleDetailPopup/PanelRoot/DateButton3/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton3/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -563,10 +518,10 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton4": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4",
-      "x": 18,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton4": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton4",
+      "x": -1.962,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -586,8 +541,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton4/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton4/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton4/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -606,13 +561,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton4/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton4/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton4/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -636,8 +591,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton4/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton4/Label",
+    "BattleDetailPopup/PanelRoot/DateButton4/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton4/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -662,10 +617,10 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton5": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5",
-      "x": 166,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton5": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton5",
+      "x": 146.038,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -685,8 +640,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton5/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton5/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton5/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -705,13 +660,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton5/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton5/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton5/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -735,8 +690,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton5/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton5/Label",
+    "BattleDetailPopup/PanelRoot/DateButton5/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton5/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -761,10 +716,10 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton6": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6",
-      "x": 314,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton6": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton6",
+      "x": 294.038,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -784,8 +739,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton6/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton6/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton6/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -804,13 +759,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton6/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton6/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton6/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -834,8 +789,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton6/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton6/Label",
+    "BattleDetailPopup/PanelRoot/DateButton6/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton6/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -860,10 +815,10 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton7": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7",
-      "x": 462,
-      "y": 258,
+    "BattleDetailPopup/PanelRoot/DateButton7": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton7",
+      "x": 442.038,
+      "y": 207.145,
       "width": 136,
       "height": 48,
       "anchorX": 0.5,
@@ -883,8 +838,8 @@
         "targetPath": null
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton7/Normal": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7/Normal",
+    "BattleDetailPopup/PanelRoot/DateButton7/Normal": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton7/Normal",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -903,13 +858,13 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "btn_green_small",
-        "uuid": "68f43b50-a9e1-4d53-9cda-cd78e505160d",
+        "assetName": "tab_normal_green",
+        "uuid": "14938091-8c82-4922-92a7-f8939d5cc673",
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton7/Selected": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7/Selected",
+    "BattleDetailPopup/PanelRoot/DateButton7/Selected": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton7/Selected",
       "x": 0,
       "y": 0,
       "width": 136,
@@ -933,8 +888,8 @@
         "type": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/DateButton7/Label": {
-      "path": "BattleDetailPopup/PanelRoot/Content/DateButton7/Label",
+    "BattleDetailPopup/PanelRoot/DateButton7/Label": {
+      "path": "BattleDetailPopup/PanelRoot/DateButton7/Label",
       "x": 0,
       "y": 0,
       "width": 126,
@@ -959,12 +914,12 @@
         "verticalAlign": 1
       }
     },
-    "BattleDetailPopup/PanelRoot/Content/PlayerSummary": {
-      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary",
+    "BattleDetailPopup/PanelRoot/BgIn": {
+      "path": "BattleDetailPopup/PanelRoot/BgIn",
       "x": 0,
-      "y": 169,
-      "width": 920,
-      "height": 96,
+      "y": -30,
+      "width": 1020,
+      "height": 410,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -977,13 +932,58 @@
         "g": 255,
         "b": 255,
         "a": 255
+      },
+      "sprite": {
+        "assetName": "league_bg_in",
+        "uuid": "e09e90c5-bc80-4981-af21-bbeb82eea654",
+        "type": 1
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content": {
+      "path": "BattleDetailPopup/PanelRoot/Content",
+      "x": 0,
+      "y": -40,
+      "width": 1020,
+      "height": 410,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 9,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
+    },
+    "BattleDetailPopup/PanelRoot/Content/PlayerSummary": {
+      "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary",
+      "x": 0,
+      "y": 160.718,
+      "width": 1010,
+      "height": 96,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 0,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
       }
     },
     "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Bg": {
       "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Bg",
       "x": 0,
       "y": 0,
-      "width": 920,
+      "width": 1010,
       "height": 92,
       "anchorX": 0.5,
       "anchorY": 0.5,
@@ -999,14 +999,14 @@
         "a": 255
       },
       "sprite": {
-        "assetName": "row_simple_bg",
-        "uuid": "332ba49a-549e-4950-8296-8c276262b468",
+        "assetName": "battle_replay_row_bg",
+        "uuid": "1407fd22-8368-4994-8d8f-56cd8bc650b8",
         "type": 1
       }
     },
     "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Avatar": {
       "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Avatar",
-      "x": -390,
+      "x": -458.873,
       "y": 0,
       "width": 66,
       "height": 66,
@@ -1031,7 +1031,7 @@
     },
     "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Name": {
       "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/Name",
-      "x": -302,
+      "x": -370.873,
       "y": 15,
       "width": 145,
       "height": 30,
@@ -1057,7 +1057,7 @@
     },
     "BattleDetailPopup/PanelRoot/Content/PlayerSummary/UserID": {
       "path": "BattleDetailPopup/PanelRoot/Content/PlayerSummary/UserID",
-      "x": -302,
+      "x": -370.873,
       "y": -17,
       "width": 145,
       "height": 30,
@@ -1136,16 +1136,16 @@
     "BattleDetailPopup/PanelRoot/Content/ScrollView": {
       "path": "BattleDetailPopup/PanelRoot/Content/ScrollView",
       "x": 0,
-      "y": -25,
-      "width": 940,
-      "height": 360,
+      "y": -39,
+      "width": 1020,
+      "height": 300,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
       "scaleY": 1,
       "active": true,
       "opacity": 255,
-      "zIndex": 0,
+      "zIndex": 1,
       "color": {
         "r": 255,
         "g": 255,
@@ -1160,8 +1160,8 @@
       "path": "BattleDetailPopup/PanelRoot/Content/ScrollView/view",
       "x": 0,
       "y": 0,
-      "width": 940,
-      "height": 360,
+      "width": 1020,
+      "height": 300,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -1178,11 +1178,11 @@
     },
     "BattleDetailPopup/PanelRoot/Content/ScrollView/view/content": {
       "path": "BattleDetailPopup/PanelRoot/Content/ScrollView/view/content",
-      "x": -470,
-      "y": 180,
-      "width": 940,
+      "x": 0,
+      "y": 0,
+      "width": 1020,
       "height": 900,
-      "anchorX": 0,
+      "anchorX": 0.5,
       "anchorY": 1,
       "scaleX": 1,
       "scaleY": 1,

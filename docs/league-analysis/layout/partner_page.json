@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "sourcePrefab": "assets/prefabs/LeagueAnalysis/MemberPage.prefab",
-  "generatedAt": "2026-07-05T15:16:34.133Z",
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/PartnerPage.prefab",
+  "generatedAt": "2026-07-05T15:16:34.144Z",
   "nodes": {
-    "MemberPage": {
-      "path": "MemberPage",
+    "PartnerPage": {
+      "path": "PartnerPage",
       "x": 0,
       "y": 0,
       "width": 1040,
@@ -23,8 +23,8 @@
         "a": 255
       }
     },
-    "MemberPage/BgIn": {
-      "path": "MemberPage/BgIn",
+    "PartnerPage/BgIn": {
+      "path": "PartnerPage/BgIn",
       "x": 0,
       "y": 0,
       "width": 1040,
@@ -48,8 +48,8 @@
         "type": 1
       }
     },
-    "MemberPage/Content": {
-      "path": "MemberPage/Content",
+    "PartnerPage/Content": {
+      "path": "PartnerPage/Content",
       "x": 0,
       "y": 0,
       "width": 1040,
@@ -68,8 +68,8 @@
         "a": 255
       }
     },
-    "MemberPage/Content/TableHeader": {
-      "path": "MemberPage/Content/TableHeader",
+    "PartnerPage/Content/TableHeader": {
+      "path": "PartnerPage/Content/TableHeader",
       "x": 0,
       "y": 259,
       "width": 1040,
@@ -93,8 +93,8 @@
         "type": 1
       }
     },
-    "MemberPage/Content/HeaderPlayerInfo": {
-      "path": "MemberPage/Content/HeaderPlayerInfo",
+    "PartnerPage/Content/HeaderPlayerInfo": {
+      "path": "PartnerPage/Content/HeaderPlayerInfo",
       "x": -392,
       "y": 257,
       "width": 150,
@@ -119,8 +119,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderStatus": {
-      "path": "MemberPage/Content/HeaderStatus",
+    "PartnerPage/Content/HeaderStatus": {
+      "path": "PartnerPage/Content/HeaderStatus",
       "x": -238,
       "y": 257,
       "width": 100,
@@ -145,8 +145,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderRounds": {
-      "path": "MemberPage/Content/HeaderRounds",
+    "PartnerPage/Content/HeaderRounds": {
+      "path": "PartnerPage/Content/HeaderRounds",
       "x": -40,
       "y": 257,
       "width": 120,
@@ -165,8 +165,8 @@
         "a": 255
       }
     },
-    "MemberPage/Content/HeaderRounds/LabelTop": {
-      "path": "MemberPage/Content/HeaderRounds/LabelTop",
+    "PartnerPage/Content/HeaderRounds/LabelTop": {
+      "path": "PartnerPage/Content/HeaderRounds/LabelTop",
       "x": 0,
       "y": 10,
       "width": 120,
@@ -191,8 +191,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderRounds/LabelBottom": {
-      "path": "MemberPage/Content/HeaderRounds/LabelBottom",
+    "PartnerPage/Content/HeaderRounds/LabelBottom": {
+      "path": "PartnerPage/Content/HeaderRounds/LabelBottom",
       "x": 0,
       "y": -12,
       "width": 120,
@@ -217,8 +217,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderContribution": {
-      "path": "MemberPage/Content/HeaderContribution",
+    "PartnerPage/Content/HeaderContribution": {
+      "path": "PartnerPage/Content/HeaderContribution",
       "x": 124,
       "y": 257,
       "width": 120,
@@ -237,8 +237,8 @@
         "a": 255
       }
     },
-    "MemberPage/Content/HeaderContribution/LabelTop": {
-      "path": "MemberPage/Content/HeaderContribution/LabelTop",
+    "PartnerPage/Content/HeaderContribution/LabelTop": {
+      "path": "PartnerPage/Content/HeaderContribution/LabelTop",
       "x": 0,
       "y": 10,
       "width": 120,
@@ -263,8 +263,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderContribution/LabelBottom": {
-      "path": "MemberPage/Content/HeaderContribution/LabelBottom",
+    "PartnerPage/Content/HeaderContribution/LabelBottom": {
+      "path": "PartnerPage/Content/HeaderContribution/LabelBottom",
       "x": 0,
       "y": -12,
       "width": 120,
@@ -289,8 +289,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderResult": {
-      "path": "MemberPage/Content/HeaderResult",
+    "PartnerPage/Content/HeaderResult": {
+      "path": "PartnerPage/Content/HeaderResult",
       "x": 284,
       "y": 257,
       "width": 120,
@@ -309,8 +309,8 @@
         "a": 255
       }
     },
-    "MemberPage/Content/HeaderResult/LabelTop": {
-      "path": "MemberPage/Content/HeaderResult/LabelTop",
+    "PartnerPage/Content/HeaderResult/LabelTop": {
+      "path": "PartnerPage/Content/HeaderResult/LabelTop",
       "x": 0,
       "y": 10,
       "width": 120,
@@ -335,8 +335,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderResult/LabelBottom": {
-      "path": "MemberPage/Content/HeaderResult/LabelBottom",
+    "PartnerPage/Content/HeaderResult/LabelBottom": {
+      "path": "PartnerPage/Content/HeaderResult/LabelBottom",
       "x": 0,
       "y": -12,
       "width": 120,
@@ -361,8 +361,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/HeaderScore": {
-      "path": "MemberPage/Content/HeaderScore",
+    "PartnerPage/Content/HeaderScore": {
+      "path": "PartnerPage/Content/HeaderScore",
       "x": 438,
       "y": 257,
       "width": 120,
@@ -387,8 +387,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/ScrollView": {
-      "path": "MemberPage/Content/ScrollView",
+    "PartnerPage/Content/ScrollView": {
+      "path": "PartnerPage/Content/ScrollView",
       "x": 0,
       "y": 5.549,
       "width": 1028,
@@ -407,11 +407,11 @@
         "a": 255
       },
       "scrollView": {
-        "contentPath": "MemberPage/Content/ScrollView/view/content"
+        "contentPath": "PartnerPage/Content/ScrollView/view/content"
       }
     },
-    "MemberPage/Content/ScrollView/view": {
-      "path": "MemberPage/Content/ScrollView/view",
+    "PartnerPage/Content/ScrollView/view": {
+      "path": "PartnerPage/Content/ScrollView/view",
       "x": 0,
       "y": 0,
       "width": 1028,
@@ -430,8 +430,8 @@
         "a": 255
       }
     },
-    "MemberPage/Content/ScrollView/view/content": {
-      "path": "MemberPage/Content/ScrollView/view/content",
+    "PartnerPage/Content/ScrollView/view/content": {
+      "path": "PartnerPage/Content/ScrollView/view/content",
       "x": -514,
       "y": 186,
       "width": 1028,
@@ -457,8 +457,8 @@
         "paddingBottom": 0
       }
     },
-    "MemberPage/Content/SearchInput": {
-      "path": "MemberPage/Content/SearchInput",
+    "PartnerPage/Content/SearchInput": {
+      "path": "PartnerPage/Content/SearchInput",
       "x": -358,
       "y": -255,
       "width": 290,
@@ -482,8 +482,8 @@
         "type": 1
       }
     },
-    "MemberPage/Content/SearchLabel": {
-      "path": "MemberPage/Content/SearchLabel",
+    "PartnerPage/Content/SearchLabel": {
+      "path": "PartnerPage/Content/SearchLabel",
       "x": -358,
       "y": -255,
       "width": 274,
@@ -508,8 +508,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberPage/Content/BtnSearch": {
-      "path": "MemberPage/Content/BtnSearch",
+    "PartnerPage/Content/BtnSearch": {
+      "path": "PartnerPage/Content/BtnSearch",
       "x": -135,
       "y": -253,
       "width": 131,
@@ -536,8 +536,8 @@
         "targetPath": null
       }
     },
-    "MemberPage/Content/BtnSearch/Label": {
-      "path": "MemberPage/Content/BtnSearch/Label",
+    "PartnerPage/Content/BtnSearch/Label": {
+      "path": "PartnerPage/Content/BtnSearch/Label",
       "x": 0,
       "y": 1,
       "width": 119,

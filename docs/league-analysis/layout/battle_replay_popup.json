@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourcePrefab": "assets/prefabs/LeagueAnalysis/BattleReplayPopup.prefab",
-  "generatedAt": "2026-07-05T12:53:52.472Z",
+  "generatedAt": "2026-07-05T15:16:34.176Z",
   "nodes": {
     "BattleReplayPopup": {
       "path": "BattleReplayPopup",
@@ -225,8 +225,8 @@
       "path": "BattleReplayPopup/PanelRoot/BgIn",
       "x": 0,
       "y": 0,
-      "width": 979,
-      "height": 452,
+      "width": 980,
+      "height": 460,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -270,33 +270,8 @@
       "path": "BattleReplayPopup/PanelRoot/Content/HeaderBg",
       "x": 0,
       "y": 206,
-      "width": 920,
+      "width": 980,
       "height": 58,
-      "anchorX": 0.5,
-      "anchorY": 0.5,
-      "scaleX": 1,
-      "scaleY": 1,
-      "active": true,
-      "opacity": 255,
-      "zIndex": 3,
-      "color": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      },
-      "sprite": {
-        "assetName": "row_simple_bg",
-        "uuid": "332ba49a-549e-4950-8296-8c276262b468",
-        "type": 1
-      }
-    },
-    "BattleReplayPopup/PanelRoot/Content/RoomLabel": {
-      "path": "BattleReplayPopup/PanelRoot/Content/RoomLabel",
-      "x": -330,
-      "y": 185,
-      "width": 240,
-      "height": 40,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -310,18 +285,17 @@
         "b": 255,
         "a": 255
       },
-      "label": {
-        "fontSize": 24,
-        "lineHeight": 30,
-        "horizontalAlign": 1,
-        "verticalAlign": 1
+      "sprite": {
+        "assetName": "table_header_green",
+        "uuid": "aeae7ea7-ae9a-4b08-801b-4457ef214eb2",
+        "type": 1
       }
     },
-    "BattleReplayPopup/PanelRoot/Content/RoundLabel": {
-      "path": "BattleReplayPopup/PanelRoot/Content/RoundLabel",
-      "x": -70,
-      "y": 185,
-      "width": 160,
+    "BattleReplayPopup/PanelRoot/Content/RoomLabel": {
+      "path": "BattleReplayPopup/PanelRoot/Content/RoomLabel",
+      "x": -357.241,
+      "y": 209.971,
+      "width": 240,
       "height": 40,
       "anchorX": 0.5,
       "anchorY": 0.5,
@@ -343,12 +317,12 @@
         "verticalAlign": 1
       }
     },
-    "BattleReplayPopup/PanelRoot/Content/ScrollView": {
-      "path": "BattleReplayPopup/PanelRoot/Content/ScrollView",
-      "x": 95,
-      "y": -25,
-      "width": 680,
-      "height": 360,
+    "BattleReplayPopup/PanelRoot/Content/RoundLabel": {
+      "path": "BattleReplayPopup/PanelRoot/Content/RoundLabel",
+      "x": -97.241,
+      "y": 209.971,
+      "width": 160,
+      "height": 40,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -356,6 +330,32 @@
       "active": true,
       "opacity": 255,
       "zIndex": 2,
+      "color": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "label": {
+        "fontSize": 24,
+        "lineHeight": 30,
+        "horizontalAlign": 1,
+        "verticalAlign": 1
+      }
+    },
+    "BattleReplayPopup/PanelRoot/Content/ScrollView": {
+      "path": "BattleReplayPopup/PanelRoot/Content/ScrollView",
+      "x": 0,
+      "y": -25,
+      "width": 980,
+      "height": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "scaleX": 1,
+      "scaleY": 1,
+      "active": true,
+      "opacity": 255,
+      "zIndex": 3,
       "color": {
         "r": 255,
         "g": 255,
@@ -370,8 +370,8 @@
       "path": "BattleReplayPopup/PanelRoot/Content/ScrollView/view",
       "x": 0,
       "y": 0,
-      "width": 680,
-      "height": 360,
+      "width": 980,
+      "height": 400,
       "anchorX": 0.5,
       "anchorY": 0.5,
       "scaleX": 1,
@@ -388,11 +388,11 @@
     },
     "BattleReplayPopup/PanelRoot/Content/ScrollView/view/content": {
       "path": "BattleReplayPopup/PanelRoot/Content/ScrollView/view/content",
-      "x": -340,
+      "x": 0,
       "y": 180,
-      "width": 680,
+      "width": 980,
       "height": 900,
-      "anchorX": 0,
+      "anchorX": 0.5,
       "anchorY": 1,
       "scaleX": 1,
       "scaleY": 1,

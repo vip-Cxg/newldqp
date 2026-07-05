@@ -1,6 +1,6 @@
 {
   "ver": "2.3.7",
-  "uuid": "ef07079e-53d7-46c0-831b-9d840099cc09",
+  "uuid": "3118c2f1-5862-4b77-8a70-97034c9af0be",
   "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -8,15 +8,15 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
-  "width": 251,
-  "height": 203,
+  "width": 1334,
+  "height": 750,
   "platformSettings": {},
   "subMetas": {
-    "league_bg_table": {
+    "ref_battle_detail_popup": {
       "ver": "1.0.6",
-      "uuid": "8e474090-06af-4738-8913-20acdbaf284b",
+      "uuid": "4bd82b5d-693e-42e4-ba72-886f45d7c868",
       "importer": "sprite-frame",
-      "rawTextureUuid": "ef07079e-53d7-46c0-831b-9d840099cc09",
+      "rawTextureUuid": "3118c2f1-5862-4b77-8a70-97034c9af0be",
       "trimType": "custom",
       "trimThreshold": 1,
       "rotated": false,
@@ -24,14 +24,14 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 251,
-      "height": 203,
-      "rawWidth": 251,
-      "rawHeight": 203,
-      "borderTop": 45,
-      "borderBottom": 45,
-      "borderLeft": 37,
-      "borderRight": 37,
+      "width": 1334,
+      "height": 750,
+      "rawWidth": 1334,
+      "rawHeight": 750,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
       "subMetas": {}
     }
   }

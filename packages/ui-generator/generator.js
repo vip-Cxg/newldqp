@@ -122,6 +122,7 @@ function ly(rect, parentRect) { return parentRect.y - rect.y; }
 const SCRIPT_UUIDS = {
   LeagueAnalysisView: '69d4b51e-025d-4e83-b25a-fad0da38f000',
   MemberRow: '69d4b51e-025d-4e83-b25a-fad0da38f002',
+  PartnerRow: '69d4b51e-025d-4e83-b25a-fad0da38f00b',
   SearchMemberPopup: '69d4b51e-025d-4e83-b25a-fad0da38f003',
   ScorePopup: '69d4b51e-025d-4e83-b25a-fad0da38f004',
   SetPartnerPopup: '69d4b51e-025d-4e83-b25a-fad0da38f005',
@@ -136,6 +137,8 @@ const PREFAB_UUIDS = {
   LeagueAnalysisView: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0000',
   MemberPage: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0002',
   MemberRow: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0003',
+  PartnerPage: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0012',
+  PartnerRow: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0013',
   SearchMemberPopup: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0004',
   ScorePopup: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0005',
   SetPartnerPopup: '1bf7c1f0-9112-4d6e-9a91-6b87f12c0006',
@@ -150,6 +153,8 @@ const PREFAB_LAYOUT_FILES = {
   LeagueAnalysisView: 'league_analysis_view.json',
   MemberPage: 'member_page.json',
   MemberRow: 'member_row.json',
+  PartnerPage: 'partner_page.json',
+  PartnerRow: 'partner_row.json',
   ScorePopup: 'score_popup.json',
   SetPartnerPopup: 'set_partner_popup.json',
   SearchMemberPopup: 'search_member_popup.json',
@@ -976,6 +981,63 @@ function makeMemberPage(s) {
   return b.data;
 }
 
+function renameNodeInPrefab(data, from, to) {
+  data.forEach(obj => {
+    if (obj && obj.__type__ === 'cc.Node' && obj._name === from) obj._name = to;
+  });
+}
+
+function setNestedLabel(data, nodeIndex, value) {
+  const node = data[nodeIndex];
+  if (!node || !node._children) return;
+  node._children.forEach(ref => {
+    const child = data[ref.__id__];
+    if (!child) return;
+    (child._components || []).forEach(cRef => {
+      const comp = data[cRef.__id__];
+      if (comp && comp.__type__ === 'cc.Label') comp._N$string = value;
+    });
+    setNestedLabel(data, ref.__id__, value);
+  });
+}
+
+function setNodeLabelInPrefab(data, nodeName, value) {
+  data.forEach((obj, index) => {
+    if (obj && obj.__type__ === 'cc.Node' && obj._name === nodeName) setNestedLabel(data, index, value);
+  });
+}
+
+function makePartnerRow(s) {
+  const data = makeMemberRow(s);
+  data.forEach(obj => {
+    if (!obj) return;
+    if (obj.__type__ === 'cc.Node' && obj._name === 'MemberRow') obj._name = 'PartnerRow';
+    if (obj.__type__ === compactUuid(SCRIPT_UUIDS.MemberRow)) obj.__type__ = compactUuid(SCRIPT_UUIDS.PartnerRow);
+  });
+  renameNodeInPrefab(data, 'StatusOnline', 'PeopleCount');
+  renameNodeInPrefab(data, 'StatusOffline', 'Rate');
+  renameNodeInPrefab(data, 'BtnSetPartner', 'BtnAdjustRate');
+  renameNodeInPrefab(data, 'BtnLimitGame', 'BtnWarning');
+  renameNodeInPrefab(data, 'BtnBattleDetail', 'BtnViewSub');
+  setNodeLabelInPrefab(data, 'BtnAdjustRate', '调整比例');
+  setNodeLabelInPrefab(data, 'BtnWarning', '警戒值');
+  setNodeLabelInPrefab(data, 'BtnViewSub', '查看下级');
+  return data;
+}
+
+function makePartnerPage(s) {
+  const data = makeMemberPage(s);
+  data.forEach(obj => {
+    if (obj && obj.__type__ === 'cc.Node' && obj._name === 'MemberPage') obj._name = 'PartnerPage';
+  });
+  setNodeLabelInPrefab(data, 'HeaderPlayerInfo', '队长信息');
+  setNodeLabelInPrefab(data, 'HeaderStatus', '人数/比例');
+  setNodeLabelInPrefab(data, 'HeaderContribution', '今日收益');
+  setNodeLabelInPrefab(data, 'HeaderResult', '今日贡献');
+  setNodeLabelInPrefab(data, 'HeaderScore', '积分');
+  return data;
+}
+
 function makeLeagueAnalysisView(s) {
   const b = new PrefabBuilder('LeagueAnalysisView', 1334, 750);
   const l = MEMBER_PAGE_LAYOUT;
@@ -993,6 +1055,8 @@ function makeLeagueAnalysisView(s) {
   b.script(b.root, 'LeagueAnalysisView', {
     memberPagePrefab: { __uuid__: PREFAB_UUIDS.MemberPage },
     rowPrefab: { __uuid__: PREFAB_UUIDS.MemberRow },
+    partnerPagePrefab: { __uuid__: PREFAB_UUIDS.PartnerPage },
+    partnerRowPrefab: { __uuid__: PREFAB_UUIDS.PartnerRow },
     searchPopupPrefab: { __uuid__: PREFAB_UUIDS.SearchMemberPopup },
     scorePopupPrefab: { __uuid__: PREFAB_UUIDS.ScorePopup },
     setPartnerPopupPrefab: { __uuid__: PREFAB_UUIDS.SetPartnerPopup },
@@ -1193,6 +1257,7 @@ function writeScripts(root) {
   const scripts = {
     LeagueAnalysisView: leagueAnalysisViewJs(),
     MemberRow: memberRowJs(),
+    PartnerRow: partnerRowJs(),
     SearchMemberPopup: idPopupJs('SearchMemberPopup'),
     ScorePopup: scorePopupJs(),
     SetPartnerPopup: setPartnerPopupJs(),
@@ -1410,6 +1475,14 @@ function memberRowJs() {
         }, this);
     }
 });\n`;
+}
+
+function partnerRowJs() {
+  return memberRowJs()
+    .replace("this.text('Name', this.data.name || '玩家信息');", "this.text('Name', this.data.name || '队长信息');")
+    .replace("this.bind('BtnSetPartner', 'setPartner');", "this.bind('BtnAdjustRate', 'setPartner');")
+    .replace("this.bind('BtnLimitGame', 'limitGame');", "this.bind('BtnWarning', 'warning');")
+    .replace("this.bind('BtnBattleDetail', 'battleDetail');", "this.bind('BtnViewSub', 'viewSub');");
 }
 
 function idPopupJs(name) {
@@ -1749,6 +1822,8 @@ function generateMemberModule(root, options = {}) {
     LeagueAnalysisView: makeLeagueAnalysisView(sprites),
     MemberPage: makeMemberPage(sprites),
     MemberRow: makeMemberRow(sprites),
+    PartnerPage: makePartnerPage(sprites),
+    PartnerRow: makePartnerRow(sprites),
     SearchMemberPopup: makeSearchPopup(sprites),
     ScorePopup: makeScorePopup(sprites),
     SetPartnerPopup: makeSetPartnerPopup(sprites),

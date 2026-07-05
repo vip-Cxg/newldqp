@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "sourcePrefab": "assets/prefabs/LeagueAnalysis/MemberRow.prefab",
-  "generatedAt": "2026-07-05T15:16:34.138Z",
+  "sourcePrefab": "assets/prefabs/LeagueAnalysis/PartnerRow.prefab",
+  "generatedAt": "2026-07-05T15:16:34.149Z",
   "nodes": {
-    "MemberRow": {
-      "path": "MemberRow",
+    "PartnerRow": {
+      "path": "PartnerRow",
       "x": 0,
       "y": 0,
       "width": 1028,
@@ -23,8 +23,8 @@
         "a": 255
       }
     },
-    "MemberRow/Bg": {
-      "path": "MemberRow/Bg",
+    "PartnerRow/Bg": {
+      "path": "PartnerRow/Bg",
       "x": 0,
       "y": 0,
       "width": 1028,
@@ -48,8 +48,8 @@
         "type": 1
       }
     },
-    "MemberRow/Avatar": {
-      "path": "MemberRow/Avatar",
+    "PartnerRow/Avatar": {
+      "path": "PartnerRow/Avatar",
       "x": -462,
       "y": 48,
       "width": 72,
@@ -73,8 +73,8 @@
         "type": 0
       }
     },
-    "MemberRow/RoleBadge": {
-      "path": "MemberRow/RoleBadge",
+    "PartnerRow/RoleBadge": {
+      "path": "PartnerRow/RoleBadge",
       "x": -501.276,
       "y": 64.204,
       "width": 22,
@@ -98,8 +98,8 @@
         "type": 0
       }
     },
-    "MemberRow/Name": {
-      "path": "MemberRow/Name",
+    "PartnerRow/Name": {
+      "path": "PartnerRow/Name",
       "x": -424.09,
       "y": 56,
       "width": 120,
@@ -124,8 +124,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/UserID": {
-      "path": "MemberRow/UserID",
+    "PartnerRow/UserID": {
+      "path": "PartnerRow/UserID",
       "x": -424.09,
       "y": 25,
       "width": 120,
@@ -150,8 +150,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/ForbiddenStamp": {
-      "path": "MemberRow/ForbiddenStamp",
+    "PartnerRow/ForbiddenStamp": {
+      "path": "PartnerRow/ForbiddenStamp",
       "x": -414.524,
       "y": 43.366,
       "width": 161,
@@ -175,8 +175,8 @@
         "type": 0
       }
     },
-    "MemberRow/StatusOnline": {
-      "path": "MemberRow/StatusOnline",
+    "PartnerRow/PeopleCount": {
+      "path": "PartnerRow/PeopleCount",
       "x": -237,
       "y": 34,
       "width": 59,
@@ -200,8 +200,8 @@
         "type": 0
       }
     },
-    "MemberRow/StatusOffline": {
-      "path": "MemberRow/StatusOffline",
+    "PartnerRow/Rate": {
+      "path": "PartnerRow/Rate",
       "x": -237,
       "y": 34,
       "width": 59,
@@ -225,8 +225,8 @@
         "type": 0
       }
     },
-    "MemberRow/RoundsGroup": {
-      "path": "MemberRow/RoundsGroup",
+    "PartnerRow/RoundsGroup": {
+      "path": "PartnerRow/RoundsGroup",
       "x": -40,
       "y": 36,
       "width": 80,
@@ -245,8 +245,8 @@
         "a": 255
       }
     },
-    "MemberRow/RoundsGroup/TodayRounds": {
-      "path": "MemberRow/RoundsGroup/TodayRounds",
+    "PartnerRow/RoundsGroup/TodayRounds": {
+      "path": "PartnerRow/RoundsGroup/TodayRounds",
       "x": 0,
       "y": 13,
       "width": 80,
@@ -271,8 +271,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/RoundsGroup/YesterdayRounds": {
-      "path": "MemberRow/RoundsGroup/YesterdayRounds",
+    "PartnerRow/RoundsGroup/YesterdayRounds": {
+      "path": "PartnerRow/RoundsGroup/YesterdayRounds",
       "x": 0,
       "y": -17,
       "width": 80,
@@ -297,8 +297,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/ContributionGroup": {
-      "path": "MemberRow/ContributionGroup",
+    "PartnerRow/ContributionGroup": {
+      "path": "PartnerRow/ContributionGroup",
       "x": 124,
       "y": 36,
       "width": 90,
@@ -317,8 +317,8 @@
         "a": 255
       }
     },
-    "MemberRow/ContributionGroup/TodayContribution": {
-      "path": "MemberRow/ContributionGroup/TodayContribution",
+    "PartnerRow/ContributionGroup/TodayContribution": {
+      "path": "PartnerRow/ContributionGroup/TodayContribution",
       "x": 0,
       "y": 13,
       "width": 90,
@@ -343,8 +343,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/ContributionGroup/YesterdayContribution": {
-      "path": "MemberRow/ContributionGroup/YesterdayContribution",
+    "PartnerRow/ContributionGroup/YesterdayContribution": {
+      "path": "PartnerRow/ContributionGroup/YesterdayContribution",
       "x": 0,
       "y": -17,
       "width": 90,
@@ -369,8 +369,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/ResultGroup": {
-      "path": "MemberRow/ResultGroup",
+    "PartnerRow/ResultGroup": {
+      "path": "PartnerRow/ResultGroup",
       "x": 283,
       "y": 36,
       "width": 90,
@@ -389,8 +389,8 @@
         "a": 255
       }
     },
-    "MemberRow/ResultGroup/TodayResult": {
-      "path": "MemberRow/ResultGroup/TodayResult",
+    "PartnerRow/ResultGroup/TodayResult": {
+      "path": "PartnerRow/ResultGroup/TodayResult",
       "x": 0,
       "y": 13,
       "width": 90,
@@ -415,8 +415,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/ResultGroup/YesterdayResult": {
-      "path": "MemberRow/ResultGroup/YesterdayResult",
+    "PartnerRow/ResultGroup/YesterdayResult": {
+      "path": "PartnerRow/ResultGroup/YesterdayResult",
       "x": 0,
       "y": -17,
       "width": 90,
@@ -441,8 +441,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/Score": {
-      "path": "MemberRow/Score",
+    "PartnerRow/Score": {
+      "path": "PartnerRow/Score",
       "x": 433,
       "y": 36,
       "width": 100,
@@ -467,8 +467,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/TodayBox": {
-      "path": "MemberRow/TodayBox",
+    "PartnerRow/TodayBox": {
+      "path": "PartnerRow/TodayBox",
       "x": -411,
       "y": -35,
       "width": 160,
@@ -492,8 +492,8 @@
         "type": 1
       }
     },
-    "MemberRow/TodayLabel": {
-      "path": "MemberRow/TodayLabel",
+    "PartnerRow/TodayLabel": {
+      "path": "PartnerRow/TodayLabel",
       "x": -411,
       "y": -35,
       "width": 152,
@@ -518,8 +518,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/YesterdayBox": {
-      "path": "MemberRow/YesterdayBox",
+    "PartnerRow/YesterdayBox": {
+      "path": "PartnerRow/YesterdayBox",
       "x": -411,
       "y": -69,
       "width": 160,
@@ -543,8 +543,8 @@
         "type": 1
       }
     },
-    "MemberRow/YesterdayLabel": {
-      "path": "MemberRow/YesterdayLabel",
+    "PartnerRow/YesterdayLabel": {
+      "path": "PartnerRow/YesterdayLabel",
       "x": -411,
       "y": -69,
       "width": 152,
@@ -569,8 +569,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/BtnSetPartner": {
-      "path": "MemberRow/BtnSetPartner",
+    "PartnerRow/BtnAdjustRate": {
+      "path": "PartnerRow/BtnAdjustRate",
       "x": -153,
       "y": -54,
       "width": 127,
@@ -597,8 +597,8 @@
         "targetPath": null
       }
     },
-    "MemberRow/BtnSetPartner/Label": {
-      "path": "MemberRow/BtnSetPartner/Label",
+    "PartnerRow/BtnAdjustRate/Label": {
+      "path": "PartnerRow/BtnAdjustRate/Label",
       "x": 0,
       "y": 1,
       "width": 115,
@@ -623,8 +623,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/BtnLimitGame": {
-      "path": "MemberRow/BtnLimitGame",
+    "PartnerRow/BtnWarning": {
+      "path": "PartnerRow/BtnWarning",
       "x": -6,
       "y": -54,
       "width": 127,
@@ -651,8 +651,8 @@
         "targetPath": null
       }
     },
-    "MemberRow/BtnLimitGame/Label": {
-      "path": "MemberRow/BtnLimitGame/Label",
+    "PartnerRow/BtnWarning/Label": {
+      "path": "PartnerRow/BtnWarning/Label",
       "x": 0,
       "y": 1,
       "width": 115,
@@ -677,8 +677,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/BtnBattleDetail": {
-      "path": "MemberRow/BtnBattleDetail",
+    "PartnerRow/BtnViewSub": {
+      "path": "PartnerRow/BtnViewSub",
       "x": 141,
       "y": -54,
       "width": 127,
@@ -705,8 +705,8 @@
         "targetPath": null
       }
     },
-    "MemberRow/BtnBattleDetail/Label": {
-      "path": "MemberRow/BtnBattleDetail/Label",
+    "PartnerRow/BtnViewSub/Label": {
+      "path": "PartnerRow/BtnViewSub/Label",
       "x": 0,
       "y": 1,
       "width": 115,
@@ -731,8 +731,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/BtnAddScore": {
-      "path": "MemberRow/BtnAddScore",
+    "PartnerRow/BtnAddScore": {
+      "path": "PartnerRow/BtnAddScore",
       "x": 284,
       "y": -51,
       "width": 131,
@@ -759,8 +759,8 @@
         "targetPath": null
       }
     },
-    "MemberRow/BtnAddScore/Label": {
-      "path": "MemberRow/BtnAddScore/Label",
+    "PartnerRow/BtnAddScore/Label": {
+      "path": "PartnerRow/BtnAddScore/Label",
       "x": 0,
       "y": 1,
       "width": 119,
@@ -785,8 +785,8 @@
         "verticalAlign": 1
       }
     },
-    "MemberRow/BtnSubScore": {
-      "path": "MemberRow/BtnSubScore",
+    "PartnerRow/BtnSubScore": {
+      "path": "PartnerRow/BtnSubScore",
       "x": 435,
       "y": -51,
       "width": 131,
@@ -813,8 +813,8 @@
         "targetPath": null
       }
     },
-    "MemberRow/BtnSubScore/Label": {
-      "path": "MemberRow/BtnSubScore/Label",
+    "PartnerRow/BtnSubScore/Label": {
+      "path": "PartnerRow/BtnSubScore/Label",
       "x": 0,
       "y": 1,
       "width": 119,

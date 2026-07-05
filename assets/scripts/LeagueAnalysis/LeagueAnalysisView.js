@@ -1,10 +1,13 @@
 var LeagueAnalysisApi = require("./LeagueAnalysisApi");
+var PopupMaskUtil = require("./PopupMaskUtil");
 
 cc.Class({
     extends: cc.Component,
     properties: {
         memberPagePrefab: cc.Prefab,
         rowPrefab: cc.Prefab,
+        partnerPagePrefab: cc.Prefab,
+        partnerRowPrefab: cc.Prefab,
         searchPopupPrefab: cc.Prefab,
         scorePopupPrefab: cc.Prefab,
         setPartnerPopupPrefab: cc.Prefab,
@@ -17,17 +20,21 @@ cc.Class({
         this.bindButtons();
         this.page = 1;
         this.pageSize = 20;
-        this.loadMembers();
+        this.showMemberTab();
     },
     cacheNodes: function () {
         this.pageRoot = this.node.getChildByName('PageRoot');
         this.popupLayer = this.node.getChildByName('PopupLayer');
+        if (this.popupLayer) this.popupLayer.zIndex = 1000;
         this.leftMenu = this.node.getChildByName('LeftMenu');
-        this.mountMemberPage();
-        this.memberPage = this.getNode(this.memberPageNode, 'Content');
-        var scroll = this.getNode(this.memberPage, 'ScrollView');
+    },
+    bindPageContent: function (pageNode) {
+        this.currentPageNode = pageNode;
+        this.currentPage = this.getNode(pageNode, 'Content') || pageNode;
+        var scroll = this.getNode(this.currentPage, 'ScrollView');
         this.content = this.getNode(scroll, 'view/content');
         this.contentLayout = this.content && this.content.getComponent(cc.Layout);
+        this.bindCurrentSearch();
     },
     mountMemberPage: function () {
         if (!this.pageRoot || !this.memberPagePrefab) return;
@@ -36,6 +43,16 @@ cc.Class({
         this.memberPageNode.name = 'MemberPage';
         this.pageRoot.addChild(this.memberPageNode);
         this.memberPageNode.setPosition(0, 0);
+        this.bindPageContent(this.memberPageNode);
+    },
+    mountPartnerPage: function () {
+        if (!this.pageRoot || !this.partnerPagePrefab) return;
+        this.pageRoot.removeAllChildren();
+        this.partnerPageNode = cc.instantiate(this.partnerPagePrefab);
+        this.partnerPageNode.name = 'PartnerPage';
+        this.pageRoot.addChild(this.partnerPageNode);
+        this.partnerPageNode.setPosition(0, 0);
+        this.bindPageContent(this.partnerPageNode);
     },
     getNode: function (root, path) {
         if (!root || !path) return null;
@@ -45,9 +62,11 @@ cc.Class({
         return node;
     },
     bindButtons: function () {
-        var btn = this.getNode(this.memberPage, 'BtnSearch');
-        this.bindClick(btn, this.showSearchPopup.bind(this));
         this.bindTabs();
+    },
+    bindCurrentSearch: function () {
+        var btn = this.getNode(this.currentPage, 'BtnSearch');
+        this.bindClick(btn, this.showSearchPopup.bind(this));
     },
     bindTabs: function () {
         if (!this.leftMenu) return;
@@ -57,11 +76,17 @@ cc.Class({
             var node = this.leftMenu.getChildByName(name);
             this.bindClick(node, function (tabName) {
                 cc.log('[LeagueAnalysisView] tab click', tabName);
-                if (tabName !== 'BtnMember') return;
+                if (tabName === 'BtnMember') {
+                    this.showMemberTab();
+                    return;
+                }
+                if (tabName === 'BtnPartner') {
+                    this.showPartnerTab();
+                    return;
+                }
                 this.setTabSelected(tabName);
             }.bind(this, name));
         }
-        this.setTabSelected('BtnMember');
     },
     setTabSelected: function (selectedName) {
         if (!this.leftMenu) return;
@@ -75,6 +100,18 @@ cc.Class({
             if (normal) normal.active = !isSelected;
             if (selected) selected.active = isSelected;
         }
+    },
+    showMemberTab: function () {
+        this.currentTab = 'member';
+        this.setTabSelected('BtnMember');
+        this.mountMemberPage();
+        this.loadMembers();
+    },
+    showPartnerTab: function () {
+        this.currentTab = 'partner';
+        this.setTabSelected('BtnPartner');
+        this.mountPartnerPage();
+        this.loadPartners();
     },
     bindClick: function (node, fn) {
         if (!node) return;
@@ -100,9 +137,41 @@ cc.Class({
             this.setData(this.mockMembers());
         }.bind(this));
     },
+    loadPartners: function (options) {
+        options = options || {};
+        var req = {
+            page: options.page || this.page || 1,
+            pageSize: options.pageSize || this.pageSize || 20
+        };
+        if (options.keywords) req.keywords = options.keywords;
+        LeagueAnalysisApi.members(req).then(function (res) {
+            var users = res && (res.users || res.data && res.data.users || res.data) || {};
+            var rows = users.rows || res.rows || [];
+            this.partners = this.filterPartnerRows(rows);
+            if (!this.partners.length) this.partners = this.mockPartners();
+            this.setData(this.partners);
+        }.bind(this)).catch(function (err) {
+            console.error('[LeagueAnalysisView] partners fallback', err);
+            this.setData(this.mockPartners());
+        }.bind(this));
+    },
+    filterPartnerRows: function (rows) {
+        var list = [];
+        rows = rows || [];
+        for (var i = 0; i < rows.length; i++) {
+            var item = rows[i] || {};
+            var role = item.role || item.proxyRole || '';
+            if (item.partner || item.isPartner || item.level || item.shuffleLevel || role === 'proxy' || role === 'leader' || role === 'owner') {
+                list.push(item);
+            }
+        }
+        return list;
+    },
     setData: function (list) {
         list = list || [];
-        if (!this.content || !this.rowPrefab) return;
+        var rowPrefab = this.currentTab === 'partner' ? this.partnerRowPrefab : this.rowPrefab;
+        var rowCompName = this.currentTab === 'partner' ? 'PartnerRow' : 'MemberRow';
+        if (!this.content || !rowPrefab) return;
         this.content.removeAllChildren();
         var rowH = 184;
         var spacingY = 4;
@@ -110,12 +179,14 @@ cc.Class({
         this.content.setAnchorPoint(0.5, 1);
         this.content.setContentSize(contentW, Math.max(372, list.length * (rowH + spacingY)));
         for (var i = 0; i < list.length; i++) {
-            var rowNode = cc.instantiate(this.rowPrefab);
+            var rowNode = cc.instantiate(rowPrefab);
             rowH = rowNode.height || rowH;
             rowNode.setAnchorPoint(0.5, 0.5);
-            var row = rowNode.getComponent('MemberRow');
+            var row = rowNode.getComponent(rowCompName);
             if (row) row.setData(list[i], {
                 setPartner: this.showSetPartnerPopup.bind(this),
+                warning: this.showWarningTodo.bind(this),
+                viewSub: this.showViewSubTodo.bind(this),
                 limitGame: this.showLimitConfirm.bind(this),
                 battleDetail: this.showBattleDetailPopup.bind(this),
                 addScore: function (data) { this.showScorePopup(data, 'add'); }.bind(this),
@@ -128,6 +199,8 @@ cc.Class({
         if (!prefab || !this.popupLayer) return null;
         var node = cc.instantiate(prefab);
         this.popupLayer.addChild(node);
+        node.zIndex = 1000 + this.popupLayer.children.length;
+        PopupMaskUtil.ensure(node);
         var comps = node.getComponents(cc.Component);
         for (var i = 0; i < comps.length; i++) {
             if (comps[i].init) comps[i].init(data || {}, this);
@@ -137,7 +210,9 @@ cc.Class({
     showSearchPopup: function () { this.openPopup(this.searchPopupPrefab, {
         title: '查询成员',
         onSubmit: function (userID) {
-            this.loadMembers({ page: 1, pageSize: this.pageSize, keywords: userID });
+            var options = { page: 1, pageSize: this.pageSize, keywords: userID };
+            if (this.currentTab === 'partner') this.loadPartners(options);
+            else this.loadMembers(options);
         }.bind(this)
     }); },
     showSetPartnerPopup: function (data) { this.openPopup(this.setPartnerPopupPrefab, {
@@ -152,12 +227,18 @@ cc.Class({
                 data.partner = true;
                 data.level = payload.roomRate;
                 data.shuffleLevel = payload.waterRate;
-                this.setData(this.members);
+                this.setData(this.currentTab === 'partner' ? this.partners : this.members);
             }.bind(this));
         }.bind(this)
     }); },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
     showBattleReplayPopup: function (data) { this.openPopup(this.battleReplayPopupPrefab, data); },
+    showWarningTodo: function () {
+        this.openPopup(this.confirmPopupPrefab, { message: '警戒值功能待接入' });
+    },
+    showViewSubTodo: function () {
+        this.openPopup(this.confirmPopupPrefab, { message: '查看下级功能待接入' });
+    },
     showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, {
         user: data,
         mode: mode,
@@ -166,7 +247,7 @@ cc.Class({
                 var delta = Math.floor(Number(payload.amount || 0) * 100);
                 if (payload.mode === 'sub' || payload.mode === 'reduce') delta = -delta;
                 data.score = Number(data.score || 0) + delta;
-                this.setData(this.members);
+                this.setData(this.currentTab === 'partner' ? this.partners : this.members);
             }.bind(this));
         }.bind(this)
     }); },
@@ -177,7 +258,7 @@ cc.Class({
                 data.forbidden = forbidden;
                 data.hasLimit = forbidden ? (data.userID || data.userId) : 0;
                 data.status = forbidden ? 'limit' : 'normal';
-                this.setData(this.members);
+                this.setData(this.currentTab === 'partner' ? this.partners : this.members);
             }.bind(this));
         }.bind(this) });
     },
@@ -199,6 +280,32 @@ cc.Class({
             });
         }
         this.members = list;
+        return list;
+    },
+    mockPartners: function () {
+        var list = [];
+        for (var i = 0; i < 10; i++) {
+            list.push({
+                userID: 223456 + i,
+                name: i % 2 ? '直属队长' + i : '合伙人' + i,
+                role: i % 3 === 0 ? 'leader' : 'proxy',
+                partner: true,
+                peopleCount: 3 + i,
+                roomRate: i % 2 ? 60 : 100,
+                waterRate: i % 2 ? 40 : 100,
+                todayRounds: i + 1,
+                yesterdayRounds: i % 4,
+                todayIncome: (12.6 + i).toFixed(2),
+                yesterdayIncome: i % 2 ? 0 : 2.78,
+                todayContribution: i % 2 ? -38.9 : 20,
+                yesterdayContribution: 0,
+                score: 988500 + i * 1000,
+                warningScore: 1000000,
+                today: i % 2 ? -38.9 : 0,
+                yesterday: 0
+            });
+        }
+        this.partners = list;
         return list;
     }
 });
