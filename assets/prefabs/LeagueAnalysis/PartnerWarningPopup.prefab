@@ -1993,7 +1993,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ConfirmButton",
+    "_name": "BtnConfirm",
     "_objFlags": 0,
     "_parent": {
       "__id__": 28

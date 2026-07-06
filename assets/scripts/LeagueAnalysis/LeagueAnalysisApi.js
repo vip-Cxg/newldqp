@@ -31,11 +31,25 @@ function getErrorMessage(err) {
 
 function showErrorTip(err) {
     var message = getErrorMessage(err);
-    if (Cache && Cache.showTipsMsg) {
-        Cache.showTipsMsg(message);
-    } else if (Cache && Cache.alertTip) {
-        Cache.alertTip(message);
-    }
+    showMessagePopup(message);
+    if (err && typeof err === "object") err.__leagueAnalysisTipShown = true;
+}
+
+function showMessagePopup(message) {
+    if (!message) return;
+    cc.loader.loadRes("Main/Prefab/winConfirm", function (err, prefab) {
+        if (err || !prefab) {
+            console.error("[LeagueAnalysisApi] load winConfirm failed", err);
+            return;
+        }
+        var canvas = cc.find("Canvas");
+        if (!canvas) return;
+        var node = cc.instantiate(prefab);
+        canvas.addChild(node);
+        node.zIndex = 3000;
+        var comp = node.getComponent("ModuleWinConfirm");
+        if (comp && comp.show) comp.show("showTipsMsg", message, null, null, "", 3000);
+    });
 }
 
 function request(route, data, mask) {
@@ -44,6 +58,12 @@ function request(route, data, mask) {
     return new Promise(function (resolve, reject) {
         Connector.request(route, payload, function (res) {
             cc.log("[LeagueAnalysisApi] response", route, res);
+            if (res && ((res.status != null && Number(res.status) !== 0) || res.success === false)) {
+                console.error("[LeagueAnalysisApi] error", route, res);
+                showErrorTip(res);
+                reject(res);
+                return;
+            }
             resolve(res);
         }, mask == null ? 1 : mask, function (err) {
             console.error("[LeagueAnalysisApi] error", route, err);
@@ -55,6 +75,12 @@ function request(route, data, mask) {
 
 module.exports = {
     request: request,
+    overview: function (data) {
+        data = data || {};
+        return request("businessAnalysis/overview", {
+            clubID: getClubID()
+        });
+    },
     members: function (data) {
         data = data || {};
         return request(GameConfig.ServerEventName.UserList, {
@@ -69,6 +95,18 @@ module.exports = {
     searchMember: function (userID) {
         return this.members({ keywords: userID, page: 1, pageSize: 20 });
     },
+    findUser: function (userID) {
+        return request("businessAnalysis/findUser", {
+            clubID: getClubID(),
+            userID: userID
+        });
+    },
+    invitePlayer: function (userID) {
+        return request("businessAnalysis/invitePlayer", {
+            clubID: getClubID(),
+            userID: userID
+        });
+    },
     partners: function (data) {
         data = data || {};
         return request("businessAnalysis/partners", {
@@ -80,11 +118,27 @@ module.exports = {
     },
     setPartner: function (data) {
         data = data || {};
-        return request(GameConfig.ServerEventName.AddProxy, {
+        return request("businessAnalysis/setPartner", {
             clubID: getClubID(),
             userID: data.userID,
             level: data.roomRate || data.level || 0,
             shuffleLevel: data.waterRate || data.shuffleLevel || 0
+        });
+    },
+    updatePartnerRate: function (data) {
+        data = data || {};
+        return request(GameConfig.ServerEventName.UpdateLevel, {
+            clubID: getClubID(),
+            userID: data.userID,
+            level: data.roomRate || data.level || 0,
+            shuffleLevel: data.waterRate || data.shuffleLevel || 0
+        });
+    },
+    updateWarning: function (userID, warningScore) {
+        return request(GameConfig.ServerEventName.UpdateLimit, {
+            clubID: getClubID(),
+            userID: userID,
+            limit: Math.floor(Number(warningScore || 0))
         });
     },
     changeScore: function (userID, mode, amount) {

@@ -4410,14 +4410,17 @@
   {
     "__type__": "69d4bUeAl1Og7Ja+tDaOPAA",
     "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "memberPagePrefab": {
-      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0002"
-    },
+  "_objFlags": 0,
+  "node": {
+    "__id__": 1
+  },
+  "_enabled": true,
+  "statisticsPagePrefab": {
+    "__uuid__": "69368338-ed80-431f-94be-ab8ef24bb8f0"
+  },
+  "memberPagePrefab": {
+    "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0002"
+  },
     "rowPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0003"
     },
@@ -4452,7 +4455,7 @@
       "__uuid__": "2fe52ad7-3d83-4b0a-abf8-8aee4f21f449"
     },
     "searchPopupPrefab": {
-      "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0004"
+      "__uuid__": "9bb74a2b-f1f8-4a16-b158-c1037e4f2d3d"
     },
     "scorePopupPrefab": {
       "__uuid__": "1bf7c1f0-9112-4d6e-9a91-6b87f12c0005"
