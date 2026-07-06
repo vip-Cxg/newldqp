@@ -159,14 +159,6 @@ cc.Class({
         this.currentPageNode = this.statisticsPageNode;
         this.currentPage = this.getNode(this.statisticsPageNode, 'Content') || this.statisticsPageNode;
         var comp = this.statisticsPageNode.getComponent('StatisticsPage');
-        if (!comp) {
-            try {
-                comp = this.statisticsPageNode.addComponent('StatisticsPage');
-            } catch (e) {
-                cc.warn('[LeagueAnalysisView] add StatisticsPage by name failed', e);
-            }
-        }
-        if (!comp) comp = this.statisticsPageNode.getComponent(StatisticsPage) || this.statisticsPageNode.addComponent(StatisticsPage);
         if (comp && comp.init) comp.init(this);
     },
     showMemberTab: function () {

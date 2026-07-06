@@ -72,9 +72,7 @@ cc.Class({
     bindAll: function () {
         this.bind('BtnClose', this.close);
         this.bind('BtnConfirm', this.submit);
-        this.bind('ConfirmButton', this.submit);
         this.bindWarningInput('WarningInput');
-        this.bindWarningInput('WarningValue');
         this.block('Mask');
     },
     getWarningValue: function () {
