@@ -431,6 +431,13 @@ cc.Class({
         this.showTip(message);
         return Promise.reject({ message: message });
     },
+    isSearchEmpty: function (options, rows) {
+        return !!(options && options.keywords && (!rows || rows.length === 0));
+    },
+    showSearchEmptyTip: function () {
+        this.showTip('没有找到');
+        return { empty: true };
+    },
     getResultData: function (res) {
         return res && (res.data || res.detail) || res || {};
     },
