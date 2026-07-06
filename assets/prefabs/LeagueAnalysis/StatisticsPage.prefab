@@ -298,19 +298,19 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 261.69,
+      "width": 234.36,
       "height": 57.44
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -341,
+        -445,
         0,
         0,
         0,
@@ -352,7 +352,7 @@
     "_dstBlendFactor": 771,
     "_string": "今日总奖励： 0",
     "_N$string": "今日总奖励： 0",
-    "_fontSize": 38,
+    "_fontSize": 34,
     "_lineHeight": 44,
     "_enableWrapText": true,
     "_N$file": null,
@@ -427,19 +427,19 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 261.69,
+      "width": 234.36,
       "height": 57.44
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        135,
+        0,
         0,
         0,
         0,
@@ -481,7 +481,7 @@
     "_dstBlendFactor": 771,
     "_string": "昨日总奖励： 0",
     "_N$string": "昨日总奖励： 0",
-    "_fontSize": 38,
+    "_fontSize": 34,
     "_lineHeight": 44,
     "_enableWrapText": true,
     "_N$file": null,
@@ -792,14 +792,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -323,
+        -445,
         49,
         0,
         0,
@@ -921,14 +921,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -323,
+        -445,
         -48,
         0,
         0,
@@ -1050,14 +1050,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        122,
+        0,
         60,
         0,
         0,
@@ -1179,14 +1179,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        122,
+        0,
         0,
         0,
         0,
@@ -1308,14 +1308,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        122,
+        0,
         -60,
         0,
         0,

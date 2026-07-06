@@ -226,7 +226,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 92,
+      "width": 120,
       "height": 46
     },
     "_anchorPoint": {
@@ -334,7 +334,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 92,
+      "width": 150,
       "height": 46
     },
     "_anchorPoint": {
@@ -346,7 +346,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -242.893,
+        -245,
         0,
         0,
         0,
@@ -386,8 +386,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "99",
-    "_N$string": "99",
+    "_string": "本地测试用户2",
+    "_N$string": "本地测试用户2",
     "_fontSize": 22,
     "_lineHeight": 28,
     "_enableWrapText": false,

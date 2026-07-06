@@ -158,7 +158,7 @@ cc.Class({
         this.statisticsPageNode.setPosition(0, 0);
         this.currentPageNode = this.statisticsPageNode;
         this.currentPage = this.getNode(this.statisticsPageNode, 'Content') || this.statisticsPageNode;
-        var comp = this.statisticsPageNode.getComponent('StatisticsPage');
+        var comp = this.statisticsPageNode.getComponent(StatisticsPage);
         if (comp && comp.init) comp.init(this);
     },
     showMemberTab: function () {
@@ -438,7 +438,7 @@ cc.Class({
             onSubmit: function (userID) {
                 return LeagueAnalysisApi.invitePlayer(userID).then(function () {
                     this.showTip('邀请成功');
-                    var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent('StatisticsPage');
+                    var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent(StatisticsPage);
                     if (comp && comp.load) comp.load();
                 }.bind(this));
             }.bind(this)
@@ -450,11 +450,12 @@ cc.Class({
             onSubmit: function (userID) {
                 return LeagueAnalysisApi.findUser(userID).then(function (res) {
                     var user = this.getResultData(res);
+                    var existingPartner = this.isPartnerUser(user);
                     this.showSetPartnerPopup(user, {
-                        title: '设置合伙人',
-                        forceAdd: true,
+                        title: existingPartner ? '调整比例' : '设置合伙人',
+                        forceAdd: !existingPartner,
                         afterSuccess: function () {
-                            var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent('StatisticsPage');
+                            var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent(StatisticsPage);
                             if (comp && comp.load) comp.load();
                         }.bind(this)
                     });
@@ -468,7 +469,7 @@ cc.Class({
             title: options.title || '调整比例',
             user: data,
             onSubmit: function (payload) {
-                var isExistingPartner = !options.forceAdd && (data.partner || data.role === 'proxy' || data.role === 'owner' || data.role === 'manager' || data.level || data.shuffleLevel);
+                var isExistingPartner = !options.forceAdd && this.isPartnerUser(data);
                 var apiName = isExistingPartner ? 'updatePartnerRate' : 'setPartner';
                 var api = LeagueAnalysisApi[apiName];
                 if (typeof api !== 'function') {
@@ -489,6 +490,20 @@ cc.Class({
                 }.bind(this));
             }.bind(this)
         });
+    },
+    isPartnerUser: function (data) {
+        data = data || {};
+        var role = data.role || data.proxyRole || '';
+        return !!(
+            data.partner ||
+            data.isPartner ||
+            role === 'proxy' ||
+            role === 'owner' ||
+            role === 'manager' ||
+            role === 'leader' ||
+            Number(data.level || data.roomRate || 0) > 0 ||
+            Number(data.shuffleLevel || data.waterRate || 0) > 0
+        );
     },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
     showBattleReplayPopup: function (data) { this.openPopup(this.battleReplayPopupPrefab, data); },

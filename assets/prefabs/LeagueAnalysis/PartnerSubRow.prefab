@@ -235,7 +235,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -350.81,
+        -357.81,
         4.355,
         0,
         0,
@@ -333,7 +333,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 118,
+      "width": 120,
       "height": 58
     },
     "_anchorPoint": {
@@ -345,7 +345,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -252.595,
+        -260,
         4.355,
         0,
         0,
@@ -397,7 +397,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 118,
+      "width": 110,
       "height": 28
     },
     "_anchorPoint": {
@@ -451,7 +451,7 @@
     "_dstBlendFactor": 771,
     "_string": "玩家信息",
     "_N$string": "玩家信息",
-    "_fontSize": 22,
+    "_fontSize": 18,
     "_lineHeight": 28,
     "_enableWrapText": false,
     "_N$file": null,
@@ -505,7 +505,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 118,
+      "width": 110,
       "height": 28
     },
     "_anchorPoint": {
@@ -559,7 +559,7 @@
     "_dstBlendFactor": 771,
     "_string": "123456",
     "_N$string": "123456",
-    "_fontSize": 22,
+    "_fontSize": 18,
     "_lineHeight": 28,
     "_enableWrapText": false,
     "_N$file": null,

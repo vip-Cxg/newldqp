@@ -6045,7 +6045,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 260,
+      "width": 400,
       "height": 42
     },
     "_anchorPoint": {
@@ -6057,7 +6057,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -71,
+        5.346,
         -227,
         0,
         0,
@@ -6108,7 +6108,7 @@
     "_batchAsBitmap": false,
     "_styleFlags": 1,
     "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
+    "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 1,
