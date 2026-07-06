@@ -7,7 +7,6 @@ function safeNumber(value, fallback) {
 }
 
 module.exports = cc.Class({
-    name: 'StatisticsPage',
     extends: cc.Component,
 
     init: function (owner) {
@@ -48,7 +47,7 @@ module.exports = cc.Class({
         data = data || {};
         this.setText('ScoreBlock/TodayRewardLabel', '今日总奖励： ' + this.formatScore(data.todayReward || data.todayTotalReward || 0));
         this.setText('ScoreBlock/YesterdayRewardLabel', '昨日总奖励： ' + this.formatScore(data.yesterdayReward || data.yesterdayTotalReward || 0));
-        this.setText('TotalBlock/TeamScoreLabel', '团队总积分： ' + this.formatScore(data.teamScore || data.totalScore || 0));
+        this.setText('TotalBlock/TeamScoreLabel', '团队总积分： ' + this.formatPointScore(data.teamScore || data.totalScore || 0));
         this.setText('TotalBlock/TeamUserLabel', '团队总人数： ' + (data.teamPeople || data.teamUsers || data.totalPeople || 0));
         this.setText('TotalBlock/RoomRateLabel', '房费比例： ' + this.formatPercent(data.roomRate || data.roomPercent || 0));
         this.setText('TotalBlock/ShuffleRateLabel', '抽水比例： ' + this.formatPercent(data.waterRate || data.shuffleRate || data.waterPercent || 0));
@@ -87,6 +86,11 @@ module.exports = cc.Class({
 
     formatScore: function (value) {
         var num = safeNumber(value, 0);
+        return String(Number(num.toFixed(2))).replace(/\.00$/, '');
+    },
+
+    formatPointScore: function (value) {
+        var num = safeNumber(value, 0) / 100;
         return String(Number(num.toFixed(2))).replace(/\.00$/, '');
     },
 

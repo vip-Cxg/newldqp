@@ -1,6 +1,5 @@
 var LeagueAnalysisApi = require("./LeagueAnalysisApi");
 var PopupMaskUtil = require("./PopupMaskUtil");
-var StatisticsPage = require("./StatisticsPage");
 var Cache = require("../../Main/Script/Cache");
 
 cc.Class({
@@ -51,6 +50,7 @@ cc.Class({
         this.content = this.getNode(scroll, 'view/content');
         this.contentLayout = this.content && this.content.getComponent(cc.Layout);
         this.bindCurrentSearch();
+        this.bindCurrentWithdraw();
     },
     mountMemberPage: function () {
         if (!this.pageRoot || !this.memberPagePrefab) return;
@@ -85,6 +85,15 @@ cc.Class({
         var btn = this.getNode(this.currentPage, 'BtnSearch');
         this.bindClick(btn, function () {
             this.showSearchPopup();
+        }.bind(this));
+    },
+    bindCurrentWithdraw: function () {
+        if (this.currentTab !== 'rewardWithdraw') return;
+        var btn = this.findNode(this.currentPageNode, 'WithdrawBtn') ||
+            this.findNode(this.currentPageNode, 'BtnWithdraw') ||
+            this.findNode(this.currentPageNode, 'BtnTakeOut');
+        this.bindClick(btn, function () {
+            this.showRewardWithdrawConfirm();
         }.bind(this));
     },
     bindTabs: function () {
@@ -158,7 +167,7 @@ cc.Class({
         this.statisticsPageNode.setPosition(0, 0);
         this.currentPageNode = this.statisticsPageNode;
         this.currentPage = this.getNode(this.statisticsPageNode, 'Content') || this.statisticsPageNode;
-        var comp = this.statisticsPageNode.getComponent(StatisticsPage);
+        var comp = this.statisticsPageNode.getComponent('StatisticsPage');
         if (comp && comp.init) comp.init(this);
     },
     showMemberTab: function () {
@@ -243,9 +252,11 @@ cc.Class({
             pageSize: options.pageSize || this.pageSize || 20
         };
         if (options.keywords) req.keywords = options.keywords;
-        LeagueAnalysisApi.members(req).then(function (res) {
+        return LeagueAnalysisApi.members(req).then(function (res) {
             var users = res && (res.users || res.data && res.data.users || res.data) || {};
-            this.members = users.rows || res.rows || [];
+            var rows = users.rows || res.rows || [];
+            if (this.isSearchEmpty(options, rows)) return this.showSearchEmptyTip();
+            this.members = rows;
             this.setData(this.members);
         }.bind(this)).catch(function (err) {
             console.error('[LeagueAnalysisView] members fallback', err);
@@ -259,10 +270,12 @@ cc.Class({
             pageSize: options.pageSize || this.pageSize || 20
         };
         if (options.keywords) req.keywords = options.keywords;
-        LeagueAnalysisApi.partners(req).then(function (res) {
+        return LeagueAnalysisApi.partners(req).then(function (res) {
             var users = res && (res.users || res.data && res.data.users || res.data) || {};
             var rows = users.rows || res.rows || [];
-            this.partners = this.filterPartnerRows(rows);
+            var partners = this.filterPartnerRows(rows);
+            if (this.isSearchEmpty(options, partners)) return this.showSearchEmptyTip();
+            this.partners = partners;
             this.setData(this.partners);
         }.bind(this)).catch(function (err) {
             console.error('[LeagueAnalysisView] partners load failed', err);
@@ -282,10 +295,11 @@ cc.Class({
             pageSize: options.pageSize || this.pageSize || 20
         };
         if (options.keywords) req.keywords = options.keywords;
-        LeagueAnalysisApi[config.api](req).then(function (res) {
+        return LeagueAnalysisApi[config.api](req).then(function (res) {
             var data = res && (res.data || res.detail) || res || {};
             var rows = data.rows || data.list || res.rows || [];
             if (config.filter) rows = config.filter(rows);
+            if (this.isSearchEmpty(options, rows)) return this.showSearchEmptyTip();
             this[config.store] = rows;
             if (config.summary) config.summary(data);
             this.setData(rows);
@@ -351,7 +365,8 @@ cc.Class({
     },
     renderRewardWithdrawSummary: function (data) {
         data = data || {};
-        this.setPageText('CurrentRewardLabel', '当前奖励：' + this.formatScore(data.reward || 0));
+        this.currentRewardRaw = data.currentReward != null ? data.currentReward : (data.reward || 0);
+        this.setPageText('CurrentRewardLabel', '当前奖励：' + this.formatScore(this.currentRewardRaw));
     },
     setPageText: function (name, value) {
         if (!this.currentPageNode) return;
@@ -426,9 +441,9 @@ cc.Class({
             maxLength: options.maxLength || 6,
             onSubmit: options.onSubmit || function (userID) {
                 var req = { page: 1, pageSize: this.pageSize, keywords: userID };
-                if (this.currentTab === 'partner') this.loadPartners(req);
-                else if (this.currentTab === 'agent' || this.currentTab === 'rewardDetail' || this.currentTab === 'operation' || this.currentTab === 'rewardWithdraw') this.loadGenericList(this.currentTab, req);
-                else this.loadMembers(req);
+                if (this.currentTab === 'partner') return this.loadPartners(req);
+                if (this.currentTab === 'agent' || this.currentTab === 'rewardDetail' || this.currentTab === 'operation' || this.currentTab === 'rewardWithdraw') return this.loadGenericList(this.currentTab, req);
+                return this.loadMembers(req);
             }.bind(this)
         });
     },
@@ -438,7 +453,7 @@ cc.Class({
             onSubmit: function (userID) {
                 return LeagueAnalysisApi.invitePlayer(userID).then(function () {
                     this.showTip('邀请成功');
-                    var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent(StatisticsPage);
+                    var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent('StatisticsPage');
                     if (comp && comp.load) comp.load();
                 }.bind(this));
             }.bind(this)
@@ -455,7 +470,7 @@ cc.Class({
                         title: existingPartner ? '调整比例' : '设置合伙人',
                         forceAdd: !existingPartner,
                         afterSuccess: function () {
-                            var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent(StatisticsPage);
+                            var comp = this.statisticsPageNode && this.statisticsPageNode.getComponent('StatisticsPage');
                             if (comp && comp.load) comp.load();
                         }.bind(this)
                     });
@@ -484,7 +499,10 @@ cc.Class({
                     data.partner = true;
                     data.level = payload.roomRate;
                     data.shuffleLevel = payload.waterRate;
+                    data.roomRate = payload.roomRate;
+                    data.waterRate = payload.waterRate;
                     if (options.afterSuccess) options.afterSuccess();
+                    else if (this.currentTab === 'partner') this.loadPartners({ page: this.page || 1, pageSize: this.pageSize || 20 });
                     else this.setData(this.currentTab === 'partner' ? this.partners : this.members);
                     this.showTip('设置成功');
                 }.bind(this));
@@ -566,6 +584,24 @@ cc.Class({
                 this.showTip(forbidden ? '封禁成功' : '解除封禁成功');
             }.bind(this));
         }.bind(this) });
+    },
+    showRewardWithdrawConfirm: function () {
+        var reward = Number(this.currentRewardRaw || 0);
+        if (reward <= 0) {
+            this.showTip('当前没有可提取奖励');
+            return;
+        }
+        this.openPopup(this.confirmPopupPrefab, {
+            message: '确认取出当前奖励？',
+            onOK: function () {
+                return LeagueAnalysisApi.drawReward(reward).then(function (res) {
+                    var data = this.getResultData(res);
+                    this.currentRewardRaw = data.reward || 0;
+                    this.showTip('提取成功');
+                    this.loadGenericList('rewardWithdraw');
+                }.bind(this));
+            }.bind(this)
+        });
     },
     mockMembers: function () {
         var list = [];

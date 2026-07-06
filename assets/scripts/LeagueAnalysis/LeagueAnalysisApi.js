@@ -222,5 +222,12 @@ module.exports = {
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });
+    },
+    drawReward: function (reward, userID) {
+        return request(GameConfig.ServerEventName.DrawReward, {
+            clubID: getClubID(),
+            userID: userID || getSelfID(),
+            reward: Math.floor(Number(reward || 0))
+        });
     }
 };
