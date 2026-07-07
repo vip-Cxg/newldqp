@@ -92,6 +92,8 @@ cc.Class({
         this.drawBackground(size);
         this.safeRoot = this.makeNode("SafeRoot", this.node, 0, 0, size.width, size.height);
         this.buildTop(size);
+        this.refreshTopRealData();
+        this.refreshClubInfoForTop();
         this.buildNotice(size);
         this.buildTableScroll(size);
         this.buildMenu(size);
@@ -193,11 +195,11 @@ cc.Class({
         this.setTopAvatar(player.head);
 
         let fallbackID = this.getNode("LabelID", this.safeRoot);
-        if (fallbackID) fallbackID.getComponent(cc.Label).string = playerID ? "ID:" + playerID : "ID:--";
+        if (fallbackID && fallbackID.getComponent(cc.Label)) fallbackID.getComponent(cc.Label).string = playerID ? "ID:" + playerID : "ID:--";
         let fallbackCoin = this.getNode("LabelCoin", this.safeRoot);
-        if (fallbackCoin) fallbackCoin.getComponent(cc.Label).string = "金币 " + this.ellipsisText(this.formatTopCoin(coinValue), 10);
+        if (fallbackCoin && fallbackCoin.getComponent(cc.Label)) fallbackCoin.getComponent(cc.Label).string = "金币 " + this.ellipsisText(this.formatTopCoin(coinValue), 10);
         let fallbackClubName = this.getNode("ClubName", this.safeRoot);
-        if (fallbackClubName) fallbackClubName.getComponent(cc.Label).string = clubName;
+        if (fallbackClubName && fallbackClubName.getComponent(cc.Label)) fallbackClubName.getComponent(cc.Label).string = clubName;
     },
 
     refreshClubInfoForTop() {

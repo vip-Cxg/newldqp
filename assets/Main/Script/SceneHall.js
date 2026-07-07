@@ -279,7 +279,7 @@ cc.Class({
                 utils.pop(GameConfig.pop.HallStaticTestView);
             } else if (GameConfig.ShowTablePop && App.Club.CurrentClubID != -1) {
                 GameConfig.ShowTablePop = false;
-                utils.pop(GameConfig.pop.TablePop)
+                utils.pop(GameConfig.UseStaticHall ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop)
             }
 
         }, true, (data) => {
