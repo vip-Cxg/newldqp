@@ -285,7 +285,7 @@ export class GameConfig {
     /**冒的办法用的请求 */
     static DefaultUrl = "http://pku.qzhagy.com/xcconfig/release_first.json";
 
-    static TestServerUrl = "http://127.0.0.1:8000/";
+    static TestServerUrl = "http://192.168.31.99:8000/";
     // static TestServerUrl = "http://47.241.56.123:8000/";
 
     /**代理服务端接口前缀 */

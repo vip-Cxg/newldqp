@@ -2648,9 +2648,9 @@
     "_dstBlendFactor": 771,
     "_string": "调整比例",
     "_N$string": "调整比例",
-    "_fontSize": 19,
+    "_fontSize": 18,
     "_lineHeight": 24,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
     },
@@ -2961,9 +2961,9 @@
     "_dstBlendFactor": 771,
     "_string": "警戒值",
     "_N$string": "警戒值",
-    "_fontSize": 19,
+    "_fontSize": 18,
     "_lineHeight": 24,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
     },
@@ -3274,9 +3274,9 @@
     "_dstBlendFactor": 771,
     "_string": "查看下级",
     "_N$string": "查看下级",
-    "_fontSize": 19,
+    "_fontSize": 18,
     "_lineHeight": 24,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
     },

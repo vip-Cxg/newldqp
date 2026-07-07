@@ -2570,9 +2570,9 @@
     "_dstBlendFactor": 771,
     "_string": "设置合伙人",
     "_N$string": "设置合伙人",
-    "_fontSize": 19,
+    "_fontSize": 18,
     "_lineHeight": 24,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
     },
@@ -2883,9 +2883,9 @@
     "_dstBlendFactor": 771,
     "_string": "禁止游戏",
     "_N$string": "禁止游戏",
-    "_fontSize": 19,
+    "_fontSize": 18,
     "_lineHeight": 24,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
     },
@@ -3196,9 +3196,9 @@
     "_dstBlendFactor": 771,
     "_string": "战绩明细",
     "_N$string": "战绩明细",
-    "_fontSize": 19,
+    "_fontSize": 18,
     "_lineHeight": 24,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
     },
