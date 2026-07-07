@@ -273,7 +273,11 @@ cc.Class({
                 return;
             }
 
-            if (GameConfig.ShowTablePop && App.Club.CurrentClubID != -1) {
+            if (GameConfig.ReturnToStaticHall && App.Club.CurrentClubID != -1) {
+                GameConfig.ReturnToStaticHall = false;
+                GameConfig.ShowTablePop = false;
+                utils.pop(GameConfig.pop.HallStaticTestView);
+            } else if (GameConfig.ShowTablePop && App.Club.CurrentClubID != -1) {
                 GameConfig.ShowTablePop = false;
                 utils.pop(GameConfig.pop.TablePop)
             }
@@ -449,7 +453,7 @@ cc.Class({
             return;
         }
 
-        utils.pop(GameConfig.pop.TablePop);
+        utils.pop(GameConfig.UseStaticHall ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop);
     },
     changeClubInfo() {
         if (App.Club.CurrentClubID == -1 || utils.isNullOrEmpty(App.Club.CurrentClubData)) {

@@ -34,8 +34,8 @@ export class SelectLink {
     loadLocalConfig() {
         if (cc.sys.isBrowser || GameConfig.SkipHotUpdate) {
             //链接本地
-            this.changeLocalUrl('http://127.0.0.1:8000/');
-            // this.changeLocalUrl('http://192.168.31.132:8000/');
+            // this.changeLocalUrl('http://127.0.0.1:8000/');
+            this.changeLocalUrl('http://192.168.31.132:8000/');
             return;
         }
 

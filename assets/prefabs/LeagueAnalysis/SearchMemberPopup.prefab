@@ -346,8 +346,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 78,
-      "height": 62.48
+      "width": 360,
+      "height": 58
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -359,7 +359,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        270,
+        276.772,
         0,
         0,
         0,
@@ -400,11 +400,13 @@
     "_dstBlendFactor": 771,
     "_string": "查询",
     "_N$string": "查询",
-    "_fontSize": 38,
-    "_lineHeight": 48,
+    "_fontSize": 45,
+    "_lineHeight": 50,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "d29929f0-58ec-4968-83b3-caf01c0576bf"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_styleFlags": 0,
@@ -412,7 +414,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 1,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -426,23 +428,23 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 80,
-      "g": 55,
-      "b": 45,
+      "r": 76,
+      "g": 70,
+      "b": 184,
       "a": 255
     },
-    "_width": 1,
+    "_width": 3,
     "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 1
+      "__id__": 9
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "081acde3-62cd-4d98-9401-4056ce54fda8"
     },
-    "fileId": "zLawjMO6mC9",
+    "fileId": "7cbGQLgSFJlrkuEl4orPJM",
     "sync": false
   },
   {
@@ -1108,7 +1110,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 133.48,
+      "width": 0,
       "height": 50.4
     },
     "_anchorPoint": {

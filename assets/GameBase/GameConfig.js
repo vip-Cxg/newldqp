@@ -1353,6 +1353,10 @@ export class GameConfig {
     static LDZPShowGameSummary = false;
     /**是否弹出桌子大厅 */
     static ShowTablePop = true;
+    /**当前联盟是否使用新大厅 */
+    static UseStaticHall = false;
+    /**从新大厅进游戏后返回 Lobby 时继续打开新大厅 */
+    static ReturnToStaticHall = false;
     /**是否马上进行快速开始 */
     static IsQuickStart = false;
 

@@ -43,6 +43,9 @@ export default class ClubListItem extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             App.Club.CurrentClubID = data.clubID;
             App.Club.IsLeague = false;
+            App.Club.ClubName = data.club && data.club.name ? data.club.name : "";
+            App.Club.CurrentClubRole = data.role || 'user';
+            GameConfig.UseStaticHall = false;
             GameUtils.pop(GameConfig.pop.TablePop);
             App.EventManager.dispatchEventWith(GameConfig.GameEventNames.CHOOSE_CLUB);
         }, this)
@@ -66,7 +69,10 @@ export default class ClubListItem extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             App.Club.CurrentClubID = data.clubID;
             App.Club.IsLeague = true;
-            GameUtils.pop(data.isStaticHallTest || index === 1 ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop);
+            App.Club.ClubName = data.club && data.club.name ? data.club.name : "";
+            App.Club.CurrentClubRole = data.role || 'user';
+            GameConfig.UseStaticHall = data.isStaticHallTest || index === 1;
+            GameUtils.pop(GameConfig.UseStaticHall ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop);
             App.EventManager.dispatchEventWith(GameConfig.GameEventNames.CHOOSE_CLUB);
 
         }, this)

@@ -83,8 +83,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        1.2,
+        1.2,
         1
       ]
     },
@@ -471,7 +471,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 72,
+      "width": 130.13,
       "height": 32.76
     },
     "_anchorPoint": {
@@ -483,8 +483,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -38,
-        -163.056,
+        -98.76,
+        -49.375,
         0,
         0,
         0,
@@ -523,8 +523,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
+    "_string": "总人数：34",
+    "_N$string": "总人数：34",
     "_fontSize": 24,
     "_lineHeight": 26,
     "_enableWrapText": false,

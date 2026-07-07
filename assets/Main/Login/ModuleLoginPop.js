@@ -47,7 +47,7 @@ cc.Class({
     refreshUI() {
         let phone = utils.getValue(GameConfig.StorageKey.UserAccount)||'请输入手机号';
         this.phoneInput.string = phone;
-        this.codeContent.active = true;
+        // this.codeContent.active = true;
     },
     onClickPhone() {
         Cache.showNumer('输入手机号', GameConfig.NumberType.INT, (phone) => {

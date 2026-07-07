@@ -1,14 +1,19 @@
 const { GameConfig } = require("../../../GameBase/GameConfig");
+const Connector = require("../../../Main/NetWork/Connector");
+const Cache = require("../../../Main/Script/Cache");
+const DataBase = require("../../../Main/Script/DataBase");
+const utils = require("../../../Main/Script/utils");
 const GameUtilsModule = require("../../common/GameUtils");
 const GameUtils = GameUtilsModule.default || GameUtilsModule;
+const { App } = require("./data/App");
 
 const MENU_ITEMS = [
     { key: "ALL", name: "全部游戏", icon: "hall/quanbuyouxi", color: cc.color(238, 204, 170, 255) },
     { key: "DNIU", name: "牛牛", icon: "hall/niuniu", color: cc.color(128, 146, 238, 255), seats: 8, asset: "hall/niuniu01", tableColor: cc.color(181, 44, 82, 255) },
     { key: "JH", name: "金花", icon: "hall/jinhua", color: cc.color(128, 146, 238, 255), seats: 6, asset: "hall/jh02", tableColor: cc.color(52, 91, 158, 255) },
     { key: "HSMJ", name: "划水麻将", icon: "hall/huashuimaj", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/hsmj05", tableColor: cc.color(48, 130, 116, 255) },
-    { key: "ZMZ", name: "捉麻子", icon: "hall/zuomazi", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
-    { key: "PDK", name: "跑得快", icon: "hall/zuomazi", hiddenInStaticHall: true, color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
+    { key: "PDK", name: "跑得快", icon: "hall/paodekuai", color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
+    { key: "ZMZ", name: "捉麻子", icon: "hall/zuomazi", hiddenInStaticHall: true, color: cc.color(128, 146, 238, 255), seats: 2, asset: "hall/zmz03", tableColor: cc.color(170, 68, 96, 255) },
 ];
 
 const TABLE_COUNT = 30;
@@ -134,8 +139,9 @@ cc.Class({
         this.bindTouch("TopBar/BtnRefresh", () => this.renderTables(), true);
         this.bindTouch("TopBar/BtnMessage", () => {}, true);
         this.bindTouch("TopBar/BtnSetting", () => {}, true);
-        this.setNodeLabel("TopBar/ClubTitle/Label", "娱乐至上俱乐部");
         this.resizeNode(this.getNode("TopBar/ClubTitle/Label"), 0, 2, 310, 48);
+        this.refreshTopRealData();
+        this.refreshClubInfoForTop();
     },
 
     bindUserInfoPrefab() {
@@ -160,8 +166,6 @@ cc.Class({
         this.applySprite("TopBar/UserInfo/AvatarRoot/AvatarMask/AvatarSprite", "avatarFill", 58, 58);
         this.applySprite("TopBar/UserInfo/AvatarRoot/AvatarFrame", "avatar", 66, 66);
         this.applySprite(coinIconPath, "coin", 28, 28);
-        this.setNodeLabel("TopBar/UserInfo/LabelID", "ID:123456789");
-        this.setNodeLabel(coinLabelPath, this.ellipsisText("52.7822222222", 10));
         this.styleLabel("TopBar/UserInfo/LabelID", 22, cc.color(255, 255, 255, 255), 24);
         this.styleCoinLabel(coinLabelPath, 20, cc.color(255, 231, 120, 255), 22);
         let zMap = {
@@ -177,6 +181,92 @@ cc.Class({
 
     },
 
+    refreshTopRealData() {
+        let player = DataBase.player || {};
+        let clubName = this.getCurrentClubName();
+        let playerID = player.id || player.userID || player.pid || "";
+        let coinValue = !utils.isNullOrEmpty(player.card) ? player.card : (!utils.isNullOrEmpty(player.score) ? player.score : 0);
+
+        this.setNodeLabel("TopBar/ClubTitle/Label", clubName);
+        this.setNodeLabel("TopBar/UserInfo/LabelID", playerID ? "ID:" + playerID : "ID:--");
+        this.setNodeLabel("TopBar/UserInfo/CoinBg/LabelCoin", this.ellipsisText(this.formatTopCoin(coinValue), 10));
+        this.setTopAvatar(player.head);
+
+        let fallbackID = this.getNode("LabelID", this.safeRoot);
+        if (fallbackID) fallbackID.getComponent(cc.Label).string = playerID ? "ID:" + playerID : "ID:--";
+        let fallbackCoin = this.getNode("LabelCoin", this.safeRoot);
+        if (fallbackCoin) fallbackCoin.getComponent(cc.Label).string = "金币 " + this.ellipsisText(this.formatTopCoin(coinValue), 10);
+        let fallbackClubName = this.getNode("ClubName", this.safeRoot);
+        if (fallbackClubName) fallbackClubName.getComponent(cc.Label).string = clubName;
+    },
+
+    refreshClubInfoForTop() {
+        if (this._loadingTopClubInfo || App.Club.CurrentClubID == -1) return;
+        this._loadingTopClubInfo = true;
+        Connector.request(GameConfig.ServerEventName.ClubInfo, { clubID: App.Club.CurrentClubID }, (res) => {
+            this._loadingTopClubInfo = false;
+            if (res && res.club) {
+                if (res.club.club && res.club.club.name) {
+                    App.Club.ClubName = res.club.club.name;
+                }
+                if (res.club.role) {
+                    App.Club.CurrentClubRole = res.club.role;
+                }
+            }
+            if (res && res.rooms) {
+                GameConfig.TableAllRooms = GameUtils.deepcopyArr(res.rooms || []);
+            }
+            this.refreshTopRealData();
+        }, false, () => {
+            this._loadingTopClubInfo = false;
+            this.refreshTopRealData();
+        });
+    },
+
+    getCurrentClubName() {
+        if (!utils.isNullOrEmpty(App.Club.ClubName)) return App.Club.ClubName;
+        let clubData = App.Club.CurrentClubData || {};
+        if (clubData.club && clubData.club.name) return clubData.club.name;
+        if (clubData.name) return clubData.name;
+        return App.Club.IsLeague ? "本地测试大联盟" : "本地俱乐部";
+    },
+
+    formatTopCoin(value) {
+        if (utils.isNullOrEmpty(value)) return "0";
+        let num = Number(value);
+        if (isNaN(num)) return "" + value;
+        if (Math.abs(num - Math.floor(num)) < 0.0001) return "" + Math.floor(num);
+        return ("" + parseFloat(num.toFixed(2)));
+    },
+
+    setTopAvatar(head) {
+        let node = this.getNode("TopBar/UserInfo/AvatarRoot/AvatarMask/AvatarSprite");
+        if (!node || utils.isNullOrEmpty(head)) return;
+        let sprite = node.getComponent(cc.Sprite);
+        if (!sprite) return;
+        let url = head;
+        if (url.indexOf("://") === -1) {
+            url = GameConfig.HeadUrl + url;
+        }
+        if (utils.isNullOrEmpty(url)) return;
+        if (url.indexOf("http://") === 0 || url.indexOf("https://") === 0) {
+            url += url.indexOf("?") === -1 ? "?file=a.png" : "";
+            cc.loader.load(url, (err, tex) => {
+                if (err || !cc.isValid(node)) return;
+                try {
+                    sprite.spriteFrame = new cc.SpriteFrame(tex);
+                } catch (e) {
+                    this.applySprite(node, "avatarFill", 58, 58);
+                }
+            });
+            return;
+        }
+        if (url.indexOf("file://") === 0 && GameConfig.AvatartAtlas) {
+            let frame = GameConfig.AvatartAtlas.getSpriteFrame("mj_face" + url.split("file://")[1]);
+            if (frame) sprite.spriteFrame = frame;
+        }
+    },
+
     bindNoticePrefab(size) {
         let notice = this.getNode("NoticeBar");
         this.resizeNode(notice, 8, size.height / 2 - 116, size.width - 16, 40);
@@ -188,11 +278,14 @@ cc.Class({
     bindMenuPrefab(size) {
         let menu = this.getNode("GameMenu");
         this.resizeNode(menu, -size.width / 2 + 62, 5, DESIGN.menu, size.height - DESIGN.top - 22);
+        let visibleIndex = 0;
         MENU_ITEMS.forEach((item, index) => {
             let btn = this.getNode("GameMenu/GameBtn_" + item.key);
             if (!btn) return;
             btn.active = !item.hiddenInStaticHall;
-            this.resizeNode(btn, 0, size.height / 2 - 176 - index * 96, DESIGN.menuBtnW, DESIGN.menuBtnH);
+            if (item.hiddenInStaticHall) return;
+            this.resizeNode(btn, 0, size.height / 2 - 176 - visibleIndex * 96, DESIGN.menuBtnW, DESIGN.menuBtnH);
+            visibleIndex++;
             this.applyMenuSprite(btn, item);
             this.configureButton(btn);
             btn.gameKey = item.key;
@@ -374,8 +467,11 @@ cc.Class({
 
     buildMenu(size) {
         let startY = size.height / 2 - 178;
-        MENU_ITEMS.forEach((item, index) => {
-            let btn = this.makeRoundButton("GameBtn_" + item.key, this.safeRoot, -size.width / 2 + 78, startY - index * 62, 136, 52, item.name, 28, item.color);
+        let visibleIndex = 0;
+        MENU_ITEMS.forEach((item) => {
+            if (item.hiddenInStaticHall) return;
+            let btn = this.makeRoundButton("GameBtn_" + item.key, this.safeRoot, -size.width / 2 + 78, startY - visibleIndex * 62, 136, 52, item.name, 28, item.color);
+            visibleIndex++;
             btn.gameKey = item.key;
             btn.on(cc.Node.EventType.TOUCH_END, () => this.selectGame(item.key), this);
             this.menuButtons[item.key] = btn;
@@ -456,6 +552,14 @@ cc.Class({
     },
 
     renderTables() {
+        if (this.currentGame === "PDK") {
+            this.renderPdkRealTables();
+            return;
+        }
+        this.renderMockTables();
+    },
+
+    renderMockTables() {
         let gameList = this.currentGame === "ALL" ? [this.getGame("DNIU")] : [this.getGame(this.currentGame)];
         let tables = [];
         gameList.forEach((game) => {
@@ -463,18 +567,216 @@ cc.Class({
                 tables.push(this.createTableData(game, i));
             }
         });
+        this.applyTableData(tables, true);
+    },
 
+    applyTableData(tables, resetScroll) {
+        tables = tables || [];
         this.tableData = tables;
         this.tableRows = 2;
         this.tableStrideX = DESIGN.tableW + DESIGN.gapX;
         this.tableStrideY = DESIGN.tableH + DESIGN.gapY;
         let cols = Math.ceil(tables.length / this.tableRows);
         let contentW = cols * this.tableStrideX + 110;
+        if (contentW < this.scrollNode.width) contentW = this.scrollNode.width;
         this.tableContent.setContentSize(cc.size(contentW, this.tableContent.height));
         this.ensureTablePool();
-        this.resetTableScroll();
+        if (resetScroll !== false) this.resetTableScroll();
         this.firstVisibleIndex = -1;
         this.updateVisibleTables();
+    },
+
+    renderPdkRealTables() {
+        this.pdkRenderToken = (this.pdkRenderToken || 0) + 1;
+        let token = this.pdkRenderToken;
+        let rooms = this.getPdkRooms();
+        if (rooms.length) {
+            this.loadPdkTablesFromRooms(rooms, token);
+            return;
+        }
+
+        this.applyTableData([], true);
+        Connector.request(GameConfig.ServerEventName.ClubInfo, { clubID: App.Club.CurrentClubID }, (res) => {
+            GameConfig.TableAllRooms = GameUtils.deepcopyArr ? GameUtils.deepcopyArr(res.rooms || []) : (res.rooms || []);
+            if (token !== this.pdkRenderToken || this.currentGame !== "PDK") return;
+            this.loadPdkTablesFromRooms(this.getPdkRooms(), token);
+        }, true, (err) => {
+            if (token !== this.pdkRenderToken || this.currentGame !== "PDK") return;
+            Cache.showTipsMsg(utils.isNullOrEmpty(err && err.message) ? "获取跑得快房型失败" : err.message);
+            this.applyTableData([], true);
+        });
+    },
+
+    loadPdkTablesFromRooms(rooms, token) {
+        rooms = rooms || [];
+        if (!rooms.length) {
+            Cache.showTipsMsg("当前联盟没有跑得快房型，请先配置跑得快房间");
+            this.applyTableData([], true);
+            return;
+        }
+
+        let roomIDs = rooms.map((room) => room.roomID).filter((roomID) => !utils.isNullOrEmpty(roomID));
+        if (!roomIDs.length) {
+            this.applyTableData(this.buildPdkTableData(rooms, []), true);
+            return;
+        }
+
+        Connector.request(GameConfig.ServerEventName.Tables, { rooms: roomIDs, clubID: App.Club.CurrentClubID }, (res) => {
+            if (token !== this.pdkRenderToken || this.currentGame !== "PDK") return;
+            this.applyTableData(this.buildPdkTableData(rooms, res.rooms || []), true);
+        }, true, (err) => {
+            if (token !== this.pdkRenderToken || this.currentGame !== "PDK") return;
+            Cache.showTipsMsg(utils.isNullOrEmpty(err && err.message) ? "获取跑得快桌子失败" : err.message);
+            this.applyTableData(this.buildPdkTableData(rooms, []), true);
+        });
+    },
+
+    buildPdkTableData(rooms, tableRooms) {
+        let pdkGame = this.getGame("PDK");
+        let roomMap = {};
+        rooms.forEach((room) => {
+            if (!room || utils.isNullOrEmpty(room.roomID)) return;
+            roomMap[String(room.roomID)] = room;
+        });
+
+        let result = [];
+        rooms.forEach((room, index) => {
+            result.push(this.createPdkCreateEntry(room, index));
+        });
+
+        let realTables = [];
+        (tableRooms || []).forEach((roomTables) => {
+            if (!roomTables) return;
+            let room = roomMap[String(roomTables.roomID)];
+            if (!room) return;
+            (roomTables.tables || []).forEach((tableStr) => {
+                let table = this.parseTableString(tableStr);
+                if (!table || utils.isNullOrEmpty(table.tableID)) return;
+                table.roomID = roomTables.roomID;
+                realTables.push(this.createPdkRealTableEntry(pdkGame, room, table));
+            });
+        });
+
+        realTables.sort((a, b) => {
+            let statusA = a.rawStatus === "WAIT" ? 1 : 0;
+            let statusB = b.rawStatus === "WAIT" ? 1 : 0;
+            if (statusA !== statusB) return statusB - statusA;
+            return (b.occupied || 0) - (a.occupied || 0);
+        });
+
+        return result.concat(realTables);
+    },
+
+    createPdkCreateEntry(room, index) {
+        let game = this.getGame("PDK");
+        return {
+            game: game,
+            name: (room && room.name ? room.name : "跑得快") + "开房",
+            rule: room && room.name ? room.name : this.getRuleName("PDK"),
+            entryText: this.getRoomEntryText(room),
+            occupied: 0,
+            players: [],
+            state: "等待中",
+            totalRound: this.getRoomTotalRound(room),
+            currentRound: 0,
+            isPdkCreateRoom: true,
+            realRoomData: this.copyRoomData(room),
+            roomID: room && room.roomID,
+            gameType: room && room.gameType,
+        };
+    },
+
+    createPdkRealTableEntry(game, room, table) {
+        let players = this.normalizeTablePlayers(table.players || []);
+        return {
+            game: game,
+            name: (GameConfig.TableType && GameConfig.TableType[table.mode] || "普通桌") + " " + (room.name || "跑得快"),
+            rule: room.name || this.getRuleName("PDK"),
+            entryText: this.getRoomEntryText(room),
+            occupied: players.length,
+            players: players,
+            state: table.status === "WAIT" ? "等待中" : "游戏中",
+            rawStatus: table.status,
+            totalRound: this.getRoomTotalRound(room),
+            currentRound: table.turn || table.round || 0,
+            isPdkRealTable: true,
+            realRoomData: this.copyRoomData(room),
+            realTableData: table,
+            roomID: table.roomID || room.roomID,
+            tableID: table.tableID,
+            gameType: table.gameType || room.gameType,
+        };
+    },
+
+    parseTableString(tableStr) {
+        if (utils.isNullOrEmpty(tableStr)) return null;
+        if (typeof tableStr === "object") return tableStr;
+        try {
+            return JSON.parse(tableStr);
+        } catch (err) {
+            console.warn("[HallStaticTestView] parse PDK table failed", tableStr, err);
+        }
+        return null;
+    },
+
+    normalizeTablePlayers(players) {
+        if (!players || !players.length) return [];
+        return players.filter((player) => !!player).map((player, index) => {
+            if (typeof player !== "object") {
+                return { name: "玩家" + (index + 1), head: "" };
+            }
+            let prop = player.prop || player.user || player;
+            return {
+                name: prop.name || prop.nickname || prop.nickName || player.name || player.nickname || player.nickName || "玩家" + (index + 1),
+                head: prop.head || prop.avatar || prop.avatarUrl || player.head || player.avatar || player.avatarUrl || "",
+                raw: player,
+            };
+        });
+    },
+
+    getPdkRooms() {
+        let rooms = GameConfig.TableAllRooms || [];
+        let pdkTypes = this.getPdkGameTypes();
+        return rooms.filter((room) => room && pdkTypes.indexOf(room.gameType) !== -1);
+    },
+
+    getPdkGameTypes() {
+        return ["PDK", "PDK_SOLO", "PDK_CLAN", "PDK_SOLO_CLAN"];
+    },
+
+    copyRoomData(room) {
+        if (!room) return {};
+        if (GameUtils.deepcopyArr) return GameUtils.deepcopyArr([room])[0];
+        let result = {};
+        Object.keys(room).forEach((key) => result[key] = room[key]);
+        return result;
+    },
+
+    getRoomEntryText(room) {
+        if (!room) return this.getEntryText("PDK", 0);
+        let lower = this.formatRoomNumber(room.lower || room.base || 0);
+        let fee = this.formatRoomNumber(room.fee || 0);
+        if (!lower && !fee) return this.getEntryText("PDK", 0);
+        return "入:" + (lower || 0) + "/出" + (fee || 0);
+    },
+
+    formatRoomNumber(value) {
+        let num = Number(value || 0);
+        if (!num) return 0;
+        if (Math.abs(num) >= 100) num = num / 100;
+        return Math.floor(num) === num ? String(num) : String(Number(num.toFixed(2)));
+    },
+
+    getRoomTotalRound(room) {
+        let rules = room && room.rules;
+        if (typeof rules === "string") {
+            try {
+                rules = JSON.parse(rules);
+            } catch (err) {
+                rules = null;
+            }
+        }
+        return rules && (rules.turn || rules.round || rules.maxTurn) || 10;
     },
 
     resetTableScroll() {
@@ -504,7 +806,10 @@ cc.Class({
     },
 
     updateVisibleTables() {
-        if (!this.tableContent || !this.tableData || !this.tableData.length) return;
+        if (!this.tableContent || !this.tableData || !this.tableData.length) {
+            this.tablePool.forEach((node) => node.active = false);
+            return;
+        }
         if (!this.tableItemPrefab || !this.tablePool.length) return;
 
         let leftOffset = -this.scrollNode.width / 2 - this.tableContent.x;
@@ -533,6 +838,7 @@ cc.Class({
             if (component) {
                 component.render(table, this.tableSprites[table.game.key]);
             }
+            this.bindTableClick(node, table, dataIndex);
         }
     },
 
@@ -545,7 +851,7 @@ cc.Class({
         let ruleIndex = useSelectedRule ? this.currentRuleIndex : (index - 1) % rules.length;
         return {
             game: game,
-            name: game.name + " 测试桌 " + index,
+            name: game.key === "PDK" && index === 1 ? "跑得快开房" : game.name + " 测试桌 " + index,
             rule: rules[ruleIndex] || rules[0],
             entryText: this.getEntryText(game.key, ruleIndex),
             occupied: occupied,
@@ -553,7 +859,110 @@ cc.Class({
             state: isPlaying ? "游戏中" : "等待中",
             totalRound: 10,
             currentRound: (index * 2) % 10 + 1,
+            isCreateRoomEntry: game.key === "PDK" && index === 1,
         };
+    },
+
+    bindTableClick(node, table, dataIndex) {
+        node.off(cc.Node.EventType.TOUCH_END);
+        if (!table || (!table.isPdkCreateRoom && !table.isPdkRealTable && !table.isCreateRoomEntry)) return;
+        this.configureButton(node);
+        node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (table.isPdkRealTable) {
+                this.requestJoinPdkRoom(table.realRoomData, table.tableID);
+                return;
+            }
+            if (table.isPdkCreateRoom) {
+                this.requestJoinPdkRoom(table.realRoomData, "");
+                return;
+            }
+            this.enterPdkCreateRoom();
+        }, this);
+    },
+
+    enterPdkCreateRoom() {
+        let roomData = this.findPdkRoomData();
+        if (roomData && !utils.isNullOrEmpty(roomData.roomID)) {
+            this.requestJoinPdkRoom(roomData);
+            return;
+        }
+
+        Connector.request(GameConfig.ServerEventName.ClubInfo, { clubID: App.Club.CurrentClubID }, (res) => {
+            GameConfig.TableAllRooms = GameUtils.deepcopyArr(res.rooms || []);
+            let latestRoomData = this.findPdkRoomData();
+            if (!latestRoomData || utils.isNullOrEmpty(latestRoomData.roomID)) {
+                Cache.showTipsMsg("当前联盟没有跑得快房型，请先配置跑得快房间");
+                return;
+            }
+            this.requestJoinPdkRoom(latestRoomData);
+        }, true, (err) => {
+            Cache.showTipsMsg(utils.isNullOrEmpty(err.message) ? "获取跑得快房型失败" : err.message);
+        });
+    },
+
+    requestJoinPdkRoom(roomData, tableID) {
+        Cache.playSfx && Cache.playSfx();
+
+        let nowTime = new Date().getTime();
+        if (nowTime - GameConfig.LastSocketTime < 2000) {
+            Cache.alertTip("点击过于频繁");
+            return;
+        }
+        GameConfig.LastSocketTime = nowTime;
+        if (GameConfig.IsConnecting) {
+            Cache.alertTip("正在进入房间");
+            return;
+        }
+
+        if (!roomData || utils.isNullOrEmpty(roomData.roomID)) {
+            Cache.showTipsMsg("当前联盟没有跑得快房型，请先配置跑得快房间");
+            return;
+        }
+
+        let gameType = roomData.gameType || GameConfig.GameType.PDK || "PDK";
+        let enterData = {
+            roomID: roomData.roomID,
+            gameType: gameType,
+            tableID: tableID || "",
+        };
+        roomData.gameType = gameType;
+        GameConfig.TableRoom = roomData;
+        GameConfig.IsConnecting = true;
+
+        let questData = {
+            roomID: enterData.roomID,
+            gameType: enterData.gameType,
+            tableID: enterData.tableID,
+            clubID: App.Club.CurrentClubID,
+        };
+        Connector.request(GameConfig.ServerEventName.JoinClubGame, questData, (res) => {
+            utils.saveValue(GameConfig.StorageKey.LastRoomData, roomData);
+            GameConfig.IsConnecting = false;
+            GameConfig.ReturnToStaticHall = true;
+            GameConfig.ShowTablePop = false;
+            Connector.connect(res, () => {
+                GameConfig.CurrentGameType = res.data.gameType;
+                DataBase.setGameType(DataBase.GAME_TYPE[res.data.gameType]);
+                cc.director.loadScene(DataBase.TABLE_TYPE[res.data.gameType]);
+            });
+        }, true, (err) => {
+            GameConfig.IsConnecting = false;
+            Cache.showTipsMsg(utils.isNullOrEmpty(err.message) ? "进入游戏失败" : err.message);
+        });
+    },
+
+    findPdkRoomData() {
+        let rooms = GameConfig.TableAllRooms || [];
+        let priority = ["PDK", "PDK_SOLO", "PDK_CLAN", "PDK_SOLO_CLAN"];
+        for (let i = 0; i < priority.length; i++) {
+            let gameType = priority[i];
+            for (let j = 0; j < rooms.length; j++) {
+                if (rooms[j] && rooms[j].gameType === gameType) {
+                    return GameUtils.deepcopyArr ? GameUtils.deepcopyArr([rooms[j]])[0] : Object.assign({}, rooms[j]);
+                }
+            }
+        }
+        return null;
     },
 
     createTableNode(data, x, y) {
