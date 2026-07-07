@@ -34,9 +34,9 @@ cc.Class({
     formatPair: function (today, yesterday) {
         return this.formatScore(today) + '\n' + this.formatScore(yesterday);
     },
-    formatScore: function (value) {
-        var num = Number(value || 0);
-        if (Math.abs(num) >= 100 && num % 100 === 0) num = num / 100;
-        return String(Number(num.toFixed(2))).replace(/\.00$/, '');
+
+    formatScore: function (score) {
+        score = Number(score == null ? 0 : score) / 100;
+        return score.toFixed(2).replace(/\.00$/, '');
     }
 });

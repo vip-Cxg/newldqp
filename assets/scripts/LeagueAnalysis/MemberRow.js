@@ -17,7 +17,7 @@ cc.Class({
         var role = this.data.role == null ? 'user' : this.data.role;
         var forbidden = !!this.data.forbidden;
         this.data.forbidden = forbidden;
-        this.text('Name', this.value(this.data.name, '玩家信息'));
+        this.text('Name', this.value(this.data.user.name, '玩家信息'));
         this.text('UserID', String(this.value(this.data.userID, '')));
         this.text('TodayRounds', this.value(this.data.todayRounds, 0));
         this.text('YesterdayRounds', this.value(this.data.yesterdayRounds, 0));
