@@ -138,9 +138,9 @@ cc.Class({
         this.resizeNode(this.getNode("TopBar/BtnMessage"), size.width / 2 - 210, 4, 76, 90);
         this.resizeNode(this.getNode("TopBar/BtnSetting"), size.width / 2 - 62, 4, 76, 90);
         this.bindTouch("TopBar/BtnBack", () => this.node.destroy());
-        this.bindTouch("TopBar/BtnRefresh", () => this.renderTables(), true);
+        this.bindTouch("TopBar/BtnRefresh", this.refreshHallData, true);
         this.bindTouch("TopBar/BtnMessage", () => {}, true);
-        this.bindTouch("TopBar/BtnSetting", () => {}, true);
+        this.bindTouch("TopBar/BtnSetting", this.openSettingPop, true);
         this.resizeNode(this.getNode("TopBar/ClubTitle/Label"), 0, 2, 310, 48);
         this.refreshTopRealData();
         this.refreshClubInfoForTop();
@@ -357,9 +357,9 @@ cc.Class({
             let node = this.getNode("BottomBar/" + name);
             if (node) node.zIndex = 10;
         });
-        this.bindTouch("BottomBar/BtnScore", () => {}, true);
+        this.bindTouch("BottomBar/BtnScore", this.openHistoryPop, true);
         this.bindTouch("BottomBar/BtnManage", this.openLeagueAnalysisView, true);
-        this.bindTouch("BottomBar/BtnBank", () => {}, true);
+        this.bindTouch("BottomBar/BtnBank", this.openWalletPop, true);
         this.bindTouch("BottomBar/BtnQuickJoin", () => {}, true);
         this.playTypeBar = this.getNode("PlayTypeTabs");
         this.resizeNode(this.playTypeBar, this.leftX(DESIGN.menu + 360), -size.height / 2 + DESIGN.bottom + 32, 560, 52);
@@ -1106,6 +1106,65 @@ cc.Class({
         this.configureButton(node);
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, handler, this);
+    },
+
+    openSettingPop() {
+        Cache.playSfx();
+        utils.pop(GameConfig.pop.SettingPop);
+    },
+
+    openHistoryPop() {
+        Cache.playSfx();
+        GameUtils.pop(GameConfig.pop.ClubHistoryListPop, (node) => {
+            let comp = node && node.getComponent("ClubHistoryListPop");
+            if (comp && comp.initUserID) {
+                comp.initUserID(DataBase.player.id);
+            }
+        });
+    },
+
+    openWalletPop() {
+        Cache.playSfx();
+        GameUtils.pop(GameConfig.pop.ClubBankPop);
+    },
+
+    refreshHallData() {
+        Cache.playSfx();
+        Connector.request(GameConfig.ServerEventName.GetPlayerInfo, {}, (data) => {
+            if (data.ts) {
+                GameConfig.ServerTimeDiff = data.ts - new Date().getTime();
+            }
+            if (!utils.isNullOrEmpty(data.xhzdConfig)) {
+                GameConfig.xhzdConfig = data.xhzdConfig;
+            }
+            if (!utils.isNullOrEmpty(data.rewardConfig)) {
+                GameConfig.RewardConfig = data.rewardConfig;
+            }
+            if (!utils.isNullOrEmpty(data.inviteData)) {
+                GameConfig.InviteList = data.inviteData;
+            }
+            if (!utils.isNullOrEmpty(data.questionnaire)) {
+                GameConfig.QuestData = data.questionnaire;
+            }
+            if (!utils.isNullOrEmpty(data.clubs)) {
+                App.Club.initClubData(data.clubs);
+            }
+            if (data.player) {
+                DataBase.player = data.player;
+            }
+            if (data.connectInfo) {
+                DataBase.connectInfo = data.connectInfo;
+            }
+            this.refreshTopRealData();
+            this.refreshClubInfoForTop();
+            this.renderTables();
+            Cache.alertTip("刷新成功");
+        }, true, (err) => {
+            this.refreshTopRealData();
+            this.refreshClubInfoForTop();
+            this.renderTables();
+            Cache.showTipsMsg(utils.isNullOrEmpty(err && err.message) ? "刷新失败" : err.message);
+        });
     },
 
     openLeagueAnalysisView() {
