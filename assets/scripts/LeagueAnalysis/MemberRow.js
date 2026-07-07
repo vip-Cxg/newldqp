@@ -11,23 +11,23 @@ cc.Class({
         for (var i = 0; i < node.children.length; i++) this.collect(node.children[i]);
     },
     setData: function (data, handlers) {
-        this.data = data || {};
-        this.handlers = handlers || {};
+        this.data = data ? data : {};
+        this.handlers = handlers ? handlers : {};
         if (!this.nodes) this.cacheNodes();
-        var role = this.data.role || 'user';
+        var role = this.data.role == null ? 'user' : this.data.role;
         var forbidden = !!this.data.forbidden;
         this.data.forbidden = forbidden;
-        this.text('Name', this.data.name || '玩家信息');
-        this.text('UserID', String(this.data.userID || ''));
-        this.text('TodayRounds', this.data.todayRounds || 0);
-        this.text('YesterdayRounds', this.data.yesterdayRounds || 0);
-        this.text('TodayContribution', this.data.todayContribution || 0);
-        this.text('YesterdayContribution', this.data.yesterdayContribution || 0);
-        this.text('TodayResult', this.data.todayResult || 0);
-        this.text('YesterdayResult', this.data.yesterdayResult || 0);
+        this.text('Name', this.value(this.data.user.name, '玩家信息'));
+        this.text('UserID', String(this.value(this.data.userID, '')));
+        this.text('TodayRounds', this.value(this.data.todayRounds, 0));
+        this.text('YesterdayRounds', this.value(this.data.yesterdayRounds, 0));
+        this.text('TodayContribution', this.value(this.data.todayContribution, 0));
+        this.text('YesterdayContribution', this.value(this.data.yesterdayContribution, 0));
+        this.text('TodayResult', this.value(this.data.todayResult, 0));
+        this.text('YesterdayResult', this.value(this.data.yesterdayResult, 0));
         this.text('Score', this.formatScore(this.data.score));
-        this.text('TodayLabel', '今日：' + (this.data.todayResult || 0));
-        this.text('YesterdayLabel', '昨日：' + (this.data.yesterdayResult || 0));
+        this.text('TodayLabel', '今日：' + this.value(this.data.todayResult, 0));
+        this.text('YesterdayLabel', '昨日：' + this.value(this.data.yesterdayResult, 0));
         if (this.nodes.RoleBadge) this.nodes.RoleBadge.active = role !== 'user';
         if (this.nodes.BtnSetPartner) this.nodes.BtnSetPartner.active = role === 'user';
         if (this.nodes.StatusOnline) this.nodes.StatusOnline.active = !!this.data.online;
@@ -39,6 +39,9 @@ cc.Class({
         this.bind('BtnBattleDetail', 'battleDetail');
         this.bind('BtnAddScore', 'addScore');
         this.bind('BtnSubScore', 'subScore');
+    },
+    value: function (value, fallback) {
+        return value == null ? fallback : value;
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);
@@ -55,7 +58,7 @@ cc.Class({
         if (label) label.string = value;
     },
     formatScore: function (score) {
-        score = Number(score || 0) / 100;
+        score = Number(score == null ? 0 : score) / 100;
         return score.toFixed(2).replace(/\.00$/, '');
     },
     showForbiddenStamp: function (active) {

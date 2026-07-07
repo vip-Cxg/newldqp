@@ -17,26 +17,26 @@ cc.Class({
         this.handlers = handlers || {};
         if (!this.nodes) this.cacheNodes();
 
-        var role = this.data.role || 'proxy';
+        var role = this.data.role == null ? 'proxy' : this.data.role;
         var isLeader = role === 'owner' || role === 'manager' || role === 'leader';
 
-        this.text('Name', this.data.name || '队长信息');
-        this.text('UserID', String(this.data.userID || ''));
+        this.text('Name', this.value(this.data.name, '队长信息'));
+        this.text('UserID', String(this.value(this.data.userID, '')));
         this.text('StatusOnline', '');
         this.text('StatusOffline', '');
-        this.text('TodayRounds', this.data.todayRounds || 0);
-        this.text('YesterdayRounds', this.data.yesterdayRounds || 0);
-        this.text('TodayContribution', this.data.todayIncome || 0);
-        this.text('YesterdayContribution', this.data.yesterdayIncome || 0);
-        this.text('TodayResult', this.data.todayContribution || 0);
-        this.text('YesterdayResult', this.data.yesterdayContribution || 0);
-        this.text('Score', this.formatScore(this.data.score) + '\n' + this.formatScore(this.data.warningScore || 0));
-        this.text('TodayLabel', '今日：' + (this.data.todayIncome || 0));
-        this.text('YesterdayLabel', '昨日：' + (this.data.yesterdayIncome || 0));
+        this.text('TodayRounds', this.value(this.data.todayRounds, 0));
+        this.text('YesterdayRounds', this.value(this.data.yesterdayRounds, 0));
+        this.text('TodayContribution', this.value(this.data.todayIncome, 0));
+        this.text('YesterdayContribution', this.value(this.data.yesterdayIncome, 0));
+        this.text('TodayResult', this.value(this.data.todayContribution, 0));
+        this.text('YesterdayResult', this.value(this.data.yesterdayContribution, 0));
+        this.text('Score', this.formatScore(this.data.score) + '\n' + this.formatScore(this.value(this.data.warningScore, 0)));
+        this.text('TodayLabel', '今日：' + this.value(this.data.todayIncome, 0));
+        this.text('YesterdayLabel', '昨日：' + this.value(this.data.yesterdayIncome, 0));
 
-        var peopleText = (this.data.peopleCount || 0) + '人';
-        var roomRate = this.data.roomRate || 0;
-        var waterRate = this.data.waterRate || 0;
+        var peopleText = this.value(this.data.peopleCount, 0) + '人';
+        var roomRate = this.value(this.data.roomRate, 0);
+        var waterRate = this.value(this.data.waterRate, 0);
         this.text('PeopleCount', peopleText);
         this.text('RoomRate', roomRate + '%');
         this.text('WaterRate',  waterRate + '%');
@@ -58,6 +58,9 @@ cc.Class({
         this.bind('BtnSubScore', 'subScore');
         this.bind('BtnBattleDetail', 'battleDetail');
     },
+    value: function (value, fallback) {
+        return value == null ? fallback : value;
+    },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);
         if (label) {
@@ -73,7 +76,7 @@ cc.Class({
         if (label) label.string = value;
     },
     formatScore: function (score) {
-        score = Number(score || 0) / 100;
+        score = Number(score == null ? 0 : score) / 100;
         return score.toFixed(2).replace(/\.00$/, '');
     },
     bind: function (name, eventName) {

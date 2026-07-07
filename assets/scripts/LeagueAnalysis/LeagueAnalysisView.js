@@ -27,7 +27,6 @@ cc.Class({
         subListPopupPrefab: cc.Prefab,
         battleDetailPopupPrefab: cc.Prefab,
         battleReplayPopupPrefab: cc.Prefab,
-        confirmPopupPrefab: cc.Prefab
     },
     onLoad: function () {
         this.cacheNodes();
@@ -500,8 +499,8 @@ cc.Class({
         rows = rows || [];
         for (var i = 0; i < rows.length; i++) {
             var item = rows[i] || {};
-            var role = item.role || item.proxyRole || '';
-            if (item.partner || item.isPartner || item.level || item.shuffleLevel || role === 'proxy' || role === 'leader' || role === 'owner') {
+            var role = item.role == null ? '' : item.role;
+            if (item.partner || role === 'proxy' || role === 'leader' || role === 'owner' || role === 'manager') {
                 list.push(item);
             }
         }
@@ -749,16 +748,15 @@ cc.Class({
     },
     isPartnerUser: function (data) {
         data = data || {};
-        var role = data.role || data.proxyRole || '';
+        var role = data.role == null ? '' : data.role;
         return !!(
             data.partner ||
-            data.isPartner ||
             role === 'proxy' ||
             role === 'owner' ||
             role === 'manager' ||
             role === 'leader' ||
-            Number(data.level || data.roomRate || 0) > 0 ||
-            Number(data.shuffleLevel || data.waterRate || 0) > 0
+            Number(data.roomRate == null ? 0 : data.roomRate) > 0 ||
+            Number(data.waterRate == null ? 0 : data.waterRate) > 0
         );
     },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
@@ -770,7 +768,7 @@ cc.Class({
         this.showSubListPopup(data);
     },
     showWarningPopup: function (data, rowComp) {
-        this.openPopup(this.warningPopupPrefab || this.confirmPopupPrefab, {
+        this.openPopup(this.warningPopupPrefab, {
             user: data,
             onSubmit: function (payload) {
                 if (typeof LeagueAnalysisApi.updateWarning !== 'function') {
@@ -793,7 +791,7 @@ cc.Class({
             var hasCount = data && (data.leaderCount != null || data.memberCount != null || data.childrenCount != null);
             defaultMode = hasCount && Number(data.memberCount || 0) > 0 && Number(data.leaderCount || 0) <= 0 ? 'member' : 'leader';
         }
-        this.openPopup(this.subListPopupPrefab || this.confirmPopupPrefab, {
+        this.openPopup(this.subListPopupPrefab, {
             user: data,
             children: data && data.children,
             defaultMode: defaultMode

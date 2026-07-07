@@ -577,7 +577,7 @@
     "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 35,
+    "_fontSize": 30,
     "_lineHeight": 45,
     "_enableWrapText": true,
     "_N$file": {
@@ -707,7 +707,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 76,
+      "width": 60,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -761,7 +761,7 @@
     "_dstBlendFactor": 771,
     "_string": "取消",
     "_N$string": "取消",
-    "_fontSize": 38,
+    "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": {
@@ -1059,7 +1059,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 76,
+      "width": 60,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1113,7 +1113,7 @@
     "_dstBlendFactor": 771,
     "_string": "确认",
     "_N$string": "确认",
-    "_fontSize": 38,
+    "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": {
