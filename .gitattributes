@@ -1,0 +1,7 @@
+*.meta text eol=lf
+*.scene text eol=lf
+*.prefab text eol=lf
+*.fire text eol=lf
+*.json text eol=lf
+*.ts text eol=lf
+*.js text eol=lf
