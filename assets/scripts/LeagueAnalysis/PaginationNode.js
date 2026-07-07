@@ -21,9 +21,9 @@ module.exports = cc.Class({
         this.updateState();
     },
     cacheNodes: function () {
-        this.prevButtonNode = this.findNode('Btn_PrevPage') || this.findNode('btn_pre') || this.findNode('BtnPrev') || this.findNode('PrevButton');
-        this.nextButtonNode = this.findNode('Btn_NextPage') || this.findNode('btn_next') || this.findNode('BtnNext') || this.findNode('NextButton');
-        this.pageLabelNode = this.findNode('Label_CurrentPage') || this.findNode('page') || this.findNode('PageLabel') || this.findNode('CurrentPage');
+        this.prevButtonNode = this.findNode('btn_pre');
+        this.nextButtonNode = this.findNode('btn_next');
+        this.pageLabelNode = this.findNode('page');
         this.prevButton = this.prevButtonNode && this.prevButtonNode.getComponent(cc.Button);
         this.nextButton = this.nextButtonNode && this.nextButtonNode.getComponent(cc.Button);
         this.pageLabel = this.pageLabelNode && this.pageLabelNode.getComponent(cc.Label);

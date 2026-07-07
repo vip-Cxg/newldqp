@@ -1171,7 +1171,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "LeaderBadge",
+    "_name": "Avatar",
     "_objFlags": 0,
     "_parent": {
       "__id__": 23
@@ -1196,8 +1196,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22,
-      "height": 56
+      "width": 70,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1208,8 +1208,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -93.039,
-        66.044,
+        -55.562,
+        61,
         0,
         0,
         0,
@@ -1249,10 +1249,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "75bf7698-09d3-4eb6-b6e0-49e250a4b7cf"
+      "__uuid__": "89a08c0a-f323-46ed-847c-1b4a53d6d675"
     },
-    "_type": 0,
-    "_sizeMode": 1,
+    "_type": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -1273,12 +1273,12 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "20GZo5uARNYrAv4x4w6pR0",
+    "fileId": "2eSRtMMZtDzqUk4T7Ftmsr",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "Avatar",
+    "_name": "LeaderBadge",
     "_objFlags": 0,
     "_parent": {
       "__id__": 23
@@ -1303,8 +1303,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 70
+      "width": 22,
+      "height": 56
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1315,8 +1315,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -38,
-        61,
+        -101.095,
+        72.786,
         0,
         0,
         0,
@@ -1356,10 +1356,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "89a08c0a-f323-46ed-847c-1b4a53d6d675"
+      "__uuid__": "75bf7698-09d3-4eb6-b6e0-49e250a4b7cf"
     },
-    "_type": 1,
-    "_sizeMode": 0,
+    "_type": 0,
+    "_sizeMode": 1,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -1380,7 +1380,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "2eSRtMMZtDzqUk4T7Ftmsr",
+    "fileId": "20GZo5uARNYrAv4x4w6pR0",
     "sync": false
   },
   {
@@ -1410,7 +1410,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 108,
+      "width": 120,
       "height": 28
     },
     "_anchorPoint": {
@@ -1422,7 +1422,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        60.617,
+        45.267,
         75.759,
         0,
         0,
@@ -1464,7 +1464,7 @@
     "_dstBlendFactor": 771,
     "_string": "玩家信息",
     "_N$string": "玩家信息",
-    "_fontSize": 20,
+    "_fontSize": 18,
     "_lineHeight": 28,
     "_enableWrapText": false,
     "_N$file": null,
@@ -1518,7 +1518,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 108,
+      "width": 120,
       "height": 28
     },
     "_anchorPoint": {
@@ -1530,7 +1530,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        60.617,
+        45.267,
         43.759,
         0,
         0,
@@ -1572,7 +1572,7 @@
     "_dstBlendFactor": 771,
     "_string": "123456",
     "_N$string": "123456",
-    "_fontSize": 20,
+    "_fontSize": 18,
     "_lineHeight": 28,
     "_enableWrapText": false,
     "_N$file": null,
