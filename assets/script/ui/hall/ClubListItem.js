@@ -66,7 +66,7 @@ export default class ClubListItem extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_END, () => {
             App.Club.CurrentClubID = data.clubID;
             App.Club.IsLeague = true;
-            GameUtils.pop(data.isStaticHallTest || index !== 6 ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop);
+            GameUtils.pop(data.isStaticHallTest || index === 1 ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop);
             App.EventManager.dispatchEventWith(GameConfig.GameEventNames.CHOOSE_CLUB);
 
         }, this)

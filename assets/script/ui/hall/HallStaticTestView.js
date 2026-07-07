@@ -537,8 +537,9 @@ cc.Class({
     },
 
     createTableData(game, index) {
-        let occupied = game.key === "DNIU" ? game.seats : (index % game.seats) + 1;
-        let isPlaying = index % 4 === 0;
+        let players = game.players || [];
+        let occupied = players.length;
+        let isPlaying = false;
         let rules = this.getRules(game.key);
         let useSelectedRule = this.currentGame !== "ALL" && this.currentGame === game.key && this.currentRuleIndex >= 0;
         let ruleIndex = useSelectedRule ? this.currentRuleIndex : (index - 1) % rules.length;
@@ -548,23 +549,11 @@ cc.Class({
             rule: rules[ruleIndex] || rules[0],
             entryText: this.getEntryText(game.key, ruleIndex),
             occupied: occupied,
-            players: this.createMockPlayers(occupied, index),
+            players: players,
             state: isPlaying ? "游戏中" : "等待中",
             totalRound: 10,
             currentRound: (index * 2) % 10 + 1,
         };
-    },
-
-    createMockPlayers(count, tableIndex) {
-        let names = ["测1", "风一样的玩家", "阿强", "超长昵称测试用户", "小七", "Notemo", "旧朋友123", "一切安好"];
-        let players = [];
-        for (let i = 0; i < count; i++) {
-            players.push({
-                name: names[(tableIndex + i) % names.length],
-                head: "file://" + ((tableIndex + i) % 12),
-            });
-        }
-        return players;
     },
 
     createTableNode(data, x, y) {

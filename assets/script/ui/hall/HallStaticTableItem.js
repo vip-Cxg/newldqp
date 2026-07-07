@@ -231,8 +231,8 @@ cc.Class({
     },
 
     getPlayerName(player, index) {
-        if (!player) return this.getMockName(index);
-        return player.name || player.nickName || player.nickname || (player.user && (player.user.name || player.user.nickName || player.user.nickname)) || this.getMockName(index);
+        if (!player) return "";
+        return player.name || player.nickName || player.nickname || (player.user && (player.user.name || player.user.nickName || player.user.nickname)) || "";
     },
 
     getPlayerHead(player) {
@@ -257,11 +257,6 @@ cc.Class({
     appendAvatarCacheKey(url) {
         if (!url) return url;
         return url.indexOf("?") === -1 ? url + "?file=a.png" : url;
-    },
-
-    getMockName(index) {
-        let names = ["测1", "风一样的玩家", "阿强", "超长昵称测试用户", "小七", "Notemo", "旧朋友123", "一切安好"];
-        return names[index % names.length];
     },
 
     ellipsisName(name) {
