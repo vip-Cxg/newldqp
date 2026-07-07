@@ -1,6 +1,8 @@
 var LeagueAnalysisApi = require("./LeagueAnalysisApi");
 var PopupMaskUtil = require("./PopupMaskUtil");
 var Cache = require("../../Main/Script/Cache");
+var PaginationNode = require("./PaginationNode");
+var DateSelect = require("./DateSelect");
 
 cc.Class({
     extends: cc.Component,
@@ -31,7 +33,8 @@ cc.Class({
         this.cacheNodes();
         this.bindButtons();
         this.page = 1;
-        this.pageSize = 20;
+        this.pageSize = 10;
+        this.listStates = {};
         this.showStatisticsTab();
     },
     cacheNodes: function () {
@@ -49,6 +52,8 @@ cc.Class({
         this.scrollView = scroll && scroll.getComponent(cc.ScrollView);
         this.content = this.getNode(scroll, 'view/content');
         this.contentLayout = this.content && this.content.getComponent(cc.Layout);
+        this.bindCurrentPagination();
+        this.bindCurrentDateSelect();
         this.bindCurrentSearch();
         this.bindCurrentWithdraw();
     },
@@ -174,36 +179,42 @@ cc.Class({
         this.currentTab = 'member';
         this.setTabSelected('BtnMember');
         this.mountMemberPage();
+        this.resetListState('member');
         this.loadMembers();
     },
     showPartnerTab: function () {
         this.currentTab = 'partner';
         this.setTabSelected('BtnPartner');
         this.mountPartnerPage();
+        this.resetListState('partner');
         this.loadPartners();
     },
     showAgentTab: function () {
         this.currentTab = 'agent';
         this.setTabSelected('BtnAgentStatistics');
         this.mountListPage('agent');
+        this.resetListState('agent');
         this.loadGenericList('agent');
     },
     showRewardDetailTab: function () {
         this.currentTab = 'rewardDetail';
         this.setTabSelected('BtnRewardDetail');
         this.mountListPage('rewardDetail');
+        this.resetListState('rewardDetail');
         this.loadGenericList('rewardDetail');
     },
     showOperationTab: function () {
         this.currentTab = 'operation';
         this.setTabSelected('BtnOperationRecord');
         this.mountListPage('operation');
+        this.resetListState('operation');
         this.loadGenericList('operation');
     },
     showRewardWithdrawTab: function () {
         this.currentTab = 'rewardWithdraw';
         this.setTabSelected('BtnRewardWithdraw');
         this.mountListPage('rewardWithdraw');
+        this.resetListState('rewardWithdraw');
         this.loadGenericList('rewardWithdraw');
     },
     getListConfig: function (tab) {
@@ -245,19 +256,200 @@ cc.Class({
             this.bindClick(node.children[i], fn);
         }
     },
+    getListState: function (tab) {
+        tab = tab || this.currentTab || 'member';
+        if (!this.listStates) this.listStates = {};
+        if (!this.listStates[tab]) {
+            this.listStates[tab] = {
+                page: 1,
+                pageSize: this.pageSize || 10,
+                total: 0,
+                totalPage: 1,
+                keyword: '',
+                startDate: '',
+                endDate: ''
+            };
+        }
+        return this.listStates[tab];
+    },
+    resetListState: function (tab) {
+        var state = this.getListState(tab);
+        state.page = 1;
+        state.pageSize = this.pageSize || state.pageSize || 10;
+        state.total = 0;
+        state.totalPage = 1;
+        state.keyword = '';
+        if (this.isDateFilterTab(tab)) {
+            var today = this.formatDate(new Date());
+            state.startDate = state.startDate || today;
+            state.endDate = state.endDate || today;
+        } else {
+            state.startDate = '';
+            state.endDate = '';
+        }
+        this.syncPageFields(state);
+        this.updatePaginationNode(tab);
+    },
+    syncPageFields: function (state) {
+        state = state || this.getListState(this.currentTab);
+        this.page = state.page;
+        this.pageSize = state.pageSize;
+        this.keyword = state.keyword || '';
+        this.startDateValue = state.startDate || '';
+        this.endDateValue = state.endDate || '';
+    },
+    prepareListRequest: function (tab, options) {
+        options = options || {};
+        var state = this.getListState(tab);
+        if (options.page != null) state.page = Number(options.page || 1);
+        if (options.pageSize != null) state.pageSize = Number(options.pageSize || 10);
+        if (options.keyword != null || options.keywords != null) {
+            state.keyword = String(options.keyword != null ? options.keyword : options.keywords);
+            state.page = Number(options.page || 1);
+        }
+        if (options.startDate != null) state.startDate = String(options.startDate || '');
+        if (options.endDate != null) state.endDate = String(options.endDate || '');
+        this.syncPageFields(state);
+        var req = {
+            page: state.page,
+            pageSize: state.pageSize
+        };
+        if (state.keyword) {
+            req.keyword = state.keyword;
+            req.keywords = state.keyword;
+        }
+        if (state.startDate) req.startDate = state.startDate;
+        if (state.endDate) req.endDate = state.endDate;
+        return req;
+    },
+    extractRows: function (res) {
+        var data = res && (res.data || res.detail) || res || {};
+        if (data.users && data.users.rows) return data.users.rows;
+        if (data.users && data.users.list) return data.users.list;
+        if (data.rows) return data.rows;
+        if (data.list) return data.list;
+        if (data.data) return data.data;
+        if (res && res.rows) return res.rows;
+        if (res && res.list) return res.list;
+        return [];
+    },
+    extractTotal: function (res, rows) {
+        var data = res && (res.data || res.detail) || res || {};
+        var total = data.total;
+        if (total == null && data.users) total = data.users.total;
+        if (total == null && data.users) total = data.users.count;
+        if (total == null) total = data.count;
+        if (total == null && res) total = res.total;
+        if (total == null && res) total = res.count;
+        if (total == null) total = rows ? rows.length : 0;
+        return Number(total || 0);
+    },
+    bindCurrentPagination: function () {
+        this.paginationNode = this.findNode(this.currentPageNode, 'PaginationNode');
+        this.pagination = this.paginationNode && (this.paginationNode.getComponent(PaginationNode) || this.paginationNode.getComponent('PaginationNode'));
+        if (!this.paginationNode) {
+            cc.log('[LeagueAnalysisView] PaginationNode missing:', this.currentTab);
+            this.pagination = null;
+            return;
+        }
+        if (!this.pagination) {
+            this.pagination = this.paginationNode.addComponent(PaginationNode);
+        }
+        var state = this.getListState(this.currentTab);
+        this.pagination.init({
+            page: state.page,
+            pageSize: state.pageSize,
+            totalPage: state.totalPage,
+            onPageChange: function (page) {
+                this.changeListPage(page);
+            }.bind(this)
+        });
+    },
+    bindCurrentDateSelect: function () {
+        this.startDateSelectNode = this.findNode(this.currentPageNode, 'StartDateSelect') ||
+            this.findNode(this.currentPageNode, 'DateStart');
+        this.endDateSelectNode = this.findNode(this.currentPageNode, 'EndDateSelect') ||
+            this.findNode(this.currentPageNode, 'DateEnd');
+        this.startDateSelect = this.prepareDateSelect(this.startDateSelectNode);
+        this.endDateSelect = this.prepareDateSelect(this.endDateSelectNode);
+        if (!this.startDateSelect && !this.endDateSelect) return;
+        var state = this.getListState(this.currentTab);
+        var today = this.formatDate(new Date());
+        if (!state.startDate) state.startDate = today;
+        if (!state.endDate) state.endDate = today;
+        this.syncPageFields(state);
+        if (this.startDateSelect) {
+            this.startDateSelect.init({
+                defaultDate: state.startDate,
+                days: 3,
+                onChange: function (date) {
+                    this.onDateRangeChange('startDate', date);
+                }.bind(this)
+            });
+        }
+        if (this.endDateSelect) {
+            this.endDateSelect.init({
+                defaultDate: state.endDate,
+                days: 3,
+                onChange: function (date) {
+                    this.onDateRangeChange('endDate', date);
+                }.bind(this)
+            });
+        }
+    },
+    prepareDateSelect: function (node) {
+        if (!node) return null;
+        return node.getComponent(DateSelect) || node.getComponent('DateSelect') || node.addComponent(DateSelect);
+    },
+    isDateFilterTab: function (tab) {
+        return tab === 'operation' || tab === 'rewardDetail' || tab === 'rewardWithdraw';
+    },
+    onDateRangeChange: function (key, date) {
+        var state = this.getListState(this.currentTab);
+        state[key] = date;
+        state.page = 1;
+        this.syncPageFields(state);
+        if (this.currentTab === 'member') return this.loadMembers();
+        if (this.currentTab === 'partner') return this.loadPartners();
+        if (this.currentTab !== 'statistics') return this.loadGenericList(this.currentTab);
+    },
+    updatePaginationNode: function (tab) {
+        if (tab && tab !== this.currentTab) return;
+        if (!this.pagination) return;
+        var state = this.getListState(tab || this.currentTab);
+        this.pagination.setCallback(function (page) {
+            this.changeListPage(page);
+        }.bind(this));
+        this.pagination.setTotal(state.total, state.pageSize);
+        this.pagination.setPage(state.page, state.totalPage);
+    },
+    updatePaginationFromResponse: function (tab, res, rows) {
+        var state = this.getListState(tab);
+        state.total = this.extractTotal(res, rows);
+        state.totalPage = Math.max(1, Math.ceil(state.total / Math.max(1, state.pageSize || 10)));
+        if (state.page > state.totalPage) state.page = state.totalPage;
+        this.syncPageFields(state);
+        this.updatePaginationNode(tab);
+    },
+    changeListPage: function (page) {
+        var state = this.getListState(this.currentTab);
+        page = Number(page || 1);
+        if (page < 1 || page > state.totalPage || page === state.page) return;
+        state.page = page;
+        this.syncPageFields(state);
+        if (this.currentTab === 'member') return this.loadMembers();
+        if (this.currentTab === 'partner') return this.loadPartners();
+        return this.loadGenericList(this.currentTab);
+    },
     loadMembers: function (options) {
         options = options || {};
-        var req = {
-            page: options.page || this.page || 1,
-            pageSize: options.pageSize || this.pageSize || 20
-        };
-        if (options.keywords) req.keywords = options.keywords;
+        var req = this.prepareListRequest('member', options);
         return LeagueAnalysisApi.members(req).then(function (res) {
-            var users = res && (res.users || res.data && res.data.users || res.data) || {};
-            var rows = users.rows || res.rows || [];
+            var rows = this.extractRows(res);
             if (this.isSearchEmpty(options, rows)) return this.showSearchEmptyTip();
             this.members = rows;
             this.setData(this.members);
+            this.updatePaginationFromResponse('member', res, rows);
         }.bind(this)).catch(function (err) {
             console.error('[LeagueAnalysisView] members fallback', err);
             this.setData(this.mockMembers());
@@ -265,18 +457,14 @@ cc.Class({
     },
     loadPartners: function (options) {
         options = options || {};
-        var req = {
-            page: options.page || this.page || 1,
-            pageSize: options.pageSize || this.pageSize || 20
-        };
-        if (options.keywords) req.keywords = options.keywords;
+        var req = this.prepareListRequest('partner', options);
         return LeagueAnalysisApi.partners(req).then(function (res) {
-            var users = res && (res.users || res.data && res.data.users || res.data) || {};
-            var rows = users.rows || res.rows || [];
+            var rows = this.extractRows(res);
             var partners = this.filterPartnerRows(rows);
             if (this.isSearchEmpty(options, partners)) return this.showSearchEmptyTip();
             this.partners = partners;
             this.setData(this.partners);
+            this.updatePaginationFromResponse('partner', res, partners);
         }.bind(this)).catch(function (err) {
             console.error('[LeagueAnalysisView] partners load failed', err);
             this.partners = [];
@@ -290,19 +478,16 @@ cc.Class({
             console.error('[LeagueAnalysisView] api config missing', tab);
             return;
         }
-        var req = {
-            page: options.page || this.page || 1,
-            pageSize: options.pageSize || this.pageSize || 20
-        };
-        if (options.keywords) req.keywords = options.keywords;
+        var req = this.prepareListRequest(tab, options);
         return LeagueAnalysisApi[config.api](req).then(function (res) {
             var data = res && (res.data || res.detail) || res || {};
-            var rows = data.rows || data.list || res.rows || [];
+            var rows = this.extractRows(res);
             if (config.filter) rows = config.filter(rows);
             if (this.isSearchEmpty(options, rows)) return this.showSearchEmptyTip();
             this[config.store] = rows;
             if (config.summary) config.summary(data);
             this.setData(rows);
+            this.updatePaginationFromResponse(tab, res, rows);
         }.bind(this)).catch(function (err) {
             console.error('[LeagueAnalysisView] list load failed', tab, err);
             this[config.store] = [];
@@ -388,6 +573,13 @@ cc.Class({
         if (Math.abs(num) >= 100 && num % 100 === 0) num = num / 100;
         return String(Number(num.toFixed ? num.toFixed(2) : num)).replace(/\.00$/, '');
     },
+    formatDate: function (date) {
+        date = date || new Date();
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        return y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d);
+    },
     openPopup: function (prefab, data) {
         if (!prefab || !this.popupLayer) return null;
         var node = cc.instantiate(prefab);
@@ -432,7 +624,8 @@ cc.Class({
         return Promise.reject({ message: message });
     },
     isSearchEmpty: function (options, rows) {
-        return !!(options && options.keywords && (!rows || rows.length === 0));
+        var keyword = options && (options.keyword != null ? options.keyword : options.keywords);
+        return !!(keyword && (!rows || rows.length === 0));
     },
     showSearchEmptyTip: function () {
         this.showTip('没有找到');
@@ -447,7 +640,7 @@ cc.Class({
             title: options.title || '查询成员',
             maxLength: options.maxLength || 6,
             onSubmit: options.onSubmit || function (userID) {
-                var req = { page: 1, pageSize: this.pageSize, keywords: userID };
+                var req = { page: 1, pageSize: this.getListState(this.currentTab).pageSize, keyword: userID, keywords: userID };
                 if (this.currentTab === 'partner') return this.loadPartners(req);
                 if (this.currentTab === 'agent' || this.currentTab === 'rewardDetail' || this.currentTab === 'operation' || this.currentTab === 'rewardWithdraw') return this.loadGenericList(this.currentTab, req);
                 return this.loadMembers(req);
@@ -509,7 +702,10 @@ cc.Class({
                     data.roomRate = payload.roomRate;
                     data.waterRate = payload.waterRate;
                     if (options.afterSuccess) options.afterSuccess();
-                    else if (this.currentTab === 'partner') this.loadPartners({ page: this.page || 1, pageSize: this.pageSize || 20 });
+                    else if (this.currentTab === 'partner') {
+                        var state = this.getListState('partner');
+                        this.loadPartners({ page: state.page || 1, pageSize: state.pageSize || 10 });
+                    }
                     else this.setData(this.currentTab === 'partner' ? this.partners : this.members);
                     this.showTip('设置成功');
                 }.bind(this));

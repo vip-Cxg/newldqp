@@ -20,6 +20,11 @@ function clone(data, withClubID) {
     return output;
 }
 
+function getKeyword(data) {
+    data = data || {};
+    return data.keyword != null ? data.keyword : (data.keywords != null ? data.keywords : null);
+}
+
 function getErrorMessage(err) {
     if (!err) return "请求失败";
     if (typeof err === "string") return err;
@@ -88,7 +93,8 @@ module.exports = {
             userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
-            keywords: data.keywords || null,
+            keyword: getKeyword(data),
+            keywords: getKeyword(data),
             whole: true
         });
     },
@@ -113,7 +119,8 @@ module.exports = {
             clubID: getClubID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
-            keywords: data.keywords || null
+            keyword: getKeyword(data),
+            keywords: getKeyword(data)
         });
     },
     setPartner: function (data) {
@@ -164,7 +171,8 @@ module.exports = {
             type: data.type || data.mode || "leader",
             page: data.page || 1,
             pageSize: data.pageSize || 50,
-            keywords: data.keywords || null
+            keyword: getKeyword(data),
+            keywords: getKeyword(data)
         });
     },
     battleDetails: function (data) {
@@ -190,7 +198,8 @@ module.exports = {
             clubID: getClubID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
-            keywords: data.keywords || null
+            keyword: getKeyword(data),
+            keywords: getKeyword(data)
         });
     },
     rewardDetails: function (data) {
@@ -199,6 +208,8 @@ module.exports = {
             clubID: getClubID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
+            keyword: getKeyword(data),
+            keywords: getKeyword(data),
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });
@@ -209,6 +220,8 @@ module.exports = {
             clubID: getClubID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
+            keyword: getKeyword(data),
+            keywords: getKeyword(data),
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });
@@ -219,6 +232,8 @@ module.exports = {
             clubID: getClubID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
+            keyword: getKeyword(data),
+            keywords: getKeyword(data),
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });
