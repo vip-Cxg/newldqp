@@ -34,7 +34,7 @@ cc.Class({
         utils.saveValue(this.key, e.isChecked);
     },
 
-    show(winType, message, callback1, callback2, key, zIndex = 500) {
+    show(winType, message, callback1, callback2, key, zIndex = 3000) {
         if (key) {
             this.key = key;
             this.showTips.active = true;

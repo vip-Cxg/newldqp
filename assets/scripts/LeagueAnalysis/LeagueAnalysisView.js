@@ -524,15 +524,7 @@ cc.Class({
             rowH = rowNode.height || rowH || 184;
             rowNode.setAnchorPoint(0.5, 0.5);
             var row = rowNode.getComponent(rowCompName);
-            if (row) row.setData(list[i], {
-                setPartner: this.showSetPartnerPopup.bind(this),
-                warning: this.showWarningTodo.bind(this),
-                viewSub: this.showViewSubTodo.bind(this),
-                limitGame: this.showLimitConfirm.bind(this),
-                battleDetail: this.showBattleDetailPopup.bind(this),
-                addScore: function (data) { this.showScorePopup(data, 'add'); }.bind(this),
-                subScore: function (data) { this.showScorePopup(data, 'sub'); }.bind(this)
-            });
+            if (row) row.setData(list[i], this.createRowHandlers());
             this.content.addChild(rowNode);
         }
         var viewH = this.content.parent ? this.content.parent.height : 372;
@@ -541,6 +533,50 @@ cc.Class({
         if (this.contentLayout && this.contentLayout.updateLayout) this.contentLayout.updateLayout();
         var scrollView = this.scrollView || (this.content.parent && this.content.parent.parent && this.content.parent.parent.getComponent(cc.ScrollView));
         if (scrollView) scrollView.scrollToTop(0);
+    },
+    createRowHandlers: function () {
+        return {
+            setPartner: function (data, rowComp) { this.showSetPartnerPopup(data, { rowComp: rowComp }); }.bind(this),
+            warning: function (data, rowComp) { this.showWarningTodo(data, rowComp); }.bind(this),
+            viewSub: this.showViewSubTodo.bind(this),
+            limitGame: function (data, rowComp) { this.showLimitConfirm(data, rowComp); }.bind(this),
+            battleDetail: this.showBattleDetailPopup.bind(this),
+            addScore: function (data, rowComp) { this.showScorePopup(data, 'add', rowComp); }.bind(this),
+            subScore: function (data, rowComp) { this.showScorePopup(data, 'sub', rowComp); }.bind(this)
+        };
+    },
+    getCurrentList: function () {
+        var config = this.getListConfig(this.currentTab);
+        if (!config || !config.store) return null;
+        if (!this[config.store]) this[config.store] = [];
+        return this[config.store];
+    },
+    findRowCompByUserID: function (userID) {
+        var config = this.getListConfig(this.currentTab);
+        if (!this.content || !config || !config.rowComp) return null;
+        for (var i = 0; i < this.content.children.length; i++) {
+            var comp = this.content.children[i].getComponent(config.rowComp);
+            if (comp && comp.data && String(comp.data.userID) === String(userID)) return comp;
+        }
+        return null;
+    },
+    updateCurrentRow: function (data, patch, rowComp) {
+        if (!data) return;
+        patch = patch || {};
+        for (var key in patch) data[key] = patch[key];
+        var list = this.getCurrentList();
+        var target = data;
+        if (list) {
+            for (var i = 0; i < list.length; i++) {
+                if (String(list[i].userID) === String(data.userID)) {
+                    for (var k in patch) list[i][k] = patch[k];
+                    target = list[i];
+                    break;
+                }
+            }
+        }
+        rowComp = rowComp || this.findRowCompByUserID(data.userID);
+        if (rowComp && rowComp.setData) rowComp.setData(target, this.createRowHandlers());
     },
     renderRewardDetailSummary: function (data) {
         data = data || {};
@@ -594,7 +630,9 @@ cc.Class({
     },
     showTip: function (message) {
         if (!message) return;
-        this.showMessagePopup(message);
+        if (Cache && Cache.showTipsMsg) Cache.showTipsMsg(message);
+        else if (Cache && Cache.alertTip) Cache.alertTip(message);
+        else this.showMessagePopup(message);
     },
     showMessagePopup: function (message) {
         cc.loader.loadRes('Main/Prefab/winConfirm', function (err, prefab) {
@@ -691,22 +729,19 @@ cc.Class({
                     return this.rejectWithTip('接口未接入: ' + apiName);
                 }
                 return api({
-                    userID: data.userID || data.userId,
+                    userID: data.userID,
                     roomRate: payload.roomRate,
                     waterRate: payload.waterRate
                 }).then(function () {
-                    data.role = 'proxy';
-                    data.partner = true;
-                    data.level = payload.roomRate;
-                    data.shuffleLevel = payload.waterRate;
-                    data.roomRate = payload.roomRate;
-                    data.waterRate = payload.waterRate;
+                    this.updateCurrentRow(data, {
+                        role: 'proxy',
+                        partner: true,
+                        level: payload.roomRate,
+                        shuffleLevel: payload.waterRate,
+                        roomRate: payload.roomRate,
+                        waterRate: payload.waterRate
+                    }, options.rowComp);
                     if (options.afterSuccess) options.afterSuccess();
-                    else if (this.currentTab === 'partner') {
-                        var state = this.getListState('partner');
-                        this.loadPartners({ page: state.page || 1, pageSize: state.pageSize || 10 });
-                    }
-                    else this.setData(this.currentTab === 'partner' ? this.partners : this.members);
                     this.showTip('设置成功');
                 }.bind(this));
             }.bind(this)
@@ -728,25 +763,26 @@ cc.Class({
     },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
     showBattleReplayPopup: function (data) { this.openPopup(this.battleReplayPopupPrefab, data); },
-    showWarningTodo: function (data) {
-        this.showWarningPopup(data);
+    showWarningTodo: function (data, rowComp) {
+        this.showWarningPopup(data, rowComp);
     },
     showViewSubTodo: function (data) {
         this.showSubListPopup(data);
     },
-    showWarningPopup: function (data) {
+    showWarningPopup: function (data, rowComp) {
         this.openPopup(this.warningPopupPrefab || this.confirmPopupPrefab, {
             user: data,
             onSubmit: function (payload) {
                 if (typeof LeagueAnalysisApi.updateWarning !== 'function') {
                     return this.rejectWithTip('接口未接入: updateWarning');
                 }
-                return LeagueAnalysisApi.updateWarning(data.userID || data.userId, payload.warningScore).then(function (res) {
+                return LeagueAnalysisApi.updateWarning(data.userID, payload.warningScore).then(function (res) {
                     var result = this.getResultData(res);
-                    data.warningScore = result.limit != null ? result.limit : payload.warningScore;
-                    data.warning = data.warningScore;
-                    data.limitScore = data.warningScore;
-                    this.setData(this.currentTab === 'partner' ? this.partners : this.members);
+                    var warningScore = result.limit != null ? result.limit : payload.warningScore;
+                    this.updateCurrentRow(data, {
+                        warningScore: warningScore,
+                        warning: warningScore
+                    }, rowComp);
                     this.showTip('设置成功');
                 }.bind(this));
             }.bind(this)
@@ -763,30 +799,32 @@ cc.Class({
             defaultMode: defaultMode
         });
     },
-    showScorePopup: function (data, mode) { this.openPopup(this.scorePopupPrefab, {
+    showScorePopup: function (data, mode, rowComp) { this.openPopup(this.scorePopupPrefab, {
         user: data,
         mode: mode,
         onSubmit: function (payload) {
-            return LeagueAnalysisApi.changeScore(data.userID || data.userId, payload.mode, payload.amount).then(function () {
+            return LeagueAnalysisApi.changeScore(data.userID, payload.mode, payload.amount).then(function () {
                 var delta = Math.floor(Number(payload.amount || 0) * 100);
                 if (payload.mode === 'sub' || payload.mode === 'reduce') delta = -delta;
-                data.score = Number(data.score || 0) + delta;
-                this.setData(this.currentTab === 'partner' ? this.partners : this.members);
+                this.updateCurrentRow(data, {
+                    score: Number(data.score || 0) + delta
+                }, rowComp);
                 this.showTip(payload.mode === 'sub' || payload.mode === 'reduce' ? '下分成功' : '上分成功');
             }.bind(this));
         }.bind(this)
     }); },
-    showLimitConfirm: function (data) {
+    showLimitConfirm: function (data, rowComp) {
         var forbidden = !data.forbidden;
-        this.openPopup(this.confirmPopupPrefab, { message: forbidden ? '确认禁止该玩家游戏？' : '确认解除禁止？', onOK: function () {
-            return LeagueAnalysisApi.updateForbidden(data.userID || data.userId, forbidden).then(function () {
-                data.forbidden = forbidden;
-                data.hasLimit = forbidden ? (data.userID || data.userId) : 0;
-                data.status = forbidden ? 'limit' : 'normal';
-                this.setData(this.currentTab === 'partner' ? this.partners : this.members);
+        Cache.showConfirm(forbidden ? '确认禁止该玩家游戏？' : '确认解除禁止？', function () {
+            return LeagueAnalysisApi.updateForbidden(data.userID, forbidden).then(function () {
+                this.updateCurrentRow(data, {
+                    forbidden: forbidden,
+                    hasLimit: forbidden ? data.userID : 0,
+                    status: forbidden ? 'limit' : 'normal'
+                }, rowComp);
                 this.showTip(forbidden ? '封禁成功' : '解除封禁成功');
             }.bind(this));
-        }.bind(this) });
+        }.bind(this));
     },
     showRewardWithdrawConfirm: function () {
         var reward = Number(this.currentRewardRaw || 0);
@@ -794,17 +832,14 @@ cc.Class({
             this.showTip('当前没有可提取奖励');
             return;
         }
-        this.openPopup(this.confirmPopupPrefab, {
-            message: '确认取出当前奖励？',
-            onOK: function () {
-                return LeagueAnalysisApi.drawReward(reward).then(function (res) {
-                    var data = this.getResultData(res);
-                    this.currentRewardRaw = data.reward || 0;
-                    this.showTip('提取成功');
-                    this.loadGenericList('rewardWithdraw');
-                }.bind(this));
-            }.bind(this)
-        });
+        Cache.showConfirm('确认取出当前奖励？', function () {
+            return LeagueAnalysisApi.drawReward(reward).then(function (res) {
+                var data = this.getResultData(res);
+                this.currentRewardRaw = data.reward || 0;
+                this.showTip('提取成功');
+                this.loadGenericList('rewardWithdraw');
+            }.bind(this));
+        }.bind(this));
     },
     mockMembers: function () {
         var list = [];

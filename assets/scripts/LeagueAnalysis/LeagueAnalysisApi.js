@@ -42,19 +42,8 @@ function showErrorTip(err) {
 
 function showMessagePopup(message) {
     if (!message) return;
-    cc.loader.loadRes("Main/Prefab/winConfirm", function (err, prefab) {
-        if (err || !prefab) {
-            console.error("[LeagueAnalysisApi] load winConfirm failed", err);
-            return;
-        }
-        var canvas = cc.find("Canvas");
-        if (!canvas) return;
-        var node = cc.instantiate(prefab);
-        canvas.addChild(node);
-        node.zIndex = 3000;
-        var comp = node.getComponent("ModuleWinConfirm");
-        if (comp && comp.show) comp.show("showTipsMsg", message, null, null, "", 3000);
-    });
+    if (Cache && Cache.showTipsMsg) Cache.showTipsMsg(message);
+    else if (Cache && Cache.alertTip) Cache.alertTip(message);
 }
 
 function request(route, data, mask) {

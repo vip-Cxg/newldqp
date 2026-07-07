@@ -12,7 +12,7 @@ cc.Class({
 
         let node = this.node;
         node.parent = cc.find("Canvas");
-        this.node.zIndex = 501;
+        this.node.zIndex = 3000;
 
         node.width = this.word.node.width + 60;
         node.height = this.word.node.height + 60;

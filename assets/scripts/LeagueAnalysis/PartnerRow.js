@@ -17,27 +17,26 @@ cc.Class({
         this.handlers = handlers || {};
         if (!this.nodes) this.cacheNodes();
 
-        var user = this.data.user || {};
-        var role = this.data.role || this.data.proxyRole || 'proxy';
-        var isLeader = role === 'leader' || role === 'owner' || this.data.isLeader || this.data.isCaptain;
+        var role = this.data.role || 'proxy';
+        var isLeader = role === 'owner' || role === 'manager' || role === 'leader';
 
-        this.text('Name', this.data.nickname || this.data.name || user.name || '队长信息');
-        this.text('UserID', String(this.data.userID || this.data.userId || this.data.id || ''));
+        this.text('Name', this.data.name || '队长信息');
+        this.text('UserID', String(this.data.userID || ''));
         this.text('StatusOnline', '');
         this.text('StatusOffline', '');
-        this.text('TodayRounds', this.data.todayRounds || this.data.tdTurn || this.data.rounds || 0);
-        this.text('YesterdayRounds', this.data.yesterdayRounds || this.data.ydTurn || 0);
-        this.text('TodayContribution', this.data.todayIncome || this.data.todayContribution || this.data.tdFee || this.data.contribution || 0);
-        this.text('YesterdayContribution', this.data.yesterdayIncome || this.data.yesterdayContribution || this.data.ydFee || 0);
-        this.text('TodayResult', this.data.todayContribution || this.data.todayResult || this.data.result || 0);
-        this.text('YesterdayResult', this.data.yesterdayContribution || this.data.yesterdayResult || 0);
-        this.text('Score', this.formatScore(this.data.score) + '\n' + this.formatScore(this.data.warningScore || this.data.warning || this.data.limitScore || 0));
-        this.text('TodayLabel', '今日：' + (this.data.todayIncome || this.data.todayContribution || this.data.today || 0));
-        this.text('YesterdayLabel', '昨日：' + (this.data.yesterdayIncome || this.data.yesterdayContribution || this.data.yesterday || 0));
+        this.text('TodayRounds', this.data.todayRounds || 0);
+        this.text('YesterdayRounds', this.data.yesterdayRounds || 0);
+        this.text('TodayContribution', this.data.todayIncome || 0);
+        this.text('YesterdayContribution', this.data.yesterdayIncome || 0);
+        this.text('TodayResult', this.data.todayContribution || 0);
+        this.text('YesterdayResult', this.data.yesterdayContribution || 0);
+        this.text('Score', this.formatScore(this.data.score) + '\n' + this.formatScore(this.data.warningScore || 0));
+        this.text('TodayLabel', '今日：' + (this.data.todayIncome || 0));
+        this.text('YesterdayLabel', '昨日：' + (this.data.yesterdayIncome || 0));
 
-        var peopleText = (this.data.peopleCount || this.data.directCount || this.data.memberCount || 0) + '人';
-        var roomRate = this.data.roomRate != null ? this.data.roomRate : (this.data.level != null ? this.data.level : 0);
-        var waterRate = this.data.waterRate != null ? this.data.waterRate : (this.data.shuffleLevel != null ? this.data.shuffleLevel : 0);
+        var peopleText = (this.data.peopleCount || 0) + '人';
+        var roomRate = this.data.roomRate || 0;
+        var waterRate = this.data.waterRate || 0;
         this.text('PeopleCount', peopleText);
         this.text('RoomRate', roomRate + '%');
         this.text('WaterRate',  waterRate + '%');
@@ -83,7 +82,7 @@ cc.Class({
         node.off(cc.Node.EventType.TOUCH_END);
         node.on(cc.Node.EventType.TOUCH_END, function (event) {
             if (event && event.stopPropagation) event.stopPropagation();
-            if (this.handlers[eventName]) this.handlers[eventName](this.data);
+            if (this.handlers[eventName]) this.handlers[eventName](this.data, this);
         }, this);
     }
 });
