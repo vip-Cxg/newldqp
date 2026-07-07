@@ -13,8 +13,8 @@ cc.Class({
         for (var i = 0; i < node.children.length; i++) this.collect(node.children[i]);
     },
     setData: function (data, handlers) {
-        this.data = data || {};
-        this.handlers = handlers || {};
+        this.data = data ? data : {};
+        this.handlers = handlers ? handlers : {};
         if (!this.nodes) this.cacheNodes();
 
         var role = this.data.role == null ? 'proxy' : this.data.role;

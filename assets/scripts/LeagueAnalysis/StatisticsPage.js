@@ -38,8 +38,8 @@ module.exports = cc.Class({
             var data = res && (res.data || res.detail) || res || {};
             this.render(data);
         }.bind(this)).catch(function (err) {
-            console.error('[StatisticsPage] overview fallback', err);
-            this.render(this.mockData());
+            console.error('[StatisticsPage] overview load failed', err);
+            this.render({});
         }.bind(this));
     },
 
@@ -97,20 +97,5 @@ module.exports = cc.Class({
     formatPercent: function (value) {
         var num = safeNumber(value, 0);
         return String(Number(num.toFixed(2))).replace(/\.00$/, '') + '%';
-    },
-
-    mockData: function () {
-        return {
-            todayReward: 0,
-            yesterdayReward: 0,
-            teamScore: 60000,
-            teamPeople: 7,
-            roomRate: 100,
-            waterRate: 100,
-            gameRounds: 0,
-            directCaptains: 0,
-            directMembers: 6,
-            indirectMembers: 0
-        };
     }
 });

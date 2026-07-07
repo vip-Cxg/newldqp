@@ -450,8 +450,9 @@ cc.Class({
             this.setData(this.members);
             this.updatePaginationFromResponse('member', res, rows);
         }.bind(this)).catch(function (err) {
-            console.error('[LeagueAnalysisView] members fallback', err);
-            this.setData(this.mockMembers());
+            console.error('[LeagueAnalysisView] members load failed', err);
+            this.members = [];
+            this.setData(this.members);
         }.bind(this));
     },
     loadPartners: function (options) {
@@ -793,7 +794,6 @@ cc.Class({
         }
         this.openPopup(this.subListPopupPrefab, {
             user: data,
-            children: data && data.children,
             defaultMode: defaultMode
         });
     },
@@ -805,7 +805,7 @@ cc.Class({
                 var delta = Math.floor(Number(payload.amount || 0) * 100);
                 if (payload.mode === 'sub' || payload.mode === 'reduce') delta = -delta;
                 this.updateCurrentRow(data, {
-                    score: Number(data.score || 0) + delta
+                    score: Number(data.score == null ? 0 : data.score) + delta
                 }, rowComp);
                 this.showTip(payload.mode === 'sub' || payload.mode === 'reduce' ? '下分成功' : '上分成功');
             }.bind(this));
@@ -838,51 +838,5 @@ cc.Class({
                 this.loadGenericList('rewardWithdraw');
             }.bind(this));
         }.bind(this));
-    },
-    mockMembers: function () {
-        var list = [];
-        for (var i = 0; i < 12; i++) {
-            list.push({
-                userID: 123456 + i,
-                name: i % 2 ? '测试玩家' + i : '旧朋友123',
-                role: i % 4 === 0 ? 'proxy' : 'user',
-                online: i % 3 !== 0,
-                rounds: i,
-                yesterdayRounds: i % 5,
-                contribution: (2.78 + i).toFixed(2),
-                result: i % 2 ? -38.9 : 20,
-                score: 9885 + i * 7,
-                today: i % 2 ? -38.9 : 0,
-                yesterday: 0
-            });
-        }
-        this.members = list;
-        return list;
-    },
-    mockPartners: function () {
-        var list = [];
-        for (var i = 0; i < 10; i++) {
-            list.push({
-                userID: 223456 + i,
-                name: i % 2 ? '直属队长' + i : '合伙人' + i,
-                role: i % 3 === 0 ? 'leader' : 'proxy',
-                partner: true,
-                peopleCount: 3 + i,
-                roomRate: i % 2 ? 60 : 100,
-                waterRate: i % 2 ? 40 : 100,
-                todayRounds: i + 1,
-                yesterdayRounds: i % 4,
-                todayIncome: (12.6 + i).toFixed(2),
-                yesterdayIncome: i % 2 ? 0 : 2.78,
-                todayContribution: i % 2 ? -38.9 : 20,
-                yesterdayContribution: 0,
-                score: 988500 + i * 1000,
-                warningScore: 1000000,
-                today: i % 2 ? -38.9 : 0,
-                yesterday: 0
-            });
-        }
-        this.partners = list;
-        return list;
     }
 });

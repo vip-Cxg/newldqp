@@ -23,12 +23,12 @@ cc.Class({
         }).then(function(res){
             var data=res && res.data || {};
             this.text('RoomLabel','房间号：'+(data.roomID||this.data.roomID||''));
-            this.rows=data.rows&&data.rows.length?data.rows:this.mockRows();
+            this.rows=data.rows&&data.rows.length?data.rows:[];
             this.renderRows();
         }.bind(this)).catch(function(err){
-            console.error('[BattleReplayPopup] fallback',err);
-            this.text('RoomLabel','房间号：'+(this.data.roomID||'9999999'));
-            this.rows=this.mockRows();
+            console.error('[BattleReplayPopup] load failed',err);
+            this.text('RoomLabel','房间号：'+(this.data.roomID||''));
+            this.rows=[];
             this.renderRows();
         }.bind(this));
     },
@@ -52,26 +52,5 @@ cc.Class({
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
     block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
-    mockRows:function(){
-        function players(offset){
-            return [
-                {name:'玩家昵称...',score:'+18'},
-                {name:'玩家昵称...',score:offset%2?'-36':'+18'},
-                {name:'玩家昵称...',score:'+18'},
-                {name:'玩家昵称...',score:'+18'},
-                {name:'玩家昵称...',score:'-180'},
-                {name:'玩家昵称...',score:'+18'},
-                {name:'玩家昵称...',score:offset%2?'+36':'-18'},
-                {name:'玩家昵称...',score:'+18'}
-            ];
-        }
-        return [
-            {result:'lose',round:'1/7',players:players(1)},
-            {result:'win',round:'2/7',players:players(2)},
-            {result:'lose',round:'3/7',players:players(3)},
-            {result:'win',round:'4/7',players:players(4)},
-            {result:'lose',round:'5/7',players:players(5)}
-        ];
-    },
     close:function(){this.node.destroy();}
 });

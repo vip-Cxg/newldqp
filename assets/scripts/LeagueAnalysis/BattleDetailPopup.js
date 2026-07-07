@@ -31,11 +31,10 @@ cc.Class({
         }).then(function(res){
             var logs=res && (res.logs || res.data && res.data.logs || res.data) || {};
             this.rows=(logs.rows || res.rows || []);
-            if(!this.rows.length)this.rows=this.mockRows();
             this.renderRows();
         }.bind(this)).catch(function(err){
-            console.error('[BattleDetailPopup] fallback',err);
-            this.rows=this.mockRows();
+            console.error('[BattleDetailPopup] load failed',err);
+            this.rows=[];
             this.renderRows();
         }.bind(this));
     },
@@ -93,23 +92,5 @@ cc.Class({
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
     block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
-    mockRows:function(){
-        return [{
-            roomID:'123456',
-            time:'2019-12-12 12:12',
-            gameName:'牛牛0.5底',
-            replayCode:'WEEWTFDGFDFGDGFAF',
-            players:[
-                {name:'哇卡一为...',maskedID:'12****6',score:'+3605'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36.5'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36'},
-                {name:'哇卡一为...',maskedID:'12****6',score:'-36'}
-            ]
-        }];
-    },
     close:function(){this.node.destroy();}
 });

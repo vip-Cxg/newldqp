@@ -29,8 +29,8 @@ cc.Class({
     renderSummary: function () {
         var user = this.data.user || this.data || {};
         this.text('Title', '查看下级');
-        this.text('SuperiorName', user.nickname || user.name || '玩家信息');
-        this.text('SuperiorID', String(user.userID || user.userId || user.id || '123456'));
+        this.text('SuperiorName', user.name == null ? '玩家信息' : user.name);
+        this.text('SuperiorID', String(user.userID == null ? '' : user.userID));
     },
     switchMode: function (mode) {
         if (this.mode === mode) return;
@@ -47,7 +47,7 @@ cc.Class({
     },
     getTargetID: function () {
         var user = this.getCurrentUser();
-        return user.userID || user.userId || user.id;
+        return user.userID;
     },
     getSearchKeyword: function () {
         var node = this.nodes.SearchInput || this.nodes.Input || this.nodes.SearchEditBox;
@@ -90,21 +90,6 @@ cc.Class({
             this.rows = [];
             this.renderRows();
         }.bind(this));
-    },
-    getRowsFallback: function () {
-        var rows = this.data.children || [];
-        if (rows.length) {
-            var filtered = [];
-            for (var r = 0; r < rows.length; r++) {
-                var item = rows[r] || {};
-                var role = item.role || item.proxyRole || '';
-                var isLeader = role === 'leader' || role === 'owner' || item.partner || item.isPartner || item.children && item.children.length;
-                if (this.mode === 'leader' && isLeader) filtered.push(item);
-                if (this.mode === 'member' && !isLeader) filtered.push(item);
-            }
-            return filtered;
-        }
-        return [];
     },
     renderRows: function () {
         this.setModeButton('BtnLeader', this.mode === 'leader');
