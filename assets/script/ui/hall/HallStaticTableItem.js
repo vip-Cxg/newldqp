@@ -26,8 +26,13 @@ cc.Class({
         this.node.setContentSize(cc.size(360, 182));
         this.setTableArt(spriteFrame, data);
         this.applyGameLayout(data);
-        this.setLabel(this.ruleLabel, data.rule || "");
-        this.setLabel(this.roundLabel, (data.entryText || "") + "\n" + (data.occupied || 0) + "人/" + (data.totalRound || 10) + "局");
+        if (this.isCreateRoomEntry(data)) {
+            this.setLabel(this.ruleLabel, data.createRoomTitle || data.name || "跑得快开房");
+            this.setLabel(this.roundLabel, data.createRoomHint || "点击创建房间");
+        } else {
+            this.setLabel(this.ruleLabel, data.rule || "");
+            this.setLabel(this.roundLabel, (data.entryText || "") + "\n" + (data.occupied || 0) + "人/" + (data.totalRound || 10) + "局");
+        }
         this.applyRuleTextStyle();
         if (this.roundLabel) {
             this.roundLabel.lineHeight = Math.max(18, Math.floor(this.roundLabel.fontSize * 1.05));
@@ -49,6 +54,10 @@ cc.Class({
             outline.color = outlineColor;
             outline.width = 2;
         });
+    },
+
+    isCreateRoomEntry(data) {
+        return !!(data && (data.isPdkCreateRoom || data.isCreateRoomEntry));
     },
 
     applyGameLayout(data) {
@@ -79,7 +88,8 @@ cc.Class({
 
     renderAvatars(data) {
         let seatCount = data.game && data.game.seats || 8;
-        let occupied = Math.min(data.occupied || 0, seatCount);
+        let players = this.getVisiblePlayers(data);
+        let occupied = Math.min(players.length, seatCount);
         let positions = this.getSeatPositions(seatCount);
         let style = this.getAvatarStyle();
         this.avatarSeats.forEach((seatData, index) => {
@@ -91,7 +101,7 @@ cc.Class({
             seat.active = true;
             seat.setPosition(cc.v2(pos.x, pos.y));
             this.applyAvatarStyle(seatData, style);
-            let player = this.getPlayer(data, index);
+            let player = players[index];
             this.setSeatAvatar(seatData, index, player);
             this.setSeatName(seatData, this.getPlayerName(player, index));
         });
@@ -228,6 +238,28 @@ cc.Class({
     getPlayer(data, index) {
         let players = data.players || data.seats || [];
         return players[index] || null;
+    },
+
+    getVisiblePlayers(data) {
+        let players = data.players || data.seats || [];
+        if (!players || !players.length) return [];
+        return players.filter((player) => this.isValidPlayer(player));
+    },
+
+    isValidPlayer(player) {
+        if (!player) return false;
+        if (typeof player !== "object") return true;
+        let prop = player.prop || player.user || player;
+        if (!prop || typeof prop !== "object") return false;
+        return !!(prop.id
+            || prop.userID
+            || prop.pid
+            || prop.name
+            || prop.nickname
+            || prop.nickName
+            || prop.head
+            || prop.avatar
+            || prop.avatarUrl);
     },
 
     getPlayerName(player, index) {

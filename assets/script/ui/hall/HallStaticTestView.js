@@ -676,6 +676,8 @@ cc.Class({
             name: (room && room.name ? room.name : "跑得快") + "开房",
             rule: room && room.name ? room.name : this.getRuleName("PDK"),
             entryText: this.getRoomEntryText(room),
+            createRoomTitle: "跑得快开房",
+            createRoomHint: "点击创建房间",
             occupied: 0,
             players: [],
             state: "等待中",
@@ -723,7 +725,7 @@ cc.Class({
 
     normalizeTablePlayers(players) {
         if (!players || !players.length) return [];
-        return players.filter((player) => !!player).map((player, index) => {
+        return players.filter((player) => this.isValidTablePlayer(player)).map((player, index) => {
             if (typeof player !== "object") {
                 return { name: "玩家" + (index + 1), head: "" };
             }
@@ -734,6 +736,22 @@ cc.Class({
                 raw: player,
             };
         });
+    },
+
+    isValidTablePlayer(player) {
+        if (utils.isNullOrEmpty(player)) return false;
+        if (typeof player !== "object") return true;
+        let prop = player.prop || player.user || player;
+        if (!prop || typeof prop !== "object") return false;
+        return !utils.isNullOrEmpty(prop.id)
+            || !utils.isNullOrEmpty(prop.userID)
+            || !utils.isNullOrEmpty(prop.pid)
+            || !utils.isNullOrEmpty(prop.name)
+            || !utils.isNullOrEmpty(prop.nickname)
+            || !utils.isNullOrEmpty(prop.nickName)
+            || !utils.isNullOrEmpty(prop.head)
+            || !utils.isNullOrEmpty(prop.avatar)
+            || !utils.isNullOrEmpty(prop.avatarUrl);
     },
 
     getPdkRooms() {
@@ -856,6 +874,8 @@ cc.Class({
             name: game.key === "PDK" && index === 1 ? "跑得快开房" : game.name + " 测试桌 " + index,
             rule: rules[ruleIndex] || rules[0],
             entryText: this.getEntryText(game.key, ruleIndex),
+            createRoomTitle: game.key === "PDK" && index === 1 ? "跑得快开房" : "",
+            createRoomHint: game.key === "PDK" && index === 1 ? "点击创建房间" : "",
             occupied: occupied,
             players: players,
             state: isPlaying ? "游戏中" : "等待中",
