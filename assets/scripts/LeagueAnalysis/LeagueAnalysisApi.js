@@ -165,8 +165,8 @@ module.exports = {
         return request(GameConfig.ServerEventName.AddProxy, {
             clubID: getClubID(),
             userID: parseInt(data.userID),
-            level: parseInt(data.roomRate || data.level || 0),
-            shuffleLevel: parseInt(data.waterRate || data.shuffleLevel || 0)
+            level: parseInt(data.waterRate || data.level || 0),
+            shuffleLevel: parseInt(data.roomRate || data.shuffleLevel || 0)
         });
     },
     updatePartnerRate: function (data) {
@@ -174,8 +174,8 @@ module.exports = {
         return request(GameConfig.ServerEventName.UpdateLevel, {
             clubID: getClubID(),
             userID: data.userID,
-            level: data.roomRate || data.level || 0,
-            shuffleLevel: data.waterRate || data.shuffleLevel || 0
+            level: data.waterRate || data.level || 0,
+            shuffleLevel: data.roomRate || data.shuffleLevel || 0
         });
     },
     updateWarning: function (userID, warningScore) {

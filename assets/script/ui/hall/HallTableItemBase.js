@@ -77,8 +77,32 @@ export default class HallTableItemBase extends CompListRenderer {
                 Cache.alertTip("无法加入有奖专区的牌桌");
                 return;
             }
-            this.enterGame(data, data.roomData);
+            this.openRoomDetail(data, data.roomData, () => {
+                this.enterGame(data, data.roomData);
+            });
         }, this);
+    }
+
+    openRoomDetail(data, roomData, onJoin) {
+        cc.loader.loadRes("Main/Prefab/HallRoomDetailPopup", cc.Prefab, (err, prefab) => {
+            if (err || !prefab) {
+                cc.log("[HallTableItemBase] load HallRoomDetailPopup failed", err);
+                if (onJoin) onJoin();
+                return;
+            }
+            let canvas = cc.find("Canvas");
+            if (!canvas) return;
+            let node = cc.instantiate(prefab);
+            canvas.addChild(node);
+            let comp = node.getComponent("HallRoomDetailPopup");
+            if (comp && comp.init) {
+                comp.init({
+                    table: data,
+                    room: roomData,
+                    onJoin: onJoin,
+                });
+            }
+        });
     }
 
     autoBindNodes() {

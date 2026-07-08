@@ -53,12 +53,13 @@ cc.Class({
         for(var i=0;i<details.length;i++){
             var detail=details[i]||{};
             var scores=detail.scores||[];
+            var rowPlayers=this.mergePlayers(players,scores);
             rows.push({
                 round:(detail.round||i+1)+'/'+details.length,
                 turn: detail.round || i + 1,
                 replayID: this.getReplayID(detail.round || i + 1),
-                result:this.getRoundResult(scores),
-                players:this.mergePlayers(players,scores)
+                result:this.getRoundResult(rowPlayers),
+                players:rowPlayers
             });
         }
         return rows;
@@ -90,17 +91,25 @@ cc.Class({
             var score=scores[i]!=null?scores[i]:(player.total!=null?player.total:player.score);
             list.push({
                 name:prop.name||player.name||('玩家'+(i+1)),
+                userID:prop.id||prop.userID||prop.pid||player.id||player.userID||player.pid||'',
                 score:score
             });
         }
         return list;
     },
-    getRoundResult:function(scores){
-        scores=scores||[];
-        for(var i=0;i<scores.length;i++){
-            if(Number(scores[i]||0)>0)return 'win';
+    getRoundResult:function(players){
+        players=players||[];
+        var targetID=this.data&&(this.data.userID||this.data.playerID||this.data.uid);
+        var target=players[0]||{};
+        if(targetID){
+            for(var i=0;i<players.length;i++){
+                if(String(players[i].userID||'')===String(targetID)){
+                    target=players[i];
+                    break;
+                }
+            }
         }
-        return 'lose';
+        return Number(target.score||0)>0?'win':'lose';
     },
     renderRows:function(){
         var content=this.nodes.content;

@@ -36,8 +36,8 @@ cc.Class({
         this.text('YesterdayLabel', '昨日：' + this.value(this.data.yesterdayIncome, 0));
 
         var peopleText = this.value(this.data.peopleCount, 0) + '人';
-        var roomRate = this.value(this.data.roomRate, 0);
-        var waterRate = this.value(this.data.waterRate, 0);
+        var roomRate = this.value(this.data.shuffleLevel, this.value(this.data.roomRate, 0));
+        var waterRate = this.value(this.data.level, this.value(this.data.waterRate, 0));
         this.text('PeopleCount', peopleText);
         this.text('RoomRate', roomRate + '%');
         this.text('WaterRate',  waterRate + '%');

@@ -748,8 +748,8 @@ cc.Class({
                     this.updateCurrentRow(data, {
                         role: 'proxy',
                         partner: true,
-                        level: payload.roomRate,
-                        shuffleLevel: payload.waterRate,
+                        level: payload.waterRate,
+                        shuffleLevel: payload.roomRate,
                         roomRate: payload.roomRate,
                         waterRate: payload.waterRate
                     }, options.rowComp);
@@ -768,8 +768,8 @@ cc.Class({
             role === 'owner' ||
             role === 'manager' ||
             role === 'leader' ||
-            Number(data.roomRate == null ? 0 : data.roomRate) > 0 ||
-            Number(data.waterRate == null ? 0 : data.waterRate) > 0
+            Number(data.shuffleLevel == null ? data.roomRate || 0 : data.shuffleLevel) > 0 ||
+            Number(data.level == null ? data.waterRate || 0 : data.level) > 0
         );
     },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },

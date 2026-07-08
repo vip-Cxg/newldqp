@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "0e72f62d-69c5-4c93-b03b-0cf42401a2ca",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1334,
+  "height": 750,
+  "platformSettings": {},
+  "subMetas": {
+    "本桌详情效果图": {
+      "ver": "1.0.6",
+      "uuid": "6c369e5e-7882-48d1-abf3-0c3ac784f53c",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "0e72f62d-69c5-4c93-b03b-0cf42401a2ca",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1334,
+      "height": 750,
+      "rawWidth": 1334,
+      "rawHeight": 750,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

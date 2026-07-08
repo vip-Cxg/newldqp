@@ -891,15 +891,43 @@ cc.Class({
         this.configureButton(node);
         node.on(cc.Node.EventType.TOUCH_END, () => {
             if (table.isPdkRealTable) {
-                this.requestJoinPdkRoom(table.realRoomData, table.tableID);
+                this.openRoomDetail(table, () => {
+                    this.requestJoinPdkRoom(table.realRoomData, table.tableID);
+                });
                 return;
             }
             if (table.isPdkCreateRoom) {
-                this.requestJoinPdkRoom(table.realRoomData, "");
+                this.openRoomDetail(table, () => {
+                    this.requestJoinPdkRoom(table.realRoomData, "");
+                });
                 return;
             }
-            this.enterPdkCreateRoom();
+            this.openRoomDetail(table, () => {
+                this.enterPdkCreateRoom();
+            });
         }, this);
+    },
+
+    openRoomDetail(table, onJoin) {
+        cc.loader.loadRes("Main/Prefab/HallRoomDetailPopup", cc.Prefab, (err, prefab) => {
+            if (err || !prefab) {
+                console.warn("[HallStaticTestView] load HallRoomDetailPopup failed", err);
+                if (onJoin) onJoin();
+                return;
+            }
+            let canvas = cc.find("Canvas");
+            if (!canvas) return;
+            let node = cc.instantiate(prefab);
+            canvas.addChild(node);
+            let comp = node.getComponent("HallRoomDetailPopup");
+            if (comp && comp.init) {
+                comp.init({
+                    table: table,
+                    room: table && table.realRoomData,
+                    onJoin: onJoin,
+                });
+            }
+        });
     },
 
     enterPdkCreateRoom() {
