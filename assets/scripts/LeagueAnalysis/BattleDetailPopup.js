@@ -12,6 +12,7 @@ cc.Class({
         this.rows=[];
         this.cacheNodes();
         this.bindAll();
+        this.updateDateButtons();
         this.renderSummary();
         this.loadRows();
     },
@@ -45,6 +46,24 @@ cc.Class({
         this.block('Mask');
         for(var i=1;i<=7;i++)this.bind('DateButton'+i,this.onDateClick.bind(this,i));
     },
+    updateDateButtons:function(){
+        for(var i=1;i<=7;i++){
+            var n=this.nodes['DateButton'+i];
+            if(!n)continue;
+            this.setAllLabels(n,this.getDateLabel(i));
+            var normal=n.getChildByName('Normal');
+            var selected=n.getChildByName('Selected');
+            if(normal)normal.active=i!==this.selectedDate;
+            if(selected)selected.active=i===this.selectedDate;
+        }
+    },
+    getDateLabel:function(index){
+        var date=new Date();
+        date.setDate(date.getDate()-(Number(index||1)-1));
+        var m=date.getMonth()+1;
+        var d=date.getDate();
+        return (m<10?'0':'')+m+'月'+(d<10?'0':'')+d+'日';
+    },
     getDateString:function(index){
         var date=new Date();
         date.setDate(date.getDate()-(Number(index||1)-1));
@@ -74,23 +93,23 @@ cc.Class({
         if(this.owner&&this.owner.showBattleReplayPopup)this.owner.showBattleReplayPopup(row);
     },
     copyReplayCode:function(row){
-        cc.log('[BattleDetailPopup] copy replay code',row&&row.replayCode);
+        var view=row&&row._view||{};
+        cc.log('[BattleDetailPopup] copy replay code',view.replayCode||row&&row.replayCode);
     },
     onDateClick:function(index){
         this.selectedDate=index;
-        for(var i=1;i<=7;i++){
-            var n=this.nodes['DateButton'+i];
-            if(!n)continue;
-            var normal=n.getChildByName('Normal');
-            var selected=n.getChildByName('Selected');
-            if(normal)normal.active=i!==index;
-            if(selected)selected.active=i===index;
-        }
+        this.updateDateButtons();
         cc.log('[BattleDetailPopup] date click',index);
         this.loadRows();
     },
     bind:function(name,fn){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();fn.call(this);},this);},
     block:function(name){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();},this);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
+    setAllLabels:function(node,value){
+        if(!node)return;
+        var label=node.getComponent(cc.Label);
+        if(label)label.string=value;
+        for(var i=0;i<node.children.length;i++)this.setAllLabels(node.children[i],value);
+    },
     close:function(){this.node.destroy();}
 });

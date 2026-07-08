@@ -1,3 +1,5 @@
+var DataBase = require("../../Main/Script/DataBase");
+
 cc.Class({
     extends: cc.Component,
     properties: {},
@@ -17,10 +19,9 @@ cc.Class({
         this.handlers = handlers ? handlers : {};
         if (!this.nodes) this.cacheNodes();
 
-        var role = this.data.role == null ? 'proxy' : this.data.role;
-        var isLeader = role === 'owner' || role === 'manager' || role === 'leader';
+        var isSelf = this.isSelfUser(this.data);
 
-        this.text('Name', this.value(this.data.name, '队长信息'));
+        this.text('Name', this.value(this.data.user.name, '队长信息'));
         this.text('UserID', String(this.value(this.data.userID, '')));
         this.text('StatusOnline', '');
         this.text('StatusOffline', '');
@@ -42,11 +43,11 @@ cc.Class({
         this.text('WaterRate',  waterRate + '%');
 
         if (this.nodes.RoleBadge) this.nodes.RoleBadge.active = true;
-        if (this.nodes.ZXBadge) this.nodes.ZXBadge.active = !isLeader;
-        if (this.nodes.DZBadge) this.nodes.DZBadge.active = !!isLeader;
+        if (this.nodes.ZXBadge) this.nodes.ZXBadge.active = !isSelf;
+        if (this.nodes.DZBadge) this.nodes.DZBadge.active = !!isSelf;
         if (this.nodes.ForbiddenStamp) this.nodes.ForbiddenStamp.active = false;
-        if (this.nodes.BtnAdjustRate) this.nodes.BtnAdjustRate.active = !isLeader;
-        if (this.nodes.BtnWarning) this.nodes.BtnWarning.active = !isLeader;
+        if (this.nodes.BtnAdjustRate) this.nodes.BtnAdjustRate.active = !isSelf;
+        if (this.nodes.BtnWarning) this.nodes.BtnWarning.active = !isSelf;
         if (this.nodes.BtnAdjustRate) this.textButton('BtnAdjustRate', '调整比例');
         if (this.nodes.BtnWarning) this.textButton('BtnWarning', '警戒值');
         if (this.nodes.BtnViewSub) this.textButton('BtnViewSub', '查看下级');
@@ -60,6 +61,12 @@ cc.Class({
     },
     value: function (value, fallback) {
         return value == null ? fallback : value;
+    },
+    isSelfUser: function (data) {
+        var player = DataBase && DataBase.player ? DataBase.player : {};
+        var selfID = player.id || player.userID || player.pid;
+        data = data || {};
+        return selfID != null && String(data.userID || data.id || data.pid) === String(selfID);
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);

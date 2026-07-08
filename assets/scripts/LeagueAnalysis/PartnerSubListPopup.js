@@ -59,6 +59,8 @@ cc.Class({
     },
     extractRows: function (res) {
         var data = res && (res.data || res.detail) || res || {};
+        if (data.proxies && data.proxies.rows) return data.proxies.rows;
+        if (data.users && data.users.rows) return data.users.rows;
         if (data.rows) return data.rows;
         if (data.list) return data.list;
         if (Array.isArray(data)) return data;

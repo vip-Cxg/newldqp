@@ -1,3 +1,6 @@
+var utils = require("../../Main/Script/utils");
+var GameConfig = require("../../GameBase/GameConfig").GameConfig;
+
 cc.Class({
     extends: cc.Component,
     properties:{},
@@ -24,6 +27,7 @@ cc.Class({
             this.setChildText(slot,'MaskedIDLabel',players[i].maskedID);
             this.setChildText(slot,'ScoreLabel',players[i].score);
             this.setScoreColor(slot,'ScoreLabel',players[i].score);
+            this.setAvatar(slot,players[i].head);
         }
         this.bind('BtnCopyReplayCode','copy');
         this.bind('BtnViewReplay','replay');
@@ -32,9 +36,8 @@ cc.Class({
         data=data||{};
         var detail=data.data||{};
         var rule=data.rule||{};
-        var players=data.players;
-        if(typeof players==='string')players=[];
-        players=players||detail.players||[];
+        var players=Array.isArray(data.players)?data.players:[];
+        if(!players.length&&Array.isArray(detail.players))players=detail.players;
         return {
             id:data.id,
             logID:data.logID||data.id,
@@ -56,7 +59,8 @@ cc.Class({
             list.push({
                 name:prop.name||player.name||'玩家',
                 maskedID:this.maskID(userID),
-                score:this.formatScore(player.total!=null?player.total:player.score)
+                score:this.formatScore(player.total!=null?player.total:player.score),
+                head:prop.head||player.head||player.avatarUrl||player.avatar||''
             });
         }
         return list;
@@ -73,6 +77,30 @@ cc.Class({
         return text;
     },
     setChildText:function(root,name,value){var n=root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(l)l.string=value;},
+    setAvatar:function(root,head){
+        var node=this.findNode(root,'Avatar');
+        if(!node)return;
+        var avatar=node.getComponent('Avatar');
+        if(avatar){
+            avatar.avatarUrl=head||'';
+            return;
+        }
+        var sprite=node.getComponent(cc.Sprite);
+        if(sprite&&utils&&utils.setHead){
+            var url=head||'';
+            if(url&&url.indexOf('://')===-1)url=(GameConfig.HeadUrl||'')+url;
+            utils.setHead(sprite,url);
+        }
+    },
+    findNode:function(root,name){
+        if(!root)return null;
+        if(root.name===name)return root;
+        for(var i=0;i<root.children.length;i++){
+            var found=this.findNode(root.children[i],name);
+            if(found)return found;
+        }
+        return null;
+    },
     setScoreColor:function(root,name,value){var n=root.getChildByName(name);var l=n&&n.getComponent(cc.Label);if(!l)return;var str=String(value||'');l.node.color=str.indexOf('-')===0?new cc.Color(35,110,205,255):new cc.Color(200,70,35,255);},
     text:function(name,value){var l=this.nodes[name]&&this.nodes[name].getComponent(cc.Label);if(l)l.string=value;},
     bind:function(name,eventName){var node=this.nodes[name];if(!node)return;node.off(cc.Node.EventType.TOUCH_END);node.on(cc.Node.EventType.TOUCH_END,function(e){if(e&&e.stopPropagation)e.stopPropagation();if(this.handlers[eventName])this.handlers[eventName](this.data);},this);}

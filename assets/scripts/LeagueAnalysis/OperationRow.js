@@ -16,13 +16,22 @@ cc.Class({
         this.data = data || {};
         this.mode = mode || 'leader';
         if (!this.nodes) this.cacheNodes();
-        this.text('Name', this.data.name || this.data.playerName || this.data.nickname || '玩家信息');
-        this.text('UserID', String(this.data.userID || this.data.userId || this.data.id || ''));
-        this.text('ScoreChange', this.formatSigned(this.data.score || this.data.changeScore || this.data.amount || 0));
+        var user = this.data.user || this.data.prop || {};
+        var operator = this.data.operator || this.data.sourceUser || this.data.source || {};
+        this.text('Name', user.name || this.data.name || this.data.playerName || this.data.nickname || '玩家信息');
+        this.text('UserID', String(this.data.userID || this.data.userId || user.id || this.data.id || ''));
+        this.text('ScoreChange', this.formatSigned(this.getScoreChange()));
         this.text('PlayerRemain', this.formatScore(this.data.remainScore || this.data.playerRemain || 0));
-        this.text('OperatorName', this.data.operatorName || this.data.sourceName || this.data.source || this.data.parent || '');
+        this.text('OperatorName', operator.name || this.data.operatorName || this.data.sourceName || this.data.parent || this.data.event || '');
         this.text('OperatorRemain', this.formatScore(this.data.operatorRemain || this.data.sourceRemain || 0));
         this.text('TimeLabel', this.formatTime(this.data.createdAt || this.data.updatedAt || this.data.time || this.data.strDate || ''));
+    },
+    getScoreChange: function () {
+        if (this.data.dec != null) return this.data.dec;
+        if (this.data.score != null) return this.data.score;
+        if (this.data.changeScore != null) return this.data.changeScore;
+        if (this.data.amount != null) return this.data.amount;
+        return 0;
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);

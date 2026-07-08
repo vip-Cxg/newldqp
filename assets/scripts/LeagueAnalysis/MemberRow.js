@@ -15,7 +15,7 @@ cc.Class({
         this.handlers = handlers ? handlers : {};
         if (!this.nodes) this.cacheNodes();
         var role = this.data.role == null ? 'user' : this.data.role;
-        var forbidden = !!this.data.forbidden;
+        var forbidden = !!this.data.forbidden || !!this.data.hasLimit  || this.data.status === 'limit'
         this.data.forbidden = forbidden;
         this.text('Name', this.value(this.data.user.name, '玩家信息'));
         this.text('UserID', String(this.value(this.data.userID, '')));

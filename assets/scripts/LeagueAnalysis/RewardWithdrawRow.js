@@ -17,8 +17,8 @@ cc.Class({
         this.mode = mode || 'leader';
         if (!this.nodes) this.cacheNodes();
         this.text('Time', this.formatTime(this.data.createdAt || this.data.updatedAt || this.data.time || this.data.strDate || ''));
-        this.text('Level', this.data.level || this.data.reason || this.data.type || '奖励提取');
-        this.text('TotalTaken', this.formatScore(this.data.reward || this.data.totalTaken || this.data.amount || 0));
+        this.text('Level', this.data.level || this.data.reason || this.data.type || (Number(this.data.reward || 0) < 0 ? '领取' : '获得'));
+        this.text('TotalTaken', this.formatScore(Math.abs(Number(this.data.reward != null ? this.data.reward : (this.data.totalTaken || this.data.amount || 0)))));
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);

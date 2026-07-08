@@ -17,10 +17,16 @@ cc.Class({
         this.mode = mode || 'leader';
         if (!this.nodes) this.cacheNodes();
         this.text('RewardValue', this.formatScore(this.data.reward || this.data.rewardValue || this.data.amount || 0));
-        this.text('PlayerName', this.data.name || this.data.playerName || this.data.nickname || '玩家');
+        this.text('PlayerName', this.getRewardName());
         this.text('PlayerCount', this.data.playerCount || this.data.count || this.data.turn || 0);
-        this.text('RoomId', this.data.roomID || this.data.roomId || this.data.tableID || this.data.source || '');
+        this.text('RoomId', this.getRewardSource());
         this.text('Time', this.formatTime(this.data.createdAt || this.data.updatedAt || this.data.time || this.data.strDate || ''));
+    },
+    getRewardName: function () {
+        return this.data.name || this.data.playerName || this.data.nickname || this.data.remarks || '玩家';
+    },
+    getRewardSource: function () {
+        return this.data.roomID || this.data.roomId || this.data.tableID || this.data.source || this.data.recordCode || '';
     },
     text: function (name, value) {
         var label = this.nodes[name] && this.nodes[name].getComponent(cc.Label);

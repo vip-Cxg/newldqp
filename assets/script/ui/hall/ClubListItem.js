@@ -71,7 +71,8 @@ export default class ClubListItem extends cc.Component {
             App.Club.IsLeague = true;
             App.Club.ClubName = data.club && data.club.name ? data.club.name : "";
             App.Club.CurrentClubRole = data.role || 'user';
-            GameConfig.UseStaticHall = data.isStaticHallTest || index === 1;
+            // GameConfig.UseStaticHall = data.isStaticHallTest || index === 1;
+            GameConfig.UseStaticHall = true;
             GameUtils.pop(GameConfig.UseStaticHall ? GameConfig.pop.HallStaticTestView : GameConfig.pop.TablePop);
             App.EventManager.dispatchEventWith(GameConfig.GameEventNames.CHOOSE_CLUB);
 

@@ -34,6 +34,29 @@ function getErrorMessage(err) {
     return "请求失败";
 }
 
+function formatDate(date) {
+    date = date || new Date();
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    return String(y) + (m < 10 ? "0" : "") + m + (d < 10 ? "0" : "") + d;
+}
+
+function findRowValue(rows, strDate, key) {
+    rows = rows || [];
+    for (var i = 0; i < rows.length; i++) {
+        if (String(rows[i].strDate || "") === String(strDate)) return Number(rows[i][key] || 0);
+    }
+    return 0;
+}
+
+function sumRowValues(rows, key) {
+    rows = rows || [];
+    var total = 0;
+    for (var i = 0; i < rows.length; i++) total += Number(rows[i][key] || 0);
+    return total;
+}
+
 function showErrorTip(err) {
     var message = getErrorMessage(err);
     showMessagePopup(message);
@@ -46,8 +69,8 @@ function showMessagePopup(message) {
     else if (Cache && Cache.alertTip) Cache.alertTip(message);
 }
 
-function request(route, data, mask) {
-    var payload = clone(data);
+function request(route, data, mask, withClubID) {
+    var payload = clone(data, withClubID);
     cc.log("[LeagueAnalysisApi] request", route, payload);
     return new Promise(function (resolve, reject) {
         Connector.request(route, payload, function (res) {
@@ -71,8 +94,33 @@ module.exports = {
     request: request,
     overview: function (data) {
         data = data || {};
-        return request("businessAnalysis/overview", {
-            clubID: getClubID()
+        var today = formatDate(new Date());
+        var yesterdayDate = new Date();
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+        var yesterday = formatDate(yesterdayDate);
+        return Promise.all([
+            request(GameConfig.ServerEventName.RewardSummary, { clubID: getClubID(), page: 1, pageSize: 8 }, false),
+            request(GameConfig.ServerEventName.ScoreSummary, { clubID: getClubID(), userID: getSelfID(), page: 1, pageSize: 8 }, false),
+            request(GameConfig.ServerEventName.ProxiesList, { clubID: getClubID(), userID: getSelfID(), page: 1, pageSize: 1 }, false),
+            request(GameConfig.ServerEventName.UserList, { clubID: getClubID(), userID: getSelfID(), page: 1, pageSize: 1 }, false)
+        ]).then(function (list) {
+            var rewardRows = list[0] && list[0].rows || [];
+            var scoreRows = list[1] && list[1].logs && list[1].logs.rows || [];
+            var proxies = list[2] && list[2].proxies || {};
+            var users = list[3] && list[3].users || {};
+            var todayReward = findRowValue(rewardRows, today, 'reward');
+            var yesterdayReward = findRowValue(rewardRows, yesterday, 'reward');
+            return {
+                data: {
+                    todayReward: todayReward,
+                    yesterdayReward: yesterdayReward,
+                    teamScore: sumRowValues(scoreRows, 'inc') - sumRowValues(scoreRows, 'dec'),
+                    teamPeople: Number(proxies.count || 0) + Number(users.count || 0),
+                    directCaptains: Number(proxies.count || 0),
+                    directMembers: Number(users.count || 0),
+                    indirectMembers: 0
+                }
+            };
         });
     },
     members: function (data) {
@@ -91,21 +139,21 @@ module.exports = {
         return this.members({ keywords: userID, page: 1, pageSize: 20 });
     },
     findUser: function (userID) {
-        return request("businessAnalysis/findUser", {
-            clubID: getClubID(),
-            userID: userID
-        });
+        return request(GameConfig.ServerEventName.SearchUserInfo, {
+            userID: parseInt(userID)
+        }, 1, false);
     },
     invitePlayer: function (userID) {
-        return request("businessAnalysis/invitePlayer", {
+        return request(GameConfig.ServerEventName.Invite, {
             clubID: getClubID(),
-            userID: userID
+            userID: parseInt(userID)
         });
     },
     partners: function (data) {
         data = data || {};
-        return request("businessAnalysis/partners", {
+        return request(GameConfig.ServerEventName.ProxiesList, {
             clubID: getClubID(),
+            userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
@@ -114,11 +162,11 @@ module.exports = {
     },
     setPartner: function (data) {
         data = data || {};
-        return request("businessAnalysis/setPartner", {
+        return request(GameConfig.ServerEventName.AddProxy, {
             clubID: getClubID(),
-            userID: data.userID,
-            level: data.roomRate || data.level || 0,
-            shuffleLevel: data.waterRate || data.shuffleLevel || 0
+            userID: parseInt(data.userID),
+            level: parseInt(data.roomRate || data.level || 0),
+            shuffleLevel: parseInt(data.waterRate || data.shuffleLevel || 0)
         });
     },
     updatePartnerRate: function (data) {
@@ -154,10 +202,10 @@ module.exports = {
     },
     children: function (data) {
         data = data || {};
-        return request("businessAnalysis/children", {
+        var route = (data.type || data.mode) === "member" ? GameConfig.ServerEventName.UserList : GameConfig.ServerEventName.ProxiesList;
+        return request(route, {
             clubID: getClubID(),
             userID: data.userID || data.userId || data.id,
-            type: data.type || data.mode || "leader",
             page: data.page || 1,
             pageSize: data.pageSize || 50,
             keyword: getKeyword(data),
@@ -170,21 +218,18 @@ module.exports = {
             clubID: getClubID(),
             userID: data.userID || getSelfID(),
             page: data.page || 1,
-            pageSize: data.pageSize || 20
+            pageSize: data.pageSize || 20,
+            strDate: data.strDate || data.date || null
         });
     },
     battleReplay: function (data) {
-        data = data || {};
-        return request("businessAnalysis/battleReplay", {
-            clubID: getClubID(),
-            logID: data.logID || data.id,
-            fileID: data.fileID || data.replayCode
-        });
+        return Promise.resolve({ data: { rows: [] } });
     },
     agentStats: function (data) {
         data = data || {};
-        return request("businessAnalysis/agentStats", {
+        return request(GameConfig.ServerEventName.ProxiesList, {
             clubID: getClubID(),
+            userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
@@ -193,8 +238,9 @@ module.exports = {
     },
     rewardDetails: function (data) {
         data = data || {};
-        return request("businessAnalysis/rewardDetails", {
+        return request(GameConfig.ServerEventName.RewardDetail, {
             clubID: getClubID(),
+            userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
@@ -205,8 +251,9 @@ module.exports = {
     },
     operateLogs: function (data) {
         data = data || {};
-        return request("businessAnalysis/operateLogs", {
+        return request(GameConfig.ServerEventName.UserScoreLog, {
             clubID: getClubID(),
+            userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
@@ -217,8 +264,9 @@ module.exports = {
     },
     rewardWithdraw: function (data) {
         data = data || {};
-        return request("businessAnalysis/rewardWithdraw", {
+        return request(GameConfig.ServerEventName.RewardLog, {
             clubID: getClubID(),
+            userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),

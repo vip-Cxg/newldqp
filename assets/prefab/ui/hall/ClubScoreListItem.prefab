@@ -99,9 +99,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 110,
+      "g": 62,
+      "b": 36,
       "a": 255
     },
     "_contentSize": {
@@ -156,7 +156,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "时间",
     "_N$string": "时间",
     "_fontSize": 20,
@@ -183,7 +184,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "39154969-d9b6-40b7-8622-d4e58e72a727"
+      "__id__": 0
     },
     "fileId": "ecDfN4gclMWIyOplZZQVAS",
     "sync": false
@@ -208,9 +209,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 110,
+      "g": 62,
+      "b": 36,
       "a": 255
     },
     "_contentSize": {
@@ -265,7 +266,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "总奖励",
     "_N$string": "总奖励",
     "_fontSize": 20,
@@ -292,7 +294,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "39154969-d9b6-40b7-8622-d4e58e72a727"
+      "__id__": 0
     },
     "fileId": "cfqDZ/iK1IzJpikjwY2+lr",
     "sync": false
@@ -317,9 +319,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 110,
+      "g": 62,
+      "b": 36,
       "a": 255
     },
     "_contentSize": {
@@ -374,7 +376,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "总体力",
     "_N$string": "总体力",
     "_fontSize": 20,
@@ -401,7 +404,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "39154969-d9b6-40b7-8622-d4e58e72a727"
+      "__id__": 0
     },
     "fileId": "63pqoImEFIUZJTQbaj0BqU",
     "sync": false
@@ -412,9 +415,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "39154969-d9b6-40b7-8622-d4e58e72a727"
+      "__id__": 0
     },
-    "fileId": "5cheY/salDvI4mK8c+1UMl",
+    "fileId": "",
     "sync": false
   }
 ]

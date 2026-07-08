@@ -3,6 +3,7 @@ var PopupMaskUtil = require("./PopupMaskUtil");
 var Cache = require("../../Main/Script/Cache");
 var PaginationNode = require("./PaginationNode");
 var DateSelect = require("./DateSelect");
+var App = require("../../script/ui/hall/data/App").App;
 
 cc.Class({
     extends: cc.Component,
@@ -323,7 +324,10 @@ cc.Class({
     },
     extractRows: function (res) {
         var data = res && (res.data || res.detail) || res || {};
+        if (data.proxies && data.proxies.rows) return data.proxies.rows;
         if (data.users && data.users.rows) return data.users.rows;
+        if (data.log && data.log.rows) return data.log.rows;
+        if (data.logs && data.logs.rows) return data.logs.rows;
         if (data.users && data.users.list) return data.users.list;
         if (data.rows) return data.rows;
         if (data.list) return data.list;
@@ -335,8 +339,14 @@ cc.Class({
     extractTotal: function (res, rows) {
         var data = res && (res.data || res.detail) || res || {};
         var total = data.total;
+        if (total == null && data.proxies) total = data.proxies.total;
+        if (total == null && data.proxies) total = data.proxies.count;
         if (total == null && data.users) total = data.users.total;
         if (total == null && data.users) total = data.users.count;
+        if (total == null && data.log) total = data.log.total;
+        if (total == null && data.log) total = data.log.count;
+        if (total == null && data.logs) total = data.logs.total;
+        if (total == null && data.logs) total = data.logs.count;
         if (total == null) total = data.count;
         if (total == null && res) total = res.total;
         if (total == null && res) total = res.count;
@@ -501,7 +511,7 @@ cc.Class({
         for (var i = 0; i < rows.length; i++) {
             var item = rows[i] || {};
             var role = item.role == null ? '' : item.role;
-            if (item.partner || role === 'proxy' || role === 'leader' || role === 'owner' || role === 'manager') {
+            if (item.partner || role === 'proxy') {
                 list.push(item);
             }
         }
@@ -586,7 +596,7 @@ cc.Class({
     },
     renderRewardWithdrawSummary: function (data) {
         data = data || {};
-        this.currentRewardRaw = data.currentReward != null ? data.currentReward : (data.reward || 0);
+        this.currentRewardRaw = data.currentReward != null ? data.currentReward : (data.reward != null ? data.reward : (App && App.Club ? App.Club.ClubReward : 0));
         this.setPageText('CurrentRewardLabel', '当前奖励：' + this.formatScore(this.currentRewardRaw));
     },
     setPageText: function (name, value) {
@@ -702,7 +712,9 @@ cc.Class({
             title: '设置合伙人',
             onSubmit: function (userID) {
                 return LeagueAnalysisApi.findUser(userID).then(function (res) {
-                    var user = this.getResultData(res);
+                    var result = this.getResultData(res);
+                    var user = result.user || result;
+                    user.userID = user.userID || user.id || userID;
                     var existingPartner = this.isPartnerUser(user);
                     this.showSetPartnerPopup(user, {
                         title: existingPartner ? '调整比例' : '设置合伙人',
@@ -729,7 +741,7 @@ cc.Class({
                     return this.rejectWithTip('接口未接入: ' + apiName);
                 }
                 return api({
-                    userID: data.userID,
+                    userID: data.userID || data.id,
                     roomRate: payload.roomRate,
                     waterRate: payload.waterRate
                 }).then(function () {
