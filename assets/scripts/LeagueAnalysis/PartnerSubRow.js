@@ -25,8 +25,8 @@ cc.Class({
         this.text('WinnerCount', this.value(this.data.winnerCount, 0));
         this.text('TotalWin', this.formatScore(this.value(this.data.totalWin, 0)));
         this.text('Contribution', this.formatScore(this.value(this.data.contribution, 0)));
-        this.text('RoomRate', '房费:' + this.percent(this.value(this.data.shuffleLevel, this.data.roomRate)));
-        this.text('WaterRate', '抽水:' + this.percent(this.value(this.data.level, this.data.waterRate)));
+        this.text('RoomRate', '房费:' + this.percent(this.value(this.data.level, this.data.roomRate)));
+        this.text('WaterRate', '抽水:' + this.percent(this.value(this.data.shuffleLevel, this.data.waterRate)));
         this.text('YesterdayIncome', this.formatScore(this.value(this.data.yesterdayIncome, 0)));
         this.text('YesterdayRounds', this.value(this.data.yesterdayRounds, 0));
         this.text('TodayIncome', this.formatScore(this.value(this.data.todayIncome, 0)));

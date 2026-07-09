@@ -316,7 +316,6 @@ cc.Class({
         };
         if (state.keyword) {
             req.keyword = state.keyword;
-            req.keywords = state.keyword;
         }
         if (state.startDate) req.startDate = state.startDate;
         if (state.endDate) req.endDate = state.endDate;
@@ -588,6 +587,38 @@ cc.Class({
         rowComp = rowComp || this.findRowCompByUserID(data.userID);
         if (rowComp && rowComp.setData) rowComp.setData(target, this.createRowHandlers());
     },
+    updateRowByUserID: function (userID, patch, rowComp) {
+        if (userID == null) return;
+        patch = patch || {};
+        var list = this.getCurrentList();
+        var target = null;
+        if (list) {
+            for (var i = 0; i < list.length; i++) {
+                if (String(list[i].userID || list[i].id || list[i].pid) === String(userID)) {
+                    for (var k in patch) list[i][k] = patch[k];
+                    target = list[i];
+                    break;
+                }
+            }
+        }
+        rowComp = rowComp || this.findRowCompByUserID(userID);
+        if (rowComp && rowComp.setData && target) rowComp.setData(target, this.createRowHandlers());
+    },
+    applyScoreChangeResult: function (res, fallbackData, fallbackDelta, rowComp) {
+        var result = this.getResultData(res);
+        var target = result.target || result.user || result.player || null;
+        var operator = result.operator || result.owner || null;
+        if (target && target.userID != null && target.score != null) {
+            this.updateRowByUserID(target.userID, { score: target.score }, String(target.userID) === String(fallbackData.userID) ? rowComp : null);
+        } else {
+            this.updateCurrentRow(fallbackData, {
+                score: Number(fallbackData.score == null ? 0 : fallbackData.score) + fallbackDelta
+            }, rowComp);
+        }
+        if (operator && operator.userID != null && operator.score != null) {
+            this.updateRowByUserID(operator.userID, { score: operator.score });
+        }
+    },
     renderRewardDetailSummary: function (data) {
         data = data || {};
         this.setPageText('Value_TotalTicket', this.formatScore(data.totalTicket || data.totalReward || data.reward || 0));
@@ -688,7 +719,7 @@ cc.Class({
             title: options.title || '查询成员',
             maxLength: options.maxLength || 6,
             onSubmit: options.onSubmit || function (userID) {
-                var req = { page: 1, pageSize: this.getListState(this.currentTab).pageSize, keyword: userID, keywords: userID };
+                var req = { page: 1, pageSize: this.getListState(this.currentTab).pageSize, keyword: userID };
                 if (this.currentTab === 'partner') return this.loadPartners(req);
                 if (this.currentTab === 'agent' || this.currentTab === 'rewardDetail' || this.currentTab === 'operation' || this.currentTab === 'rewardWithdraw') return this.loadGenericList(this.currentTab, req);
                 return this.loadMembers(req);
@@ -748,8 +779,8 @@ cc.Class({
                     this.updateCurrentRow(data, {
                         role: 'proxy',
                         partner: true,
-                        level: payload.waterRate,
-                        shuffleLevel: payload.roomRate,
+                        level: payload.roomRate,
+                        shuffleLevel: payload.waterRate,
                         roomRate: payload.roomRate,
                         waterRate: payload.waterRate
                     }, options.rowComp);
@@ -768,8 +799,8 @@ cc.Class({
             role === 'owner' ||
             role === 'manager' ||
             role === 'leader' ||
-            Number(data.shuffleLevel == null ? data.roomRate || 0 : data.shuffleLevel) > 0 ||
-            Number(data.level == null ? data.waterRate || 0 : data.level) > 0
+            Number(data.level == null ? data.roomRate || 0 : data.level) > 0 ||
+            Number(data.shuffleLevel == null ? data.waterRate || 0 : data.shuffleLevel) > 0
         );
     },
     showBattleDetailPopup: function (data) { this.openPopup(this.battleDetailPopupPrefab, data); },
@@ -813,12 +844,10 @@ cc.Class({
         user: data,
         mode: mode,
         onSubmit: function (payload) {
-            return LeagueAnalysisApi.changeScore(data.userID, payload.mode, payload.amount).then(function () {
+            return LeagueAnalysisApi.changeScore(data.userID, payload.mode, payload.amount).then(function (res) {
                 var delta = Math.floor(Number(payload.amount || 0) * 100);
                 if (payload.mode === 'sub' || payload.mode === 'reduce') delta = -delta;
-                this.updateCurrentRow(data, {
-                    score: Number(data.score == null ? 0 : data.score) + delta
-                }, rowComp);
+                this.applyScoreChangeResult(res, data, delta, rowComp);
                 this.showTip(payload.mode === 'sub' || payload.mode === 'reduce' ? '下分成功' : '上分成功');
             }.bind(this));
         }.bind(this)

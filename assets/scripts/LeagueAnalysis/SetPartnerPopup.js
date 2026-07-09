@@ -82,8 +82,8 @@ cc.Class({
         var user=this.data.user||{};
         var value=this.data[key];
         if(value==null)value=user[key];
-        if(value==null&&key==='roomRate')value=user.shuffleLevel;
-        if(value==null&&key==='waterRate')value=user.level;
+        if(value==null&&key==='roomRate')value=user.level;
+        if(value==null&&key==='waterRate')value=user.shuffleLevel;
         if(value==null)value=0;
         return String(value);
     },

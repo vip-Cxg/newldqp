@@ -83,7 +83,7 @@ cc.Class({
             type: this.mode,
             page: 1,
             pageSize: 50,
-            keywords: this.getSearchKeyword()
+            keyword: this.getSearchKeyword()
         }).then(function (res) {
             this.rows = this.extractRows(res);
             this.renderRows();

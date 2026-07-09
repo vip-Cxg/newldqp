@@ -34,29 +34,6 @@ function getErrorMessage(err) {
     return "请求失败";
 }
 
-function formatDate(date) {
-    date = date || new Date();
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    var d = date.getDate();
-    return String(y) + (m < 10 ? "0" : "") + m + (d < 10 ? "0" : "") + d;
-}
-
-function findRowValue(rows, strDate, key) {
-    rows = rows || [];
-    for (var i = 0; i < rows.length; i++) {
-        if (String(rows[i].strDate || "") === String(strDate)) return Number(rows[i][key] || 0);
-    }
-    return 0;
-}
-
-function sumRowValues(rows, key) {
-    rows = rows || [];
-    var total = 0;
-    for (var i = 0; i < rows.length; i++) total += Number(rows[i][key] || 0);
-    return total;
-}
-
 function showErrorTip(err) {
     var message = getErrorMessage(err);
     showMessagePopup(message);
@@ -94,33 +71,9 @@ module.exports = {
     request: request,
     overview: function (data) {
         data = data || {};
-        var today = formatDate(new Date());
-        var yesterdayDate = new Date();
-        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-        var yesterday = formatDate(yesterdayDate);
-        return Promise.all([
-            request(GameConfig.ServerEventName.RewardSummary, { clubID: getClubID(), page: 1, pageSize: 8 }, false),
-            request(GameConfig.ServerEventName.ScoreSummary, { clubID: getClubID(), userID: getSelfID(), page: 1, pageSize: 8 }, false),
-            request(GameConfig.ServerEventName.ProxiesList, { clubID: getClubID(), userID: getSelfID(), page: 1, pageSize: 1 }, false),
-            request(GameConfig.ServerEventName.UserList, { clubID: getClubID(), userID: getSelfID(), page: 1, pageSize: 1 }, false)
-        ]).then(function (list) {
-            var rewardRows = list[0] && list[0].rows || [];
-            var scoreRows = list[1] && list[1].logs && list[1].logs.rows || [];
-            var proxies = list[2] && list[2].proxies || {};
-            var users = list[3] && list[3].users || {};
-            var todayReward = findRowValue(rewardRows, today, 'reward');
-            var yesterdayReward = findRowValue(rewardRows, yesterday, 'reward');
-            return {
-                data: {
-                    todayReward: todayReward,
-                    yesterdayReward: yesterdayReward,
-                    teamScore: sumRowValues(scoreRows, 'inc') - sumRowValues(scoreRows, 'dec'),
-                    teamPeople: Number(proxies.count || 0) + Number(users.count || 0),
-                    directCaptains: Number(proxies.count || 0),
-                    directMembers: Number(users.count || 0),
-                    indirectMembers: 0
-                }
-            };
+        return request("game/analysisSummary", {
+            clubID: getClubID(),
+            userID: data.userID || getSelfID()
         });
     },
     members: function (data) {
@@ -131,12 +84,11 @@ module.exports = {
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
-            keywords: getKeyword(data),
             whole: true
         });
     },
     searchMember: function (userID) {
-        return this.members({ keywords: userID, page: 1, pageSize: 20 });
+        return this.members({ keyword: userID, page: 1, pageSize: 20 });
     },
     findUser: function (userID) {
         return request(GameConfig.ServerEventName.SearchUserInfo, {
@@ -156,8 +108,7 @@ module.exports = {
             userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
-            keyword: getKeyword(data),
-            keywords: getKeyword(data)
+            keyword: getKeyword(data)
         });
     },
     setPartner: function (data) {
@@ -165,8 +116,8 @@ module.exports = {
         return request(GameConfig.ServerEventName.AddProxy, {
             clubID: getClubID(),
             userID: parseInt(data.userID),
-            level: parseInt(data.waterRate || data.level || 0),
-            shuffleLevel: parseInt(data.roomRate || data.shuffleLevel || 0)
+            level: parseInt(data.roomRate || data.level || 0),
+            shuffleLevel: parseInt(data.waterRate || data.shuffleLevel || 0)
         });
     },
     updatePartnerRate: function (data) {
@@ -174,8 +125,8 @@ module.exports = {
         return request(GameConfig.ServerEventName.UpdateLevel, {
             clubID: getClubID(),
             userID: data.userID,
-            level: data.waterRate || data.level || 0,
-            shuffleLevel: data.roomRate || data.shuffleLevel || 0
+            level: data.roomRate || data.level || 0,
+            shuffleLevel: data.waterRate || data.shuffleLevel || 0
         });
     },
     updateWarning: function (userID, warningScore) {
@@ -189,6 +140,7 @@ module.exports = {
         var score = Math.floor(Number(amount || 0) * 100);
         if (mode === "sub" || mode === "reduce") score = -score;
         return request(GameConfig.ServerEventName.UpdateScore, {
+            clubID: getClubID(),
             userID: userID,
             score: score
         });
@@ -208,8 +160,7 @@ module.exports = {
             userID: data.userID || data.userId || data.id,
             page: data.page || 1,
             pageSize: data.pageSize || 50,
-            keyword: getKeyword(data),
-            keywords: getKeyword(data)
+            keyword: getKeyword(data)
         });
     },
     battleDetails: function (data) {
@@ -227,13 +178,12 @@ module.exports = {
     },
     agentStats: function (data) {
         data = data || {};
-        return request(GameConfig.ServerEventName.ProxiesList, {
+        return request("game/proxyStats", {
             clubID: getClubID(),
             userID: getSelfID(),
             page: data.page || 1,
             pageSize: data.pageSize || 20,
-            keyword: getKeyword(data),
-            keywords: getKeyword(data)
+            keyword: getKeyword(data)
         });
     },
     rewardDetails: function (data) {
@@ -244,7 +194,6 @@ module.exports = {
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
-            keywords: getKeyword(data),
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });
@@ -254,10 +203,10 @@ module.exports = {
         return request(GameConfig.ServerEventName.UserScoreLog, {
             clubID: getClubID(),
             userID: getSelfID(),
+            targetUserID: data.targetUserID || null,
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
-            keywords: getKeyword(data),
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });
@@ -270,7 +219,6 @@ module.exports = {
             page: data.page || 1,
             pageSize: data.pageSize || 20,
             keyword: getKeyword(data),
-            keywords: getKeyword(data),
             startDate: data.startDate || null,
             endDate: data.endDate || null
         });

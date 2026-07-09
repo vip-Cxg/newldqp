@@ -49,8 +49,8 @@ module.exports = cc.Class({
         this.setText('ScoreBlock/YesterdayRewardLabel', '昨日总奖励： ' + this.formatScore(data.yesterdayReward || data.yesterdayTotalReward || 0));
         this.setText('TotalBlock/TeamScoreLabel', '团队总积分： ' + this.formatPointScore(data.teamScore || data.totalScore || 0));
         this.setText('TotalBlock/TeamUserLabel', '团队总人数： ' + (data.teamPeople || data.teamUsers || data.totalPeople || 0));
-        this.setText('TotalBlock/RoomRateLabel', '房费比例： ' + this.formatPercent(data.roomRate || data.roomPercent || 0));
-        this.setText('TotalBlock/ShuffleRateLabel', '抽水比例： ' + this.formatPercent(data.waterRate || data.shuffleRate || data.waterPercent || 0));
+        this.setText('TotalBlock/RoomRateLabel', '房费比例： ' + this.formatPercent(data.level || data.roomRate || data.roomPercent || 0));
+        this.setText('TotalBlock/ShuffleRateLabel', '抽水比例： ' + this.formatPercent(data.shuffleLevel || data.waterRate || data.shuffleRate || data.waterPercent || 0));
         this.setText('TotalBlock/GameRoundLabel', '游戏局数： ' + (data.gameRounds || data.rounds || 0));
         this.setText('BottomActions/DirectCaptainBox/Value', data.directCaptains || data.directCaptain || data.leaderCount || 0);
         this.setText('BottomActions/DirectMemberBox/Value', data.directMembers || data.directMember || data.memberCount || 0);
