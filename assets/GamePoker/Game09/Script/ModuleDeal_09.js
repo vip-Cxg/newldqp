@@ -153,7 +153,6 @@ cc.Class({
                 cc.hide()
             )));
         random = Math.random();
-        let url = cc.url.raw(`resources/Audio/Common/deal07.mp3`);
         this.nodeShowCard.forEach((back, i) => {
             deckSpawn.push(cc.targetedAction(back,
                 cc.sequence(
@@ -174,7 +173,7 @@ cc.Class({
                         cc.moveTo(0.6, pos[i % 4]),
                         cc.callFunc(() => {
                             if (i % 9 == 0)
-                                audioCtrl.getInstance().playSFX(url)
+                                audioCtrl.getInstance().playResSFX("Audio/Common/deal07")
                         }),
                         cc.sequence(
                             cc.delayTime(0.4),

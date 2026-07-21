@@ -144,7 +144,7 @@ cc.Class({
         if (bgCardMask.active != node._prior) {
             return;
         }
-        let url = cc.url.raw(`resources/Audio/Common/cardEffect.mp3`);
+        const playCardEffect = () => audioCtrl.getInstance().playResSFX("Audio/Common/cardEffect");
         let isOpen = false;
         //audioCtrl.getInstance().playSFX(url);
         if (this.nodeCards[x].length < 4) {
@@ -154,7 +154,7 @@ cc.Class({
             if (touchType == "touchstart")
                 this.firstCheck = !bgCardMask.active;
             bgCardMask.active = !bgCardMask.active;
-            audioCtrl.getInstance().playSFX(url);
+            playCardEffect();
             this.nodeCards.forEach(group => {
                 group.forEach(card => {
                     if (group.length > 3) {
@@ -179,7 +179,7 @@ cc.Class({
                                 if (touchType == "touchstart")
                                     this.firstCheck = !bgCardMask.active;
                                 bgCardMask.active = !bgCardMask.active;
-                                audioCtrl.getInstance().playSFX(url);
+                                playCardEffect();
                             }
                         }
                     } else {

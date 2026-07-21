@@ -867,8 +867,7 @@ cc.Class({
         if ([3, 4, 5].includes(data.bomb))
             this.bombAnim(data.bomb);
         let person = data.from.length;
-        let url = cc.url.raw(`resources/Audio/Common/addScore.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/addScore");
         let coinPos = [
             cc.v2(-cc.winSize.width / 2 + 139 / 2 + GameConfig.FitScreen, -200 - 72),
             cc.v2(cc.winSize.width / 2 - 139 / 2 - GameConfig.FitScreen, 35 - 72),
@@ -976,8 +975,7 @@ cc.Class({
 
         if (this.lblCurrentScore.string == "0")
             return;
-        let url = cc.url.raw(`resources/Audio/Common/addScore.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/addScore");
         this.lblCurrentScore.string = "0";
         data.credits.forEach((v, i) => {
             this.nodePlayerInfo[TableInfo.realIdx[i]].setJifen(v);
@@ -1059,11 +1057,18 @@ cc.Class({
     },
 
     initHands(data, bool) {
-        this.hands = [[], [], [], [], [], [], [], [], [], [], [], [], [], []];
+        // Card points range from 3 to 17 in the two-deck game. Point 17 is
+        // the joker/wildcard, so 13 groups (3..15) are not enough.
+        this.hands = Array.from({ length: 15 }, () => []);
         let base = 3;
         data.hands.sort((a, b) => a % 100 - b % 100);
         data.hands.forEach(card => {
-            this.hands[card % 100 - base].push(card);
+            const groupIndex = card % 100 - base;
+            if (groupIndex >= 0 && groupIndex < this.hands.length) {
+                this.hands[groupIndex].push(card);
+            } else {
+                console.error("Game09 收到无效牌值:", card);
+            }
         });
         for (let i = 0; i < this.hands.length; i++) {
             if (this.hands[i].length == 0) {
@@ -1191,8 +1196,7 @@ cc.Class({
 
         if (TableInfo.idx == group.idx)
             this.changeAutoBtn(group.auto)
-        let url = cc.url.raw(`resources/Audio/Common/playCard.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/playCard");
         this.dropCards.forEach((ground, i) => {
             ground.node.destroyAllChildren();
             this.bgCount[i].node.destroyAllChildren();

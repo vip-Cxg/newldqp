@@ -75,6 +75,23 @@ let AudioCtrl = cc.Class({
         return 0;
     },
 
+    /** Load an AudioClip from assets/resources before playing it. */
+    playResSFX(path) {
+        if (!path) return;
+        const onLoaded = (err, clip) => {
+            if (err || !clip) {
+                console.error("音效加载失败:", path, err);
+                return;
+            }
+            this.playSFX(clip);
+        };
+        if (cc.resources && cc.resources.load) {
+            cc.resources.load(path, cc.AudioClip, onLoaded);
+        } else {
+            cc.loader.loadRes(path, cc.AudioClip, onLoaded);
+        }
+    },
+
     setSFXVolume(v) {
         if (this.sfxVolume != v) {
             this.sfxVolume = v;

@@ -6,7 +6,9 @@ let Native = require("../Script/native-extend"); // require('native-extend');
 let _social = Native.Social;
 let db = require("../Script/DataBase") //require("DataBase");
 const connector = require("../NetWork/Connector");
-const JSEncrypt = require('./jsencrypt');
+const JSEncryptModule = require('./jsencrypt');
+const JSEncryptCtor = JSEncryptModule && (JSEncryptModule.JSEncrypt || JSEncryptModule)
+    || (typeof window !== 'undefined' && window.JSEncrypt);
 
 // const JSEncrypt = require("./jsencrypt");
 const { SelectLink } = require("./SelectLink");
@@ -628,8 +630,12 @@ cc.Class({
 
     /**获取游戏配置信息 */
     getGameInfo() {
-  
+        // Several preload callbacks can finish together; only initialize once.
+        if (this._gettingGameInfo) return;
+        this._gettingGameInfo = true;
+
         if (this.loadInfoTimes > 2) {
+            this._gettingGameInfo = false;
             Cache.showTipsMsg("无法连接服务器", () => {
                 cc.game.end();
             });
@@ -638,8 +644,20 @@ cc.Class({
         GameConfig.ShowTablePop = false;
         if (this.loadInfoTimes == 0)
             this.lblMsg.string = "正在获取游戏配置";
-        GameConfig.Encrtyptor = new JSEncrypt.JSEncrypt();
-        GameConfig.Encrtyptor.getKey();
+        try {
+            if (!GameConfig.Encrtyptor) {
+                if (!JSEncryptCtor) {
+                    throw new Error("JSEncrypt 脚本未加载");
+                }
+                GameConfig.Encrtyptor = new JSEncryptCtor();
+                GameConfig.Encrtyptor.getKey();
+            }
+        } catch (error) {
+            this._gettingGameInfo = false;
+            console.error("RSA 密钥初始化失败:", error && (error.stack || error.message || error));
+            Cache.showTipsMsg("RSA 密钥初始化失败，请查看控制台详情");
+            return;
+        }
         connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
             utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);
         }, null, (err) => { });
@@ -663,6 +681,7 @@ cc.Class({
 
             this.judgeToken();
         }, null, (data) => {
+            this._gettingGameInfo = false;
             Cache.showTipsMsg(utils.isNullOrEmpty(data.message) ? "未获取到游戏配置" : data.message, () => {
                 this.lblMsg.string = "重新获取游戏配置";
                 this.loadInfoTimes++;

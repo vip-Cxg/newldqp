@@ -19,8 +19,7 @@ cc.Class({
         ]
         tbInfo.cuter = null;
         tbInfo.cutCards = null;
-        let url = cc.url.raw(`resources/Audio/Common/winerVoice.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/winerVoice");
         let nodeRank = this.nodeYou[data.finish];
         tbInfo.players[data.idx].finish = data.finish;
         nodeRank.active = true;

@@ -21,9 +21,10 @@ cc.Class({
         if (cards == 15 && flower != 6 && flower != 5)
             data = parseInt(dataStr.slice(0, 1) + "16")
         // 515 小王   615 大王
-        if (dataStr == '515')
+        // Old joker codes are 515/615; the two-deck server uses 117/217.
+        if (dataStr == '515' || dataStr == '117')
             data = 65;
-        if (dataStr == '615')
+        if (dataStr == '615' || dataStr == '217')
             data = 66;
 
 

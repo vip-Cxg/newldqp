@@ -1,6 +1,8 @@
 let { GameConfig } = require('../../GameBase/GameConfig');
 const { default: Http } = require('../../script/common/network/Http');
-const JSEncrypt = require('./jsencrypt'); 
+const JSEncryptModule = require('./jsencrypt');
+const JSEncryptCtor = JSEncryptModule && (JSEncryptModule.JSEncrypt || JSEncryptModule)
+    || (typeof window !== 'undefined' && window.JSEncrypt);
 
 var loadNative = function (url, callback) {
     var dirpath = jsb.fileUtils.getWritablePath() + 'img/';
@@ -910,7 +912,7 @@ var encryptData = (data, token) => {
 
 /**加密token */
 var encryptToken = (token) => {
-    let encryptor = new JSEncrypt.JSEncrypt();
+    let encryptor = new JSEncryptCtor();
     let pubkey = getValue(GameConfig.StorageKey.TokenPKey)
     encryptor.setPublicKey(pubkey);
     let tkn = encryptor.encrypt(token);
@@ -918,7 +920,7 @@ var encryptToken = (token) => {
 }
 /**解密token */
 var decryptToken = (token) => {
-    let encryptor = new JSEncrypt.JSEncrypt();
+    let encryptor = new JSEncryptCtor();
     let pubkey = getValue(GameConfig.StorageKey.TokenPKey)
     encryptor.setPublicKey(pubkey);
     let tkn = encryptor.decrypt(token);

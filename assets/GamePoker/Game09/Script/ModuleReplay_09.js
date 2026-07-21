@@ -245,8 +245,7 @@ cc.Class({
         TableInfo.current = group;
         this._delayTime = 4;
         this.refreshTableScore(group);
-        let url = cc.url.raw(`resources/Audio/Common/playCard.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/playCard");
         this.dropCards.forEach((ground, i) => {
             ground.destroyAllChildren();
             this.imgPass[i].active = false;
@@ -408,8 +407,7 @@ cc.Class({
     addXi(data) {
 
         let person = data.from.length;
-        let url = cc.url.raw(`resources/Audio/Common/addScore.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/addScore");
         let coinPos = [
             cc.v2(-cc.winSize.width / 2 + 139 / 2 + GameConfig.FitScreen, -200 - 72),
             cc.v2(cc.winSize.width / 2 - 139 / 2 - GameConfig.FitScreen, 35 - 72),
@@ -511,8 +509,7 @@ cc.Class({
         });
         if (this.lblCurrentScore.string == "0")
             return;
-        let url = cc.url.raw(`resources/Audio/Common/addScore.mp3`);
-        audioCtrl.getInstance().playSFX(url);
+        audioCtrl.getInstance().playResSFX("Audio/Common/addScore");
         this.lblCurrentScore.string = "0";
         data.credits.forEach((v, i) => {
             this.nodePlayerInfo[TableInfo.realIdx[i]].getComponent("ModulePlayerInfo_09").setJifen(v);
