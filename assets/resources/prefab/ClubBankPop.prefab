@@ -49,8 +49,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1334,
-      "height": 740
+      "width": 1136,
+      "height": 640
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -61,8 +61,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        667,
-        370,
+        568,
+        320,
         0,
         0,
         0,
@@ -312,8 +312,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81,
-      "height": 83
+      "width": 62,
+      "height": 67
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -325,7 +325,7 @@
       "ctor": "Float64Array",
       "array": [
         490.945,
-        260.6700000000001,
+        252.67000000000007,
         0,
         0,
         0,
@@ -2859,9 +2859,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -2969,9 +2969,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -3079,9 +3079,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -3326,9 +3326,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -5441,9 +5441,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 248,
-      "g": 108,
-      "b": 49,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -6157,7 +6157,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6393,9 +6393,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -6535,7 +6535,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {

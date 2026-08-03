@@ -157,7 +157,6 @@ export default class TablePop extends cc.Component {
                 App.Club.ClubName = data.club?.club?.name || '----';
                 App.Club.CurrentClubRole = data.club.role || 'user';
 
-
                 this.rewardNode.active = App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'proxy';
                 this.clubName.string = '' + App.Club.ClubName;
                 this.activeBtn.active = data.taskStatus;
@@ -524,6 +523,7 @@ export default class TablePop extends cc.Component {
                 App.Club.ClubLevel = data.club.level;
                 App.Club.ClubName = data.club.club.name;
                 App.Club.CurrentClubRole = data.club.role;
+
                 if (this.rewardNode)
                     this.rewardNode.active = data.club.role == 'owner' || data.club.role == 'proxy';
                 this.clubName.string = (App.Club.IsLeague ? '联盟: ' : '公会: ') + '' + App.Club.ClubName;

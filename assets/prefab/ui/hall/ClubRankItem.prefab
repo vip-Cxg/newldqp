@@ -115,9 +115,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 213,
-      "g": 85,
-      "b": 13,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -225,9 +225,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 49,
-      "g": 121,
-      "b": 185,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -458,9 +458,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 213,
-      "g": 85,
-      "b": 13,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -568,9 +568,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 213,
-      "g": 85,
-      "b": 13,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -678,9 +678,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 213,
-      "g": 85,
-      "b": 13,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -788,9 +788,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 213,
-      "g": 85,
-      "b": 13,
+      "r": 0,
+      "g": 86,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {

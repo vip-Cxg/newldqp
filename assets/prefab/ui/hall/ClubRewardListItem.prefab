@@ -102,9 +102,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -159,7 +159,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "时间",
     "_N$string": "时间",
     "_fontSize": 20,
@@ -186,7 +187,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "e8c37acc-2d5f-4b42-bb8b-9f5e2851a2ba"
+      "__id__": 0
     },
     "fileId": "66JGGFQK5Pgb4C+MdEdAcN",
     "sync": false
@@ -211,9 +212,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -268,7 +269,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "跑得开嗷嗷 测试场(3) 洗牌",
     "_N$string": "跑得开嗷嗷 测试场(3) 洗牌",
     "_fontSize": 20,
@@ -295,7 +297,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "e8c37acc-2d5f-4b42-bb8b-9f5e2851a2ba"
+      "__id__": 0
     },
     "fileId": "7d311FgjNAxJa6WCCeBNvb",
     "sync": false
@@ -320,9 +322,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -377,7 +379,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "总体力",
     "_N$string": "总体力",
     "_fontSize": 20,
@@ -404,7 +407,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "e8c37acc-2d5f-4b42-bb8b-9f5e2851a2ba"
+      "__id__": 0
     },
     "fileId": "fdhbpwtjxK4JYT6SW6uqFm",
     "sync": false
@@ -429,9 +432,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -486,7 +489,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "总体力",
     "_N$string": "总体力",
     "_fontSize": 20,
@@ -513,7 +517,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "e8c37acc-2d5f-4b42-bb8b-9f5e2851a2ba"
+      "__id__": 0
     },
     "fileId": "4difcSHwJCmrOmzvH6MP0U",
     "sync": false
@@ -524,9 +528,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "e8c37acc-2d5f-4b42-bb8b-9f5e2851a2ba"
+      "__id__": 0
     },
-    "fileId": "b1WNIcKtdJg5l5FV7pF6K6",
+    "fileId": "",
     "sync": false
   }
 ]

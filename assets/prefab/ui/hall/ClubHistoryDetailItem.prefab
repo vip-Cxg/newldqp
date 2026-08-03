@@ -141,7 +141,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -234,7 +234,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "分享",
     "_N$string": "分享",
     "_fontSize": 20,
@@ -261,7 +262,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "b6I9fvS1dKEp8dgZVwXakF",
     "sync": false
@@ -388,7 +389,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "fdYSGaLWNIEI5eZ1Ltihyc",
     "sync": false
@@ -448,7 +449,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -541,7 +542,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "回放",
     "_N$string": "回放",
     "_fontSize": 20,
@@ -568,7 +570,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "e6wxeocLZORqM1fRdt188Z",
     "sync": false
@@ -695,7 +697,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "fakcQE+RNHm48tL6dKhZdu",
     "sync": false
@@ -800,9 +802,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -857,7 +859,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -884,7 +887,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "01vUB0b/1BWJgmkB7Ar279",
     "sync": false
@@ -909,9 +912,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -966,7 +969,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "阿萨德大",
     "_N$string": "阿萨德大",
     "_fontSize": 18,
@@ -993,7 +997,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "51lJKZHAZE15j8kMDyrmo2",
     "sync": false
@@ -1018,9 +1022,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1075,7 +1079,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "奖励",
     "_N$string": "奖励",
     "_fontSize": 18,
@@ -1102,7 +1107,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "7bFDUK4c9EW4A2EkCyKUUY",
     "sync": false
@@ -1127,9 +1132,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1184,7 +1189,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "活跃度",
     "_N$string": "活跃度",
     "_fontSize": 18,
@@ -1211,7 +1217,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "fdpMYPL3NK1peagJB4IY4K",
     "sync": false
@@ -1236,9 +1242,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1293,7 +1299,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "汇总",
     "_N$string": "汇总",
     "_fontSize": 18,
@@ -1320,7 +1327,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "2e/Bu3TT9HM5bB5oYHuIgG",
     "sync": false
@@ -1363,7 +1370,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
     "fileId": "78cCIEv0dLuKiftM+2jUSx",
     "sync": false
@@ -1433,9 +1440,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "dfbc8d79-c453-49aa-88cc-cd80f8aca88c"
+      "__id__": 0
     },
-    "fileId": "a5kWHDHjFIcpTdBfiiq7rY",
+    "fileId": "",
     "sync": false
   }
 ]

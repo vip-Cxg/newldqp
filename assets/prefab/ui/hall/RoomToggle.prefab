@@ -265,7 +265,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "370KRs/edO/7iZPG7hgM+G",
     "sync": false
@@ -308,7 +308,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "27dVcXEj1OpoaooSfcPGLU",
     "sync": false
@@ -415,7 +415,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "b8zHe+ZaVH3Yd2HdwMF+EL",
     "sync": false
@@ -497,7 +497,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "双人放炮罚",
     "_N$string": "双人放炮罚",
     "_fontSize": 22,
@@ -524,7 +525,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "9bN/zxnY9HhLOkbhuvsoTs",
     "sync": false
@@ -651,7 +652,7 @@
         1,
         0.6,
         0.6,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -705,7 +706,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "20lk91qWVF3aoTNJWYAIJq",
     "sync": false
@@ -812,7 +813,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "6bSQXkCG1CRK+w6SiKQr+Z",
     "sync": false
@@ -837,9 +838,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -894,7 +895,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "双人放炮罚",
     "_N$string": "双人放炮罚",
     "_fontSize": 22,
@@ -921,7 +923,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "baF1tuZ09HC6OreeJbd1uE",
     "sync": false
@@ -1008,7 +1010,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "144IBb9e1DSYSTUMM36uRE",
     "sync": false
@@ -1107,9 +1109,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1164,7 +1166,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "0",
     "_N$string": "0",
     "_fontSize": 22,
@@ -1191,7 +1194,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "92TrJfo5tINomZcXcD4qX1",
     "sync": false
@@ -1216,9 +1219,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1273,7 +1276,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "抽水: ",
     "_N$string": "抽水: ",
     "_fontSize": 22,
@@ -1300,7 +1304,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "312PTEwLhEQrBgtu66s6HA",
     "sync": false
@@ -1425,7 +1429,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "b1i+eqXK9K96CEJJYhDBiO",
     "sync": false
@@ -1524,9 +1528,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1581,7 +1585,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "0",
     "_N$string": "0",
     "_fontSize": 22,
@@ -1608,7 +1613,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "a8ckOamoJMTI/q/Jce8PKV",
     "sync": false
@@ -1633,9 +1638,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -1690,7 +1695,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "准入: ",
     "_N$string": "准入: ",
     "_fontSize": 22,
@@ -1717,7 +1723,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "33hrdnUMJDzp2Yqf5PLdOh",
     "sync": false
@@ -1842,7 +1848,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
     "fileId": "07O+5NOQVObZBqtFjhzgND",
     "sync": false
@@ -1951,9 +1957,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a273bfd2-a8bd-417e-9314-90ee46871505"
+      "__id__": 0
     },
-    "fileId": "35AXum5VxHja8FO6IMoypX",
+    "fileId": "",
     "sync": false
   }
 ]

@@ -103,9 +103,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -160,7 +160,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "整线信息阿斯顿啊",
     "_N$string": "整线信息阿斯顿啊",
     "_fontSize": 14,
@@ -187,7 +188,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6eeaffd6-e396-4d6f-b1c0-f11cf4494292"
+      "__id__": 0
     },
     "fileId": "83REC0LW5Lh4HaBCIS9GeB",
     "sync": false
@@ -212,9 +213,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 146,
+      "r": 0,
       "g": 86,
-      "b": 41,
+      "b": 86,
       "a": 255
     },
     "_contentSize": {
@@ -269,7 +270,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "整线信息阿斯顿啊",
     "_N$string": "整线信息阿斯顿啊",
     "_fontSize": 14,
@@ -296,7 +298,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6eeaffd6-e396-4d6f-b1c0-f11cf4494292"
+      "__id__": 0
     },
     "fileId": "85AfyUwIFNKKOqfkPph5z1",
     "sync": false
@@ -350,9 +352,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6eeaffd6-e396-4d6f-b1c0-f11cf4494292"
+      "__id__": 0
     },
-    "fileId": "dc1ssT09NLO4mx7kf6ZibL",
+    "fileId": "",
     "sync": false
   }
 ]

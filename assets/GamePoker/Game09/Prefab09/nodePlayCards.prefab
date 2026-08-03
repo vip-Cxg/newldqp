@@ -185,7 +185,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9c801786-4b17-4f6a-a0e4-30ccd7e1eeb2"
+      "__id__": 0
     },
     "fileId": "2bsq5NaVdGo4pKBfF5gFPr",
     "sync": false
@@ -399,7 +399,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "带",
     "_N$string": "带",
     "_fontSize": 25,
@@ -426,7 +427,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9c801786-4b17-4f6a-a0e4-30ccd7e1eeb2"
+      "__id__": 0
     },
     "fileId": "6cEmZhGspJy6k8nvwteyjA",
     "sync": false
@@ -437,7 +438,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9c801786-4b17-4f6a-a0e4-30ccd7e1eeb2"
+      "__id__": 0
     },
     "fileId": "7blDdr02VBtoSD+tQStv16",
     "sync": false
@@ -480,7 +481,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9c801786-4b17-4f6a-a0e4-30ccd7e1eeb2"
+      "__id__": 0
     },
     "fileId": "1f78P4aZRBt4GdBXzZqZhL",
     "sync": false
@@ -542,9 +543,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9c801786-4b17-4f6a-a0e4-30ccd7e1eeb2"
+      "__id__": 0
     },
-    "fileId": "7cLi2WiFZM0YlSO8RY56OQ",
+    "fileId": "",
     "sync": false
   }
 ]
