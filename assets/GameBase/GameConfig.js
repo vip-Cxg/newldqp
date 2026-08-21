@@ -263,7 +263,7 @@ export class GameConfig {
     // static ServerUrl = "https://game.ovz43x.com/";//正式服
     static ServerUrl = '';//正式服
     /**冒的办法用的请求 */
-    static DefaultUrl = "http://pku.qzhagy.com/xcconfig/release_first.json";
+    static DefaultUrl = "https://qty.krtqyh.com/hlconfig/release_first.json";
 
     static TestServerUrl = "http://161.117.57.34:8000/";
     // static TestServerUrl = "http://47.241.56.123:8000/";
@@ -1276,7 +1276,7 @@ export class GameConfig {
     static WiFiSprite = [];
 
     /**存储桶域名 */
-    static ConfigUrl = "https://pku.qzhagy.com/";
+    static ConfigUrl = "https://qty.krtqyh.com/";
 
     /**推送地址 */
     static NoticeUrl = '';

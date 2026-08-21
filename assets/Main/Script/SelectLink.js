@@ -34,8 +34,8 @@ export class SelectLink {
     loadLocalConfig() {
         // if (cc.sys.isBrowser) {
         //     //链接本地
-        //     this.changeLocalUrl('http://192.168.31.96:8000/');
-        //     // this.changeLocalUrl('http://43.139.144.179/');
+        //     // this.changeLocalUrl('http://192.168.31.96:8000/');
+        //     this.changeLocalUrl('http://123.206.217.199/');
         //     // this.changeLocalUrl('http://159.75.97.241/');
         //     return;
         // }
@@ -101,13 +101,14 @@ export class SelectLink {
     }
     selectCount = 0;
     selectLinkJSON(index) {
-        if (this.selectCount > 2) {
+        if (this.selectCount > 1) {
             Cache.alertTip("无法连接服务器,请联系管理员")
             return;
         }
         let linkJSON = [
-            "https://fghtyu-1394606355.cos.ap-shanghai.myqcloud.com/xcconfig/release_first.json",
-            "http://pku.qzhagy.com/xcconfig/release_first.json"
+            // "https://fghtyu-1394606355.cos.ap-shanghai.myqcloud.com/xcconfig/release_first.json",
+            // "http://pku.qzhagy.com/xcconfig/release_first.json",
+            "https://qty.krtqyh.com/hlconfig/release_first.json"
         ];
         this.selectCount++;
         utils.NewXMLRequestOSS(linkJSON[index], (res) => {

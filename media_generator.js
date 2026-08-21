@@ -1,7 +1,7 @@
 let fs = require('fs');
 let path = require('path');
 let crypto = require('crypto');
-const BASE_URL = "https://pku.qzhagy.com/update_media/";
+const BASE_URL = "https://qty.krtqyh.com/update_media/";
 
 let dest = './media/Audio';
 let src = './media/Audio';
