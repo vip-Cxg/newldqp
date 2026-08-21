@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleDisplayName</key>
-    <string>喜财</string>
+    <string>欢乐</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIcons~ipad</key>
@@ -31,7 +31,7 @@
         <string>weixin</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>wxa83e13c9938b03c3</string>
+          <string>wx8fa3b1fdd266e12f</string>
         </array>
       </dict>
     </array>
@@ -50,17 +50,17 @@
       <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>喜财</string>
+    <string>欢乐</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>喜财需要您允许定位</string>
+    <string>欢乐需要您允许定位</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>喜财需要您允许定位</string>
+    <string>欢乐需要您允许定位</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>喜财需要您允许定位</string>
+    <string>欢乐需要您允许定位</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>喜财需要您允许访问相册</string>
+    <string>欢乐需要您允许访问相册</string>
     <key>NSUserTrackingUsageDescription</key>
-    <string>喜财需要您允许获取手机标识</string>
+    <string>欢乐需要您允许获取手机标识</string>
     <key>UILaunchStoryboardName</key>
     <string>LaunchScreen</string>
     <key>UIPrerenderedIcon</key>
