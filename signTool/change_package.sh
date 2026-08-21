@@ -164,31 +164,36 @@ sed -i.bak "s/namespace \"[^\"]*\"/namespace \"$NEW_PACKAGE\"/" "$ANDROID_PROJEC
 echo "2. 修改 app/AndroidManifest.xml..."
 sed -i.bak "s/package=\"[^\"]*\"/package=\"$NEW_PACKAGE\"/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
 
-# 3. 创建新的Java包目录结构
-echo "3. 创建新的Java包目录结构..."
+# 3. 查找当前微信回调文件
+echo "3. 查找当前微信回调文件..."
 NEW_PACKAGE_DIR=$(echo "$NEW_PACKAGE" | tr '.' '/')
-mkdir -p "$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi"
+WX_ENTRY_FILE=$(find "$ANDROID_PROJECT/src" -type f -path '*/wxapi/WXEntryActivity.java' -print -quit)
 
 # 4. 移动并修改Java文件
 echo "4. 移动并修改Java文件..."
 
 # 移动WXEntryActivity.java
-if [ -f "$ANDROID_PROJECT/src/com/ldplay/game/wxapi/WXEntryActivity.java" ]; then
-    # 先复制文件
-    cp "$ANDROID_PROJECT/src/com/ldplay/game/wxapi/WXEntryActivity.java" "$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi/"
+if [ -n "$WX_ENTRY_FILE" ]; then
+    OLD_PACKAGE_DIR=$(dirname "$(dirname "$WX_ENTRY_FILE")")
+    NEW_WXAPI_DIR="$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi"
+    mkdir -p "$NEW_WXAPI_DIR"
+    cp "$WX_ENTRY_FILE" "$NEW_WXAPI_DIR/WXEntryActivity.java"
     
     # 检查复制是否成功
     if [ -f "$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi/WXEntryActivity.java" ]; then
         # 修改WXEntryActivity.java中的包名
-        sed -i.bak "s/package com\.ldplay\.game\.wxapi;/package $NEW_PACKAGE.wxapi;/" "$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi/WXEntryActivity.java"
+        sed -i.bak "s/^package .*\.wxapi;/package $NEW_PACKAGE.wxapi;/" "$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi/WXEntryActivity.java"
         
         echo "  ✅ 文件复制和修改成功"
         echo "  📁 新文件位置: $ANDROID_PROJECT/src/$NEW_PACKAGE_DIR/wxapi/WXEntryActivity.java"
         
         # 直接删除旧文件（已有备份保护）
-        echo "  🗑️  删除旧包目录: $ANDROID_PROJECT/src/com/ldplay"
-        rm -rf "$ANDROID_PROJECT/src/com/ldplay"
-        echo "  ✅ 旧ldplay目录已删除"
+        if [ "$OLD_PACKAGE_DIR" != "$ANDROID_PROJECT/src/$NEW_PACKAGE_DIR" ]; then
+            echo "  🗑️  删除旧包目录: $OLD_PACKAGE_DIR"
+            rm -rf "$OLD_PACKAGE_DIR"
+            find "$ANDROID_PROJECT/src/com" -depth -type d -empty -delete
+            echo "  ✅ 旧包目录已删除"
+        fi
         echo "  📁 保留新包目录: $ANDROID_PROJECT/src/$NEW_PACKAGE_DIR"
     else
         echo "  ❌ 文件复制失败，保留原文件"
@@ -200,8 +205,8 @@ fi
 
 # 5. 修改AndroidManifest.xml中的Activity引用
 echo "5. 修改AndroidManifest.xml中的Activity引用..."
-sed -i.bak "s/com\.ldplay\.game\.wxapi\.WXEntryActivity/$NEW_PACKAGE.wxapi.WXEntryActivity/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
-sed -i.bak "s/android:taskAffinity=\"com\.ldplay\.game\"/android:taskAffinity=\"$NEW_PACKAGE\"/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
+sed -i.bak -E "s/[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+\.wxapi\.WXEntryActivity/$NEW_PACKAGE.wxapi.WXEntryActivity/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
+sed -i.bak -E "s/android:taskAffinity=\"[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+\"/android:taskAffinity=\"$NEW_PACKAGE\"/" "$ANDROID_PROJECT/app/AndroidManifest.xml"
 
 # 6. 更新签名配置（如果提供了keystore文件）
 if [ -n "$KEYSTORE_FILE" ]; then
