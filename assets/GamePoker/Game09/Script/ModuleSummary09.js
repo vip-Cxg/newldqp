@@ -27,6 +27,7 @@ cc.Class({
     /**初始化结算数据 */
     initData(data, replay = false) {
         this.isReplay = replay;
+        this.showOpenHandsSummary(data);
         if (replay) {
             this.continueBtn.active = false;
             this.shuffleContinueBtn.active = false;
@@ -59,6 +60,31 @@ cc.Class({
             summaryItem.getComponent("ModuleSummaryItem09").initData(player, data.winner,player.idx,replay);
         });
 
+    },
+
+    /**明牌倍数只作展示，players[].turn 已是服务端计算后的最终分数。 */
+    showOpenHandsSummary(data) {
+        if (!data || data.openHands !== true)
+            return;
+        let node = new cc.Node("openHandsSummary");
+        node.parent = this.node;
+        node.zIndex = 50;
+        node.setPosition(0, 275);
+        node.setContentSize(250, 48);
+        let bg = node.addComponent(cc.Graphics);
+        bg.fillColor = cc.color(176, 42, 36, 235);
+        bg.roundRect(-125, -24, 250, 48, 12);
+        bg.fill();
+        let labelNode = new cc.Node("label");
+        labelNode.parent = node;
+        labelNode.setContentSize(240, 46);
+        labelNode.color = cc.color(255, 233, 128);
+        let label = labelNode.addComponent(cc.Label);
+        label.fontSize = 27;
+        label.lineHeight = 34;
+        label.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
+        label.verticalAlign = cc.Label.VerticalAlign.CENTER;
+        label.string = "本局明牌 ×" + (Number(data.multiplier) || 2);
     },
 
     /**继续游戏 */

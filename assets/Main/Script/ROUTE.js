@@ -138,5 +138,9 @@ module.exports = {
     SC_CALL: "SC_CALL",
     CS_CALL: "CS_CALL",
 
+    /**XHZD 两副牌带癞子明牌选择 */
+    SC_OPEN_HANDS: "SC_OPEN_HANDS",
+    CS_OPEN_HANDS: "CS_OPEN_HANDS",
+
     SC_MASTER: "SC_MASTER"
 };

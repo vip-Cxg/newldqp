@@ -121,6 +121,9 @@ cc.Class({
     // use this for initialization
     onLoad() {
 
+        this.openHands = this.node.addComponent("ModuleOpenHands09");
+        this.openHands.init(this);
+
         //设置桌面
         // let indexBg = utils.getValue(GameConfig.StorageKey.tableBgIndex, 0)
         // this.bgNode.spriteFrame = GameConfig.tableBgSprite[indexBg];
@@ -241,6 +244,12 @@ cc.Class({
             case ROUTE.SC_CALL:
                 this.showBao(msg.data);
                 break;
+            case ROUTE.SC_OPEN_HANDS:
+                this.openHands.handleOpenHands(msg.data);
+                break;
+            case ROUTE.SC_SHOW_HANDS:
+                this.openHands.handleShowHands(msg.data);
+                break;
             case ROUTE.SC_ALERT:
                 this.showBaodan(msg.data);
                 break;
@@ -268,6 +277,7 @@ cc.Class({
 
     /**初始化桌子基础信息 */
     initTable(data) {
+        this.openHands.setCurrentRound(data.gameID, data.round);
         //显示游戏 类型 公会
         this.lblGameType.string = '' + GameConfig.GameName[data.options.gameType] + ' ' + data.options.rules.poker + '副牌';
 
@@ -346,6 +356,8 @@ cc.Class({
     },
     initGame(data) {  //每局开始时调用
 
+        this.openHands.startRound(data);
+
         TableInfo.status = GameConfig.GameStatus.START;
         this._delayTime = 50;
         this.nodeTx.active = false;
@@ -380,6 +392,7 @@ cc.Class({
 
 
         TableInfo.players.forEach(player => player.rank = -1);
+        this.openHands.restore(data);
     },
     handleShuffle() {
         if (this.cutCount > 0) {
@@ -419,6 +432,7 @@ cc.Class({
         let data = JSON.parse(objStr);
 
         this.initTable(data);
+        this.openHands.restore(data);
 
         //TODO 匹配进入 自动准备
         if (data.status == GameConfig.GameStatus.PREPARE) {
@@ -523,6 +537,7 @@ cc.Class({
             case GameConfig.GameAction.PLAY:
 
                 this.showPlayCards(data);
+                this.openHands.removeByPlay(data);
                 break;
             case GameConfig.GameAction.PASS:
                 this.showPass(data);
@@ -847,6 +862,7 @@ cc.Class({
     },
 
     initDesk() {  //继续游戏初始化桌子
+        this.openHands.clearPlayers();
         this.sprDisnable.active = false;
         this.lblCurrentScore.string = "0";
         this.nodePlayerInfo.forEach((node) => {
@@ -1298,6 +1314,7 @@ cc.Class({
     },
 
     roundSummary(data) {
+        this.openHands.reset();
         this.wuNode.destroyAllChildren();
         this.shiNode.destroyAllChildren();
         this.kNode.destroyAllChildren();
