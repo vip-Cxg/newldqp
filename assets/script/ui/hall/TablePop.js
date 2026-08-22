@@ -100,8 +100,13 @@ export default class TablePop extends cc.Component {
     connecting = false;
     interval = 0;
     roomNameDict = null;
+    roomPage = 0;
+    roomPageSize = 5;
+    roomLastBtn = null;
+    roomNextBtn = null;
     onLoad() {
         this.roomNameDict = new Dict();
+        this.initRoomPagination();
         this.addEvents();
 
         this.refreshUI();
@@ -110,6 +115,21 @@ export default class TablePop extends cc.Component {
         if (this.changeIDBtn)
             this.changeIDBtn.active = DataBase.player.isSuperUser;
 
+    }
+    initRoomPagination() {
+        let bottomLayer = cc.find('bg/layerBottomLeft', this.node);
+        if (!bottomLayer)
+            return;
+
+        this.roomLastBtn = bottomLayer.getChildByName('btn-table-last');
+        this.roomNextBtn = bottomLayer.getChildByName('btn-table-next');
+        if (this.roomLastBtn)
+            this.roomLastBtn.on(cc.Node.EventType.TOUCH_END, this.onRoomLastPage, this);
+        if (this.roomNextBtn)
+            this.roomNextBtn.on(cc.Node.EventType.TOUCH_END, this.onRoomNextPage, this);
+
+        if (this.quickStartBtn)
+            this.quickStartBtn.active = true;
     }
     addEvents() {
 
@@ -279,16 +299,14 @@ export default class TablePop extends cc.Component {
     renderRoom(e) {
         let gameType = e.data;
         this.currentType = gameType;
+        this.roomPage = 0;
 
         this.currentRoomData = new Object();
         this.roomContent.removeAllChildren();
-        this.roomData[gameType].forEach(e => {
-            let roomBtn = cc.instantiate(this.roomBtnItem)
-            roomBtn.getComponent('TableRoomItem').initData(e);
-            this.roomContent.addChild(roomBtn);
-        });
-        //TODO 默认第一个打开房型
+        //删除房型时可能会报错
+        if (GameUtils.isNullOrEmpty(this.roomData[gameType])) return;
 
+        //TODO 默认第一个打开房型
         let roomIndex = 0;
         if (!GameUtils.isNullOrEmpty(GameConfig.TableRoom)) {
             roomIndex = this.roomData[gameType].findIndex(v => v.roomID == GameConfig.TableRoom.roomID);
@@ -296,8 +314,42 @@ export default class TablePop extends cc.Component {
             if (roomIndex == -1)
                 roomIndex = 0;
         }
+        this.roomPage = Math.floor(roomIndex / this.roomPageSize);
+        this.renderRoomPage();
         App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ROOM_TYPE_CHANGE, this.roomData[gameType][roomIndex])
+    }
 
+    renderRoomPage() {
+        this.roomContent.removeAllChildren();
+        let rooms = this.roomData[this.currentType] || [];
+        let startIndex = this.roomPage * this.roomPageSize;
+        rooms.slice(startIndex, startIndex + this.roomPageSize).forEach(e => {
+            let roomBtn = cc.instantiate(this.roomBtnItem)
+            roomBtn.getComponent('TableRoomItem').initData(e);
+            this.roomContent.addChild(roomBtn);
+        });
+    }
+
+    onRoomLastPage() {
+        Cache.playSfx();
+        if (this.roomPage <= 0) {
+            Cache.alertTip('已经是第一页了');
+            return;
+        }
+        this.roomPage--;
+        this.renderRoomPage();
+    }
+
+    onRoomNextPage() {
+        Cache.playSfx();
+        let rooms = this.roomData[this.currentType] || [];
+        let pageCount = Math.max(1, Math.ceil(rooms.length / this.roomPageSize));
+        if (this.roomPage >= pageCount - 1) {
+            Cache.alertTip('已经是最后一页了');
+            return;
+        }
+        this.roomPage++;
+        this.renderRoomPage();
     }
 
     selectRoom(e) {
@@ -327,11 +379,7 @@ export default class TablePop extends cc.Component {
 
             if (data.success) {
                 console.log('roomData', roomData)
-                if (typeof (roomData.roomID) != "object") {
-                    this.quickStartBtn.active = true;
-                } else {
-                    this.quickStartBtn.active = false;
-                }
+                this.quickStartBtn.active = true;
 
                 let newArr = [];
                 let index = 0;
@@ -461,6 +509,12 @@ export default class TablePop extends cc.Component {
 
     onQuickStart() {
         Cache.playSfx();
+        if (GameUtils.isNullOrEmpty(this.currentRoomData) ||
+            GameUtils.isNullOrEmpty(this.currentRoomData.roomID) ||
+            typeof (this.currentRoomData.roomID) == 'object') {
+            Cache.alertTip('请先选择房型');
+            return;
+        }
         this.enterGame();
     }
 
@@ -662,7 +716,7 @@ export default class TablePop extends cc.Component {
                 if (data.success) {
                     console.log('currentRoomData', this.currentRoomData)
                     if (this.quickStartBtn)
-                        this.quickStartBtn.active = typeof (this.currentRoomData.roomID) != "object";
+                        this.quickStartBtn.active = true;
                     let newArr = [];
                     let index = 0;
                     let tables = []
@@ -726,7 +780,10 @@ export default class TablePop extends cc.Component {
         }
     }
     onDestroy() {
-
+        if (this.roomLastBtn)
+            this.roomLastBtn.off(cc.Node.EventType.TOUCH_END, this.onRoomLastPage, this);
+        if (this.roomNextBtn)
+            this.roomNextBtn.off(cc.Node.EventType.TOUCH_END, this.onRoomNextPage, this);
         this.removeEvents();
     }
     update(dt) {
@@ -756,5 +813,3 @@ export default class TablePop extends cc.Component {
     }
 
 }
-
-

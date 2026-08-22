@@ -301,6 +301,55 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
     });
     let matchs = [];
     let count, results = [];
+    const wildcardCards = hands[17];
+    const minWildcardPoint = 5;
+    const maxWildcardPoint = 15;
+
+    // 自动提示生成的癞子候选仍交给统一的牌型解析和比较逻辑判断，
+    // 避免提示规则与手动选牌规则不一致。
+    const addDecodedCandidate = function (cards, expectedType) {
+        if (cards.length === 0)
+            return;
+        let decoded = poker.decode(cards.slice(), shuner) || [];
+        decoded.filter(group => group.type === expectedType && poker.compare(current, group)).forEach(group => {
+            let cardKey = group.cards.slice().sort((a, b) => a - b).join(",");
+            let duplicated = matchs.some(match =>
+                match.type === group.type &&
+                match.card === group.card &&
+                match.count === group.count &&
+                match.cards.slice().sort((a, b) => a - b).join(",") === cardKey
+            );
+            if (!duplicated)
+                matchs.push(group);
+        });
+    };
+
+    const addWildcardGroup = function (point, requiredCount, expectedType) {
+        let naturalCards = hands[point];
+        if (naturalCards.length === 0 || naturalCards.length >= requiredCount)
+            return;
+        let missingCount = requiredCount - naturalCards.length;
+        if (missingCount <= wildcardCards.length) {
+            addDecodedCandidate(
+                naturalCards.slice().concat(wildcardCards.slice(0, missingCount)),
+                expectedType
+            );
+        }
+    };
+
+    const addWildcardSeries = function (startPoint, seriesCount, cardsPerPoint, expectedType) {
+        let candidate = [];
+        let missingCount = 0;
+        for (let point = startPoint; point < startPoint + seriesCount; point++) {
+            let takeCount = Math.min(hands[point].length, cardsPerPoint);
+            candidate = candidate.concat(hands[point].slice(0, takeCount));
+            missingCount += cardsPerPoint - takeCount;
+        }
+        if (missingCount > 0 && missingCount <= wildcardCards.length) {
+            candidate = candidate.concat(wildcardCards.slice(0, missingCount));
+            addDecodedCandidate(candidate, expectedType);
+        }
+    };
     //cc.log("230",current);
     switch (current.type) {
         case poker.CARD_TYPE.DAN:
@@ -320,6 +369,8 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
                         matchs.push(result[0]);
                 }
             });
+            for (let point = Math.max(minWildcardPoint, current.card % 100 + 1); point <= maxWildcardPoint; point++)
+                addWildcardGroup(point, 2, poker.CARD_TYPE.DUI);
             break;
         case poker.CARD_TYPE.SAN:
             hands.forEach((cards, c) => {
@@ -329,6 +380,8 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
                         matchs.push(result[0]);
                 }
             });
+            for (let point = Math.max(minWildcardPoint, current.card % 100 + 1); point <= maxWildcardPoint; point++)
+                addWildcardGroup(point, 3, poker.CARD_TYPE.SAN);
             break;
         case poker.CARD_TYPE.SHUN:
             count = current.count;
@@ -348,6 +401,8 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
                         matchs.push(result2[0]);
                 }
             }
+            for (let start = Math.max(minWildcardPoint, current.card % 100 + 1); start + count - 1 <= maxWildcardPoint; start++)
+                addWildcardSeries(start, count, 1, poker.CARD_TYPE.SHUN);
             break;
         case poker.CARD_TYPE.LIANDUI:
             count = current.count;
@@ -368,6 +423,8 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
                         matchs.push(result2[0]);
                 }
             }
+            for (let start = Math.max(minWildcardPoint, current.card % 100 + 1); start + count - 1 <= maxWildcardPoint; start++)
+                addWildcardSeries(start, count, 2, poker.CARD_TYPE.LIANDUI);
             break;
         case poker.CARD_TYPE.FEIJI:
             count = current.count;
@@ -389,6 +446,8 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
                         matchs.push(result2[0]);
                 }
             }
+            for (let start = Math.max(minWildcardPoint, current.card % 100 + 1); start + count - 1 <= maxWildcardPoint; start++)
+                addWildcardSeries(start, count, 3, poker.CARD_TYPE.FEIJI);
             break;
     }
     for (let i = 4; i <= 12; i++) {
@@ -399,6 +458,19 @@ poker.autoplay = function (currentHands, current, tipsTime, shuner) {
                     matchs.push(result);
             }
         });
+    }
+    for (let point = minWildcardPoint; point <= maxWildcardPoint; point++) {
+        let naturalCount = hands[point].length;
+        if (naturalCount === 0)
+            continue;
+        for (let bombCount = 4; bombCount <= 8; bombCount++) {
+            if (naturalCount < bombCount && bombCount - naturalCount <= wildcardCards.length) {
+                addDecodedCandidate(
+                    hands[point].slice().concat(wildcardCards.slice(0, bombCount - naturalCount)),
+                    poker.CARD_TYPE.BOMB
+                );
+            }
+        }
     }
 
     matchs.filter(formattedCards => formattedCards.type == "BOMB").forEach(formattedCards => {
