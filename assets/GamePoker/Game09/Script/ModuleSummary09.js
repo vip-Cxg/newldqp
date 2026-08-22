@@ -84,7 +84,7 @@ cc.Class({
         label.lineHeight = 34;
         label.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
         label.verticalAlign = cc.Label.VerticalAlign.CENTER;
-        label.string = "本局明牌 ×" + (Number(data.multiplier) || 2);
+        label.string = "本局庄家明牌 ×" + (Number(data.multiplier) || 2);
     },
 
     /**继续游戏 */

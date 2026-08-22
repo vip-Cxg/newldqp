@@ -27,7 +27,7 @@ cc.Class({
             submitted: false,
             gameID: null,
             round: 0,
-            players: {}
+            bankerHands: []
         };
     },
 
@@ -87,7 +87,7 @@ cc.Class({
         badgeBg.fillColor = cc.color(176, 42, 36, 235);
         badgeBg.roundRect(-90, -24, 180, 48, 12);
         badgeBg.fill();
-        let badgeLabel = this.createLabel(badge, "label", "明牌 ×2", 28, cc.color(255, 233, 128));
+        let badgeLabel = this.createLabel(badge, "label", "庄家明牌 ×2", 28, cc.color(255, 233, 128));
         badgeLabel.node.setContentSize(170, 46);
         badge.active = false;
         this.badge = badge;
@@ -127,16 +127,10 @@ cc.Class({
         panel.active = false;
         this.panel = panel;
 
-        this.playerNodes = [];
-        const positions = [cc.v2(0, -205), cc.v2(465, 22), cc.v2(-65, 205), cc.v2(-465, 22)];
-        for (let i = 0; i < 4; i++) {
-            let playerNode = new cc.Node("openHandsPlayer" + i);
-            playerNode.parent = root;
-            playerNode.setPosition(positions[i]);
-            playerNode.setContentSize(i === 1 || i === 3 ? 255 : 430, 80);
-            playerNode.active = false;
-            this.playerNodes.push(playerNode);
-        }
+        this.bankerHandsNode = new cc.Node("bankerOpenHands");
+        this.bankerHandsNode.parent = root;
+        this.bankerHandsNode.setContentSize(430, 80);
+        this.bankerHandsNode.active = false;
     },
 
     setButtonsEnabled(enabled) {
@@ -182,7 +176,7 @@ cc.Class({
             this.state.multiplier = 1;
             this.state.deadline = Number(data.clock) || 0;
             this.state.submitted = submitted;
-            this.clearPlayers();
+            this.clearBankerHands();
             this.badge.active = false;
             this.showPending();
             return;
@@ -198,9 +192,9 @@ cc.Class({
             this.scene.nodeBao.active = false;
         this.badge.active = this.state.open;
         if (this.state.open)
-            this.badge.getChildByName("label").getComponent(cc.Label).string = "明牌 ×" + this.state.multiplier;
+            this.badge.getChildByName("label").getComponent(cc.Label).string = "庄家明牌 ×" + this.state.multiplier;
         else
-            this.clearPlayers();
+            this.clearBankerHands();
     },
 
     showPending() {
@@ -261,20 +255,24 @@ cc.Class({
         if (!Array.isArray(data.players))
             return;
 
+        if (data.players.length > 1)
+            console.warn("Game09 SC_SHOW_HANDS 包含非庄家手牌，前端将忽略", data);
+        let banker = data.players.find(player => player && Number(player.idx) === Number(data.idx));
+        if (!banker) {
+            console.warn("Game09 SC_SHOW_HANDS 缺少庄家手牌", data);
+            return;
+        }
+
         this.state.pending = false;
         this.state.open = true;
         this.state.revealed = true;
         this.state.bankerIdx = data.idx;
         this.state.multiplier = 2;
-        this.state.players = {};
-        data.players.forEach(player => {
-            if (player && player.idx != null)
-                this.state.players[player.idx] = Array.isArray(player.hands) ? player.hands.slice() : [];
-        });
+        this.state.bankerHands = Array.isArray(banker.hands) ? banker.hands.slice() : [];
         this.hidePending();
         this.badge.active = true;
-        this.badge.getChildByName("label").getComponent(cc.Label).string = "明牌 ×" + this.state.multiplier;
-        this.refreshAllPlayers();
+        this.badge.getChildByName("label").getComponent(cc.Label).string = "庄家明牌 ×" + this.state.multiplier;
+        this.refreshBankerHands();
     },
 
     removeByPlay(data) {
@@ -283,32 +281,30 @@ cc.Class({
         let currentCard = data && data.currentCard ? data.currentCard : data;
         if (!currentCard || currentCard.idx == null || !Array.isArray(currentCard.cards))
             return;
-        let hands = this.state.players[currentCard.idx];
-        if (!Array.isArray(hands))
+        if (Number(currentCard.idx) !== Number(this.state.bankerIdx))
             return;
         currentCard.cards.forEach(card => {
-            let index = hands.indexOf(card);
+            let index = this.state.bankerHands.indexOf(card);
             if (index >= 0)
-                hands.splice(index, 1);
+                this.state.bankerHands.splice(index, 1);
             else
-                console.warn("Game09 明牌缓存未找到待删除牌", currentCard.idx, card, hands);
+                console.warn("Game09 庄家明牌缓存未找到待删除牌", currentCard.idx, card, this.state.bankerHands);
         });
-        this.refreshPlayer(currentCard.idx);
+        this.refreshBankerHands();
     },
 
-    refreshAllPlayers() {
-        Object.keys(this.state.players).forEach(idx => this.refreshPlayer(Number(idx)));
-    },
-
-    refreshPlayer(serverIdx) {
+    refreshBankerHands() {
         if (!TableInfo.realIdx)
             return;
-        let realIdx = TableInfo.realIdx[serverIdx];
-        let container = this.playerNodes[realIdx];
-        if (!container)
+        let realIdx = TableInfo.realIdx[this.state.bankerIdx];
+        if (realIdx == null || !this.bankerHandsNode)
             return;
+        const positions = [cc.v2(0, -205), cc.v2(465, 22), cc.v2(-65, 205), cc.v2(-465, 22)];
+        let container = this.bankerHandsNode;
+        container.setPosition(positions[realIdx]);
+        container.setContentSize(realIdx === 1 || realIdx === 3 ? 255 : 430, 80);
         container.destroyAllChildren();
-        let hands = this.state.players[serverIdx] || [];
+        let hands = this.state.bankerHands;
         container.active = this.state.revealed;
         if (hands.length === 0) {
             let empty = this.createLabel(container, "empty", "已出完", 20, cc.color(230, 230, 230));
@@ -331,15 +327,13 @@ cc.Class({
         });
     },
 
-    clearPlayers() {
-        if (this.playerNodes) {
-            this.playerNodes.forEach(node => {
-                node.destroyAllChildren();
-                node.active = false;
-            });
+    clearBankerHands() {
+        if (this.bankerHandsNode) {
+            this.bankerHandsNode.destroyAllChildren();
+            this.bankerHandsNode.active = false;
         }
         if (this.state)
-            this.state.players = {};
+            this.state.bankerHands = [];
     },
 
     reset() {
@@ -353,7 +347,7 @@ cc.Class({
             this.badge.active = false;
         if (this.yesButton)
             this.setButtonsEnabled(true);
-        this.clearPlayers();
+        this.clearBankerHands();
     },
 
     restore(data) {
@@ -384,7 +378,7 @@ cc.Class({
         this.state.revealed = data.openHandsRevealed === true;
         this.badge.active = this.state.open;
         if (this.state.open)
-            this.badge.getChildByName("label").getComponent(cc.Label).string = "明牌 ×" + this.state.multiplier;
+            this.badge.getChildByName("label").getComponent(cc.Label).string = "庄家明牌 ×" + this.state.multiplier;
         if (this.state.revealed && Array.isArray(data.openHandsPlayers)) {
             this.handleShowHands({
                 gameID: this.state.gameID,
