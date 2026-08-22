@@ -730,6 +730,12 @@ cc.Class({
     showBao(data) {
 
 
+        // 本局已经进入明牌选择阶段后，忽略延迟或重复的恰毒询问 UI。
+        if (this.openHands && this.openHands.hasEnteredOpenHandsStage()) {
+            this.nodeBao.active = false;
+            return;
+        }
+
         let idx = data.idx;
         if (TableInfo.idx == idx) {
             this.layerHandCards.active = true;

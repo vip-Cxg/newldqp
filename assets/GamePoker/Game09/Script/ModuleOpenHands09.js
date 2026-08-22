@@ -156,6 +156,10 @@ cc.Class({
         return true;
     },
 
+    hasEnteredOpenHandsStage() {
+        return this.state && this.state.bankerIdx >= 0;
+    },
+
     handleOpenHands(data) {
         if (!this.isCurrent(data)) {
             console.warn("Game09 丢弃其他局的 SC_OPEN_HANDS", data);
@@ -190,6 +194,8 @@ cc.Class({
         this.state.deadline = 0;
         this.state.submitted = false;
         this.hidePending();
+        if (this.scene.nodeBao)
+            this.scene.nodeBao.active = false;
         this.badge.active = this.state.open;
         if (this.state.open)
             this.badge.getChildByName("label").getComponent(cc.Label).string = "明牌 ×" + this.state.multiplier;
