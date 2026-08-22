@@ -79,18 +79,10 @@ cc.Class({
         root.setContentSize(cc.winSize.width, cc.winSize.height);
         this.root = root;
 
-        let badge = new cc.Node("openHandsBadge");
-        badge.parent = root;
-        badge.setPosition(0, 245);
-        badge.setContentSize(180, 48);
-        let badgeBg = badge.addComponent(cc.Graphics);
-        badgeBg.fillColor = cc.color(176, 42, 36, 235);
-        badgeBg.roundRect(-90, -24, 180, 48, 12);
-        badgeBg.fill();
-        let badgeLabel = this.createLabel(badge, "label", "庄家明牌 ×2", 28, cc.color(255, 233, 128));
-        badgeLabel.node.setContentSize(170, 46);
-        badge.active = false;
-        this.badge = badge;
+        this.bankerOpenTips = cc.find("nodeTable/tableInfo/bankerOpenTips", this.node);
+        if (!this.bankerOpenTips)
+            console.error("Game09 未找到明牌提示节点: Canvas/nodeTable/tableInfo/bankerOpenTips");
+        this.setOpenTipsActive(false);
 
         let waiting = this.createLabel(root, "openHandsWaiting", "等待庄家选择是否明牌…", 28, cc.color(255, 236, 151));
         waiting.node.setPosition(0, 78);
@@ -146,6 +138,11 @@ cc.Class({
         this.noButton.node.opacity = enabled ? 255 : 150;
     },
 
+    setOpenTipsActive(active) {
+        if (this.bankerOpenTips)
+            this.bankerOpenTips.active = active;
+    },
+
     isCurrent(data) {
         if (!data)
             return false;
@@ -183,7 +180,7 @@ cc.Class({
             this.state.deadline = Number(data.clock) || 0;
             this.state.submitted = submitted;
             this.clearBankerHands();
-            this.badge.active = false;
+            this.setOpenTipsActive(false);
             this.showPending();
             return;
         }
@@ -196,10 +193,8 @@ cc.Class({
         this.hidePending();
         if (this.scene.nodeBao)
             this.scene.nodeBao.active = false;
-        this.badge.active = this.state.open;
-        if (this.state.open)
-            this.badge.getChildByName("label").getComponent(cc.Label).string = "庄家明牌 ×" + this.state.multiplier;
-        else
+        this.setOpenTipsActive(this.state.open);
+        if (!this.state.open)
             this.clearBankerHands();
     },
 
@@ -276,8 +271,7 @@ cc.Class({
         this.state.multiplier = 2;
         this.state.bankerHands = Array.isArray(banker.hands) ? banker.hands.slice() : [];
         this.hidePending();
-        this.badge.active = true;
-        this.badge.getChildByName("label").getComponent(cc.Label).string = "庄家明牌 ×" + this.state.multiplier;
+        this.setOpenTipsActive(true);
         this.refreshBankerHands();
     },
 
@@ -354,8 +348,7 @@ cc.Class({
             this.panel.active = false;
         if (this.waitingLabel)
             this.waitingLabel.node.active = false;
-        if (this.badge)
-            this.badge.active = false;
+        this.setOpenTipsActive(false);
         if (this.yesButton)
             this.setButtonsEnabled(true);
         this.clearBankerHands();
@@ -387,9 +380,7 @@ cc.Class({
         this.state.open = data.openHands === true;
         this.state.multiplier = Number(data.multiplier) || 1;
         this.state.revealed = data.openHandsRevealed === true;
-        this.badge.active = this.state.open;
-        if (this.state.open)
-            this.badge.getChildByName("label").getComponent(cc.Label).string = "庄家明牌 ×" + this.state.multiplier;
+        this.setOpenTipsActive(this.state.open);
         if (this.state.revealed && Array.isArray(data.openHandsPlayers)) {
             this.handleShowHands({
                 gameID: this.state.gameID,
