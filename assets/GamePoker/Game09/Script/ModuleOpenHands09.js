@@ -128,8 +128,14 @@ cc.Class({
         this.panel = panel;
 
         this.bankerHandsNode = new cc.Node("bankerOpenHands");
-        this.bankerHandsNode.parent = root;
-        this.bankerHandsNode.setContentSize(430, 80);
+        // 固定放在 scoreContent 内，与 wu/shi/k 同级并位于 k 的下方。
+        this.bankerHandsNode.parent = this.scene.kNode.parent;
+        let scoreLayout = this.bankerHandsNode.parent.getComponent(cc.Layout);
+        if (scoreLayout)
+            scoreLayout.enabled = false;
+        this.bankerHandsNode.zIndex = this.scene.kNode.zIndex + 1;
+        this.bankerHandsNode.anchorX = 0;
+        this.bankerHandsNode.setContentSize(328, 80);
         this.bankerHandsNode.active = false;
     },
 
@@ -294,15 +300,16 @@ cc.Class({
     },
 
     refreshBankerHands() {
-        if (!TableInfo.realIdx)
+        if (!this.bankerHandsNode)
             return;
-        let realIdx = TableInfo.realIdx[this.state.bankerIdx];
-        if (realIdx == null || !this.bankerHandsNode)
-            return;
-        const positions = [cc.v2(0, -205), cc.v2(465, 22), cc.v2(-65, 205), cc.v2(-465, 22)];
         let container = this.bankerHandsNode;
-        container.setPosition(positions[realIdx]);
-        container.setContentSize(realIdx === 1 || realIdx === 3 ? 255 : 430, 80);
+        let scoreContent = this.scene.kNode.parent;
+        let maxWidth = scoreContent.width > 0 ? scoreContent.width : 328;
+        container.setContentSize(maxWidth, 80);
+        container.setPosition(
+            this.scene.kNode.x,
+            this.scene.kNode.y - this.scene.kNode.height / 2 - container.height / 2 - 8
+        );
         container.destroyAllChildren();
         let hands = this.state.bankerHands;
         container.active = this.state.revealed;
@@ -312,17 +319,15 @@ cc.Class({
             return;
         }
 
-        let maxWidth = realIdx === 1 || realIdx === 3 ? 245 : 420;
-        let cardScale = realIdx === 0 ? 0.38 : 0.34;
+        let cardScale = 0.3;
         let cardWidth = 90 * cardScale;
         let spacing = hands.length > 1 ? Math.min(cardWidth, (maxWidth - cardWidth) / (hands.length - 1)) : 0;
-        spacing = Math.max(7, spacing);
-        let totalWidth = cardWidth + spacing * (hands.length - 1);
+        spacing = Math.max(5, spacing);
         hands.forEach((card, i) => {
             let cardNode = cc.instantiate(this.scene.preCards);
             cardNode.parent = container;
             cardNode.scale = cardScale;
-            cardNode.setPosition(-totalWidth / 2 + cardWidth / 2 + i * spacing, 0);
+            cardNode.setPosition(cardWidth / 2 + i * spacing, 0);
             cardNode.getComponent("ModuleCardsInit_09").init(card);
         });
     },
