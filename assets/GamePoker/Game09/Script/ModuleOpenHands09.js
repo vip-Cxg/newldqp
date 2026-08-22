@@ -55,69 +55,26 @@ cc.Class({
         return label;
     },
 
-    createButton(parent, name, text, color, callback) {
-        let node = new cc.Node(name);
-        node.parent = parent;
-        node.setContentSize(230, 62);
-        let graphics = node.addComponent(cc.Graphics);
-        graphics.fillColor = color;
-        graphics.roundRect(-115, -31, 230, 62, 10);
-        graphics.fill();
-        let button = node.addComponent(cc.Button);
-        button.transition = cc.Button.Transition.SCALE;
-        button.zoomScale = 0.95;
-        let label = this.createLabel(node, "label", text, 25, cc.Color.WHITE);
-        label.node.setContentSize(220, 60);
-        node.on(cc.Node.EventType.TOUCH_END, callback, this);
-        return button;
-    },
-
     createUI() {
-        let root = new cc.Node("openHandsFeature");
-        root.parent = this.node;
-        root.zIndex = 100;
-        root.setContentSize(cc.winSize.width, cc.winSize.height);
-        this.root = root;
-
         this.bankerOpenTips = cc.find("nodeTable/tableInfo/bankerOpenTips", this.node);
         if (!this.bankerOpenTips)
             console.error("Game09 未找到明牌提示节点: Canvas/nodeTable/tableInfo/bankerOpenTips");
         this.setOpenTipsActive(false);
 
-        let waiting = this.createLabel(root, "openHandsWaiting", "等待庄家选择是否明牌…", 28, cc.color(255, 236, 151));
-        waiting.node.setPosition(0, 78);
-        waiting.node.setContentSize(500, 54);
-        waiting.node.active = false;
-        this.waitingLabel = waiting;
-
-        let panel = new cc.Node("openHandsPanel");
-        panel.parent = root;
-        panel.setPosition(0, 25);
-        panel.setContentSize(610, 245);
-        panel.addComponent(cc.BlockInputEvents);
-        let panelBg = panel.addComponent(cc.Graphics);
-        panelBg.fillColor = cc.color(25, 33, 43, 245);
-        panelBg.roundRect(-305, -122, 610, 245, 18);
-        panelBg.fill();
-
-        let title = this.createLabel(panel, "title", "是否选择明牌？", 32, cc.color(255, 237, 160));
-        title.node.setPosition(0, 78);
-        title.node.setContentSize(500, 50);
-        let clock = this.createLabel(panel, "clock", "", 24, cc.Color.WHITE);
-        clock.node.setPosition(0, 35);
-        clock.node.setContentSize(300, 40);
-        this.clockLabel = clock;
-
-        this.yesButton = this.createButton(panel, "openButton", "明牌（本局输赢 ×2）", cc.color(190, 63, 46), function () {
+        this.openHandsUI = cc.find("openHandsUI", this.node);
+        this.panel = cc.find("bankerOpenPanel", this.openHandsUI);
+        this.waitingLabel = cc.find("waitingTips", this.openHandsUI).getComponent(cc.Label);
+        this.clockLabel = cc.find("clock", this.panel).getComponent(cc.Label);
+        this.yesButton = cc.find("openButton", this.panel).getComponent(cc.Button);
+        this.noButton = cc.find("noOpenButton", this.panel).getComponent(cc.Button);
+        this.yesButton.node.on(cc.Node.EventType.TOUCH_END, function () {
             this.submit(true);
-        });
-        this.yesButton.node.setPosition(-132, -55);
-        this.noButton = this.createButton(panel, "closeButton", "不明牌", cc.color(63, 105, 142), function () {
+        }, this);
+        this.noButton.node.on(cc.Node.EventType.TOUCH_END, function () {
             this.submit(false);
-        });
-        this.noButton.node.setPosition(132, -55);
-        panel.active = false;
-        this.panel = panel;
+        }, this);
+        this.panel.active = false;
+        this.waitingLabel.node.active = false;
 
         this.bankerHandsNode = new cc.Node("bankerOpenHands");
         // 固定放在 scoreContent 内，与 wu/shi/k 同级并位于 k 的下方。
@@ -305,13 +262,21 @@ cc.Class({
         }
         let scoreContent = this.scene.kNode.parent;
         let maxWidth = scoreContent.width > 0 ? scoreContent.width : 328;
-        container.setContentSize(maxWidth, 80);
+        let hands = this.state.bankerHands;
+        const maxCardsPerRow = 14;
+        const cardScale = 0.6;
+        const cardWidth = 90 * cardScale;
+        const cardHeight = 125 * cardScale;
+        const cardSpacing = 20;
+        const rowSpacing = 38;
+        let rowCount = Math.max(1, Math.ceil(hands.length / maxCardsPerRow));
+        let containerHeight = cardHeight + (rowCount - 1) * rowSpacing;
+        container.setContentSize(maxWidth, containerHeight);
         container.setPosition(
             this.scene.kNode.x,
-            this.scene.kNode.y - this.scene.kNode.height / 2 - container.height / 2 - 8
+            this.scene.kNode.y - this.scene.kNode.height / 2 - container.height / 2 - 8 + 25
         );
         container.destroyAllChildren();
-        let hands = this.state.bankerHands;
         container.active = this.state.revealed;
         if (hands.length === 0) {
             let empty = this.createLabel(container, "empty", "已出完", 20, cc.color(230, 230, 230));
@@ -319,15 +284,16 @@ cc.Class({
             return;
         }
 
-        let cardScale = 0.3;
-        let cardWidth = 90 * cardScale;
-        let spacing = hands.length > 1 ? Math.min(cardWidth, (maxWidth - cardWidth) / (hands.length - 1)) : 0;
-        spacing = Math.max(5, spacing);
         hands.forEach((card, i) => {
+            let row = Math.floor(i / maxCardsPerRow);
+            let column = i % maxCardsPerRow;
             let cardNode = cc.instantiate(this.scene.preCards);
             cardNode.parent = container;
             cardNode.scale = cardScale;
-            cardNode.setPosition(cardWidth / 2 + i * spacing, 0);
+            cardNode.setPosition(
+                cardWidth / 2 + column * cardSpacing,
+                containerHeight / 2 - cardHeight / 2 - row * rowSpacing
+            );
             cardNode.getComponent("ModuleCardsInit_09").init(card);
         });
     },
