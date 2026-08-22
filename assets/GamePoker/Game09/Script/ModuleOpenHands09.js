@@ -303,6 +303,12 @@ cc.Class({
         if (!this.bankerHandsNode)
             return;
         let container = this.bankerHandsNode;
+        // 庄家使用自己的正常手牌区域，不重复展示公开手牌。
+        if (Number(TableInfo.idx) === Number(this.state.bankerIdx)) {
+            container.destroyAllChildren();
+            container.active = false;
+            return;
+        }
         let scoreContent = this.scene.kNode.parent;
         let maxWidth = scoreContent.width > 0 ? scoreContent.width : 328;
         container.setContentSize(maxWidth, 80);
