@@ -62,7 +62,7 @@ cc.Class({
 
     },
 
-    /**明牌倍数只作展示，players[].turn 已是服务端计算后的最终分数。 */
+    /**两副牌带癞子为全员常驻明牌，不参与分数和喜分计算。 */
     showOpenHandsSummary(data) {
         if (!data || data.openHands !== true)
             return;
@@ -84,7 +84,7 @@ cc.Class({
         label.lineHeight = 34;
         label.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
         label.verticalAlign = cc.Label.VerticalAlign.CENTER;
-        label.string = "本局庄家明牌 ×" + (Number(data.multiplier) || 2);
+        label.string = "本局全员明牌";
     },
 
     /**继续游戏 */

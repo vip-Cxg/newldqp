@@ -27,7 +27,7 @@ cc.Class({
             submitted: false,
             gameID: null,
             round: 0,
-            bankerHands: []
+            handsByIdx: {}
         };
     },
 
@@ -40,6 +40,11 @@ cc.Class({
         this.reset();
         this.currentGameID = data.gameID || this.currentGameID;
         this.currentRound = data.round;
+    },
+
+    isEnabled() {
+        let rules = TableInfo.options && TableInfo.options.rules;
+        return !!(rules && Number(rules.poker) === 2 && rules.lai === true);
     },
 
     createLabel(parent, name, text, fontSize, color) {
@@ -76,16 +81,7 @@ cc.Class({
         this.panel.active = false;
         this.waitingLabel.node.active = false;
 
-        this.bankerHandsNode = new cc.Node("bankerOpenHands");
-        // 固定放在 scoreContent 内，与 wu/shi/k 同级并位于 k 的下方。
-        this.bankerHandsNode.parent = this.scene.kNode.parent;
-        let scoreLayout = this.bankerHandsNode.parent.getComponent(cc.Layout);
-        if (scoreLayout)
-            scoreLayout.enabled = false;
-        this.bankerHandsNode.zIndex = this.scene.kNode.zIndex + 1;
-        this.bankerHandsNode.anchorX = 0;
-        this.bankerHandsNode.setContentSize(328, 80);
-        this.bankerHandsNode.active = false;
+        this.openHandsNodes = {};
     },
 
     setButtonsEnabled(enabled) {
@@ -111,7 +107,7 @@ cc.Class({
     },
 
     hasEnteredOpenHandsStage() {
-        return this.state && this.state.bankerIdx >= 0;
+        return false;
     },
 
     handleOpenHands(data) {
@@ -119,40 +115,23 @@ cc.Class({
             console.warn("Game09 丢弃其他局的 SC_OPEN_HANDS", data);
             return;
         }
-        let samePendingQuestion = this.state.pending === true &&
-            String(this.state.gameID) === String(data.gameID) &&
-            Number(this.state.round) === Number(data.round) &&
-            Number(this.state.bankerIdx) === Number(data.idx);
-        let submitted = samePendingQuestion && this.state.submitted;
+        if (!this.isEnabled())
+            return;
         this.state.gameID = data.gameID;
         this.state.round = data.round;
-        this.state.bankerIdx = data.idx;
-        this.state.auto = data.auto === true;
-
-        if (data.pending === true) {
-            this.state.pending = true;
-            this.state.open = false;
-            this.state.revealed = false;
-            this.state.multiplier = 1;
-            this.state.deadline = Number(data.clock) || 0;
-            this.state.submitted = submitted;
-            this.clearBankerHands();
-            this.setOpenTipsActive(false);
-            this.showPending();
-            return;
-        }
-
+        this.state.bankerIdx = -1;
+        this.state.auto = false;
         this.state.pending = false;
-        this.state.open = data.open === true;
-        this.state.multiplier = Number(data.multiplier) || (data.open ? 2 : 1);
+        this.state.open = data.open !== false;
+        this.state.multiplier = 1;
         this.state.deadline = 0;
         this.state.submitted = false;
         this.hidePending();
         if (this.scene.nodeBao)
             this.scene.nodeBao.active = false;
-        this.setOpenTipsActive(this.state.open);
+        this.setOpenTipsActive(false);
         if (!this.state.open)
-            this.clearBankerHands();
+            this.clearOpenHands();
     },
 
     showPending() {
@@ -212,24 +191,25 @@ cc.Class({
         }
         if (!Array.isArray(data.players))
             return;
-
-        if (data.players.length > 1)
-            console.warn("Game09 SC_SHOW_HANDS 包含非庄家手牌，前端将忽略", data);
-        let banker = data.players.find(player => player && Number(player.idx) === Number(data.idx));
-        if (!banker) {
-            console.warn("Game09 SC_SHOW_HANDS 缺少庄家手牌", data);
+        if (!this.isEnabled())
             return;
-        }
+        if (data.players.length !== 4)
+            console.warn("Game09 SC_SHOW_HANDS 应包含四家手牌", data);
 
         this.state.pending = false;
         this.state.open = true;
         this.state.revealed = true;
-        this.state.bankerIdx = data.idx;
-        this.state.multiplier = 2;
-        this.state.bankerHands = Array.isArray(banker.hands) ? banker.hands.slice() : [];
+        this.state.bankerIdx = -1;
+        this.state.multiplier = 1;
+        this.state.handsByIdx = {};
+        data.players.forEach(player => {
+            if (player && player.idx != null && Array.isArray(player.hands))
+                this.state.handsByIdx[Number(player.idx)] = player.hands.slice();
+        });
         this.hidePending();
-        this.setOpenTipsActive(true);
-        this.refreshBankerHands();
+        this.setOpenTipsActive(false);
+        this.refreshOpenHands();
+        this.movePlayedCardsUp();
     },
 
     removeByPlay(data) {
@@ -238,73 +218,92 @@ cc.Class({
         let currentCard = data && data.currentCard ? data.currentCard : data;
         if (!currentCard || currentCard.idx == null || !Array.isArray(currentCard.cards))
             return;
-        if (Number(currentCard.idx) !== Number(this.state.bankerIdx))
+        let hands = this.state.handsByIdx[Number(currentCard.idx)];
+        if (!Array.isArray(hands))
             return;
         currentCard.cards.forEach(card => {
-            let index = this.state.bankerHands.indexOf(card);
+            let index = hands.indexOf(card);
             if (index >= 0)
-                this.state.bankerHands.splice(index, 1);
+                hands.splice(index, 1);
             else
-                console.warn("Game09 庄家明牌缓存未找到待删除牌", currentCard.idx, card, this.state.bankerHands);
+                console.warn("Game09 公开手牌缓存未找到待删除牌", currentCard.idx, card, hands);
         });
-        this.refreshBankerHands();
+        this.refreshOpenHands();
     },
 
-    refreshBankerHands() {
-        if (!this.bankerHandsNode)
-            return;
-        let container = this.bankerHandsNode;
-        // 庄家使用自己的正常手牌区域，不重复展示公开手牌。
-        if (Number(TableInfo.idx) === Number(this.state.bankerIdx)) {
-            container.destroyAllChildren();
-            container.active = false;
-            return;
-        }
-        let scoreContent = this.scene.kNode.parent;
-        let maxWidth = scoreContent.width > 0 ? scoreContent.width : 328;
-        let hands = this.state.bankerHands;
-        const maxCardsPerRow = 14;
-        const cardScale = 0.6;
-        const cardWidth = 90 * cardScale;
-        const cardHeight = 125 * cardScale;
-        const cardSpacing = 20;
-        const rowSpacing = 38;
-        let rowCount = Math.max(1, Math.ceil(hands.length / maxCardsPerRow));
-        let containerHeight = cardHeight + (rowCount - 1) * rowSpacing;
-        container.setContentSize(maxWidth, containerHeight);
-        container.setPosition(
-            this.scene.kNode.x,
-            this.scene.kNode.y - this.scene.kNode.height / 2 - container.height / 2 - 8 + 25
-        );
-        container.destroyAllChildren();
-        container.active = this.state.revealed;
-        if (hands.length === 0) {
-            let empty = this.createLabel(container, "empty", "已出完", 20, cc.color(230, 230, 230));
-            empty.node.setContentSize(100, 36);
-            return;
-        }
+    refreshOpenHands() {
+        Object.keys(this.state.handsByIdx).forEach(idx => this.refreshPlayerHands(Number(idx)));
+    },
 
+    refreshPlayerHands(idx) {
+        let realIdx = TableInfo.realIdx && TableInfo.realIdx[idx];
+        let playerInfo = realIdx == null ? null : this.scene.nodePlayerInfo[realIdx];
+        if (!playerInfo || !playerInfo.node)
+            return;
+        let container = this.openHandsNodes[idx];
+        if (!container || !cc.isValid(container)) {
+            container = new cc.Node("openHands_" + idx);
+            container.parent = playerInfo.node;
+            container.zIndex = 8;
+            container.anchorX = 0;
+            container.anchorY = 0.5;
+            this.openHandsNodes[idx] = container;
+        }
+        container.destroyAllChildren();
+        // 自己的手牌已经在底部正常展示。
+        container.active = this.state.revealed && Number(idx) !== Number(TableInfo.idx);
+        if (!container.active)
+            return;
+        container.setContentSize(400, 52);
+        // 右家放头像左侧、顶家放头像右侧、左家放头像上方。
+        if (realIdx === 1)
+            container.setPosition(-430, 115);
+        else if (realIdx === 2)
+            container.setPosition(60, 55);
+        else
+            container.setPosition(30, 110);
+
+        let hands = (this.state.handsByIdx[idx] || []).slice().sort((a, b) => {
+            return a % 100 === b % 100 ? a - b : a % 100 - b % 100;
+        });
+        const cardScale = 0.38;
+        const cardWidth = 90 * cardScale;
+        const spacing = hands.length > 1 ? Math.min(18, (container.width - cardWidth) / (hands.length - 1)) : 0;
         hands.forEach((card, i) => {
-            let row = Math.floor(i / maxCardsPerRow);
-            let column = i % maxCardsPerRow;
             let cardNode = cc.instantiate(this.scene.preCards);
             cardNode.parent = container;
             cardNode.scale = cardScale;
             cardNode.setPosition(
-                cardWidth / 2 + column * cardSpacing,
-                containerHeight / 2 - cardHeight / 2 - row * rowSpacing
+                cardWidth / 2 + i * spacing,
+                0
             );
             cardNode.getComponent("ModuleCardsInit_09").init(card);
         });
     },
 
-    clearBankerHands() {
-        if (this.bankerHandsNode) {
-            this.bankerHandsNode.destroyAllChildren();
-            this.bankerHandsNode.active = false;
-        }
+    movePlayedCardsUp() {
+        if (!Array.isArray(this.scene.dropCards))
+            return;
+        this.scene.dropCards.forEach((layout, realIdx) => {
+            if (!layout || !layout.node || realIdx === 0)
+                return;
+            let node = layout.node;
+            if (node._openHandsOriginY == null)
+                node._openHandsOriginY = node.y;
+            // 相比上一版的 -65，上移 40 像素；仍保留少量下移避免碰到顶部明牌。
+            node.y = node._openHandsOriginY - 25;
+        });
+    },
+
+    clearOpenHands() {
+        Object.keys(this.openHandsNodes || {}).forEach(idx => {
+            let node = this.openHandsNodes[idx];
+            if (node && cc.isValid(node))
+                node.destroy();
+        });
+        this.openHandsNodes = {};
         if (this.state)
-            this.state.bankerHands = [];
+            this.state.handsByIdx = {};
     },
 
     reset() {
@@ -317,11 +316,11 @@ cc.Class({
         this.setOpenTipsActive(false);
         if (this.yesButton)
             this.setButtonsEnabled(true);
-        this.clearBankerHands();
+        this.clearOpenHands();
     },
 
     restore(data) {
-        if (!data || data.openHandsPending === undefined)
+        if (!data || data.openHandsPending === undefined || !this.isEnabled())
             return;
         this.reset();
         this.state.gameID = data.gameID || this.currentGameID;
@@ -329,29 +328,18 @@ cc.Class({
         this.state.bankerIdx = data.openHandsIdx == null ? -1 : data.openHandsIdx;
         this.state.auto = data.openHandsAuto === true;
 
-        if (data.openHandsPending === true) {
-            this.handleOpenHands({
-                gameID: this.state.gameID,
-                round: this.state.round,
-                idx: this.state.bankerIdx,
-                pending: true,
-                open: null,
-                auto: this.state.auto,
-                clock: data.openHandsClock,
-                multiplier: 1
-            });
-            return;
-        }
-
         this.state.open = data.openHands === true;
-        this.state.multiplier = Number(data.multiplier) || 1;
+        this.state.pending = false;
+        this.state.bankerIdx = -1;
+        this.state.multiplier = 1;
         this.state.revealed = data.openHandsRevealed === true;
-        this.setOpenTipsActive(this.state.open);
+        this.hidePending();
+        this.setOpenTipsActive(false);
         if (this.state.revealed && Array.isArray(data.openHandsPlayers)) {
             this.handleShowHands({
                 gameID: this.state.gameID,
                 round: this.state.round,
-                idx: this.state.bankerIdx,
+                idx: -1,
                 players: data.openHandsPlayers
             });
         }

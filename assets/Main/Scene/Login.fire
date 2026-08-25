@@ -1429,7 +1429,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 981,
-      "height": 0
+      "height": 52
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1477,7 +1477,7 @@
         "__id__": 31
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 33
@@ -1518,7 +1518,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -1668,7 +1668,7 @@
     "node": {
       "__id__": 30
     },
-    "_enabled": false,
+    "_enabled": true,
     "_normalMaterial": null,
     "_grayMaterial": null,
     "duration": 0.1,
@@ -1741,7 +1741,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "24fdfa81ba3ec551"
+    "customEventData": "test01"
   },
   {
     "__type__": "cc.Node",
@@ -1755,7 +1755,7 @@
         "__id__": 37
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 39
@@ -1787,7 +1787,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -215,
+        -205,
         -26,
         0,
         0,
@@ -1796,7 +1796,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -2019,7 +2019,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test2"
+    "customEventData": "test02"
   },
   {
     "__type__": "cc.Node",
@@ -2033,7 +2033,7 @@
         "__id__": 43
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 45
@@ -2065,7 +2065,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -28,
+        -8,
         -26,
         0,
         0,
@@ -2074,7 +2074,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -2297,7 +2297,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test3"
+    "customEventData": "test03"
   },
   {
     "__type__": "cc.Node",
@@ -2311,7 +2311,7 @@
         "__id__": 49
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 51
@@ -2343,7 +2343,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        159,
+        189,
         -26,
         0,
         0,
@@ -2352,7 +2352,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -2575,7 +2575,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test4"
+    "customEventData": "test04"
   },
   {
     "__type__": "cc.Node",
@@ -7905,7 +7905,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 981,
-      "height": 0
+      "height": 52
     },
     "_resize": 1,
     "_N$layoutType": 3,

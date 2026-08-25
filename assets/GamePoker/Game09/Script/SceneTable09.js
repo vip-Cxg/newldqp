@@ -868,7 +868,7 @@ cc.Class({
     },
 
     initDesk() {  //继续游戏初始化桌子
-        this.openHands.clearBankerHands();
+        this.openHands.clearOpenHands();
         this.sprDisnable.active = false;
         this.lblCurrentScore.string = "0";
         this.nodePlayerInfo.forEach((node) => {
