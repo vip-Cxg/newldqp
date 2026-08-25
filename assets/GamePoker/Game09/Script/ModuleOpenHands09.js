@@ -9,10 +9,28 @@ cc.Class({
 
     init(scene) {
         this.scene = scene;
+        this.raiseActionButtons();
         this.currentGameID = null;
         this.currentRound = 0;
         this.state = this.emptyState();
         this.createUI();
+    },
+
+    /**
+     * nodeBtn 原本嵌套在 nodehands 下，无法通过自身 zIndex 压过牌桌直属的出牌节点。
+     * 将按钮组提到牌桌层级并保留世界坐标，使“不出 / 提示 / 出牌”始终可见、可点击。
+     */
+    raiseActionButtons() {
+        let nodeBtn = this.scene.nodeBtn;
+        let tableNode = this.scene.bgTable && this.scene.bgTable.node;
+        if (!nodeBtn || !tableNode)
+            return;
+        if (nodeBtn.parent !== tableNode) {
+            let worldPosition = nodeBtn.parent.convertToWorldSpaceAR(nodeBtn.position);
+            nodeBtn.parent = tableNode;
+            nodeBtn.position = tableNode.convertToNodeSpaceAR(worldPosition);
+        }
+        nodeBtn.zIndex = 3000;
     },
 
     emptyState() {
@@ -67,6 +85,9 @@ cc.Class({
         this.setOpenTipsActive(false);
 
         this.openHandsUI = cc.find("openHandsUI", this.node);
+        // 新协议不再询问是否明牌，旧 UI 永久禁用；仅由 SC_SHOW_HANDS
+        // 或包庄后的重连数据开启四家明牌。
+        this.openHandsUI.active = false;
         this.panel = cc.find("bankerOpenPanel", this.openHandsUI);
         this.waitingLabel = cc.find("waitingTips", this.openHandsUI).getComponent(cc.Label);
         this.clockLabel = cc.find("clock", this.panel).getComponent(cc.Label);
@@ -254,28 +275,37 @@ cc.Class({
         container.active = this.state.revealed && Number(idx) !== Number(TableInfo.idx);
         if (!container.active)
             return;
-        container.setContentSize(400, 52);
+        container.anchorX = realIdx === 1 ? 1 : 0;
+        container.setContentSize(400, 105);
         // 右家放头像左侧、顶家放头像右侧、左家放头像上方。
         if (realIdx === 1)
-            container.setPosition(-430, 115);
+            container.setPosition(-30, 115);
         else if (realIdx === 2)
-            container.setPosition(60, 55);
+            container.setPosition(60, 25);
         else
             container.setPosition(30, 110);
 
         let hands = (this.state.handsByIdx[idx] || []).slice().sort((a, b) => {
             return a % 100 === b % 100 ? a - b : a % 100 - b % 100;
         });
-        const cardScale = 0.38;
+        const cardScale = 0.55;
         const cardWidth = 90 * cardScale;
-        const spacing = hands.length > 1 ? Math.min(18, (container.width - cardWidth) / (hands.length - 1)) : 0;
+        const rowCount = hands.length > 1 ? 2 : 1;
+        const cardsPerRow = Math.max(1, Math.ceil(hands.length / rowCount));
+        const spacing = cardsPerRow > 1 ? Math.min(30, (container.width - cardWidth) / (cardsPerRow - 1)) : 0;
+        const rowSpacing = 35;
         hands.forEach((card, i) => {
+            let row = Math.floor(i / cardsPerRow);
+            let column = i % cardsPerRow;
             let cardNode = cc.instantiate(this.scene.preCards);
             cardNode.parent = container;
             cardNode.scale = cardScale;
+            // 右侧手牌由右向左展开，需要反转同一排的绘制层级，
+            // 否则左边后创建的牌会盖住右边牌左上角的点数。
+            cardNode.zIndex = row * 100 + (realIdx === 1 ? cardsPerRow - column : column);
             cardNode.setPosition(
-                cardWidth / 2 + i * spacing,
-                0
+                realIdx === 1 ? -cardWidth / 2 - column * spacing : cardWidth / 2 + column * spacing,
+                (rowCount - 1) / 2 * rowSpacing - row * rowSpacing
             );
             cardNode.getComponent("ModuleCardsInit_09").init(card);
         });
@@ -287,11 +317,20 @@ cc.Class({
         this.scene.dropCards.forEach((layout, realIdx) => {
             if (!layout || !layout.node || realIdx === 0)
                 return;
-            let node = layout.node;
-            if (node._openHandsOriginY == null)
-                node._openHandsOriginY = node.y;
-            // 相比上一版的 -65，上移 40 像素；仍保留少量下移避免碰到顶部明牌。
-            node.y = node._openHandsOriginY - 25;
+            let cardNode = layout.node;
+            // 兼容上一版曾经直接移动过牌节点的情况，先恢复其局部坐标。
+            if (cardNode._openHandsOriginY != null)
+                cardNode.y = cardNode._openHandsOriginY;
+            let showCardNode = cardNode.parent;
+            if (!showCardNode)
+                return;
+            // 明牌节点是运行时挂到牌桌上的，可能覆盖原场景中的出牌区域。
+            // 提高整组出牌节点，保证牌、张数、牌型特效和“不出”提示均在最上层。
+            showCardNode.zIndex = 2000 + realIdx;
+            if (showCardNode._openHandsOriginY == null)
+                showCardNode._openHandsOriginY = showCardNode.y;
+            // 整体移动出牌区域，牌、张数、牌型特效和“不出”标记会同步移动。
+            showCardNode.y = showCardNode._openHandsOriginY - (realIdx === 2 ? 85 : 25);
         });
     },
 
