@@ -32,6 +32,8 @@ const FINAL_XI_POS = [
 ];
 const fileName = `local-0.amr`;
 const CN_PERSON = ["", "一", "二", "三"];
+const TWO_LAI_RULE_TEXT = "新化炸弹4人（两幅牌）单顺 洗牌 四王 包庄明牌\n喜分加法 4个5有喜4个2有喜 三炸有喜 以此类推 不限制出牌";
+const THREE_POKER_RULE_TEXT = " 不能单顺 连对,飞机可以到2 5个5算喜\n 5个2开始发喜 所有喜分加法不封顶 全干半干";
 
 let customConfig = {
     plus: true,
@@ -281,7 +283,17 @@ cc.Class({
         //显示游戏 类型 公会
         this.lblGameType.string = '' + GameConfig.GameName[data.options.gameType] + ' ' + data.options.rules.poker + '副牌';
 
-        this.lblRules.active = data.options.rules.poker == 3;
+        let rules = data.options.rules || {};
+        let isTwoPokerWithLai = Number(rules.poker) === 2 && rules.lai === true;
+        let rulesLabel = this.lblRules.getComponent(cc.Label);
+        this.lblRules.active = isTwoPokerWithLai || Number(rules.poker) === 3;
+        if (rulesLabel) {
+            rulesLabel.string = isTwoPokerWithLai ? TWO_LAI_RULE_TEXT : THREE_POKER_RULE_TEXT;
+            rulesLabel.fontSize = isTwoPokerWithLai ? 22 : 26;
+            rulesLabel.lineHeight = isTwoPokerWithLai ? 28 : 34;
+            rulesLabel.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
+            this.lblRules.setContentSize(isTwoPokerWithLai ? 760 : 529.65, isTwoPokerWithLai ? 84 : 76.84);
+        }
 
         this.lblBase.string = "底分: " + utils.formatGold(data.options.base);
 

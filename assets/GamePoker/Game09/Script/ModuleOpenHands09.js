@@ -1,8 +1,5 @@
-let ROUTE = require("../../../Main/Script/ROUTE");
-let connector = require("../../../Main/NetWork/Connector");
 let TableInfo = require("../../../Main/Script/TableInfo");
 let utils = require("../../../Main/Script/utils");
-let Cache = require("../../../Main/Script/Cache");
 
 cc.Class({
     extends: cc.Component,
@@ -85,8 +82,8 @@ cc.Class({
         this.setOpenTipsActive(false);
 
         this.openHandsUI = cc.find("openHandsUI", this.node);
-        // 新协议不再询问是否明牌，旧 UI 永久禁用；仅由 SC_SHOW_HANDS
-        // 或包庄后的重连数据开启四家明牌。
+        // 新协议不再询问是否明牌，旧 UI 永久禁用；仅在包庄者第一手合法牌之后
+        // 收到 SC_SHOW_HANDS，或重连数据明确已明牌时，才开启四家明牌。
         this.openHandsUI.active = false;
         this.panel = cc.find("bankerOpenPanel", this.openHandsUI);
         this.waitingLabel = cc.find("waitingTips", this.openHandsUI).getComponent(cc.Label);
@@ -132,27 +129,8 @@ cc.Class({
     },
 
     handleOpenHands(data) {
-        if (!this.isCurrent(data)) {
-            console.warn("Game09 丢弃其他局的 SC_OPEN_HANDS", data);
-            return;
-        }
-        if (!this.isEnabled())
-            return;
-        this.state.gameID = data.gameID;
-        this.state.round = data.round;
-        this.state.bankerIdx = -1;
-        this.state.auto = false;
-        this.state.pending = false;
-        this.state.open = data.open !== false;
-        this.state.multiplier = 1;
-        this.state.deadline = 0;
-        this.state.submitted = false;
-        this.hidePending();
-        if (this.scene.nodeBao)
-            this.scene.nodeBao.active = false;
-        this.setOpenTipsActive(false);
-        if (!this.state.open)
-            this.clearOpenHands();
+        // 最新协议不再使用 SC_OPEN_HANDS；收到遗留消息也不能提前开启明牌。
+        return;
     },
 
     showPending() {
@@ -187,22 +165,8 @@ cc.Class({
     },
 
     submit(open) {
-        if (!this.state.pending || this.state.submitted)
-            return;
-        if (TableInfo.idx !== this.state.bankerIdx || this.state.auto)
-            return;
-        if (this.state.deadline > 0 && this.state.deadline <= utils.getTimeStamp())
-            return;
-
-        Cache.playSfx();
-        this.state.submitted = true;
-        this.setButtonsEnabled(false);
-        this.clockLabel.string = "等待服务器确认…";
-        connector.gameMessage(ROUTE.CS_OPEN_HANDS, {
-            gameID: this.state.gameID,
-            round: this.state.round,
-            open: open
-        });
+        // 最新协议全程没有明牌选择，客户端不再发送 CS_OPEN_HANDS。
+        return;
     },
 
     handleShowHands(data) {
@@ -371,7 +335,8 @@ cc.Class({
         this.state.pending = false;
         this.state.bankerIdx = -1;
         this.state.multiplier = 1;
-        this.state.revealed = data.openHandsRevealed === true;
+        // 首手出牌前 openHands 为 false；首手出牌后两个状态均为 true。
+        this.state.revealed = data.openHands === true && data.openHandsRevealed === true;
         this.hidePending();
         this.setOpenTipsActive(false);
         if (this.state.revealed && Array.isArray(data.openHandsPlayers)) {
