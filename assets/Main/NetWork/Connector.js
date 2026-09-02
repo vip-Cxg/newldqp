@@ -50,7 +50,7 @@ module.exports = {
         this.emit(PACK.CS_GAME_MESSAGE, { route: route, data: data });
     },
     /**post 请求 */
-    request(method, data, callback, mask = 1, failCallback, proxyToken = false) {
+    request(method, data, callback, mask = 1, failCallback, proxyToken = false, timeout = 20000, handleTransportFailure = false) {
         let reqType = data == "getJson" ? "GET" : "POST";
         let url = data == "getJson" ? method : this.logicUrl + method;
         console.log("url:  ", url)
@@ -137,7 +137,16 @@ module.exports = {
                     }
                 } else if (xhr.readyState == 4) {
                     cache.hideMask();
-                    console.log("err", xhr.responseText)
+                    console.log("request http error", method, xhr.status, xhr.responseText)
+                    if (failCallback && handleTransportFailure) {
+                        failCallback({
+                            message: "HTTP " + xhr.status,
+                            statusCode: xhr.status,
+                            response: xhr.responseText,
+                            url: url
+                        });
+                        return;
+                    }
                     try {
                         cache.showTipsMsg('当前网络较差,重新选择链路', () => {
                             cc.director.loadScene('Update');//Update
@@ -148,18 +157,26 @@ module.exports = {
                     }
                 }
             };
-            xhr.timeout = 20000;
+            xhr.timeout = timeout;
             xhr.onerror = () => {
-                console.log('request onerror');
+                console.log('request onerror', method, xhr.status, url);
                 cache.hideMask();
+                if (failCallback && handleTransportFailure) {
+                    failCallback({ message: "网络连接失败", statusCode: xhr.status, url: url, type: "error" });
+                    return;
+                }
                 cache.showTipsMsg('当前网络较差,重新选择链路', () => {
                     cc.director.loadScene('Update');//Update
                 });
              
             };
             xhr.ontimeout = () => {
-                console.log('request ontimeout' + method);
+                console.log('request ontimeout', method, timeout, url);
                 cache.hideMask();
+                if (failCallback && handleTransportFailure) {
+                    failCallback({ message: "请求超时", statusCode: xhr.status, url: url, type: "timeout" });
+                    return;
+                }
                 cache.showTipsMsg('当前网络较差,重新选择链路', () => {
                     cc.director.loadScene('Update');//Update
                 });
