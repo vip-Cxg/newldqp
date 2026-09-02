@@ -1041,6 +1041,8 @@ export class GameConfig {
         LinkJson:'LinkJson',
         /**server url obj */
         ServerUrlObj: "ServerUrlObj",
+        /**当前选中的服务器地址，供热更新分包共享 */
+        CurrentServerUrl: "CurrentServerUrl",
 
         /**公钥 token */
         TokenPKey: "TokenPKey",

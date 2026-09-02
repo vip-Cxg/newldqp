@@ -191,6 +191,7 @@ export class SelectLink {
         if (this._apiSelected) return;
         this._apiSelected = true;
         clearTimeout(this.serverFailed);
+        url = url.replace(/\/+$/, '') + '/';
         Connector.logicUrl = url;//wx00e14f422f1929e90000wxcb45c285efd3f864
         Http.API_URL = url;
         // Connector.logicUrl ='http://206.119.85.11:9000/'// url;//wx00e14f422f1929e90000wxcb45c285efd3f864
@@ -201,6 +202,7 @@ export class SelectLink {
 
         //将新配置保存至本地
         utils.saveValue(GameConfig.StorageKey.ServerUrlObj, serverData);
+        utils.saveValue(GameConfig.StorageKey.CurrentServerUrl || "CurrentServerUrl", url);
         if (this._apiCallback)
             this._apiCallback();
 
@@ -262,5 +264,4 @@ export class SelectLink {
     }
 
 }
-
 

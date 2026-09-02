@@ -29,6 +29,15 @@ module.exports = {
     _retryTTL: 0,
     ts: 0,
     _status: GameConfig.ConnectState.CLOSED,
+    getLogicUrl() {
+        let storageKey = GameConfig.StorageKey.CurrentServerUrl || "CurrentServerUrl";
+        let url = utils.getValue(storageKey, "") || this.logicUrl || GameConfig.ServerUrl || "";
+        if (!/^https?:\/\//i.test(url))
+            return "";
+        url = url.replace(/\/+$/, '') + '/';
+        this.logicUrl = url;
+        return url;
+    },
     /**发送数据 */
     emit(route, data) {
         if (this._socket == null)
@@ -52,7 +61,8 @@ module.exports = {
     /**post 请求 */
     request(method, data, callback, mask = 1, failCallback, proxyToken = false, timeout = 20000, handleTransportFailure = false) {
         let reqType = data == "getJson" ? "GET" : "POST";
-        let url = data == "getJson" ? method : this.logicUrl + method;
+        let logicUrl = data == "getJson" ? "" : this.getLogicUrl();
+        let url = data == "getJson" ? method : logicUrl + method;
         console.log("url:  ", url)
         if (cc.sys.isBrowser) {
             console.log("data:   ", data)
@@ -61,6 +71,19 @@ module.exports = {
         }
         if (mask)
             cache.showMask("正在加载...请稍后");
+        if (data != "getJson" && !logicUrl) {
+            cache.hideMask();
+            let error = { message: "服务器地址无效，请重新选择线路", statusCode: 0, url: url, type: "invalid_url" };
+            console.error("request invalid url", method, error);
+            if (failCallback) {
+                failCallback(error);
+            } else {
+                cache.showTipsMsg(error.message, () => {
+                    cc.director.loadScene('Update');
+                });
+            }
+            return;
+        }
         try {
             let xhr = cc.loader.getXMLHttpRequest();
             xhr.open(reqType, url, true);
@@ -283,8 +306,11 @@ module.exports = {
 
     commitError(data, type) {
         try {
+            let logicUrl = this.getLogicUrl();
+            if (!logicUrl)
+                return;
             let xhr = cc.loader.getXMLHttpRequest();
-            xhr.open("POST", this.logicUrl + type, true);
+            xhr.open("POST", logicUrl + type, true);
             xhr.setRequestHeader("cache-control", "no-cache");
             xhr.setRequestHeader("contentType", "text/html;charset=uft-8"); //指定发送的编码
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
