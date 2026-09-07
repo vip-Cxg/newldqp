@@ -123,13 +123,34 @@ export default class TablePop extends cc.Component {
 
         this.roomLastBtn = bottomLayer.getChildByName('btn-table-last');
         this.roomNextBtn = bottomLayer.getChildByName('btn-table-next');
-        if (this.roomLastBtn)
+        if (this.roomContent)
+            this.roomContent.zIndex = 0;
+        if (this.roomLastBtn) {
+            this.roomLastBtn.zIndex = 1;
             this.roomLastBtn.on(cc.Node.EventType.TOUCH_END, this.onRoomLastPage, this);
-        if (this.roomNextBtn)
+        }
+        if (this.roomNextBtn) {
+            this.roomNextBtn.zIndex = 1;
             this.roomNextBtn.on(cc.Node.EventType.TOUCH_END, this.onRoomNextPage, this);
+        }
 
-        if (this.quickStartBtn)
+        if (this.quickStartBtn) {
+            this.quickStartBtn.zIndex = 1;
             this.quickStartBtn.active = true;
+        }
+    }
+
+    getRoomPageSize() {
+        if (!this.roomContent || !this.roomBtnItem || !this.roomBtnItem.data)
+            return this.roomPageSize;
+
+        let layout = this.roomContent.getComponent(cc.Layout);
+        let spacingX = layout ? layout.spacingX : 0;
+        let paddingLeft = layout ? layout.paddingLeft : 0;
+        let paddingRight = layout ? layout.paddingRight : 0;
+        let itemWidth = this.roomBtnItem.data.width * Math.abs(this.roomBtnItem.data.scaleX || 1);
+        let contentWidth = this.roomContent.width - paddingLeft - paddingRight;
+        return Math.max(1, Math.floor((contentWidth + spacingX) / (itemWidth + spacingX)));
     }
     addEvents() {
 
@@ -314,6 +335,7 @@ export default class TablePop extends cc.Component {
             if (roomIndex == -1)
                 roomIndex = 0;
         }
+        this.roomPageSize = this.getRoomPageSize();
         this.roomPage = Math.floor(roomIndex / this.roomPageSize);
         this.renderRoomPage();
         App.EventManager.dispatchEventWith(GameConfig.GameEventNames.ROOM_TYPE_CHANGE, this.roomData[gameType][roomIndex])

@@ -1741,7 +1741,7 @@
     "component": "",
     "_componentId": "0f25cdrYvpAqo7E5XHSvkfY",
     "handler": "ontestLogin",
-    "customEventData": "test01"
+    "customEventData": "f0927fb3-9066-41ff-abcf-137bde4e42ff"
   },
   {
     "__type__": "cc.Node",
