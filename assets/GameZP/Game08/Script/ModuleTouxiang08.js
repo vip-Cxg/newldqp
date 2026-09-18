@@ -39,9 +39,39 @@ cc.Class({
         })
     },
 
+    hideVote() {
+        this.nodeVote.active = false;
+        this.unscheduleAllCallbacks();
+    },
+
     txInit: function (data) {
-        if (data.status == "REFUSE" || data.status == "EMPTY") { //拒绝状态
-            this.nodeVote.active = false;
+        data = data || {};
+        const status = String(data.status || '').toLowerCase();
+        const votes = Array.isArray(data.data) ? data.data : [];
+        const normalizedVotes = votes.map(vote => String(vote || '').toLowerCase());
+        const hasRefuse = normalizedVotes.indexOf('refuse') !== -1;
+        const expectedPlayerCount = Number(TableInfo.config && TableInfo.config.person)
+            || Number(TableInfo.options && TableInfo.options.person)
+            || 0;
+        const allAllow = expectedPlayerCount > 0
+            && normalizedVotes.length === expectedPlayerCount
+            && normalizedVotes.every(vote => vote === 'allow');
+
+        // 新协议以 REFUSE/EMPTY 为明确终态；cancel 仅保留旧服务端兼容。
+        if (status === 'refuse' || status === 'empty' || data.cancel != null) {
+            this.hideVote();
+            return;
+        }
+
+        // 旧服务端可能只更新投票数组。拒绝可直接终止；全员同意必须数组完整且每一项均为 allow。
+        if (hasRefuse || allAllow) {
+            this.hideVote();
+            return;
+        }
+
+        // 重连快照只有 VOTE/CONFIRM 表示投票进行中；其他非空状态不恢复窗口。
+        if (status && status !== 'vote' && status !== 'confirm') {
+            this.hideVote();
             return;
         }
         let numP = 0;
@@ -49,26 +79,22 @@ cc.Class({
         let btnR = this.btnRefuse.getComponent(cc.Button);
         let btnA = this.btnAgree.getComponent(cc.Button);
         this.lblTips.string = "等待其他玩家同意";
-        if (data.cancel != null) {
-            this.nodeVote.active = false;
-            cc.director.getScheduler().unscheduleAllForTarget(this);
-            return;
-        }
-        cc.director.getScheduler().unscheduleAllForTarget(this);
+        this.unscheduleAllCallbacks();
         let time = Math.floor((data.clock - utils.getTimeStamp()) / 1000);
         this.lblTime.string = Math.max(time, 0);;
         this.schedule(() => {
             time--
             this.lblTime.string = Math.max(time, 0);
         }, 1);
-        btnR.interactable = data.data[TableInfo.idx] == 'wait';
-        btnA.interactable = data.data[TableInfo.idx] == 'wait';
+        btnR.interactable = normalizedVotes[TableInfo.idx] === 'wait';
+        btnA.interactable = normalizedVotes[TableInfo.idx] === 'wait';
 
         let color0 = cc.color("#d10602");
         let color1 = cc.color("#4ac93e");
-        data.data.forEach((status, i) => {
-            this.lblStatus[i].string = DESC_VOTE[status];
-            this.lblStatus[i].node.color = cc.color(COLOR_VOTE[status]);
+        normalizedVotes.forEach((vote, i) => {
+            if (!this.lblStatus[i]) return;
+            this.lblStatus[i].string = DESC_VOTE[vote] || '';
+            this.lblStatus[i].node.color = cc.color(COLOR_VOTE[vote] || '#0A5ECF');
         });
 
         TableInfo.players.forEach((player, i) => {
