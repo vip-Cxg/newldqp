@@ -241,6 +241,10 @@ cc.Class({
                     this.chat.systemNotice(msg.data);
                 break;
             case ROUTE.SC_PLAY_ERROR:
+                this.layerSelect.active = false;
+                this.layerHandCards.getComponent('ModuleCards_09').checkCurrent();
+                if (TableInfo.currentPlayer === TableInfo.idx)
+                    this.changeBtn(true);
                 Cache.alertTip("请选择正确牌型");
                 break;
             case ROUTE.SC_CALL:
@@ -279,12 +283,14 @@ cc.Class({
 
     /**初始化桌子基础信息 */
     initTable(data) {
+        this._candidateRevision = (this._candidateRevision || 0) + 1;
+        this.layerSelect.active = false;
         this.openHands.setCurrentRound(data.gameID, data.round);
         //显示游戏 类型 公会
         this.lblGameType.string = '' + GameConfig.GameName[data.options.gameType] + ' ' + data.options.rules.poker + '副牌';
 
         let rules = data.options.rules || {};
-        let isTwoPokerWithLai = Number(rules.poker) === 2 && rules.lai === true;
+        let isTwoPokerWithLai = logic.isTwoPokerWithLai(rules);
         let rulesLabel = this.lblRules.getComponent(cc.Label);
         this.lblRules.active = isTwoPokerWithLai || Number(rules.poker) === 3;
         if (rulesLabel) {
@@ -817,6 +823,7 @@ cc.Class({
     },
 
     passCard(data) {
+        this.changeBtn(false);
         connector.gameMessage(ROUTE.CS_PLAY_CARD, { event: "PASS" });
         this.resetCards();
     },
@@ -1120,6 +1127,8 @@ cc.Class({
     },
 
     playCard(data) {
+        this._candidateRevision = (this._candidateRevision || 0) + 1;
+        this.layerSelect.active = false;
         let idx = data.idx;
         this.layerHandCards.active = true;
         TableInfo.currentPlayer = idx;
@@ -1144,6 +1153,11 @@ cc.Class({
 
     changeBtn(boolean) {
 
+        if (!boolean) {
+            this._candidateRevision = (this._candidateRevision || 0) + 1;
+            this.layerSelect.active = false;
+        }
+
         this.nodeBtn.active = boolean;
         this.btnPlayCards.active = boolean;
         this.btnTips.active = boolean;
@@ -1156,6 +1170,9 @@ cc.Class({
     },
 
     acChupai() {   //出牌按钮
+        this.layerHandCards.getComponent('ModuleCards_09').checkCurrent();
+        if (!TableInfo.select || !TableInfo.select.length)
+            return;
         if (utils.isNullOrEmpty(this.btnPlayCards._last))
             this.btnPlayCards._last = 0;
         if (new Date().getTime() - this.btnPlayCards._last < 1000)
@@ -1163,24 +1180,50 @@ cc.Class({
         this.btnPlayCards._last = new Date().getTime();
         let emp = JSON.parse(JSON.stringify(TableInfo.select));
         if (emp.length > 1) {
-            this.layerSelect.active = true;
             this.changeBtn(false);
+            this.layerSelect.active = true;
             this.showSelect(emp);
         } else {
-            connector.gameMessage(ROUTE.CS_PLAY_CARD, emp[0], true)
+            this.submitCandidate(emp[0], this._candidateRevision);
         }
     },
 
+    submitCandidate(group, revision) {
+        if (revision !== this._candidateRevision || TableInfo.currentPlayer !== TableInfo.idx)
+            return;
+        this.layerHandCards.getComponent('ModuleCards_09').checkCurrent();
+        const valid = (TableInfo.select || []).some(candidate => logic.sameCandidate(candidate, group));
+        this.layerSelect.active = false;
+        if (!valid) {
+            this.changeBtn(true);
+            Cache.alertTip('选牌或当前牌型已变化，请重新选择');
+            return;
+        }
+        // 发送玩家点击的完整候选，保留重复牌码和原始王牌码。
+        connector.gameMessage(ROUTE.CS_PLAY_CARD, group, true);
+        this.changeBtn(false);
+    },
+
     showSelect(data) {
+        const revision = this._candidateRevision;
         let empData = JSON.parse(JSON.stringify(data));
         this.layerShowCards.destroyAllChildren();
         empData.forEach((group, i) => {
             let nodePlayCards = cc.instantiate(this.prePlayCards);
             nodePlayCards.parent = this.layerShowCards;
             nodePlayCards.getComponent("ModuleShowCards_09").init(group, false);
+            if (logic.isTwoPokerWithLai(TableInfo.options && TableInfo.options.rules)) {
+                let title = new cc.Node('candidateType');
+                title.parent = nodePlayCards;
+                title.y = 100;
+                let label = title.addComponent(cc.Label);
+                label.fontSize = 24;
+                label.lineHeight = 28;
+                label.string = group.type === 'BOMB' ? '炸弹 ' + group.count + '张'
+                    : group.type === 'FEIJI' ? '飞机 ' + group.count + '组' : group.type;
+            }
             nodePlayCards.on('touchend', () => {
-                connector.gameMessage(ROUTE.CS_PLAY_CARD, data[i], true);
-                this.layerSelect.active = false;
+                this.submitCandidate(group, revision);
             })
         });
     },

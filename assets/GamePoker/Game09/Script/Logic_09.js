@@ -34,6 +34,31 @@ poker.maxSeries = function (arr) {
     }
     return true;
 };
+poker.isTwoPokerWithLai = function (rules) {
+    rules = rules || {};
+    const lai = rules.lai;
+    return Number(rules.poker) === 2 &&
+        (lai === true || lai === 1 || lai === '1' || String(lai).toLowerCase() === 'true');
+};
+poker.sameCandidate = function (a, b) {
+    return !!a && !!b && a.type === b.type && a.count === b.count && a.card === b.card &&
+        a.cards.slice().sort((x, y) => x - y).join(',') === b.cards.slice().sort((x, y) => x - y).join(',');
+};
+poker.playCandidates = function (cards, current, rules, shun) {
+    const keepAll = poker.isTwoPokerWithLai(rules);
+    let candidates = poker.decode(cards.slice(), shun, 17, { keepAllCandidates: keepAll }) || [];
+    candidates = candidates.filter(group => poker.compare(current, group));
+    // 保留旧玩法的选型行为；两副牌带赖子不再静默舍弃炸弹解释。
+    if (!keepAll) {
+        const first = candidates[0];
+        if (first && candidates.length < 4 && first.card === 14 && first.count === 2 &&
+            (first.type === 'FEIJI' || first.type === 'LIANDUI'))
+            candidates = [first];
+        if (first && candidates.length === 2 && first.card === 13 && first.count === 3 && first.type === 'FEIJI')
+            candidates = [first];
+    }
+    return candidates.filter((group, index, list) => list.findIndex(other => poker.sameCandidate(group, other)) === index);
+};
 poker.decode = (cards, shun, wildcard = 17, options = {}) => {
     if (typeof shun === 'object' && shun !== null) {
         options = shun;
@@ -93,7 +118,7 @@ poker.decode = (cards, shun, wildcard = 17, options = {}) => {
         return true;
       });
       for (let d of filteredList) {
-        let key = d.type;
+        let key = options.keepAllCandidates ? [d.type, d.count, d.card].join(':') : d.type;
         let exist = resultMap.get(key);
         if (!exist || poker.compare(exist, d)) {
           resultMap.set(key, d);

@@ -221,22 +221,11 @@ cc.Class({
             })
         }
         let btnPlay = this.nodeBtn.getChildByName("btnPlayCards").getComponent(cc.Button);
-        let cardList = logic.decode(playCards, tbInfo.config.shun);
+        let cardList = logic.playCandidates(playCards, tbInfo.current,
+            tbInfo.options && tbInfo.options.rules, tbInfo.config.shun);
         if (cardList == null) {
             btnPlay.interactable = false;
             return;
-        }
-        if (tbInfo.current != null)
-            cardList = cardList.filter(c => logic.compare(tbInfo.current, c));
-        if (cardList.length > 0 && cardList.length < 4) {
-            let sp = cardList[0];
-            if (sp.card == 14 && sp.count == 2 && (sp.type == "FEIJI" || sp.type == "LIANDUI"))
-                cardList = [cardList[0]];
-        }
-        if (cardList.length == 2) {
-            let sp = cardList[0];
-            if (sp.card == 13 && sp.count == 3 && (sp.type == "FEIJI"))
-                cardList = [cardList[0]];
         }
         btnPlay.interactable = cardList.length > 0;
         tbInfo.select = cardList;
