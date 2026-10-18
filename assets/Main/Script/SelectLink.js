@@ -108,7 +108,7 @@ export class SelectLink {
         let linkJSON = [
             // "https://fghtyu-1394606355.cos.ap-shanghai.myqcloud.com/xcconfig/release_first.json",
             // "http://pku.qzhagy.com/xcconfig/release_first.json",
-            "https://qty.krtqyh.com/hlconfig/release_first.json"
+            "https://pku.hbrtyu.com/hlconfig/release_first.json"
         ];
         this.selectCount++;
         utils.NewXMLRequestOSS(linkJSON[index], (res) => {
