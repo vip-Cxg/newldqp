@@ -16,10 +16,10 @@ let db = {
     systemConfig: null,
     card: 0,
 
-    postfix: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29'],
+    postfix: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', 'SDH'],
     gameName: ['沅江千分', '', '沅江麻将', '', '隆回罢炸弹', '邵阳剥皮', '沅江鬼胡子', '跑得快', '新化字牌', '新化炸弹', '郴州字牌', '株洲碰胡',
         '衡阳同花', '衡阳六胡抢', '打码子', '', '红中麻将', '南县歪胡子', '', '安乡偎麻雀', '红A', "娄底炸弹", "娄底放炮罚", "涟源K五十", '转转麻将',
-        '岳阳字牌', '隆回炸弹', '长沙麻将', '沅江二人千分', '福禄寿'],
+        '岳阳字牌', '隆回炸弹', '长沙麻将', '沅江二人千分', '福禄寿', '新华包牌'],
 
     // TABLE_TYPE :["Game00","Game01","Game02",'Game03','Game04','Game05','Game06','Game07','Game08','Game09','Game10','Game11','Game12','Game13','Game14','','Game16','Game17','Game18','Game19','Game20','Game21','Game22','Game23','Game24','Game25','Game26','Game27','Game28','Game29'],
     /**游戏类型对应场景 */
@@ -41,7 +41,9 @@ let db = {
         "HZMJ_SOLO": "Game16",
         "HZMJ": "Game16",
         "HNMJ": "Game19",
-        "LGMJ": "Game19"
+        "LGMJ": "Game19",
+        "SDH": "GameSDH",
+        "SDH_CLAN": "GameSDH"
 
     },
     GAME_TYPE: {
@@ -63,6 +65,8 @@ let db = {
         "HZMJ": 16,//22
         'HNMJ': 19,
         'LGMJ': 19,
+        'SDH': 30,
+        'SDH_CLAN': 30,
     },
 
     GAME_NAME: {
@@ -79,6 +83,8 @@ let db = {
         "HNMJ": '海南麻将',
         "LGMJ_SOLO": '双人新海南麻将',
         "LGMJ": '新海南麻将',
+        "SDH": "新华包牌",
+        "SDH_CLAN": "新华包牌",
     },
 
 
@@ -119,11 +125,11 @@ let db = {
 
         AUDIO: ['AUDIO_0', 'AUDIO_1', 'AUDIO_2', 'AUDIO_3', 'AUDIO_4', 'AUDIO_5', 'AUDIO_6', 'AUDIO_7', 'AUDIO_8', 'AUDIO_9', 'AUDIO_10'
             , 'AUDIO_11', 'AUDIO_12', 'AUDIO_13', 'AUDIO_14', 'AUDIO_15', 'AUDIO_16', 'AUDIO_17', 'AUDIO_18', 'AUDIO_19', 'AUDIO_20',
-            'AUDIO_21', 'AUDIO_22', 'AUDIO_23', 'AUDIO_24', 'AUDIO_25', 'AUDIO_26', 'AUDIO_27', 'AUDIO_28'],
+            'AUDIO_21', 'AUDIO_22', 'AUDIO_23', 'AUDIO_24', 'AUDIO_25', 'AUDIO_26', 'AUDIO_27', 'AUDIO_28', 'AUDIO_29', 'AUDIO_30'],
 
         AUDIO_VERSION: ['AUDIO_VERSION_0', 'AUDIO_VERSION_1', 'AUDIO_VERSION_2', 'AUDIO_VERSION_3', 'AUDIO_VERSION_4', 'AUDIO_VERSION_5', 'AUDIO_VERSION_6', 'AUDIO_VERSION_7', 'AUDIO_VERSION_8',
             'AUDIO_VERSION_9', 'AUDIO_VERSION_10', 'AUDIO_VERSION_11', 'AUDIO_VERSION_12', 'AUDIO_VERSION_13', 'AUDIO_VERSION_14', 'AUDIO_VERSION_15', 'AUDIO_VERSION_16', 'AUDIO_VERSION_17',
-            'AUDIO_VERSION_18', 'AUDIO_VERSION_19', 'AUDIO_VERSION_20', 'AUDIO_VERSION_21', 'AUDIO_VERSION_22', 'AUDIO_VERSION_23', 'AUDIO_VERSION_24', 'AUDIO_VERSION_25', 'AUDIO_VERSION_26', 'AUDIO_VERSION_27', 'AUDIO_VERSION_28'],
+            'AUDIO_VERSION_18', 'AUDIO_VERSION_19', 'AUDIO_VERSION_20', 'AUDIO_VERSION_21', 'AUDIO_VERSION_22', 'AUDIO_VERSION_23', 'AUDIO_VERSION_24', 'AUDIO_VERSION_25', 'AUDIO_VERSION_26', 'AUDIO_VERSION_27', 'AUDIO_VERSION_28', 'AUDIO_VERSION_29', 'AUDIO_VERSION_30'],
     },
 
     getFloat: function (name, defaultValue) {

@@ -35,6 +35,25 @@ cc.Class({
         serverProgress: 0,
     },
     onLoad() {
+        const browserPreview = cc.sys.isBrowser && typeof CC_PREVIEW !== 'undefined' && CC_PREVIEW;
+        if (browserPreview &&
+            /(?:^|[?&])sdh=1(?:&|$)/.test(window.location.search)) {
+            this.lblMsg.string = '正在打开新华包牌离线预览';
+            // This is the same atlas that the normal startup path preloads.
+            cc.resources.load('Audio/porket_card', cc.SpriteAtlas, (err, atlas) => {
+                if (!err) GameConfig.PorketAtlas = atlas;
+                cc.director.loadScene('GameSDH');
+            });
+            return;
+        }
+        if (browserPreview && !/(?:^|[?&])online=1(?:&|$)/.test(window.location.search)) {
+            GameConfig.LocalPreviewServerUrl = 'http://127.0.0.1:8000/';
+            const seat = /(?:^|[?&])seat=([123])(?:&|$)/.exec(window.location.search);
+            GameConfig.LocalPreviewSeat = seat ? seat[1] : '1';
+            this.loadInfoTimes = 0;
+            this.onLoadSprite();
+            return;
+        }
         // 第二步：场景加载之后，隐藏原生纯色背景View
         // 这里延迟1秒是为了更好的体验，实际可以不用 
         // utils.saveValue(GameConfig.StorageKey.UserToken, this.getQueryVariable('token'));
@@ -658,12 +677,7 @@ cc.Class({
             Cache.showTipsMsg("RSA 密钥初始化失败，请查看控制台详情");
             return;
         }
-        connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
-            utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);
-        }, null, (err) => { });
-
-
-        Connector.request(GameConfig.ServerEventName.GetGameInfo, {}, (data) => {
+        const loadConfig = () => Connector.request(GameConfig.ServerEventName.GetGameInfo, {}, (data) => {
 
             if (data.data) {
                 GameConfig.ConfigUrl = data.data.resourceUrl;
@@ -688,12 +702,27 @@ cc.Class({
                 this.getGameInfo();
             });
         });
+        connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
+            utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);
+            if (GameConfig.LocalPreviewServerUrl) loadConfig();
+        }, null, () => {
+            if (GameConfig.LocalPreviewServerUrl) {
+                this._gettingGameInfo = false;
+                this.lblMsg.string = '本地 API 未连接（127.0.0.1:8000），启动服务器后刷新预览';
+            }
+        });
+        if (!GameConfig.LocalPreviewServerUrl) loadConfig();
 
     },
 
 
     /**判断token 是否自动登陆 */
     judgeToken() {
+        if (GameConfig.LocalPreviewServerUrl) {
+            utils.saveValue(GameConfig.StorageKey.UserToken, '');
+            cc.director.loadScene('Login');
+            return;
+        }
         // reCallInviter
         _social.reCallInviter();
         let userToken = utils.getValue(GameConfig.StorageKey.UserToken, "");

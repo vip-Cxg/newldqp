@@ -631,6 +631,8 @@ var pop = (popName, callback) => {
 /**储存本地
  * @param 仅支持 arr str num obj
  */
+const localStorageKey = key => GameConfig.ApkName +
+    (GameConfig.LocalPreviewServerUrl ? ':creator-local:' + GameConfig.LocalPreviewSeat + ':' : '') + key;
 var saveValue = (key, value = "") => {
     let data = new Object();
 
@@ -645,11 +647,11 @@ var saveValue = (key, value = "") => {
             break;
     }
     let res = JSON.stringify(data);
-    cc.sys.localStorage.setItem(GameConfig.ApkName + key, res)
+    cc.sys.localStorage.setItem(localStorageKey(key), res)
 }
 /**获取本地 */
 var getValue = (key, defaultValue = "") => {
-    let value = cc.sys.localStorage.getItem(GameConfig.ApkName + key)
+    let value = cc.sys.localStorage.getItem(localStorageKey(key))
     if (isNullOrEmpty(value))
         return defaultValue;
     let data = JSON.parse(value);

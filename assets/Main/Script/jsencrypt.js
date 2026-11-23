@@ -4259,10 +4259,6 @@ window.KJUR = KJUR; // 更新全局
   JSEncrypt.prototype.decrypt = function (string) {
     // Return the decrypted string.
     try {
-      console.log('111111',this.getKey())
-      console.log('222222',this.getKey().decrypt)
-      console.log('333333',b64tohex(string))
-      console.log('444444',this.getKey().decrypt(b64tohex(string)))
       return this.getKey().decrypt(b64tohex(string));
     }
     catch (ex) {

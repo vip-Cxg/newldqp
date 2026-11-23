@@ -16,6 +16,8 @@ export class GameConfig {
 
         /**新化炸弹 */
         XHZD: "XHZD",
+        /**新华包牌 */
+        SDH: "SDH",
         /**双人红中麻将 */
         HZMJ_SOLO: "HZMJ_SOLO",
         /**红中麻将 */
@@ -41,6 +43,8 @@ export class GameConfig {
         "XHZP_SOLO_CLAN": "放炮罚",
         "XHZD": "新化炸弹",
         "XHZD_CLAN": "新化炸弹",
+        "SDH": "新华包牌",
+        "SDH_CLAN": "新华包牌",
         "LDZP": "放炮罚",
         "LDZP_CLAN": "放炮罚",
         "LDZP_SOLO": "放炮罚",
@@ -59,6 +63,7 @@ export class GameConfig {
         "XHZP": "60秒内不出牌，系统将自动进入托管状态。\n规则: 不会进行吃、碰、胡，如必须出牌，则由小到大开始出牌。",
         "XHZP_SOLO": "60秒内不出牌，系统将自动进入托管状态。\n规则: 不会进行吃、碰、胡，如必须出牌，则由小到大开始出牌。",
         "XHZD": "90秒内不出牌，系统将自动进入托管状态。\n规则: 由小到大，单张依次出牌，其他玩家出牌时自动选择要不起。",
+        "SDH": "超时后系统将自动进入托管状态。\n规则: 按首家牌型和数量跟牌，最终合法性以服务器判定为准。",
         "LDZP": "60秒内不出牌，系统将自动进入托管状态。\n规则: 不会进行吃、碰、胡，如必须出牌，则由小到大开始出牌。",
         "LDZP_SOLO": "60秒内不出牌，系统将自动进入托管状态。\n规则: 不会进行吃、碰、胡，如必须出牌，则由小到大开始出牌。",
     }
@@ -262,6 +267,8 @@ export class GameConfig {
     }
     // static ServerUrl = "https://game.ovz43x.com/";//正式服
     static ServerUrl = '';//正式服
+    // Set only by Creator's browser preview; packaged clients leave this empty.
+    static LocalPreviewServerUrl = '';
     /**冒的办法用的请求 */
     static DefaultUrl = "https://pku.hbrtyu.com/hlconfig/release_first.json";
 

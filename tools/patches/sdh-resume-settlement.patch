@@ -1,0 +1,85 @@
+diff --git a/gameServer/sdh/table.js b/gameServer/sdh/table.js
+--- a/gameServer/sdh/table.js
++++ b/gameServer/sdh/table.js
+@@ -195,8 +195,9 @@
+         this.refreshTableStatus();
+     }
+ 
+     async begin() {
++        this._resumeSettlement = null;
+         const { hands, bottom } = Provider.generate();
+         this._bottomCards = bottom;
+ 
+         this._players.forEach(player => {
+@@ -743,10 +744,12 @@
+             this._status = TABLE_STATUS.WAIT;
+         }
+ 
+-        this.gameMessage(-1, ROUTE.SC_ROUND_SUMMARY, {
+-            turn: this._turn,
+-            round: this._round,
+-            ...result,
++        const summary = {
++            turn: this._turn,
++            round: this._round,
++            ...result,
++            haIDX: this._haIDX,
++            trumpSuit: this._trumpSuit,
+             status: this._status,
+             clock: Utils.now() + AUTO_PLAY.AUTO_READY,
+             ach,
+@@ -753,10 +756,19 @@
+             disband: !!disband,
+             surrender: !!opts.surrender,
+             draw: !!opts.draw,
+             drawReason: opts.draw ? opts.reason || 'DRAW' : undefined
+-        });
++        };
++        if (complete && !disband) {
++            this._resumeSettlement = {
++                gameID: this._gameID,
++                summary: JSON.parse(JSON.stringify(summary))
++            };
++        } else {
++            this._resumeSettlement = null;
++        }
++        this.gameMessage(-1, ROUTE.SC_ROUND_SUMMARY, summary);
+ 
+         try {
+             if (!disband && !result.draw) {
+                 let payoff = [];
+                 this._players.forEach(player => {
+@@ -948,11 +960,20 @@
+         };
+     }
+ 
+     getPlayerGameData(idx) {
+         const player = this._players[idx];
+-        return {
+-            idx,
++        const cached = this._resumeSettlement;
++        // This is sent only to the authenticated reconnecting player. Shared
++        // table snapshots must not expose the previous game to new occupants.
++        const summary = cached && this._status === TABLE_STATUS.WAIT &&
++            !player._readyStatus && player.exists && cached.gameID === this._gameID &&
++            cached.summary.turn + 1 === this._turn &&
++            cached.summary.players.some(p => p.idx === idx && p.userID === player.id)
++            ? cached.summary : undefined;
++        return {
++            idx,
++            ...(summary ? { summary } : {}),
+             hands: player._hands,
+             clock: player.clock,
+             isHa: player._isHa,
+             trickScore: player._trickScore,
+@@ -1003,9 +1024,10 @@
+             _currentBidder: this._currentBidder,
+             _passCount: this._passCount,
+             _callPassed: this._callPassed,
+             _haBid: this._haBid,
+             _surrenderVote: this._surrenderVote,
++            _resumeSettlement: this._resumeSettlement,
+             _rules: this._rules,
+             _players: this._players.map(p => p.toJSON()),
+             _className: this.constructor.name
+         };

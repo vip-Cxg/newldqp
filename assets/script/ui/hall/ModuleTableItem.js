@@ -79,11 +79,19 @@ export default class RoomListItem extends CompListRenderer {
     addEvents() {
     }
     removeEvents() {
+        if (this.tableTouchHandler) {
+            this.node.off(cc.Node.EventType.TOUCH_END, this.tableTouchHandler, this);
+            this.tableTouchHandler = null;
+        }
+    }
+    bindTableTouch(handler) {
+        this.tableTouchHandler = handler;
+        this.node.on(cc.Node.EventType.TOUCH_END, handler, this);
     }
     /**更新UI */
     refreshUI() {
         super.refreshUI();
-        if (!this.data) return;
+        if (!this.data) { this.removeEvents(); return; }
         // let { data, roomData, roomNameDict } = this.data;
         this.initData(this.data);
     }
@@ -94,6 +102,8 @@ export default class RoomListItem extends CompListRenderer {
     }
     /**初始化数据 */
     initData(data) {
+        // List cells are recycled, including between different game types.
+        this.removeEvents();
         // initData(data, roomData, roomNameDict) {
         let roomData = data.roomData;
         let roomNameDict = data.roomNameDict;
@@ -114,9 +124,9 @@ export default class RoomListItem extends CompListRenderer {
             if (this.gameStatus)
                 this.gameStatus.node.active = false;
             this.tableName.string = GameConfig.GameName[data.gameType] + '开房';// roomData.name ;//+ (roomData.gameType == GameConfig.GameType.PDK_SOLO ? "/10小局起" : "");
-            this.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.bindTableTouch(() => {
                 self.openRoomPop(data);
-            }, this);
+            });
             return;
         }
 
@@ -159,6 +169,21 @@ export default class RoomListItem extends CompListRenderer {
 
         });
 
+        if (data.gameType === 'SDH' || data.gameType === 'SDH_CLAN') {
+            this.bindTableTouch(() => {
+                if (data.status !== GameConfig.GameStatus.WAIT) {
+                    Cache.alertTip('这张桌已开局，请选择等待中的桌子');
+                    return;
+                }
+                if (data.tableID && data.person > 0 && data.players.filter(player => player && player.pid).length >= data.person) {
+                    Cache.alertTip('这张桌已坐满');
+                    return;
+                }
+                this.enterGame(data, { ...roomData, roomID: data.roomID, gameType: data.gameType });
+            });
+            return;
+        }
+
         // if (data.status == GameConfig.GameStatus.WAIT || data.status == GameConfig.GameStatus.SUMMARY) {
         //     this.node.on(cc.Node.EventType.TOUCH_END, () => {
         //         //无法进入匹配模式的桌子
@@ -170,7 +195,7 @@ export default class RoomListItem extends CompListRenderer {
         //     }, this);
         // } else 
         if (App.Club.CurrentClubRole == 'owner' || App.Club.CurrentClubRole == 'manager') {
-            this.node.on(cc.Node.EventType.TOUCH_END, () => {
+            this.bindTableTouch(() => {
                 //无法进入匹配模式的桌子
                 Cache.showConfirm('是否解散房间 ' + data.tableID, () => {
                     Connector.request(GameConfig.ServerEventName.DestroyTable, { roomID: data.roomID, gameType: data.gameType, tableID: data.tableID, clubID: App.Club.CurrentClubID }, (res) => {
@@ -180,7 +205,7 @@ export default class RoomListItem extends CompListRenderer {
                         Cache.alertTip(err.message || "解散失败");
                     })
                 })
-            }, this);
+            });
         }
 
     }

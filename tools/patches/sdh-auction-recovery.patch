@@ -1,0 +1,96 @@
+diff --git a/gameServer/sdh/table.js b/gameServer/sdh/table.js
+--- a/gameServer/sdh/table.js
++++ b/gameServer/sdh/table.js
+@@ -92,6 +92,14 @@
+             this.finishSurrenderVote(true);
+             return;
+         }
++        if (this._status === TABLE_STATUS.CALL && this._callPhase === 'bid') {
++            if (this.finishClosedAuction()) return;
++            if (this.getBidChallengers().indexOf(this._currentIDX) < 0) {
++                this._currentIDX = this.getNextActiveCaller(this._currentIDX);
++                this.pushBidTurn();
++                return;
++            }
++        }
+ 
+         this._players.forEach(player => {
+             if (!player.exists) return;
+@@ -274,6 +282,7 @@
+ 
+     handleCallHa(idx, data) {
+         if (this._status !== TABLE_STATUS.CALL || this._currentIDX !== idx) return;
++        if (this._callPhase === 'bid' && this.getBidChallengers().indexOf(idx) < 0) return;
+         const player = this._players[idx];
+ 
+         if (this._callPhase === 'suit') {
+@@ -306,17 +315,7 @@
+                 auto: player._auto
+             });
+ 
+-            const activeCallers = this.getActiveCallers();
+-            if (this._currentBidder < 0 && activeCallers.length === 0) {
+-                this.noBidDraw();
+-                return;
+-            }
+-            if (this._currentBidder >= 0
+-                && activeCallers.length === 1
+-                && activeCallers[0] === this._currentBidder) {
+-                this.endAuction(this._currentBidder, this._currentBid);
+-                return;
+-            }
++            if (this.finishClosedAuction()) return;
+             this._currentIDX = this.getNextActiveCaller(idx);
+         } else if (typeof data.bid === 'number') {
+             const bid = data.bid;
+@@ -330,7 +329,7 @@
+             this._currentBidder = idx;
+             this.gameMessage(-1, SDH_ROUTE.SC_CALL_HA, { idx, bid, auto: player._auto });
+ 
+-            if (bid >= MAX_BID) {
++            if (bid >= MAX_BID || !this.getBidChallengers().length) {
+                 this.endAuction(idx, bid);
+                 return;
+             }
+@@ -340,6 +339,10 @@
+             return;
+         }
+ 
++        this.pushBidTurn();
++    }
++
++    pushBidTurn() {
+         this.currentPlayer.clock = AUTO_PLAY.AUTO_START;
+         if (this.currentPlayer._auto) this.currentPlayer.clock = 1000;
+         this.gameMessage(-1, SDH_ROUTE.SC_CALL_TURN, {
+@@ -359,10 +362,29 @@
+             .map((_, idx) => idx)
+             .filter(idx => !this._callPassed[idx]);
+     }
+ 
++    getBidChallengers() {
++        // A standing bid cannot be withdrawn or raised by its owner.
++        return this.getActiveCallers().filter(idx => idx !== this._currentBidder);
++    }
++
++    finishClosedAuction() {
++        if (this.getBidChallengers().length) return false;
++        // Recover old/inconsistent tables that marked the standing bidder as
++        // passed. A valid recorded bid still stands when nobody can challenge.
++        if (this._currentBid >= MIN_BID && this._players[this._currentBidder]) {
++            this.endAuction(this._currentBidder, this._currentBid);
++        } else {
++            this.noBidDraw();
++        }
++        return true;
++    }
++
+     getNextActiveCaller(idx) {
++        const challengers = this.getBidChallengers();
++        if (!Number.isInteger(idx) || idx < 0 || idx >= this.person) return challengers[0] ?? -1;
+         for (let offset = 1; offset <= this.person; offset++) {
+             const next = (idx + offset) % this.person;
+-            if (!this._callPassed[next]) return next;
++            if (challengers.includes(next)) return next;
+         }
+         return -1;

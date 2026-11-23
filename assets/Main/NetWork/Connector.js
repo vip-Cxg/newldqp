@@ -30,6 +30,7 @@ module.exports = {
     ts: 0,
     _status: GameConfig.ConnectState.CLOSED,
     getLogicUrl() {
+        if (GameConfig.LocalPreviewServerUrl) return GameConfig.LocalPreviewServerUrl;
         let storageKey = GameConfig.StorageKey.CurrentServerUrl || "CurrentServerUrl";
         let url = utils.getValue(storageKey, "") || this.logicUrl || GameConfig.ServerUrl || "";
         if (!/^https?:\/\//i.test(url))

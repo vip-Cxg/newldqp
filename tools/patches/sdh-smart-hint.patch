@@ -1,0 +1,126 @@
+diff --git a/gameServer/sdh/calc.js b/gameServer/sdh/calc.js
+--- a/gameServer/sdh/calc.js
++++ b/gameServer/sdh/calc.js
+@@ -375,6 +375,56 @@
+   const cardsKey = cards.slice().sort((a, b) => a - b).join(',');
+   return followable.some(f => f.slice().sort((a, b) => a - b).join(',') === cardsKey);
+ };
+ 
++// Read-only, bounded suggestions. Keep the existing table rules: when the
++// strict follow groups are empty, canPlayGroup permits any equal-size play.
++// Preference (same suit, smaller cards, no broken pair) is not legality.
++Calc.suggestPlays = function (hands, lead, trumpSuit) {
++  const n = lead ? lead.cards.length : 1;
++  if (!n || n > hands.length) return { choices: [], forced: false };
++  const frequencies = new Map();
++  hands.forEach(card => frequencies.set(card, (frequencies.get(card) || 0) + 1));
++  const suit = card => Calc.getEffectiveSuit(card, trumpSuit);
++  const rank = card => Calc.getCardRank(card, trumpSuit);
++  const cardCost = card => (lead && suit(card) !== lead.suit ? 50000 : 0) +
++    (frequencies.get(card) > 1 ? 2000 : 0) + rank(card) + Calc.getCardScore(card) * 10;
++  const strict = lead ? Calc.getFollowableGroups(hands, lead, trumpSuit) : [];
++  const choices = new Map();
++  const add = cards => {
++    const key = cards.slice().sort((a, b) => a - b).join(',');
++    if (!choices.has(key)) choices.set(key, cards);
++  };
++  if (strict.length) {
++    strict.forEach(add); // The exact groups accepted by canPlayGroup.
++  } else {
++    const ordered = hands.slice().sort((a, b) => cardCost(a) - cardCost(b) || a - b);
++    const base = ordered.slice(0, n);
++    add(base);
++    // A small selection of alternative plays is enough; never enumerate all
++    // n-card subsets of a large hand.
++    const tail = [...new Set(ordered.slice(n))].slice(0, 8);
++    const used = new Set();
++    for (let i = n - 1; i >= 0 && used.size < 8; i--) {
++      if (used.has(base[i])) continue;
++      used.add(base[i]);
++      tail.forEach(card => add([...base.slice(0, i), card, ...base.slice(i + 1)]));
++    }
++  }
++  const cost = cards => {
++    const counts = new Map();
++    let result = 0;
++    cards.forEach(card => {
++      counts.set(card, (counts.get(card) || 0) + 1);
++      result += cardCost(card);
++    });
++    counts.forEach((count, card) => {
++      if (count === frequencies.get(card)) result -= count * (count > 1 ? 2000 : 0);
++    });
++    return result;
++  };
++  const forced = lead && (strict.length ? choices.size === 1 : n === hands.length || frequencies.size === 1);
++  return { choices: [...choices.values()].sort((a, b) => cost(a) - cost(b)).slice(0, 8), forced: !!forced };
++};
++
+ /**
+  * 甩牌校验: 仅主牌可甩, 同花色牌须为全场当前最大
+diff --git a/gameServer/sdh/table.js b/gameServer/sdh/table.js
+--- a/gameServer/sdh/table.js
++++ b/gameServer/sdh/table.js
+@@ -38,6 +38,8 @@
+     SC_TRICK_END: 'SC_TRICK_END',
+     SC_TRUMP_INFO: 'SC_TRUMP_INFO',
+     CS_LAI_FEN: 'CS_LAI_FEN',
++    CS_SDH_HINT: 'CS_SDH_HINT',
++    SC_SDH_HINT: 'SC_SDH_HINT',
+     CS_SURRENDER: 'CS_SURRENDER',
+     SC_SURRENDER: 'SC_SURRENDER',
+ };
+@@ -166,15 +168,22 @@
+     autoPlayCard(idx) {
+         const hands = this._players[idx]._hands.slice();
+-        const leadGroup = this._leadGroup;
+-        if (!leadGroup) {
+-            this.playCard(idx, { cards: [hands[0]] });
+-            return;
+-        }
+-        const followable = Calc.getFollowableGroups(hands, leadGroup, this._trumpSuit);
+-        if (followable.length > 0) {
+-            this.playCard(idx, { cards: followable[0] });
+-        } else {
+-            const n = leadGroup.cards.length;
+-            this.playCard(idx, { cards: hands.slice(0, n) });
++        const { choices } = Calc.suggestPlays(hands, this._leadGroup, this._trumpSuit);
++        if (choices.length) this.playCard(idx, { cards: choices[0] });
++    }
++
++    sendHint(idx, data) {
++        if (!data || !Number.isSafeInteger(data.requestID) || data.requestID < 1) return;
++        const player = this._players[idx];
++        if (!player || !player.exists || player._auto) return;
++        let hint;
++        if (this._status === TABLE_STATUS.BURY && idx === this._haIDX) {
++            const cards = this.autoSelectBury(player._hands);
++            if (cards.length !== 8) return;
++            hint = { choices: [cards], forced: false };
++        } else if (this._status === TABLE_STATUS.START && idx === this._currentIDX) {
++            hint = Calc.suggestPlays(player._hands, this._leadGroup, this._trumpSuit);
++        } else {
++            return;
+         }
++        this.gameMessage(idx, SDH_ROUTE.SC_SDH_HINT, { requestID: data.requestID, ...hint });
+     }
+@@ -190,8 +199,8 @@
+             const at = Calc.isTrump(a, ts), bt = Calc.isTrump(b, ts);
+             const as = Calc.isScoreCard(a), bs = Calc.isScoreCard(b);
+-            const wa = (at ? 2 : 0) + (as ? 1 : 0);
+-            const wb = (bt ? 2 : 0) + (bs ? 1 : 0);
++            const wa = at ? 2 : as ? 1 : 0;
++            const wb = bt ? 2 : bs ? 1 : 0;
+             if (wa !== wb) return wa - wb;
+             return Calc.getCardRank(a, ts) - Calc.getCardRank(b, ts);
+         }).slice(0, this._bottomCards.length);
+     }
+@@ -850,5 +859,8 @@
+                 this.handleBury(idx, data);
+                 break;
++            case SDH_ROUTE.CS_SDH_HINT:
++                this.sendHint(idx, data);
++                break;
+             case SDH_ROUTE.CS_LAI_FEN:
+                 this.gameMessage(idx, ROUTE.SC_PLAY_ERROR, { msg: '当前玩法暂不支持喊来分' });
+                 break;

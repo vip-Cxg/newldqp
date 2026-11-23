@@ -78,7 +78,7 @@ cc.Class({
         // });
         App.Club.clear();
         // App.PushManager.disconnect();
-        // this.createTestAccount();
+        if (GameConfig.LocalPreviewServerUrl) this.createTestAccount(3);
 
     },
     compareVersion(versionA, versionB) {
@@ -192,38 +192,54 @@ cc.Class({
         // }
     },
 
-    createTestAccount() {
-
-        for (let i = 1; i <= 30; i++) {
+    createTestAccount(count = 30) {
+        if (GameConfig.LocalPreviewServerUrl) {
+            const widget = this.testContent.getComponent(cc.Widget);
+            const layout = this.testContent.getComponent(cc.Layout);
+            if (widget) {
+                widget.isAlignLeft = false;
+                widget.isAlignRight = false;
+                widget.isAlignHorizontalCenter = true;
+                widget.horizontalCenter = 0;
+                widget.isAlignTop = true;
+                widget.top = 40;
+                widget.updateAlignment();
+            }
+            if (layout) layout.enabled = false;
+            this.testContent.setContentSize(600, 60);
+            if (widget) widget.updateAlignment();
+        }
+        for (let i = 1; i <= count; i++) {
             let btnNode = cc.instantiate(this.testbtn);
-            // new cc.Node().active
             btnNode.active = true;
             btnNode.getChildByName('name').getComponent(cc.Label).string = '玩家' + i;
-            if (i < 10)
-                i = '0' + i
-            btnNode._data = 'test' + i;//'fb78b4e1-311b-4a75-94dd-57a10957eede'//
+            btnNode._data = (GameConfig.LocalPreviewServerUrl ? 'sdh-local-' : 'test') + (i < 10 ? '0' : '') + i;
+            // The template has a serialized click event for a legacy account.
+            // Cloned test buttons must use only the account assigned above.
+            const button = btnNode.getComponent(cc.Button);
+            if (button) button.clickEvents = [];
             btnNode.on(cc.Node.EventType.TOUCH_END, this.ontestLogin, this);
             this.testContent.addChild(btnNode);
+            if (GameConfig.LocalPreviewServerUrl) btnNode.setPosition((i - (count + 1) / 2) * 196, 0);
         }
-
     },
 
     ontestLogin(e, v) {
-        // console.log('eeee',e);
-        // console.log('vvvv',v);
-        // let encryptDevices = utils.encryptToken('eb55be116c46cc41');
-        // let encryptDevices = utils.encryptToken('7611e4d2-eb39-48a0-abba-ca7c5754600c');
-        console.log('1231231', e.currentTarget)
+        if (this._testLoginPending) return;
         let deviceID = v || e.currentTarget._data;
+        if (GameConfig.LocalPreviewServerUrl && !/^sdh-local-0[1-3]$/.test(deviceID)) return;
         let encryptDevices = utils.encryptToken(deviceID);
+        this._testLoginPending = true;
         Connector.request('game/test/login', { publicKey: GameConfig.Encrtyptor.getPublicKey(), deviceID: encryptDevices }, (data) => {
-
-            // Connector.request(GameConfig.ServerEventName.UserLogin, { deviceID: encryptDevices, publicKey: GameConfig.Encrtyptor.getPublicKey() }, (data) => {
             if (data.success && data.token) {
                 utils.saveValue(GameConfig.StorageKey.UserLoginTime, parseInt(new Date().getTime() / 1000));
                 cc.director.loadScene("Lobby");
+            } else {
+                this._testLoginPending = false;
+                Cache.showTipsMsg('测试登录失败：未收到登录凭据');
             }
         }, true, (err) => {
+            this._testLoginPending = false;
             Cache.showTipsMsg(err.message || '登录失败');
         })
     },

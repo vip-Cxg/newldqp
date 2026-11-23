@@ -35,7 +35,21 @@ cc.Class({
     },
     initData(gametype) {
         this.addEvents();
-        this.gameType = gametype; 
+        this.gameType = gametype;
+
+        if (gametype === 'SDH' || gametype === 'SDH_CLAN') {
+            [this.chooseNode, this.unChooseNode].forEach((node, index) => {
+                node.getComponent(cc.Sprite).spriteFrame = null;
+                const title = new cc.Node('SDHName');
+                title.parent = node;
+                title.color = index === 0 ? cc.color(255, 224, 146) : cc.color(238, 232, 220);
+                const label = title.addComponent(cc.Label);
+                label.fontSize = 22;
+                label.lineHeight = 26;
+                label.string = GameConfig.GameName[gametype];
+            });
+            return;
+        }
 
         let a={
             'HALL':this.gameSprArr[0],
