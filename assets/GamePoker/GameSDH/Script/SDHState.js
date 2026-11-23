@@ -3,6 +3,12 @@ function SDHState() {
     this.reset();
 }
 
+SDHState.settlementKey = function (scope, summary) {
+    if (scope.tableID == null || scope.tableID === '' || scope.gameID == null || scope.gameID === '' ||
+        !Number.isInteger(scope.idx) || scope.idx < 0 || !summary || !Number.isInteger(summary.turn)) return null;
+    return JSON.stringify([String(scope.tableID), String(scope.gameID), scope.idx, summary.turn, summary.round]);
+};
+
 SDHState.prototype.reset = function () {
     this.status = 'WAIT';
     this.idx = -1;

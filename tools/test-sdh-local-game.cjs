@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { createRequire } = require('node:module');
-const { localAuth, post } = require('./check-sdh-local-login.cjs');
+const { localAuth, post, localHost } = require('./check-sdh-local-login.cjs');
 const State = require('../assets/GamePoker/GameSDH/Script/SDHState');
 const base = path.resolve(process.env.SDH_SERVER_DIR || 'D:/work/ldqp');
 const load = createRequire(path.join(base, 'package.json'));
@@ -32,7 +32,7 @@ class Seat {
         this.state = new State();
     }
     async connect(info) {
-        assert.equal(new URL(info.url).origin, 'ws://127.0.0.1:8204', 'Refusing non-local socket');
+        assert.equal(new URL(info.url).origin, `ws://${localHost}:8204`, 'Refusing non-local socket');
         this.error = null;
         this.events = [];
         this.ws = new Socket(info.url);

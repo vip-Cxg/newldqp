@@ -8,15 +8,18 @@ const cards = require('../assets/GamePoker/GameSDH/Script/LogicSDH');
 const script = path.resolve(__dirname, '../assets/GamePoker/GameSDH/Script/SceneTableSDH.js');
 const messages = [];
 const alerts = [];
+const storage = new Map();
 let prototype;
 const connector = {
     _queueGameMsg: [],
     emit: (...args) => messages.push(args),
-    gameMessage: (...args) => messages.push(args)
+    gameMessage: (...args) => messages.push(args),
+    disconnect: (...args) => messages.push(['disconnect', ...args])
 };
 const cc = {
     color: (...rgb) => rgb,
     sys: { isBrowser: false },
+    director: { loadScene: name => messages.push(['loadScene', name]) },
     Node: { EventType: {} },
     Label: { HorizontalAlign: { LEFT: 0 }, Overflow: { SHRINK: 2 } },
     Class: value => { prototype = value; }
@@ -27,6 +30,10 @@ vm.runInNewContext(fs.readFileSync(script, 'utf8'), {
         if (name.endsWith('/Connector')) return connector;
         if (name.endsWith('/PACK')) return { CS_JOIN_DONE: 'CS_JOIN_DONE' };
         if (name.endsWith('/Cache')) return { alertTip: msg => alerts.push(msg) };
+        if (name.endsWith('/utils')) return {
+            getValue: (key, fallback) => storage.get(key) || fallback,
+            saveValue: (key, value) => storage.set(key, value)
+        };
         if (name.endsWith('/GameConfig')) return { GameConfig: {} };
         return name.startsWith('./') ? require(path.resolve(path.dirname(script), name)) : {};
     }
@@ -36,7 +43,7 @@ const node = () => ({
     addComponent() { return {}; }, getChildByName() {}, destroyAllChildren() {}, on() {},
     removeAllChildren() { this.children = []; }
 });
-const controller = Object.assign(Object.create(prototype), {
+const makeController = () => Object.assign(Object.create(prototype), {
     node: node(), initGameBase() {}, panel: node, label: () => ({ node: node() }),
     schedule() {}, scheduleOnce() {}, render() {}, cardNode: node,
     button(parent, x, y, name, fn, width, skin) {
@@ -45,6 +52,7 @@ const controller = Object.assign(Object.create(prototype), {
         return button;
     }
 });
+const controller = makeController();
 controller.onLoad();
 assert.equal(messages.shift()[0], 'CS_JOIN_DONE');
 controller.receive('SC_GAME_DATA', { idx: 2, status: 'CALL', haIDX: 0,
@@ -220,4 +228,38 @@ for (const status of ['WAIT', 'SUMMARY']) {
     controller.onExitTable();
 }
 assert.equal(returns, 2);
+const scene = JSON.parse(fs.readFileSync(path.join(path.dirname(script), '../Scene/GameSDH.fire'), 'utf8'));
+assert.equal(scene.find(entry => entry._name === 'audioManage')._active, false,
+    'native SDH entry must not start the legacy voice-pack downloader');
+const scope = { idx: 0, tableID: '12345', gameID: 'sdh-1' };
+const summary = { turn: 1, round: 1, draw: true };
+const snapshot = { ...scope, status: 'WAIT', turn: 2, summary };
+const ended = makeController();
+ended.onLoad();
+ended.receive('SC_GAME_DATA', { ...scope, status: 'START', turn: 1 });
+ended.receive('SC_ROUND_SUMMARY', summary);
+assert.equal(ended.state.summary, summary);
+ended.renderSummary();
+const messagesBeforeExit = messages.length;
+ended.summaryPanel.children.find(button => button.name === '退出房间').fn();
+assert.deepEqual(messages.slice(messagesBeforeExit).map(entry => entry[0]), ['CS_PLAYER_LEAVE', 'disconnect', 'loadScene']);
+assert.equal(messages[messagesBeforeExit + 1][1], false);
+const reopened = makeController();
+reopened.onLoad();
+reopened.receive('SC_GAME_DATA', snapshot);
+assert.equal(reopened.state.status, 'WAIT');
+assert.equal(reopened.state.summary, null, 'the same result must not reopen after voluntary exit');
+reopened.receive('SC_ROUND_SUMMARY', summary);
+assert.equal(reopened.state.summary, null, 'a duplicate push must not reopen a dismissed result');
+const newResult = { ...summary, turn: 2 };
+const missedSnapshot = { ...snapshot, turn: 3, summary: newResult };
+reopened.receive('SC_RECONNECT', missedSnapshot);
+assert.equal(reopened.state.summary, newResult, 'reconnect still recovers a result the player did not dismiss');
+reopened.renderSummary();
+reopened.summaryPanel.children.find(button => button.name === '继续准备').fn();
+assert.equal(messages.at(-1)[0], 'CS_GAME_READY');
+reopened.receive('SC_GAME_DATA', missedSnapshot);
+assert.equal(reopened.state.summary, null, 'a snapshot arriving after Continue must not reopen the result');
+reopened.receive('SC_GAME_DATA', { ...snapshot, gameID: 'sdh-2' });
+assert.equal(reopened.state.summary, summary, 'a different game is not suppressed');
 console.log('SDH scene controller: server values, snapshot clocks, vote packets, and drag selection verified');

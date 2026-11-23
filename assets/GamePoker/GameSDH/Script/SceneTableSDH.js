@@ -1,5 +1,4 @@
 const State = require('./SDHState');
-const Preview = require('./SDHPreview');
 const cards = require('./LogicSDH');
 const connector = require('../../../Main/NetWork/Connector');
 const PACK = require('../../../Main/Script/PACK');
@@ -18,6 +17,7 @@ const SUIT_THEMES = [
 ];
 const SELF_RESULT_Y = -22;
 const PLAYED_CARD_SCALE = 0.85;
+const DISMISSED_SETTLEMENTS = 'sdhDismissedSettlements';
 const COLORS = {
     white: cc.color(255, 250, 233),
     gold: cc.color(255, 218, 127),
@@ -38,11 +38,14 @@ cc.Class({
 
     onLoad() {
         this.state = new State();
+        this.dismissedSettlements = [];
+        try {
+            const saved = utils.getValue(DISMISSED_SETTLEMENTS, []);
+            if (Array.isArray(saved)) this.dismissedSettlements = saved.slice(-16);
+        } catch (error) { /* Local storage may be unavailable. */ }
         this.selected = new Set();
         this.pending = null;
         this.winTrick = null;
-        this.previewMode = cc.sys.isBrowser && typeof CC_PREVIEW !== 'undefined' && CC_PREVIEW &&
-            /(?:^|[?&])sdh=1(?:&|$)/.test(window.location.search);
 
         const table = this.node.getChildByName('nodeTable');
         if (table) {
@@ -95,22 +98,14 @@ cc.Class({
         this.initSDHMenu();
 
         this.initGameBase();
-        if (this.previewMode) {
-            this.preview = new Preview((route, data) => this.receive(route, data));
-            this.button(this.ui, 545, 249, '模拟重连', () => {
-                this.preview.reconnect();
-                Cache.alertTip('已按桌面快照恢复');
-            }, 135);
-        } else {
-            connector.emit(PACK.CS_JOIN_DONE, {});
-            this.schedule(() => {
-                const queue = connector._queueGameMsg;
-                for (let i = 0; i < 25 && queue.length; i++) {
-                    const msg = queue.shift();
-                    this.receive(msg.route, msg.data);
-                }
-            }, 0.04);
-        }
+        connector.emit(PACK.CS_JOIN_DONE, {});
+        this.schedule(() => {
+            const queue = connector._queueGameMsg;
+            for (let i = 0; i < 25 && queue.length; i++) {
+                const msg = queue.shift();
+                this.receive(msg.route, msg.data);
+            }
+        }, 0.04);
         this.schedule(() => {
             this.refreshClock();
             const size = this.handViewport();
@@ -209,6 +204,11 @@ cc.Class({
         const oldHands = s.hands;
         const oldSuit = s.trumpSuit;
         const snapshot = ['SC_GAME_DATA', 'SC_RECONNECT', 'SC_JOIN_TABLE'].indexOf(route) >= 0;
+        if (snapshot && data.summary && this.isSettlementDismissed(data, data.summary)) {
+            data = Object.assign({}, data, { summary: null });
+            if (data.status === 'SUMMARY') data.status = 'WAIT';
+        }
+        if (route === 'SC_ROUND_SUMMARY' && this.isSettlementDismissed(s, data)) return;
         if (route === 'SC_TRICK_END') {
             const finished = { trick: s.trick.slice(), text: this.nameOf(data.winner) + ' 收墩 +' + (data.trickScore || 0) + ' 分' };
             this.winTrick = finished;
@@ -235,7 +235,7 @@ cc.Class({
         this.render();
         if (route === 'SC_CALL_HA' && (data.pass || data.bid > 0)) this.animateBidResult(data.idx);
         if (route === 'SC_TRUMP_INFO') this.animateBidResult(s.haIDX);
-        if (!this.previewMode && route === 'SC_TRUMP_INFO' && (s.targetScore == null || !s.clock)) {
+        if (route === 'SC_TRUMP_INFO' && (s.targetScore == null || !s.clock)) {
             // The current server's trump push only carries suit and banker.
             // The existing scene-sync reply includes targetScore and clocks.
             connector.emit(PACK.CS_JOIN_DONE, {});
@@ -252,7 +252,6 @@ cc.Class({
             if (s.status !== 'CALL' || s.currentIDX !== s.idx ||
                 (s.callPhase === 'bid' && (s.currentBidder === s.idx || s.callPassed[s.idx]))) return;
         }
-        if (this.preview) return this.preview.send(route, data);
         this.pending = route;
         this.renderControls();
         connector.gameMessage(route, data);
@@ -695,8 +694,7 @@ cc.Class({
         }
         this.hintSeq = (this.hintSeq || 0) + 1;
         const hint = this.hint = { key, requestID: this.hintSeq, manual, cursor: 0 };
-        if (this.preview) this.preview.send('CS_SDH_HINT', { requestID: hint.requestID });
-        else connector.gameMessage('CS_SDH_HINT', { requestID: hint.requestID });
+        connector.gameMessage('CS_SDH_HINT', { requestID: hint.requestID });
         this.scheduleOnce(() => {
             if (this.hint !== hint || hint.choices || this.hintKey() !== hint.key || !this.canSelect()) return;
             hint.expired = true;
@@ -877,30 +875,45 @@ cc.Class({
             });
         }
         const next = () => {
+            this.dismissSettlement();
             s.clearRound();
             this.selected.clear();
             this.renderHand();
             this.render();
             this.send('CS_GAME_READY', { plus: false, shuffle: false });
         };
+        this.button(root, -112, layout.nextY, '退出房间', () => this.leave(), 176);
         const originalButton = skin && skin.getComponent('ModuleSummarySDH').continueBtn;
         if (originalButton) {
             originalButton.parent = root;
             originalButton.name = '继续准备';
-            originalButton.setPosition(0, layout.nextY);
+            originalButton.setPosition(112, layout.nextY);
             originalButton.active = true;
             originalButton.getComponent(cc.Button).clickEvents = [];
             originalButton.on('click', next, this);
-        } else this.button(root, 0, layout.nextY, '继续准备', next, 160);
+        } else this.button(root, 112, layout.nextY, '继续准备', next, 176);
+    },
+
+    isSettlementDismissed(scope, result) {
+        const key = State.settlementKey(scope, result);
+        return key !== null && this.dismissedSettlements.indexOf(key) !== -1;
+    },
+
+    dismissSettlement() {
+        const key = State.settlementKey(this.state, this.state.summary);
+        if (key === null || this.dismissedSettlements.indexOf(key) !== -1) return;
+        this.dismissedSettlements = this.dismissedSettlements.concat(key).slice(-16);
+        try {
+            utils.saveValue(DISMISSED_SETTLEMENTS, this.dismissedSettlements);
+        } catch (error) { /* Keep the in-memory record if storage is unavailable. */ }
     },
 
     leave(notifyServer) {
-        if (this.preview) {
-            this.preview.reset();
-            return;
+        if (notifyServer !== false) {
+            this.dismissSettlement();
+            connector.gameMessage('CS_PLAYER_LEAVE', {});
         }
-        if (notifyServer !== false) connector.gameMessage('CS_PLAYER_LEAVE', {});
-        connector.disconnect();
+        connector.disconnect(false);
         cc.director.loadScene('Lobby');
     }
 });

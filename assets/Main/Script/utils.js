@@ -1,8 +1,5 @@
 let { GameConfig } = require('../../GameBase/GameConfig');
 const { default: Http } = require('../../script/common/network/Http');
-const JSEncryptModule = require('./jsencrypt');
-const JSEncryptCtor = JSEncryptModule && (JSEncryptModule.JSEncrypt || JSEncryptModule)
-    || (typeof window !== 'undefined' && window.JSEncrypt);
 
 var loadNative = function (url, callback) {
     var dirpath = jsb.fileUtils.getWritablePath() + 'img/';
@@ -786,50 +783,46 @@ var NewXMLRequestOSS = (url, callback) => {
 }
 
 var testConnect = (url, callback) => {
+    let xhr;
+    let finished = false;
+    let watchdog;
+    const finish = (err, data) => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(watchdog);
+        callback(err, data);
+    };
+    if (typeof url !== 'string' || !/^https?:\/\/[^/\s]+/i.test(url)) return finish('invalid_url');
     try {
-        console.log("testConnect", url)
-        let xhr = cc.loader.getXMLHttpRequest();
+        xhr = cc.loader.getXMLHttpRequest();
         xhr.open("GET", url, true);
-        xhr.setRequestHeader("cache-control", "no-cache");
-        xhr.setRequestHeader("contentType", "text/html;charset=uft-8"); //指定发送的编码
         xhr.onreadystatechange = () => {
-            // if (xhr.status == 404||xhr.status == 403) {
-            //     callback("404");
-            //     return;
-            // }
-            if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status <= 207)) {
-                try {
-                    console.log("测速: " + url, xhr.responseText)
-                    let jsonStr = xhr.responseText;
-                    console.log("jsonStr", jsonStr)
-
-                    let jsonData = JSON.parse(jsonStr);
-                    console.log("jsonData", jsonData)   
-                    if (jsonData.servers && jsonData.servers.length > 0 && jsonData.update && jsonData.update.length > 0) {
-                        callback(null, jsonData);
-                        return;
-                    }
-                } catch (ex) {
-                    console.log("ex", ex.message)
-                    callback('500');
-                    return;
-                }
-                callback('502');
-            }else{
-                callback("404");
-                return;
+            // HEADERS_RECEIVED/LOADING are not failures. Some native XHR
+            // implementations also emit onerror after DONE; finish only once.
+            if (finished || xhr.readyState !== 4) return;
+            if (xhr.status < 200 || xhr.status >= 300) return finish(String(xhr.status || 'fail'));
+            let data;
+            try {
+                data = JSON.parse(xhr.responseText);
+            } catch (_) {
+                return finish('invalid_json');
             }
+            if (!data || !Array.isArray(data.servers) || !data.servers.length ||
+                !data.update || !data.update.length) return finish('invalid_config');
+            finish(null, data);
         };
-        xhr.timeout = 5 * 1000;
-        xhr.onerror = () => {
-            callback("fail");
-        };
-        xhr.ontimeout = () => {
-            callback("timeout");
-        };
+        xhr.timeout = 5000;
+        xhr.onerror = () => finish('fail');
+        xhr.ontimeout = () => finish('timeout');
+        xhr.onabort = () => finish('abort');
+        // Prevent a broken connection from leaving the startup screen forever.
+        watchdog = setTimeout(() => {
+            finish('timeout');
+            if (typeof xhr.abort === 'function') xhr.abort();
+        }, 5500);
         xhr.send();
     } catch (ex) {
-        callback(ex.message);
+        finish(ex.message);
     }
 };
 
@@ -914,7 +907,7 @@ var encryptData = (data, token) => {
 
 /**加密token */
 var encryptToken = (token) => {
-    let encryptor = new JSEncryptCtor();
+    let encryptor = new window.JSEncrypt();
     let pubkey = getValue(GameConfig.StorageKey.TokenPKey)
     encryptor.setPublicKey(pubkey);
     let tkn = encryptor.encrypt(token);
@@ -922,7 +915,7 @@ var encryptToken = (token) => {
 }
 /**解密token */
 var decryptToken = (token) => {
-    let encryptor = new JSEncryptCtor();
+    let encryptor = new window.JSEncrypt();
     let pubkey = getValue(GameConfig.StorageKey.TokenPKey)
     encryptor.setPublicKey(pubkey);
     let tkn = encryptor.decrypt(token);

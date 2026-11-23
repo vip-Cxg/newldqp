@@ -8,12 +8,13 @@ browser.window = browser;
 browser.exports = browser.module.exports;
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/Main/Script/jsencrypt.js'), 'utf8'), browser);
 const RSA = browser.exports.JSEncrypt;
+const localHost = '192.168.1.186';
 function post(route, value, encryptedToken) {
     const body = JSON.stringify(value);
     const headers = { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) };
     if (encryptedToken) headers['xxx-token'] = encryptedToken;
     return new Promise((resolve, reject) => {
-        const req = http.request({ host: '127.0.0.1', port: 8000, path: '/' + route, method: 'POST',
+        const req = http.request({ host: localHost, port: 8000, path: '/' + route, method: 'POST',
             headers }, res => {
             let text = '';
             res.setEncoding('utf8');
@@ -40,7 +41,7 @@ async function localAuth() {
         return () => server.encrypt(token);
     };
 }
-module.exports = { post, localAuth };
+module.exports = { post, localAuth, localHost };
 if (require.main === module) (async () => {
     const login = await localAuth();
     for (const name of ['sdh-local-01', 'sdh-local-02', 'sdh-local-03']) {

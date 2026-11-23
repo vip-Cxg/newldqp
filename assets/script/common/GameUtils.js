@@ -1,8 +1,5 @@
 import { GameConfig } from "../../GameBase/GameConfig";
 import Http from "./network/Http";
-const JSEncryptModule = require('../../Main/Script/jsencrypt');
-const JSEncryptCtor = JSEncryptModule && (JSEncryptModule.JSEncrypt || JSEncryptModule)
-    || (typeof window !== 'undefined' && window.JSEncrypt);
 export default class GameUtils {
     /**判断value是否为空 */
     static isNullOrEmpty(value) {
@@ -128,8 +125,7 @@ export default class GameUtils {
     };
     /**加密token */
     static encryptToken(token) {
-        // let encryptor = new JSEncryptrypt();
-        let encryptor = new JSEncryptCtor()
+        let encryptor = new window.JSEncrypt();
         let pubkey = GameUtils.getValue(GameConfig.StorageKey.TokenPKey)
         encryptor.setPublicKey(pubkey);
         let tkn = encryptor.encrypt(token);

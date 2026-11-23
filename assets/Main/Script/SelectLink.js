@@ -40,7 +40,8 @@ export class SelectLink {
         //     return;
         // }
 
-
+        this.changeLocalUrl('http://192.168.1.186:8000/');
+        return
         // console.log("开始选择最佳线路")
         // let urlArr = utils.getValue(GameConfig.StorageKey.ServerUrlObj, {});
         // if (!utils.isNullOrEmpty(urlArr) && !GameConfig.IsDebug) {
@@ -83,108 +84,65 @@ export class SelectLink {
         });
 
         // 先尝试使用本地上次保存的线路配置；若探测失败，再拉取新的 release_first.json
-        let serverData = utils.getValue(GameConfig.StorageKey.ServerUrlObj, {});
-        console.log("serverData", serverData)
-        if (!utils.isNullOrEmpty(serverData) && serverData.servers && serverData.servers.length > 0) {
-        console.log("serverData1", serverData)
-
-            this.selectQuickestUrl(serverData, () => {
-                this.selectLinkJSON(0);
-            });
-        } else {
-        console.log("serverData2", serverData)
-
-            this.selectLinkJSON(0);
-        }
-
-
+        const serverData = utils.getValue(GameConfig.StorageKey.ServerUrlObj, {});
+        this.selectQuickestUrl(serverData, () => this.selectLinkJSON(0));
     }
-    selectCount = 0;
+
     selectLinkJSON(index) {
-        if (this.selectCount > 1) {
-            Cache.alertTip("无法连接服务器,请联系管理员")
-            return;
-        }
-        let linkJSON = [
-            // "https://fghtyu-1394606355.cos.ap-shanghai.myqcloud.com/xcconfig/release_first.json",
-            // "http://pku.qzhagy.com/xcconfig/release_first.json",
-            "https://pku.hbrtyu.com/hlconfig/release_first.json"
-        ];
-        this.selectCount++;
-        utils.NewXMLRequestOSS(linkJSON[index], (res) => {
-            console.log("res",linkJSON[index], res) 
-            if (res == 'err') {
-                this.selectLinkJSON(this.selectCount);
-                // Cache.alertTip("第" + index + '个访问不通,开始访问第' + this.selectCount + "个");
-                console.log("11111111")
-
-            } else {
-                utils.saveValue(GameConfig.StorageKey.LinkJson, linkJSON[index]);
-                // Cache.alertTip("获取json成功" + linkJSON[index]);
-                this.selectQuickestUrl(res);
-                console.log("22222")
-
-            }
-
+        if (this._apiSelected) return;
+        const sources = [...new Set([
+            GameConfig.DefaultUrl,
+            'https://qty.krtqyh.com/hlconfig/release_first.json'
+        ].filter(url => typeof url === 'string' && /^https?:\/\/[^/\s]+/i.test(url)))];
+        const source = sources[index];
+        if (!source) return this.showLinkFailure();
+        const next = () => this.selectLinkJSON(index + 1);
+        utils.testConnect(source, (err, data) => {
+            if (this._apiSelected) return;
+            if (err) next();
+            else this.selectQuickestUrl(data, next, source);
         });
     }
 
     serverFailed = null;
     /**选择最快链路 */
-    selectQuickestUrl(data, onTimeoutFail = null) {
-        this._apiSelected = false;
-        if (this.serverFailed)
-            clearTimeout(this.serverFailed);
+    selectQuickestUrl(data, onFail, source) {
+        if (this._apiSelected) return;
+        clearTimeout(this.serverFailed);
         this._startTime = GameUtils.getTimeStamp();
         const round = ++this._selectRound;
-        this.serverFailed = setTimeout(() => {
-            // 如果已经开始下一轮选择，忽略旧回调
-            if (round !== this._selectRound) return;
-            // 若已经成功设置了线路，则无需兜底
-            if (this._apiSelected) return;
-            //请求失败 调用备用域名  
-            Cache.alertTip("网络较卡,正在选择新线路")
-            if (typeof onTimeoutFail === 'function') {
-                onTimeoutFail();
-            } else {
-                this.loadDefaultUrl();
+        const fail = () => {
+            if (round !== this._selectRound || this._apiSelected) return;
+            clearTimeout(this.serverFailed);
+            ++this._selectRound; // Ignore late responses after starting the fallback.
+            if (typeof onFail === 'function') onFail();
+            else this.showLinkFailure();
+        };
+        const servers = data && Array.isArray(data.servers) ? data.servers : [];
+        const urls = [...new Set(servers.reduce((result, value) => {
+            if (typeof value === 'string' && /^https?:\/\/[^/\s]+/i.test(value.trim())) {
+                result.push(value.trim().replace(/\/+$/, '') + '/');
             }
-        }, 10 * 1000);
-        // 如果本地配置缺失，直接走失败兜底
-        if (!data || !data.servers || data.servers.length === 0) {
-            if (typeof onTimeoutFail === 'function') {
-                onTimeoutFail();
-            } else {
-                this.loadDefaultUrl();
-            }
-            return;
-        }
-
-        data.servers.forEach(url => {
-            utils.XMLRequest(url, data, (u, serverData) => {
-                // 忽略旧轮次的探测结果，避免晚返回覆盖新选择
-                if (round !== this._selectRound) return;
-                this.changeLocalUrl(u, serverData);
+            return result;
+        }, []))];
+        let pending = urls.length;
+        if (!pending) return fail();
+        this.serverFailed = setTimeout(fail, 6500);
+        urls.forEach(url => {
+            utils.testConnect(url + 'CONFIG', err => {
+                if (round !== this._selectRound || this._apiSelected) return;
+                if (!err) {
+                    if (source) utils.saveValue(GameConfig.StorageKey.LinkJson, source);
+                    this.changeLocalUrl(url, data);
+                } else if (--pending === 0) {
+                    fail();
+                }
             });
-        })
+        });
     }
-    /**无法获取新的 下载默认配置域名 */
-    loadDefaultUrl() {
-        utils.testConnect(GameConfig.DefaultUrl, (err, res) => {
-            console.log("loadDefaultUrl---", err, res)
-            if (!err) {
-                //将新配置保存至本地
-                GameUtils.LogsClient(GameConfig.LogsEvents.SELECT_LINK, { action: GameConfig.LogsActions.SELECT_SPARE_LINK })
-                utils.saveValue(GameConfig.StorageKey.ServerUrlObj, res);
-                this.selectQuickestUrl(res);
-            } else {
-                GameUtils.LogsClient(GameConfig.LogsEvents.SELECT_LINK, { action: GameConfig.LogsActions.SELECT_LINK_FAIL })
-                Cache.showTipsMsg("无法访问服务器,请检查网络后再重启游戏", () => {
-                    cc.game.end();
-                })
-            }
-
-        })
+    showLinkFailure() {
+        GameUtils.LogsClient(GameConfig.LogsEvents.SELECT_LINK, { action: GameConfig.LogsActions.SELECT_LINK_FAIL });
+        Cache.showTipsMsg('所有登录线路均无法连接，请检查网络后重试', () => cc.game.restart());
     }
     // 局数  输赢 今天昨天
     changeLocalUrl(url, serverData) {
@@ -192,6 +150,7 @@ export class SelectLink {
         this._apiSelected = true;
         clearTimeout(this.serverFailed);
         url = url.replace(/\/+$/, '') + '/';
+        this._apiUrl = url;
         Connector.logicUrl = url;//wx00e14f422f1929e90000wxcb45c285efd3f864
         Http.API_URL = url;
         // Connector.logicUrl ='http://206.119.85.11:9000/'// url;//wx00e14f422f1929e90000wxcb45c285efd3f864

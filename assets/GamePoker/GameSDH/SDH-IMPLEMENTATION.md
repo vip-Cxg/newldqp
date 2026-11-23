@@ -24,25 +24,21 @@
 ## 本地服务器联调
 
 1. 启动本机开发数据库（当前 Windows 开发机 MySQL 使用 3307，Redis 使用 6379）。
-2. 在客户端仓库执行 `node tools/start-sdh-local.cjs`。它从 `D:/work/ldqp` 启动真实 API 和 SDH 服务，监听本机 8000 / 8204；正式网关的 58204 不在本地启动。
+2. 在客户端仓库执行 `node tools/start-sdh-local.cjs`。它从 `D:/work/ldqp` 启动真实 API 和 SDH 服务，分别监听 `192.168.1.186:8000` 和 `192.168.1.186:8204`；手机需在同一局域网。MySQL、Redis 仍用回环地址，正式网关的 58204 不在本地启动。
 3. 首次使用执行 `node tools/seed-sdh-local.cjs`，创建独立测试俱乐部、三名测试账号和一个 SDH 房型，不更新现有数据。用 `node tools/check-sdh-local-login.cjs` 验证。
-4. Creator 预览场景选 `Update`，点击浏览器预览。默认使用本地 API，登录页点击“玩家1 / 玩家2 / 玩家3”。从大厅原有的亲友俱乐部入口选择“新华包牌本地测试”（本机俱乐部 ID：669645），进入俱乐部后点击“新华包牌开房”，选择“新华包牌本地桌”房型。其他测试玩家在同一俱乐部点击已创建的桌子入座，不要再次点开房。同一浏览器测三席时分别打开默认预览地址、`?seat=2` 和 `?seat=3`，各点对应玩家，避免共享登录状态。
+4. Creator 预览场景选 `Update`，与真机一样通过 `SelectLink` 选线，不从 URL 参数绕过启动。连接本地测试服务后，从大厅原有的亲友俱乐部入口选择“新华包牌本地测试”（本机俱乐部 ID：669645）。先由一人开桌，其他人点已创建的同一张桌。
 
 若编辑器早于代码改动已打开，先在不带任何查询参数的预览首页点 `Recompile`，重新生成脚本缓存，再打开多座位标签页。Creator 2.4 在带查询参数的地址上会拼错重新编译请求；仅刷新浏览器标签页也不会重新编译旧脚本。
 
-真实服务端回归：`node tools/test-sdh-local-game.cjs <clubID> <roomID>`，参数为种子脚本输出的本地测试房间。会占用三个测试账号打一局，检查托管、闲家拒绝投降和中途重连，请不要和手动测试同时运行。Creator 已启动预览时，可用 `node tools/test-sdh-creator-browser.cjs --recompile` 检查离线扣底界面，以及真实测试号登录和进桌；加 `--three-seats` 继续验证三席实局和出牌中途重连。
+真实服务端回归：`node tools/test-sdh-local-game.cjs <clubID> <roomID>`，参数为种子脚本输出的本地测试房间。会占用三个测试账号打一局，检查托管、闲家拒绝投降和中途重连，请不要和手动测试同时运行。旧版 `tools/test-sdh-creator-browser.cjs` 依赖已撤掉的预览入口，不适用于当前正常启动流程。
 
 叫庄恢复对应 `tools/patches/sdh-auction-recovery.patch`：没有合格竞价者时，有有效叫分则原最高分玩家选主，没有叫分则流局；还有竞价者但缺少操作位时由服务端补发轮次。本地源码已应用，已启动的 Node 进程需重新加载；`node tools/test-sdh-resume-patch.cjs --wire` 能隔离复现该状态，不占用测试桌。
 
 智能提示需要服务端 `tools/patches/sdh-smart-hint.patch`。客户端请求 `CS_SDH_HINT`，只有当轮出牌者或扣底庄家收到私有的 `SC_SDH_HINT`；提示和托管共用候选生成，不更改 `canPlayGroup` 的现行判定。真实候选和权限回归用 `node tools/test-sdh-hint.cjs`，不连接测试桌。
 
-仅 Creator 浏览器预览启用本地登录。包体与普通 Web 构建仍使用既有选线流程；需要恢复 Creator 的原选线流程，可用 `?online=1`。
+## 本地逻辑测试
 
-## 离线验证
-
-在 Cocos Creator 2.4.14 启动浏览器预览，保留原有启动场景。给预览地址加 `?sdh=1`（已有查询参数时用 `&sdh=1`），例如 `http://localhost:7456/?sdh=1`。只在 Creator 浏览器预览生效，绕过选线和登录，不连接正式环境。
-
-点击“准备”即可走叫庄、选主、扣底和出牌。电脑席位自动跟牌，“模拟重连”用离线快照重新渲染当前阶段。选“不叫”可测试流局；选“投降”可测试庄家投降结算。离线牌局用于检查界面和消息流，不用于验证正式玩法的牌型或计分规则。
+Creator 的浏览器离线牌桌入口已撤掉。离线模拟只保留用于 Node 脚本回归，不影响实际选线、登录或牌局。
 
 纯逻辑模块不依赖 Cocos，可在项目根目录执行：
 

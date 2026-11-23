@@ -6,11 +6,6 @@ let Native = require("../Script/native-extend"); // require('native-extend');
 let _social = Native.Social;
 let db = require("../Script/DataBase") //require("DataBase");
 const connector = require("../NetWork/Connector");
-const JSEncryptModule = require('./jsencrypt');
-const JSEncryptCtor = JSEncryptModule && (JSEncryptModule.JSEncrypt || JSEncryptModule)
-    || (typeof window !== 'undefined' && window.JSEncrypt);
-
-// const JSEncrypt = require("./jsencrypt");
 const { SelectLink } = require("./SelectLink");
 const { App } = require("../../script/ui/hall/data/App");
 cc.Class({
@@ -35,25 +30,6 @@ cc.Class({
         serverProgress: 0,
     },
     onLoad() {
-        const browserPreview = cc.sys.isBrowser && typeof CC_PREVIEW !== 'undefined' && CC_PREVIEW;
-        if (browserPreview &&
-            /(?:^|[?&])sdh=1(?:&|$)/.test(window.location.search)) {
-            this.lblMsg.string = '正在打开新华包牌离线预览';
-            // This is the same atlas that the normal startup path preloads.
-            cc.resources.load('Audio/porket_card', cc.SpriteAtlas, (err, atlas) => {
-                if (!err) GameConfig.PorketAtlas = atlas;
-                cc.director.loadScene('GameSDH');
-            });
-            return;
-        }
-        if (browserPreview && !/(?:^|[?&])online=1(?:&|$)/.test(window.location.search)) {
-            GameConfig.LocalPreviewServerUrl = 'http://127.0.0.1:8000/';
-            const seat = /(?:^|[?&])seat=([123])(?:&|$)/.exec(window.location.search);
-            GameConfig.LocalPreviewSeat = seat ? seat[1] : '1';
-            this.loadInfoTimes = 0;
-            this.onLoadSprite();
-            return;
-        }
         // 第二步：场景加载之后，隐藏原生纯色背景View
         // 这里延迟1秒是为了更好的体验，实际可以不用 
         // utils.saveValue(GameConfig.StorageKey.UserToken, this.getQueryVariable('token'));
@@ -665,6 +641,7 @@ cc.Class({
             this.lblMsg.string = "正在获取游戏配置";
         try {
             if (!GameConfig.Encrtyptor) {
+                const JSEncryptCtor = typeof window !== 'undefined' && window.JSEncrypt;
                 if (!JSEncryptCtor) {
                     throw new Error("JSEncrypt 脚本未加载");
                 }
