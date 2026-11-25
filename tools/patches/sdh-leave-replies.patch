@@ -1,0 +1,27 @@
+diff --git a/gameServer/BaseTable.js b/gameServer/BaseTable.js
+--- a/gameServer/BaseTable.js
++++ b/gameServer/BaseTable.js
+@@ -239,6 +239,9 @@
+           'NX',  // 只在不存在时写入
+         );
+       }
++      if (this._gameType === GAME_TYPE.SDH) {
++        this.gameMessage(idx, ROUTE.SC_PLAY_ERROR, { msg: '牌局已开始，当前无法退出' });
++      }
+       return;
+     }
+ 
+diff --git a/gameServer/sdh/table.js b/gameServer/sdh/table.js
+--- a/gameServer/sdh/table.js
++++ b/gameServer/sdh/table.js
+@@ -845,6 +845,9 @@
+     }
+ 
+     async leave(idx) {
+-        if (this._scoreLog.length > 0) return;
++        if (this._scoreLog.length > 0) {
++            this.gameMessage(idx, ROUTE.SC_PLAY_ERROR, { msg: '本局尚未结束，当前无法退出' });
++            return;
++        }
+         await super.leave(idx);
+     }

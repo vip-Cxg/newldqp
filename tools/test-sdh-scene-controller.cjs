@@ -67,6 +67,21 @@ controller.receive('SC_GAME_DATA', { idx: 2, status: 'BURY', haIDX: 0,
     players: [{ idx: 0, clock: 9000, hands: 33 }, { idx: 1, hands: 25 }, { idx: 2, hands: 25 }] });
 assert.equal(controller.state.targetScore, 110);
 assert.equal(controller.state.clock, 9000);
+const clockView = makeController();
+clockView.onLoad();
+const now = Date.now();
+const waiting = { status: 'WAIT', idx: 1, currentIDX: 0, tableID: 'waiting', gameID: 'same', turn: 1 };
+for (const seconds of [11, 45]) {
+    clockView.receive('SC_GAME_DATA', {
+        ...waiting, players: [{ idx: 0, clock: now + seconds * 1000 }, { idx: 1, clock: now + 25000 }, null]
+    });
+    clockView.refreshClock();
+    assert.equal(clockView.phase.string, '等待三人准备', 'waiting snapshots must not display a seat clock');
+}
+clockView.receive('SC_CALL_TURN', { idx: 0, phase: 'bid', clock: now + 60000 });
+clockView.refreshClock();
+assert.match(clockView.phase.string, /叫庄竞价.*\d+ 秒$/);
+messages.pop(); // CS_JOIN_DONE from the isolated clock view
 controller.receive('SC_BURY_DONE', { haIDX: 0 });
 controller.state.status = 'START';
 let dialog;
@@ -241,9 +256,28 @@ ended.receive('SC_ROUND_SUMMARY', summary);
 assert.equal(ended.state.summary, summary);
 ended.renderSummary();
 const messagesBeforeExit = messages.length;
-ended.summaryPanel.children.find(button => button.name === '退出房间').fn();
-assert.deepEqual(messages.slice(messagesBeforeExit).map(entry => entry[0]), ['CS_PLAYER_LEAVE', 'disconnect', 'loadScene']);
-assert.equal(messages[messagesBeforeExit + 1][1], false);
+const exit = ended.summaryPanel.children.find(button => button.name === '退出房间').fn;
+let leaveTimeout;
+ended.scheduleOnce = (fn, seconds) => { assert.equal(seconds, 5); leaveTimeout = fn; };
+exit();
+exit();
+assert.deepEqual(messages.slice(messagesBeforeExit).map(entry => entry[0]), ['CS_PLAYER_LEAVE']);
+ended.receive('SC_PLAYER_LEAVE', { idx: 1 });
+assert.equal(messages.length, messagesBeforeExit + 1, 'another player leaving does not exit this client');
+ended.receive('SC_PLAY_ERROR', { msg: '当前无法离开' });
+assert.equal(alerts.pop(), '当前无法离开');
+assert.equal(ended.state.summary, summary, 'rejected leave must not dismiss the result');
+leaveTimeout();
+assert.equal(alerts.length, 0, 'rejection cancels the timeout notice');
+exit();
+leaveTimeout();
+assert.equal(alerts.pop(), '未收到离桌确认，请稍后重试');
+assert(!messages.slice(messagesBeforeExit).some(entry => entry[0] === 'loadScene'));
+exit();
+ended.receive('SC_PLAYER_LEAVE', {});
+ended.receive('SC_PLAYER_LEAVE', {});
+assert.deepEqual(messages.slice(-3).map(entry => entry[0]), ['CS_PLAYER_LEAVE', 'disconnect', 'loadScene']);
+assert.equal(messages.at(-2)[1], false);
 const reopened = makeController();
 reopened.onLoad();
 reopened.receive('SC_GAME_DATA', snapshot);

@@ -191,9 +191,17 @@ cc.Class({
 
     receive(route, data) {
         data = data || {};
+        if (this.leavingTable) return;
         if (route === 'SC_SDH_HINT') return this.receiveHint(data);
         if (route === 'SC_GAME_DESTORY') return this.leave(false);
+        // The server sends an empty leave acknowledgement only to the departing
+        // player, after it has cleared the player's reconnect record.
+        if (route === 'SC_PLAYER_LEAVE' && (data.idx == null || data.idx === this.state.idx)) {
+            this.dismissSettlement();
+            return this.leave(false);
+        }
         if (route === 'SC_PLAY_ERROR' || route === 'SC_TOAST') {
+            if (route === 'SC_PLAY_ERROR') this.leaveRequest = null;
             this.pending = null;
             Cache.alertTip(data.msg || data.message || '操作未成功');
             this.renderControls();
@@ -568,9 +576,11 @@ cc.Class({
 
     refreshClock() {
         const s = this.state;
-        const p = s.players[s.currentIDX];
-        const deadline = s.clock || p && p.clock;
-        const timer = s.currentIDX < 0 || !deadline ? '' : ' · ' + Math.max(0, Math.ceil((deadline - Date.now()) / 1000)) + ' 秒';
+        // While waiting, currentIDX is a server placeholder, not the acting seat.
+        const hasActor = ['CALL', 'BURY', 'START'].includes(s.status) && s.currentIDX >= 0;
+        const p = hasActor ? s.players[s.currentIDX] : null;
+        const deadline = hasActor && (s.clock || p && p.clock);
+        const timer = deadline ? ' · ' + Math.max(0, Math.ceil((deadline - Date.now()) / 1000)) + ' 秒' : '';
         const vote = s.surrenderVote;
         const voteInfo = vote && vote.status === 'VOTE' ? '  ·  闲家投降投票 ' +
             Math.max(0, Math.ceil((vote.clock - Date.now()) / 1000)) + ' 秒' : '';
@@ -582,7 +592,7 @@ cc.Class({
                 (s.currentIDX === s.idx ? '请选择主花色' : '等待庄家选择主花色') : '叫庄竞价',
             BURY: s.idx === s.haIDX ? '请选择 8 张扣底' : '庄家正在扣底',
             START: '第 ' + (s.trickNum + (this.winTrick ? 0 : 1)) + ' 墩', SUMMARY: '本局结束'
-        }[s.status] || '等待房间同步') + (s.currentIDX >= 0 ? ' · ' + this.nameOf(s.currentIDX) : '') + timer + voteInfo;
+        }[s.status] || '等待房间同步') + (hasActor ? ' · ' + this.nameOf(s.currentIDX) : '') + timer + voteInfo;
     },
 
     renderControls() {
@@ -909,10 +919,20 @@ cc.Class({
     },
 
     leave(notifyServer) {
+        if (this.leavingTable) return;
         if (notifyServer !== false) {
-            this.dismissSettlement();
+            if (this.leaveRequest) return;
+            const request = this.leaveRequest = {};
+            this.scheduleOnce(() => {
+                if (this.leaveRequest !== request) return;
+                this.leaveRequest = null;
+                Cache.alertTip('未收到离桌确认，请稍后重试');
+            }, 5);
             connector.gameMessage('CS_PLAYER_LEAVE', {});
+            return;
         }
+        this.leaveRequest = null;
+        this.leavingTable = true;
         connector.disconnect(false);
         cc.director.loadScene('Lobby');
     }

@@ -1,0 +1,81 @@
+diff --git a/gameServer/sdh/table.js b/gameServer/sdh/table.js
+--- a/gameServer/sdh/table.js
++++ b/gameServer/sdh/table.js
+@@ -17,8 +17,10 @@
+     , Utils = require('../../common/utils')
+     , { VOTE_STATUS } = require('../../common/constants')
+     , SdhPlayer = require('./player')
+     , Provider = require('./provider')
+     , schedule = require('node-schedule')
+-    , { TABLE_STATUS, ROUTE, AUTO_PLAY, GAME_MODE, LOW_FEE_BET } = require('../../common/constants');
++    , RedisHelper = require('../../helper/redisHelper.js')
++    , { ioredis } = require('../../service/ioredis')
++    , { TABLE_STATUS, ROUTE, AUTO_PLAY, GAME_MODE, LOW_FEE_BET, REDIS_KEY } = require('../../common/constants');
+ 
+ const MAX_TRICKS = 25;
+@@ -738,6 +738,9 @@
+     roundSummary(_, disband, opts = {}) {
+-        if (this._status === TABLE_STATUS.WAIT
+-            || (this._status === TABLE_STATUS.SUMMARY && !disband)
+-            || this._status === TABLE_STATUS.DESTORY) return;
++        if (this._status === TABLE_STATUS.WAIT) {
++            if (disband) return this.destroy();
++            return;
++        }
++        if ((this._status === TABLE_STATUS.SUMMARY && !disband) ||
++            this._status === TABLE_STATUS.DESTORY) return;
+ 
+         this.finishDisband();
+@@ -821,7 +821,8 @@
+         if (complete) {
+             const roomFee = this._rules.turn >= 8 ? -3 : -1;
+             this.roomFee(this._round, roomFee);
+             this.gameSummary().catch(this.error.bind(this));
++            if (disband) return this.destroy();
+             this.reset();
+         } else {
+             this.prepare();
+@@ -846,4 +846,43 @@
+ 
++    findPlayer(id) {
++        // A reconnect can race with Redis cleanup. Do not admit it to a closing table.
++        if (this._status === TABLE_STATUS.DESTORY) return undefined;
++        return super.findPlayer(id);
++    }
++
++    destroy(reason) {
++        if (this._destroyPromise || this._status === TABLE_STATUS.DESTORY) return this._destroyPromise;
++        this._status = TABLE_STATUS.DESTORY;
++        if (this._job) this._job.cancel();
++        const players = this._players.filter(player => player.exists);
++        const removeBindings = async () => {
++            const results = await Promise.allSettled(players.map(async player => {
++                // Only remove this table's binding; a newer seat must survive.
++                const result = await RedisHelper.delPlayerGameInfo(player.id, this._tableID);
++                if (result === -1) throw new Error('Invalid player reconnect record during SDH disband');
++            }));
++            const failure = results.find(result => result.status === 'rejected');
++            if (failure) throw failure.reason;
++            await ioredis.hdel(`${REDIS_KEY.ROOM}:${this._clubID}:${this._roomID}`, this._tableID);
++        };
++        const cleanup = async () => {
++            for (let attempt = 0; ; attempt++) {
++                try {
++                    await removeBindings();
++                    break;
++                } catch (error) {
++                    this.error(error);
++                    if (attempt >= 2) return;
++                    await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
++                }
++            }
++            this.gameMessage(-1, ROUTE.SC_GAME_DESTORY, { reason });
++            players.forEach(player => { player._prop = null; });
++        };
++        this._destroyPromise = cleanup();
++        return this._destroyPromise;
++    }
++
+     async leave(idx) {
+         if (this._scoreLog.length > 0) {
+             this.gameMessage(idx, ROUTE.SC_PLAY_ERROR, { msg: '本局尚未结束，当前无法退出' });
