@@ -52,7 +52,7 @@ cc.Class({
         this.loadInfoTimes = 0;
         // GameConfig.ConfigUrl = 'http://hnmj.dfv0.com/';// data.resourceURL;
 
-        if (cc.sys.isNative && !GameConfig.OnlineTestBuild) {
+        if (cc.sys.isNative) {
             this.mainAudioVersion();
         }
 
@@ -180,11 +180,6 @@ cc.Class({
 
         if (this.spriteProgress >= 0.99) {
             this.scheduleOnce(() => {
-                if (GameConfig.OnlineTestBuild) {
-                    utils.saveValue(GameConfig.StorageKey.UserToken, '');
-                    this.getGameInfo();
-                    return;
-                }
                 this.lblMsg.string = "正在选择更新线路";
                 /**本地包 开关 */
                 // this.inputContent.active=true;
@@ -659,7 +654,11 @@ cc.Class({
             Cache.showTipsMsg("RSA 密钥初始化失败，请查看控制台详情");
             return;
         }
-        const loadConfig = () => Connector.request(GameConfig.ServerEventName.GetGameInfo, {}, (data) => {
+        connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
+            utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);
+        }, null, () => {});
+
+        Connector.request(GameConfig.ServerEventName.GetGameInfo, {}, (data) => {
 
             if (data.data) {
                 GameConfig.ConfigUrl = data.data.resourceUrl;
@@ -684,26 +683,12 @@ cc.Class({
                 this.getGameInfo();
             });
         });
-        connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
-            utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);
-            if (GameConfig.OnlineTestBuild) loadConfig();
-        }, null, (err) => {
-            if (GameConfig.OnlineTestBuild) {
-                this._gettingGameInfo = false;
-                Cache.showTipsMsg(err && err.message || '未获取到线上登录密钥', () => this.getGameInfo());
-            }
-        });
-        if (!GameConfig.OnlineTestBuild) loadConfig();
 
     },
 
 
     /**判断token 是否自动登陆 */
     judgeToken() {
-        if (GameConfig.OnlineTestBuild) {
-            cc.director.loadScene('Login');
-            return;
-        }
         // reCallInviter
         _social.reCallInviter();
         let userToken = utils.getValue(GameConfig.StorageKey.UserToken, "");

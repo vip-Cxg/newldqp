@@ -628,8 +628,7 @@ var pop = (popName, callback) => {
 /**储存本地
  * @param 仅支持 arr str num obj
  */
-const localStorageKey = key => GameConfig.ApkName +
-    (GameConfig.OnlineTestBuild ? ':online-test:' : '') + key;
+const localStorageKey = key => GameConfig.ApkName + key;
 var saveValue = (key, value = "") => {
     let data = new Object();
 

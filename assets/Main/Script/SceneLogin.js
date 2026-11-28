@@ -78,7 +78,6 @@ cc.Class({
         // });
         App.Club.clear();
         // App.PushManager.disconnect();
-        this.showOnlineTestAccounts();
 
     },
     compareVersion(versionA, versionB) {
@@ -192,30 +191,15 @@ cc.Class({
         // }
     },
 
-    showOnlineTestAccounts() {
-        const layout = this.testContent.getComponent(cc.Layout);
-        if (layout) layout.enabled = false;
-        this.testContent.children.slice(0, 4).forEach((button, index) => {
-            button.x = (index - 1.5) * 197;
-            button.active = true;
-        });
-    },
-
     ontestLogin(e, v) {
-        if (this._testLoginPending || !v) return;
-        const deviceID = v;
+        const deviceID = v || e.currentTarget._data;
         let encryptDevices = utils.encryptToken(deviceID);
-        this._testLoginPending = true;
         Connector.request('game/test/login', { publicKey: GameConfig.Encrtyptor.getPublicKey(), deviceID: encryptDevices }, (data) => {
             if (data.success && data.token) {
                 utils.saveValue(GameConfig.StorageKey.UserLoginTime, parseInt(new Date().getTime() / 1000));
                 cc.director.loadScene("Lobby");
-            } else {
-                this._testLoginPending = false;
-                Cache.showTipsMsg('测试登录失败：未收到登录凭据');
             }
         }, true, (err) => {
-            this._testLoginPending = false;
             Cache.showTipsMsg(err.message || '登录失败');
         })
     },
