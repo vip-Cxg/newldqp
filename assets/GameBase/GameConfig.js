@@ -267,8 +267,10 @@ export class GameConfig {
     }
     // static ServerUrl = "https://game.ovz43x.com/";//正式服
     static ServerUrl = '';//正式服
-    // Set only by Creator's browser preview; packaged clients leave this empty.
-    static LocalPreviewServerUrl = '';
+    // Set only in the generated entry point of an internal Android test APK.
+    static get OnlineTestBuild() {
+        return cc.sys.isNative && typeof window !== 'undefined' && window.__HLPLAY_ONLINE_TEST_APK__ === true;
+    }
     /**冒的办法用的请求 */
     static DefaultUrl = "https://pku.hbrtyu.com/hlconfig/release_first.json";
 

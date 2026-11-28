@@ -78,7 +78,7 @@ cc.Class({
         // });
         App.Club.clear();
         // App.PushManager.disconnect();
-        if (GameConfig.LocalPreviewServerUrl) this.createTestAccount(3);
+        this.showOnlineTestAccounts();
 
     },
     compareVersion(versionA, versionB) {
@@ -192,42 +192,18 @@ cc.Class({
         // }
     },
 
-    createTestAccount(count = 30) {
-        if (GameConfig.LocalPreviewServerUrl) {
-            const widget = this.testContent.getComponent(cc.Widget);
-            const layout = this.testContent.getComponent(cc.Layout);
-            if (widget) {
-                widget.isAlignLeft = false;
-                widget.isAlignRight = false;
-                widget.isAlignHorizontalCenter = true;
-                widget.horizontalCenter = 0;
-                widget.isAlignTop = true;
-                widget.top = 40;
-                widget.updateAlignment();
-            }
-            if (layout) layout.enabled = false;
-            this.testContent.setContentSize(600, 60);
-            if (widget) widget.updateAlignment();
-        }
-        for (let i = 1; i <= count; i++) {
-            let btnNode = cc.instantiate(this.testbtn);
-            btnNode.active = true;
-            btnNode.getChildByName('name').getComponent(cc.Label).string = '玩家' + i;
-            btnNode._data = (GameConfig.LocalPreviewServerUrl ? 'sdh-local-' : 'test') + (i < 10 ? '0' : '') + i;
-            // The template has a serialized click event for a legacy account.
-            // Cloned test buttons must use only the account assigned above.
-            const button = btnNode.getComponent(cc.Button);
-            if (button) button.clickEvents = [];
-            btnNode.on(cc.Node.EventType.TOUCH_END, this.ontestLogin, this);
-            this.testContent.addChild(btnNode);
-            if (GameConfig.LocalPreviewServerUrl) btnNode.setPosition((i - (count + 1) / 2) * 196, 0);
-        }
+    showOnlineTestAccounts() {
+        const layout = this.testContent.getComponent(cc.Layout);
+        if (layout) layout.enabled = false;
+        this.testContent.children.slice(0, 4).forEach((button, index) => {
+            button.x = (index - 1.5) * 197;
+            button.active = true;
+        });
     },
 
     ontestLogin(e, v) {
-        if (this._testLoginPending) return;
-        let deviceID = v || e.currentTarget._data;
-        if (GameConfig.LocalPreviewServerUrl && !/^sdh-local-0[1-3]$/.test(deviceID)) return;
+        if (this._testLoginPending || !v) return;
+        const deviceID = v;
         let encryptDevices = utils.encryptToken(deviceID);
         this._testLoginPending = true;
         Connector.request('game/test/login', { publicKey: GameConfig.Encrtyptor.getPublicKey(), deviceID: encryptDevices }, (data) => {

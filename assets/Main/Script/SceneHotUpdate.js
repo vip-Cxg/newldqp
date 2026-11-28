@@ -43,7 +43,7 @@ cc.Class({
             GameConfig.DeviceID = "" + _social.getUUID();
             GameConfig.DeviceIDFA = "" + _social.getIDFA();
 
-            this.lblMsg.string = "正在选择最优线路";
+            this.lblMsg.string = "正在连接服务器";
             this.selectLink = new SelectLink(this.onLoadSprite.bind(this), this.changeHotUrl.bind(this));
 
 
@@ -52,7 +52,7 @@ cc.Class({
         this.loadInfoTimes = 0;
         // GameConfig.ConfigUrl = 'http://hnmj.dfv0.com/';// data.resourceURL;
 
-        if (cc.sys.isNative) {
+        if (cc.sys.isNative && !GameConfig.OnlineTestBuild) {
             this.mainAudioVersion();
         }
 
@@ -180,6 +180,11 @@ cc.Class({
 
         if (this.spriteProgress >= 0.99) {
             this.scheduleOnce(() => {
+                if (GameConfig.OnlineTestBuild) {
+                    utils.saveValue(GameConfig.StorageKey.UserToken, '');
+                    this.getGameInfo();
+                    return;
+                }
                 this.lblMsg.string = "正在选择更新线路";
                 /**本地包 开关 */
                 // this.inputContent.active=true;
@@ -681,22 +686,21 @@ cc.Class({
         });
         connector.request(GameConfig.ServerEventName.GetPublicKey, {}, (data) => {
             utils.saveValue(GameConfig.StorageKey.TokenPKey, data.key);
-            if (GameConfig.LocalPreviewServerUrl) loadConfig();
-        }, null, () => {
-            if (GameConfig.LocalPreviewServerUrl) {
+            if (GameConfig.OnlineTestBuild) loadConfig();
+        }, null, (err) => {
+            if (GameConfig.OnlineTestBuild) {
                 this._gettingGameInfo = false;
-                this.lblMsg.string = '本地 API 未连接（127.0.0.1:8000），启动服务器后刷新预览';
+                Cache.showTipsMsg(err && err.message || '未获取到线上登录密钥', () => this.getGameInfo());
             }
         });
-        if (!GameConfig.LocalPreviewServerUrl) loadConfig();
+        if (!GameConfig.OnlineTestBuild) loadConfig();
 
     },
 
 
     /**判断token 是否自动登陆 */
     judgeToken() {
-        if (GameConfig.LocalPreviewServerUrl) {
-            utils.saveValue(GameConfig.StorageKey.UserToken, '');
+        if (GameConfig.OnlineTestBuild) {
             cc.director.loadScene('Login');
             return;
         }

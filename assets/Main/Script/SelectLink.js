@@ -40,8 +40,6 @@ export class SelectLink {
         //     return;
         // }
 
-        this.changeLocalUrl('http://192.168.1.186:8000/');
-        return
         // console.log("开始选择最佳线路")
         // let urlArr = utils.getValue(GameConfig.StorageKey.ServerUrlObj, {});
         // if (!utils.isNullOrEmpty(urlArr) && !GameConfig.IsDebug) {
@@ -83,9 +81,7 @@ export class SelectLink {
             }
         });
 
-        // 先尝试使用本地上次保存的线路配置；若探测失败，再拉取新的 release_first.json
-        const serverData = utils.getValue(GameConfig.StorageKey.ServerUrlObj, {});
-        this.selectQuickestUrl(serverData, () => this.selectLinkJSON(0));
+        this.changeLocalUrl('http://106.54.59.46/');
     }
 
     selectLinkJSON(index) {

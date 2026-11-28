@@ -629,7 +629,7 @@ var pop = (popName, callback) => {
  * @param 仅支持 arr str num obj
  */
 const localStorageKey = key => GameConfig.ApkName +
-    (GameConfig.LocalPreviewServerUrl ? ':creator-local:' + GameConfig.LocalPreviewSeat + ':' : '') + key;
+    (GameConfig.OnlineTestBuild ? ':online-test:' : '') + key;
 var saveValue = (key, value = "") => {
     let data = new Object();
 
